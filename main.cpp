@@ -3,7 +3,7 @@
 
 int main()
 {
-	printf("hellow");
+	printf("hellow/n\n");
 	Test1();
 	return 0;
 }
