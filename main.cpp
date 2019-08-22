@@ -3,7 +3,8 @@
 
 int main()
 {
-	printf("hellow/n\n");
+	printf("hellow\n");
 	Test1();
+	printf("\nthis is a new world oder");
 	return 0;
 }
