@@ -3,7 +3,7 @@
 #include "TCtoken.h"
 #include "TCtokens.h"
 
-namespace toycalc {
+namespace toyc {
 
   TCtoken::TCtoken() { tokenType = NONE; }
   TCtoken::TCtoken(int t) { tokenType = t; lexeme = ""; }
@@ -16,15 +16,15 @@ namespace toycalc {
     std::string str="";
     switch (tokenType) {
     case DO:	    	str += "DO";         	 		break;
-    case IF: 		str += "SEMICOLON";          		break;
-    case FOR: 		str += "SEMICOLON";          		break;
-    case INT: 		str += "SEMICOLON";          		break;
-    case ELSE: 		str += "SEMICOLON";          		break;
-    case CHAR: 		str += "SEMICOLON";          		break;
-    case CASE: 		str += "SEMICOLON";          		break;
-    case READ: 		str += "SEMICOLON";          		break;
-    case WHILE: 	str += "SEMICOLON";          		break;
-    case SWITCH: 	str += "SEMICOLON";          		break;
+    case IF: 		str += "IF";	          		break;
+    case FOR: 		str += "FOR";	          		break;
+    case INT: 		str += "INT";	          		break;
+    case ELSE: 		str += "ELSE";          		break;
+    case CHAR: 		str += "CHAR";          		break;
+    case CASE: 		str += "CASE";          		break;
+    case READ: 		str += "READ";          		break;
+    case WHILE: 	str += "WHILE";          		break;
+    case SWITCH: 	str += "SWITCH";          		break;
     case RETURN: 	str += "SEMICOLON";          		break;
     case BREAK: 	str += "SEMICOLON";          		break;
     case WRITE: 	str += "SEMICOLON";          		break;

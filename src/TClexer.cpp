@@ -5,9 +5,8 @@
 #include "TClexer.h"
 #include "TCglobals.h"
 #include "TCtokens.h"
-#include "TCoutput.h"
 
-namespace toycalc {
+namespace toyc {
 
   static char charBuff;
   static std::string line;
