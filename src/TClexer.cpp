@@ -133,7 +133,7 @@ namespace toyc {
       }
       if (isInAlphabet(ch) || isspace(ch)) break;
         
-      reportWARNING("","illegal character ignored 2");
+     // reportWARNING("","illegal character ignored 2");
       //      reportWARNING("","illegal character '"+line[pos]+"' ignored")
       pos++;
       
