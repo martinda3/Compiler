@@ -4,6 +4,7 @@
 #include "TClexer.h"
 #include "TCglobals.h"
 #include "TCtokens.h"
+#include "TCoutput.h"
 
 using namespace toyc;
 using namespace std;
@@ -16,7 +17,7 @@ int main(int argc, char *argv[]) {
     processCommandLine(argc,argv);
     TClexer *scanner = new TClexer(inputFileName);
     int tok;
-    //    turnVerboseOn();
+    turnVerboseOn();
     while ((tok=scanner->getToken()->getTokenType()) != EOFILE) ;
   } catch(...) {
     std::cerr << "ERROR: scanning failed" << std::endl;

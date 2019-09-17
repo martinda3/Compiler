@@ -5,6 +5,7 @@
 #include "TClexer.h"
 #include "TCglobals.h"
 #include "TCtokens.h"
+#include "TCoutput.h"
 
 namespace toyc {
 
@@ -38,7 +39,7 @@ namespace toyc {
     while (isspace(charBuff) && (charBuff != EOFCHAR)) charBuff = getChar();
     if (charBuff == EOFCHAR) {
             t = new TCtoken(EOFILE); 
-            //if (verbose) reportDEBUG("  ","scanner",t->toString());
+            if (verbose) reportDEBUG("  ","scanner",t->toString());
             return t;
     } else if (isdigit(charBuff)) {
       do {
@@ -47,7 +48,7 @@ namespace toyc {
       if (charBuff == '.') {
         lexeme += charBuff; charBuff = getChar();
         if (!isdigit(charBuff))
-         // reportWARNING("","illegal character ignored 1");
+		reportWARNING("","illegal character ignored 1");
         //          reportWARNING("","illegal character '"+charBuff+"' ignored");
           do {
             lexeme += charBuff; charBuff = getChar();
@@ -113,7 +114,7 @@ namespace toyc {
               t = new TCtoken(NONE);
             }
         }
-       // if (verbose) reportDEBUG("  ","scanner",t->toString());
+        if (verbose) reportDEBUG("  ","scanner",t->toString());
         return t;
   }
 
@@ -146,7 +147,7 @@ std::string getNextLine() {
   std::getline(infile,line);
   line = line + " ";
   pos = 0; lineNum++;
-  // if (verbose) reportDEBUG("","input",lineNum+": "+line);
+  if (verbose) reportDEBUG("","input",lineNum+": "+line);
   return line;
 }
 
