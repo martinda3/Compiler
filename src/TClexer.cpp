@@ -38,7 +38,7 @@ namespace toyc {
     while (isspace(charBuff) && (charBuff != EOFCHAR)) charBuff = getChar();
     if (charBuff == EOFCHAR) {
             t = new TCtoken(EOFILE); 
-            if (verbose) reportDEBUG("  ","scanner",t->toString());
+            //if (verbose) reportDEBUG("  ","scanner",t->toString());
             return t;
     } else if (isdigit(charBuff)) {
       do {
@@ -47,13 +47,13 @@ namespace toyc {
       if (charBuff == '.') {
         lexeme += charBuff; charBuff = getChar();
         if (!isdigit(charBuff))
-          reportWARNING("","illegal character ignored 1");
+         // reportWARNING("","illegal character ignored 1");
         //          reportWARNING("","illegal character '"+charBuff+"' ignored");
           do {
             lexeme += charBuff; charBuff = getChar();
           } while(isdigit(charBuff));
       }
-      t = new TCtoken(NUM,lexeme);
+      t = new TCtoken(NUMBER,lexeme);
     } else if (isalpha(charBuff)) {
       do {
         lexeme += charBuff; charBuff = getChar();
@@ -105,7 +105,7 @@ namespace toyc {
                       if (charBuff == '=') {
                           t = new TCtoken(RELOP,"=="); charBuff = getChar();
                       } else
-                          t = new TCtoken(ASSIGN);
+                          t = new TCtoken(ASSIGNOP);
                       break;
             case ';': t = new TCtoken(SEMICOLON); charBuff = getChar(); break;
             case ':': t = new TCtoken(COLON);     charBuff = getChar(); break;
@@ -113,7 +113,7 @@ namespace toyc {
               t = new TCtoken(NONE);
             }
         }
-        if (verbose) reportDEBUG("  ","scanner",t->toString());
+       // if (verbose) reportDEBUG("  ","scanner",t->toString());
         return t;
   }
 

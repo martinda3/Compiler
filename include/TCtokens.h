@@ -1,7 +1,7 @@
 #ifndef TCTOKENS_H
 #define TCTOKENS_H
 
-namespace toycalc {
+namespace toyc {
   
    enum tokens{ DO, IF, FOR, INT, ELSE, CHAR,	// Keywords
 	   	CASE, READ, WHILE, SWITCH,	//
@@ -15,7 +15,7 @@ namespace toycalc {
 		LCURLY, RCURLY, LBRACKET,	//
 		RBRACKET, COMMA, SEMICOLON, 	//
 		AND, OR, GOTO, SKIP, NONE,	// Other 
-		EOFILE };			//
+		EOFILE, THEN };			//
 
 }
 

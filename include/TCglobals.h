@@ -11,9 +11,9 @@ namespace toyc {
 
 	extern bool verbose;
 
-	extern bool dump_abstractCode;
-	extern bool dump_objectCode;
-	extern booldump_symbolTable;
+//	extern bool dump_abstractCode;
+//	extern bool dump_objectCode;
+//	extern booldump_symbolTable;
 
 	void turnVerboseOn();
 	void turnVerboseOFF();
