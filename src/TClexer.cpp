@@ -147,7 +147,7 @@ std::string getNextLine() {
   std::getline(infile,line);
   line = line + " ";
   pos = 0; lineNum++;
-  if (verbose) reportDEBUG("","input",lineNum+": "+line);
+  if (verbose) reportDEBUG("  ","input",lineNum+": "+line);
   return line;
 }
 
