@@ -8,3 +8,6 @@ loopBegin:
          goto loopBegin;
 loopEnd: skip;
          write product;
+	do;
+	\n;
+

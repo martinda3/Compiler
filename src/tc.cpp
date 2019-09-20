@@ -18,16 +18,16 @@ int main(int argc, char *argv[]) {
     TClexer *scanner = new TClexer(inputFileName);
     int tok;
     turnVerboseOn();
-    while ((tok=scanner->getToken()->getTokenType()) != EOFILE) ;
-  } catch(...) {
+    while ((tok=scanner->getToken()->getTokenType()) != EOFILE);} 
+  catch(...) {
     std::cerr << "ERROR: scanning failed" << std::endl;
-    exit(EXIT_FAILURE);
-  }
+    exit(EXIT_FAILURE);}
 }
 
     void processCommandLine(int argc, char *argv[]) {
         switch(argc) {
-        case 1: printUsageMessage(); break;
+        case 1: printUsageMessage(); 
+		break;
         case 2: if (argv[1][0] != '-')
                   inputFileName = argv[1];
                 else
@@ -35,12 +35,11 @@ int main(int argc, char *argv[]) {
                 break;
         case 3: if (argv[1][0]=='-' && argv[1][1]=='v') {
                   turnVerboseOn();
-                  inputFileName = argv[2];
-                } else printUsageMessage();
+                  inputFileName = argv[2];} 
+		else 
+		  printUsageMessage();
                 break;
-          
-        default: printUsageMessage();
-        }
+        default: printUsageMessage();}
     }
 
     void printUsageMessage() {

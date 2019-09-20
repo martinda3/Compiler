@@ -15,6 +15,7 @@ namespace toyc {
   static int lineNum = 0;
   static std::string lexeme = ""; 
   static char EOFCHAR = '\0'; // arbitrary non-printing char
+  static char NEWLINECHAR = '\n'; // arbitrary non-printing char
   static std::ifstream infile;
   
   char getChar();
@@ -76,6 +77,34 @@ namespace toyc {
         t = new TCtoken(AND);
       else if (equalIgnoreCase(lexeme,"OR"))
         t = new TCtoken(OR);
+      else if (equalIgnoreCase(lexeme,"DO"))
+        t = new TCtoken(DO);
+      else if (equalIgnoreCase(lexeme,"FOR"))
+        t = new TCtoken(FOR);
+      else if (equalIgnoreCase(lexeme,"INT"))
+        t = new TCtoken(INT);
+      else if (equalIgnoreCase(lexeme,"ELSE"))
+        t = new TCtoken(ELSE);
+      else if (equalIgnoreCase(lexeme,"CHAR"))
+        t = new TCtoken(CHAR);
+      else if (equalIgnoreCase(lexeme,"CASE"))
+        t = new TCtoken(CASE);
+      else if (equalIgnoreCase(lexeme,"WHILE"))
+        t = new TCtoken(WHILE);
+      else if (equalIgnoreCase(lexeme,"SWITCH"))
+        t = new TCtoken(SWITCH);
+      else if (equalIgnoreCase(lexeme,"RETURN"))
+        t = new TCtoken(RETURN);
+      else if (equalIgnoreCase(lexeme,"BREAK"))
+        t = new TCtoken(BREAK);
+      else if (equalIgnoreCase(lexeme,"DEFAULT"))
+        t = new TCtoken(DEFAULT);
+      else if (equalIgnoreCase(lexeme,"CONTINUE"))
+        t = new TCtoken(CONTINUE);
+      else if (equalIgnoreCase(lexeme,"\N"))
+        t = new TCtoken(NEWLINE);
+      else if (equalIgnoreCase(lexeme,"STRING"))
+        t = new TCtoken(STRING);
       else {
         t = new TCtoken(ID,lexeme);
       }
