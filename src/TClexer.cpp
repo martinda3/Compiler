@@ -22,7 +22,7 @@ namespace toyc {
   char getChar();
   std::string getNextLine();
   bool isInAlphabet(char);
-  bool equalIgnoreCase(std::string, std::string);
+  bool tokenChecker(std::string, std::string);
     
   TClexer::TClexer(std::string fname) {
 	inputFileName = fname;
@@ -58,53 +58,53 @@ namespace toyc {
 	else if (isalpha(charBuff)) {
       	do { lexeme += charBuff; charBuff = getChar(); } 
 		while(isalpha(charBuff) || isdigit(charBuff));
-   			if (equalIgnoreCase(lexeme,std::string("WRITE")))
+   			if (tokenChecker(lexeme,std::string("WRITE")))
         		t = new TCtoken(WRITE, lexeme);
-    		else if (equalIgnoreCase(lexeme,"READ"))
+    		else if (tokenChecker(lexeme,"READ"))
         		t = new TCtoken(READ, lexeme);
-      		else if (equalIgnoreCase(lexeme,"IF"))
+      		else if (tokenChecker(lexeme,"IF"))
         		t = new TCtoken(IF, lexeme);
-      		else if (equalIgnoreCase(lexeme,"THEN"))
+      		else if (tokenChecker(lexeme,"THEN"))
         		t = new TCtoken(THEN, lexeme);
-      		else if (equalIgnoreCase(lexeme,"GOTO"))
+      		else if (tokenChecker(lexeme,"GOTO"))
        	 		t = new TCtoken(GOTO, lexeme);
-      		else if (equalIgnoreCase(lexeme,"SKIP"))
+      		else if (tokenChecker(lexeme,"SKIP"))
         		t = new TCtoken(SKIP, lexeme);
-		    else if (equalIgnoreCase(lexeme,"AND"))
+		    else if (tokenChecker(lexeme,"AND"))
 		       	t = new TCtoken(AND, lexeme);
-		    else if (equalIgnoreCase(lexeme,"OR"))
+		    else if (tokenChecker(lexeme,"OR"))
 		       	t = new TCtoken(OR, lexeme);
-		    else if (equalIgnoreCase(lexeme,"DO"))
+		    else if (tokenChecker(lexeme,"DO"))
 		       	t = new TCtoken(DO, lexeme);
-		    else if (equalIgnoreCase(lexeme,"FOR"))
+		    else if (tokenChecker(lexeme,"FOR"))
 		        t = new TCtoken(FOR, lexeme);
-		    else if (equalIgnoreCase(lexeme,"INT"))
+		    else if (tokenChecker(lexeme,"INT"))
 		        t = new TCtoken(INT, lexeme);
-		    else if (equalIgnoreCase(lexeme,"ELSE"))
+		    else if (tokenChecker(lexeme,"ELSE"))
 		        t = new TCtoken(ELSE, lexeme);
-    		else if (equalIgnoreCase(lexeme,"CHAR"))
+    		else if (tokenChecker(lexeme,"CHAR"))
    			    t = new TCtoken(CHAR, lexeme);
-		    else if (equalIgnoreCase(lexeme,"CASE"))
+		    else if (tokenChecker(lexeme,"CASE"))
         		t = new TCtoken(CASE, lexeme);
-    		else if (equalIgnoreCase(lexeme,"WHILE"))
+    		else if (tokenChecker(lexeme,"WHILE"))
         		t = new TCtoken(WHILE, lexeme);
-      		else if (equalIgnoreCase(lexeme,"SWITCH"))
+      		else if (tokenChecker(lexeme,"SWITCH"))
         		t = new TCtoken(SWITCH, lexeme);
-      		else if (equalIgnoreCase(lexeme,"RETURN"))
+      		else if (tokenChecker(lexeme,"RETURN"))
         		t = new TCtoken(RETURN, lexeme);
-      		else if (equalIgnoreCase(lexeme,"BREAK"))
+      		else if (tokenChecker(lexeme,"BREAK"))
         		t = new TCtoken(BREAK, lexeme);
-      		else if (equalIgnoreCase(lexeme,"DEFAULT"))
+      		else if (tokenChecker(lexeme,"DEFAULT"))
         		t = new TCtoken(DEFAULT, lexeme);
-      		else if (equalIgnoreCase(lexeme,"CONTINUE"))
+      		else if (tokenChecker(lexeme,"CONTINUE"))
         		t = new TCtoken(CONTINUE, lexeme);
-      		else if (equalIgnoreCase(lexeme,"STRING"))
+      		else if (tokenChecker(lexeme,"STRING"))
         		t = new TCtoken(STRING, lexeme);
-      		else if (equalIgnoreCase(lexeme,"SKIP"))
+      		else if (tokenChecker(lexeme,"SKIP"))
         		t = new TCtoken(SKIP, lexeme);
-      		else if (equalIgnoreCase(lexeme,"NONE"))
+      		else if (tokenChecker(lexeme,"NONE"))
         		t = new TCtoken(NONE, lexeme);
-      		else if (equalIgnoreCase(lexeme,"THEN"))
+      		else if (tokenChecker(lexeme,"THEN"))
         		t = new TCtoken(THEN, lexeme);
       		else { 
 				t = new TCtoken(ID,lexeme); }} 
@@ -266,17 +266,18 @@ bool isInAlphabet(char ch) {
   	 	(ch == '<')  || (ch == '>')  || (ch == '(') || (ch == ')') || 
     	(ch == '=')  || (ch == ';')  || (ch == ':') || (ch == '!') ||
     	(ch == '[')  || (ch == ']')  || (ch == '{') || (ch == '}') ||
-    	(ch == ',')  || (ch == '|')  || (ch == '&') || 
+    	(ch == ',')  || (ch == '|')  || (ch == '&') || (ch == '.') ||
 	 	(ch == '\\') || (ch == '\"') || (ch == '\'')); 
 }
 
 bool compareChar(char& c1, char& c2){
-  if (c1 == c2) return true;
-  else if (std::toupper(c1) == std::toupper(c2)) return true;
+  if (isupper(c1)) return false;
+  else if (c1 == tolower(c2)) return true;
+  //else if (std::toupper(c1) == std::toupper(c2)) return true;
   return false;
 }
 
-bool equalIgnoreCase(std::string str1, std::string str2){
+bool tokenChecker(std::string str1, std::string str2){
   return ( (str1.size() == str2.size() ) &&
            std::equal(str1.begin(), str1.end(), str2.begin(), &compareChar) );
 }

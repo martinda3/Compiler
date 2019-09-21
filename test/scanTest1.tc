@@ -1,11 +1,11 @@
-do if 
+do iF
 for
 int else
-char
+cHar
 case read
 while
 writch
-return
+retUrn
 break
 write
 default
@@ -35,4 +35,4 @@ faerfdas
 []{}
 ||
 &&
-&
+skiP
