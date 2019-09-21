@@ -9,7 +9,7 @@ namespace toyc {
   }
 
   void reportWARNING(std::string prefix, std::string message) {
-    std::cerr << prefix+"%warning: "+ message << std::endl;
+    std::cerr << prefix+"[warning]: "+ message << std::endl;
   }
   
   void reportSYNTAX_ERROR(TClexer *l, std::string message) {
@@ -67,7 +67,7 @@ namespace toyc {
   }
 
   int _pos = 0;
-  int _INDENTSIZE=2;
+  int _INDENTSIZE=4;
   
   std::string spaces() { return pad(_pos); } 
 
