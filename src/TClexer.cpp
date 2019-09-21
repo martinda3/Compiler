@@ -38,7 +38,7 @@ namespace toyc {
     while (isspace(charBuff) && (charBuff != EOFCHAR)) charBuff = getChar();
     if (charBuff == EOFCHAR) {
     	t = new TCtoken(EOFILE); 
-        if (verbose) reportDEBUG("  ","scanner",t->toString());
+        if (verbose) reportDEBUG("  ","SCANNER",t->toString());
         return t;} 
 	else if (isdigit(charBuff)) {
       	do { lexeme += charBuff; charBuff = getChar(); } 
@@ -55,62 +55,66 @@ namespace toyc {
       	do { lexeme += charBuff; charBuff = getChar(); } 
 		while(isalpha(charBuff) || isdigit(charBuff));
    			if (equalIgnoreCase(lexeme,std::string("WRITE")))
-        		t = new TCtoken(WRITE);
+        		t = new TCtoken(WRITE, lexeme);
     		else if (equalIgnoreCase(lexeme,"READ"))
-        		t = new TCtoken(READ);
+        		t = new TCtoken(READ, lexeme);
       		else if (equalIgnoreCase(lexeme,"IF"))
-        		t = new TCtoken(IF);
+        		t = new TCtoken(IF, lexeme);
       		else if (equalIgnoreCase(lexeme,"THEN"))
-        		t = new TCtoken(THEN);
+        		t = new TCtoken(THEN, lexeme);
       		else if (equalIgnoreCase(lexeme,"GOTO"))
-       	 		t = new TCtoken(GOTO);
+       	 		t = new TCtoken(GOTO, lexeme);
       		else if (equalIgnoreCase(lexeme,"SKIP"))
-        		t = new TCtoken(SKIP);
+        		t = new TCtoken(SKIP, lexeme);
 		    else if (equalIgnoreCase(lexeme,"AND"))
-		       	t = new TCtoken(AND);
+		       	t = new TCtoken(AND, lexeme);
 		    else if (equalIgnoreCase(lexeme,"OR"))
-		       	t = new TCtoken(OR);
+		       	t = new TCtoken(OR, lexeme);
 		    else if (equalIgnoreCase(lexeme,"DO"))
-		       	t = new TCtoken(DO);
+		       	t = new TCtoken(DO, lexeme);
 		    else if (equalIgnoreCase(lexeme,"FOR"))
-		        t = new TCtoken(FOR);
+		        t = new TCtoken(FOR, lexeme);
 		    else if (equalIgnoreCase(lexeme,"INT"))
-		        t = new TCtoken(INT);
+		        t = new TCtoken(INT, lexeme);
 		    else if (equalIgnoreCase(lexeme,"ELSE"))
-		        t = new TCtoken(ELSE);
+		        t = new TCtoken(ELSE, lexeme);
     		else if (equalIgnoreCase(lexeme,"CHAR"))
-   			    t = new TCtoken(CHAR);
+   			    t = new TCtoken(CHAR, lexeme);
 		    else if (equalIgnoreCase(lexeme,"CASE"))
-        		t = new TCtoken(CASE);
+        		t = new TCtoken(CASE, lexeme);
     		else if (equalIgnoreCase(lexeme,"WHILE"))
-        		t = new TCtoken(WHILE);
+        		t = new TCtoken(WHILE, lexeme);
       		else if (equalIgnoreCase(lexeme,"SWITCH"))
-        		t = new TCtoken(SWITCH);
+        		t = new TCtoken(SWITCH, lexeme);
       		else if (equalIgnoreCase(lexeme,"RETURN"))
-        		t = new TCtoken(RETURN);
+        		t = new TCtoken(RETURN, lexeme);
       		else if (equalIgnoreCase(lexeme,"BREAK"))
-        		t = new TCtoken(BREAK);
+        		t = new TCtoken(BREAK, lexeme);
       		else if (equalIgnoreCase(lexeme,"DEFAULT"))
-        		t = new TCtoken(DEFAULT);
+        		t = new TCtoken(DEFAULT, lexeme);
       		else if (equalIgnoreCase(lexeme,"CONTINUE"))
-        		t = new TCtoken(CONTINUE);
+        		t = new TCtoken(CONTINUE, lexeme);
       		else if (equalIgnoreCase(lexeme,"STRING"))
-        		t = new TCtoken(STRING);
+        		t = new TCtoken(STRING, lexeme);
       		else if (equalIgnoreCase(lexeme,"SKIP"))
-        		t = new TCtoken(SKIP);
+        		t = new TCtoken(SKIP, lexeme);
       		else if (equalIgnoreCase(lexeme,"NONE"))
-        		t = new TCtoken(NONE);
+        		t = new TCtoken(NONE, lexeme);
       		else if (equalIgnoreCase(lexeme,"THEN"))
-        		t = new TCtoken(THEN);
+        		t = new TCtoken(THEN, lexeme);
       		else { 
 				t = new TCtoken(ID,lexeme); }} 
 	else {
       	lexeme += charBuff;
       	switch (charBuff) {
-			case '+': 	t = new TCtoken(ADDOP,"+ "); charBuff = getChar(); break;
-		    case '-': 	t = new TCtoken(ADDOP,"- "); charBuff = getChar(); break;
-		    case '*': 	t = new TCtoken(MULOP,"* "); charBuff = getChar(); break;
-    		case '/':	charBuff = getChar();
+			case '+': 	t = new TCtoken(ADDOP, lexeme); charBuff = getChar(); break;
+			case '[': 	t = new TCtoken(LBRACKET, lexeme);	 charBuff = getChar(); break;
+			case ']': 	t = new TCtoken(RBRACKET, lexeme);	 charBuff = getChar(); break;
+			case '{': 	t = new TCtoken(LCURLY, lexeme);	 charBuff = getChar(); break;
+			case '}': 	t = new TCtoken(RCURLY, lexeme);	 charBuff = getChar(); break;
+		    case '-': 	t = new TCtoken(ADDOP, lexeme); charBuff = getChar(); break;
+		    case '*': 	t = new TCtoken(MULOP, lexeme); charBuff = getChar(); break;
+    		case '/':	charBuff = getChar(); 
 						if (charBuff == '/'){
 							int temp = lineNum;
 							while (temp == lineNum) {
@@ -129,35 +133,51 @@ namespace toyc {
 									else { continue; } } }
 							break;}
 		      			else { 
-			      			t = new TCtoken(DIVOP, "/ "); charBuff = getChar(); break;}
+			      			t = new TCtoken(DIVOP, lexeme); charBuff = getChar(); break;}
 		      			break;
         	case '<': 	charBuff = getChar();
             		    if (charBuff == '=') {
-            		    	t = new TCtoken(RELOP,"<="); charBuff = getChar();} 
-						else if (charBuff == '>') {
-            		    	t = new TCtoken(RELOP,"<>"); charBuff = getChar();} 
+							lexeme += charBuff; 
+            		    	t = new TCtoken(RELOP, lexeme); charBuff = getChar(); break;} 
 						else
-            		        t = new TCtoken(RELOP,"< ");
+            		        t = new TCtoken(RELOP, lexeme);
             		    break;
+        	case '|': 	charBuff = getChar();
+            		    if (charBuff == '|') {
+							lexeme += charBuff; 
+            		    	t = new TCtoken(OR, lexeme); charBuff = getChar(); break;} 
+						else {
+		      				reportWARNING("  ","Missing an |");
+    						exit (EXIT_FAILURE);}
+        	case '&': 	charBuff = getChar();
+            		    if (charBuff == '&') {
+							lexeme += charBuff; 
+            		    	t = new TCtoken(AND, lexeme); charBuff = getChar(); break;} 
+						else {
+		      				reportWARNING("  ","Missing an &");
+    						exit (EXIT_FAILURE);}
         	case '>': 	charBuff = getChar();
             		    if (charBuff == '=') {
-                 			t = new TCtoken(RELOP,">="); charBuff = getChar();} 
-						else
-                		    t = new TCtoken(RELOP,"> ");
+							lexeme += charBuff; 
+                 			t = new TCtoken(RELOP, lexeme); charBuff = getChar(); break;} 
+						else {
+                		    t = new TCtoken(RELOP, lexeme); charBuff = getChar(); break;}
                    		break;
     		case '!': 	charBuff = getChar();
                		 	if (charBuff == '=') {
-                      		t = new TCtoken(NOT,"!="); charBuff = getChar();} 
-						else
-                    		charBuff = getChar();
-                  		break;
-     		case '(': 	t = new TCtoken(LPAREN); charBuff = getChar(); break;
-    		case ')': 	t = new TCtoken(RPAREN); charBuff = getChar(); break;
+							lexeme += charBuff; 
+                      		t = new TCtoken(NOT, lexeme); charBuff = getChar(); break;} 
+						else {
+		      				reportWARNING("  ","Missing an &");
+    						exit (EXIT_FAILURE);}
+     		case '(': 	t = new TCtoken(LPAREN, lexeme); charBuff = getChar(); break;
+    		case ')': 	t = new TCtoken(RPAREN, lexeme); charBuff = getChar(); break;
        		case '=': 	charBuff = getChar();
                  		if (charBuff == '=') {
-                   			t = new TCtoken(RELOP,"=="); charBuff = getChar();} 
+							lexeme += charBuff;
+                   			t = new TCtoken(RELOP, lexeme); charBuff = getChar();} 
 						else
-                       		t = new TCtoken(ASSIGNOP);
+                       		t = new TCtoken(ASSIGNOP, lexeme);
                 		break;
       		case '\"': 	charBuff = getChar();
                    		if (charBuff == '\"') {
@@ -187,15 +207,16 @@ namespace toyc {
                    				t = new TCtoken(CHARLITERAL,lexeme); charBuff = getChar(); break;}}
       		case '\\': 	charBuff = getChar();
                		  	if (charBuff == 'n') {
-               				t = new TCtoken(NEWLINE); charBuff = getChar();} 
-						else
-                   			charBuff = getChar();
-                 		break;
-    		case ';': 	t = new TCtoken(SEMICOLON); charBuff = getChar(); break;
-    		case ':': 	t = new TCtoken(COLON);     charBuff = getChar(); break;
+							lexeme += charBuff;
+               				t = new TCtoken(NEWLINE, lexeme); charBuff = getChar(); break;} 
+						else {
+		      				reportWARNING("  ","\\ Error");
+    						exit (EXIT_FAILURE);}
+    		case ';': 	t = new TCtoken(SEMICOLON, lexeme); charBuff = getChar(); break;
+    		case ':': 	t = new TCtoken(COLON, lexeme);     charBuff = getChar(); break;
     		default: 	// shouldn't happen!
-          				t = new TCtoken(NONE);}}
-    if (verbose) reportDEBUG("  ","scanner",t->toString());
+          				t = new TCtoken(NONE, lexeme);}}
+    if (verbose) reportDEBUG("  ","SCANNER",t->toString());
     return t;}
 
 
@@ -240,6 +261,8 @@ bool isInAlphabet(char ch) {
   	 	(ch == '+')  || (ch == '-')  || (ch == '*') || (ch == '/') ||
   	 	(ch == '<')  || (ch == '>')  || (ch == '(') || (ch == ')') || 
     	(ch == '=')  || (ch == ';')  || (ch == ':') || (ch == '!') ||
+    	(ch == '[')  || (ch == ']')  || (ch == '{') || (ch == '}') ||
+    	(ch == ',')  || (ch == '|')  || (ch == '&') || 
 	 	(ch == '\\') || (ch == '\"') || (ch == '\'')); 
 }
 
