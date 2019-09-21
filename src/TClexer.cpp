@@ -107,9 +107,9 @@ namespace toyc {
 	else {
       	lexeme += charBuff;
       	switch (charBuff) {
-			case '+': 	t = new TCtoken(ADDOP,"+"); charBuff = getChar(); break;
-		    case '-': 	t = new TCtoken(ADDOP,"-"); charBuff = getChar(); break;
-		    case '*': 	t = new TCtoken(MULOP,"*"); charBuff = getChar(); break;
+			case '+': 	t = new TCtoken(ADDOP,"+ "); charBuff = getChar(); break;
+		    case '-': 	t = new TCtoken(ADDOP,"- "); charBuff = getChar(); break;
+		    case '*': 	t = new TCtoken(MULOP,"* "); charBuff = getChar(); break;
     		case '/':	charBuff = getChar();
 						if (charBuff == '/'){
 							int temp = lineNum;
@@ -129,7 +129,7 @@ namespace toyc {
 									else { continue; } } }
 							break;}
 		      			else { 
-			      			t = new TCtoken(DIVOP, "/"); charBuff = getChar(); break;}
+			      			t = new TCtoken(DIVOP, "/ "); charBuff = getChar(); break;}
 		      			break;
         	case '<': 	charBuff = getChar();
             		    if (charBuff == '=') {
@@ -137,13 +137,13 @@ namespace toyc {
 						else if (charBuff == '>') {
             		    	t = new TCtoken(RELOP,"<>"); charBuff = getChar();} 
 						else
-            		        t = new TCtoken(RELOP,"<");
+            		        t = new TCtoken(RELOP,"< ");
             		    break;
         	case '>': 	charBuff = getChar();
             		    if (charBuff == '=') {
                  			t = new TCtoken(RELOP,">="); charBuff = getChar();} 
 						else
-                		    t = new TCtoken(RELOP,">");
+                		    t = new TCtoken(RELOP,"> ");
                    		break;
     		case '!': 	charBuff = getChar();
                		 	if (charBuff == '=') {
@@ -160,25 +160,31 @@ namespace toyc {
                        		t = new TCtoken(ASSIGNOP);
                 		break;
       		case '\"': 	charBuff = getChar();
-                   		while (charBuff != '\"') {
-		      				charBuff = getChar();
-		      				if (charBuff == EOFCHAR){
-		      					reportWARNING("  ","String Error");
-    							exit (EXIT_FAILURE);}
-		      				lexeme += charBuff;}
-	     					if (charBuff == '\"') { charBuff = getChar();
-                    			t = new TCtoken(STRING,lexeme); charBuff = getChar();} 
-                   		break;
-      		case '\'': 	charBuff = getChar();
-        	    		if (charBuff != '\'') {
+                   		if (charBuff == '\"') {
+							lexeme = "IS_EMPTY";
+                    		t = new TCtoken(STRING,lexeme); charBuff = getChar(); break;}
+						else {
+							while (charBuff != '\"') {
+		      					lexeme += charBuff;
+		      					charBuff = getChar();
+		      					if (charBuff == EOFCHAR){
+		      						reportWARNING("  ","String Error");
+    								exit (EXIT_FAILURE);}}
+							lexeme += charBuff;
+                    		t = new TCtoken(STRING,lexeme); charBuff = getChar(); break;}
+      		case '\'': 	charBuff = getChar(); 
+                   		if (charBuff == '\'') {
+							lexeme = "IS_EMPTY";
+                    		t = new TCtoken(CHARLITERAL,lexeme); charBuff = getChar(); break;} 
+        	    		else { 
+							lexeme += charBuff;
 		   					charBuff = getChar();
-			  				lexeme += charBuff;
-			  				if (charBuff != '\''){
+			  				if (charBuff != '\'') {
 		      					reportWARNING("  ","Char literal Error");
-    							exit (EXIT_FAILURE);}}
-	       				if (charBuff == '\'') { charBuff = getChar();
-                   			t = new TCtoken(CHARLITERAL,lexeme); charBuff = getChar();} 
-                		break;
+    							exit (EXIT_FAILURE);}
+							else {
+								lexeme += charBuff;
+                   				t = new TCtoken(CHARLITERAL,lexeme); charBuff = getChar(); break;}}
       		case '\\': 	charBuff = getChar();
                		  	if (charBuff == 'n') {
                				t = new TCtoken(NEWLINE); charBuff = getChar();} 
