@@ -8,7 +8,7 @@ namespace toyc {
 		RETURN, BREAK, WRITE, DEFAULT,	//
 		CONTINUE, NEWLINE,		//
 	   	NUMBER, RELOP, ADDOP, MULOP,	// Math
-		ASSIGNOP, 			// 
+		ASSIGNOP, DIVOP,		// 
 		ID, CHARLITERAL, STRING,	// Strings
 	   	COMMENT, LCOMMENT, RCOMMENT,	// Comments 
 		LPAREN, RPAREN, NOT, COLON,	// Symbols

@@ -127,7 +127,21 @@ namespace toyc {
             case '+': t = new TCtoken(ADDOP,"+"); charBuff = getChar(); break;
             case '-': t = new TCtoken(ADDOP,"-"); charBuff = getChar(); break;
             case '*': t = new TCtoken(MULOP,"*"); charBuff = getChar(); break;
-            case '/': t = new TCtoken(MULOP,"/"); charBuff = getChar(); break;
+            case '/': charBuff = getChar();
+		      if (charBuff != '/'){
+			t = new TCtoken(DIVOP,"/"); charBuff = getChar(); break;}
+		      else if (charBuff == '/'){
+			t = new TCtoken(COMMENT); charBuff = getChar(); break;}
+		      else if (charBuff == '*') { 
+			      t = new TCtoken(LCOMMENT); charBuff = getChar(); break;
+			while (charBuff != '*') {
+				charBuff = getChar();}
+			if (charBuff != '/') {
+			      	reportWARNING("  ","Comment Error");
+      				exit (EXIT_FAILURE);}
+			else t = new TCtoken(RCOMMENT); charBuff = getChar(); break;}
+		      break;
+
             case '<': charBuff = getChar();
                       if (charBuff == '=') {
                           t = new TCtoken(RELOP,"<="); charBuff = getChar();
@@ -159,11 +173,23 @@ namespace toyc {
             case '\"': charBuff = getChar();
                       while (charBuff != '\"') {
 			      charBuff = getChar();
+			      if (charBuff == EOFCHAR){
+			      	reportWARNING("  ","String Error");
+      				exit (EXIT_FAILURE);}
 			      lexeme += charBuff;}
-		       if (charBuff == '\"') {
-                          t = new TCtoken(STRING,lexeme); charBuff = getChar();
-                      } else
-                          charBuff = getChar();
+		       if (charBuff == '\"') { charBuff = getChar();
+                          t = new TCtoken(STRING,lexeme); charBuff = getChar();} 
+                      break;
+            case '\'': charBuff = getChar();
+                      if (charBuff != '\'') {
+			      charBuff = getChar();
+			      lexeme += charBuff;
+			      if (charBuff != '\''){
+			      	reportWARNING("  ","Char literal Error");
+      				exit (EXIT_FAILURE);}
+			      }
+		       if (charBuff == '\'') { charBuff = getChar();
+                          t = new TCtoken(CHARLITERAL,lexeme); charBuff = getChar();} 
                       break;
             case '\\': charBuff = getChar();
                       if (charBuff == 'n') {
@@ -219,7 +245,7 @@ bool isInAlphabet(char ch) {
   	 (ch == '+') || (ch == '-') || (ch == '*') || (ch == '/') ||
   	 (ch == '<') || (ch == '>') || (ch == '(') || (ch == ')') || 
          (ch == '=') || (ch == ';') || (ch == ':') || (ch == '!') ||
-	 (ch == '\\') || (ch == '\"')); 
+	 (ch == '\\') || (ch == '\"') || (ch == '\'')); 
 }
 
 bool compareChar(char& c1, char& c2){
