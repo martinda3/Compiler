@@ -35,10 +35,10 @@ namespace toyc {
     case ADDOP:     	str += "(ADDOP,"+lexeme+")"; 		break;
     case MULOP:     	str += "(MULOP,"+lexeme+")"; 		break;
     case RELOP:     	str += "(RELOP,"+lexeme+")"; 		break;
-    case ASSIGNOP: 	str += "ASSIGNOP";		        break;
+    case ASSIGNOP: 	str += "(ASSIGNOP,"+lexeme+")";         break;
     case ID:       	str += "(ID,"+lexeme+")";    		break;
     case CHARLITERAL:	str += "(CHARLITERAL,"+lexeme+")";	break;
-    case STRING: 	str += "(STRING,"+lexeme+")";         	break;
+    case STRING: 	str += "STRING";          		break;
     case COMMENT: 	str += "COMMENT";          		break;
     case LCOMMENT: 	str += "LCOMMENT";          		break;
     case RCOMMENT: 	str += "RCOMMENT";          		break;

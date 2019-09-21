@@ -15,7 +15,6 @@ namespace toyc {
   static int lineNum = 0;
   static std::string lexeme = ""; 
   static char EOFCHAR = '\0'; // arbitrary non-printing char
-  static char NEWLINECHAR = '\n'; // arbitrary non-printing char
   static std::ifstream infile;
   
   char getChar();
@@ -105,6 +104,20 @@ namespace toyc {
         t = new TCtoken(NEWLINE);
       else if (equalIgnoreCase(lexeme,"STRING"))
         t = new TCtoken(STRING);
+      else if (equalIgnoreCase(lexeme,"//"))
+        t = new TCtoken(COMMENT);
+      else if (equalIgnoreCase(lexeme,"/*"))
+        t = new TCtoken(LCOMMENT);
+      else if (equalIgnoreCase(lexeme,"*/"))
+        t = new TCtoken(RCOMMENT);
+      else if (equalIgnoreCase(lexeme,"!"))
+        t = new TCtoken(NOT);
+      else if (equalIgnoreCase(lexeme,"SKIP"))
+        t = new TCtoken(SKIP);
+      else if (equalIgnoreCase(lexeme,"NONE"))
+        t = new TCtoken(NONE);
+      else if (equalIgnoreCase(lexeme,"THEN"))
+        t = new TCtoken(THEN);
       else {
         t = new TCtoken(ID,lexeme);
       }
@@ -129,6 +142,12 @@ namespace toyc {
                       } else
                           t = new TCtoken(RELOP,">");
                       break;
+            case '!': charBuff = getChar();
+                      if (charBuff == '=') {
+                          t = new TCtoken(NOT,"!="); charBuff = getChar();
+                      } else
+                          charBuff = getChar();
+                      break;
             case '(': t = new TCtoken(LPAREN); charBuff = getChar(); break;
             case ')': t = new TCtoken(RPAREN); charBuff = getChar(); break;
             case '=': charBuff = getChar();
@@ -136,6 +155,21 @@ namespace toyc {
                           t = new TCtoken(RELOP,"=="); charBuff = getChar();
                       } else
                           t = new TCtoken(ASSIGNOP);
+                      break;
+            case '\"': charBuff = getChar();
+                      while (charBuff != '\"') {
+			      charBuff = getChar();
+			      lexeme += charBuff;}
+		       if (charBuff == '\"') {
+                          t = new TCtoken(STRING,lexeme); charBuff = getChar();
+                      } else
+                          charBuff = getChar();
+                      break;
+            case '\\': charBuff = getChar();
+                      if (charBuff == 'n') {
+                          t = new TCtoken(NEWLINE); charBuff = getChar();
+                      } else
+                          charBuff = getChar();
                       break;
             case ';': t = new TCtoken(SEMICOLON); charBuff = getChar(); break;
             case ':': t = new TCtoken(COLON);     charBuff = getChar(); break;
@@ -145,6 +179,7 @@ namespace toyc {
         }
         if (verbose) reportDEBUG("  ","scanner",t->toString());
         return t;
+
   }
 
   std::string TClexer::getLine() { return line; }
@@ -162,8 +197,7 @@ namespace toyc {
         ch = line[pos];
       }
       if (isInAlphabet(ch) || isspace(ch)) break;
-        
-     // reportWARNING("","illegal character ignored 2");
+        reportWARNING("","illegal character ignored 2");
       //      reportWARNING("","illegal character '"+line[pos]+"' ignored")
       pos++;
       
@@ -176,7 +210,7 @@ std::string getNextLine() {
   std::getline(infile,line);
   line = line + " ";
   pos = 0; lineNum++;
-  if (verbose) reportDEBUG("  ","input",lineNum+": "+line);
+  //if (verbose) reportDEBUG("  ","input",lineNum+": "+line);
   return line;
 }
 
@@ -184,7 +218,8 @@ bool isInAlphabet(char ch) {
   return ( isalpha(ch) || isdigit(ch) ||
   	 (ch == '+') || (ch == '-') || (ch == '*') || (ch == '/') ||
   	 (ch == '<') || (ch == '>') || (ch == '(') || (ch == ')') || 
-         (ch == '=') || (ch == ';') || (ch == ':') ); 
+         (ch == '=') || (ch == ';') || (ch == ':') || (ch == '!') ||
+	 (ch == '\\') || (ch == '\"')); 
 }
 
 bool compareChar(char& c1, char& c2){
