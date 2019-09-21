@@ -6,8 +6,8 @@ namespace toyc {
 	extern std::string AUTHOR;
 	
 	extern bool debug_scanner; // Set to False
-	extern bool debug_parser;
-	extern bool debug_codeGen;
+//	extern bool debug_parser;
+//	extern bool debug_codeGen;
 
 	extern bool verbose;
 

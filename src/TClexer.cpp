@@ -109,21 +109,19 @@ namespace toyc {
       	switch (charBuff) {
 			case '+': 	t = new TCtoken(ADDOP,"+"); charBuff = getChar(); break;
 		    case '-': 	t = new TCtoken(ADDOP,"-"); charBuff = getChar(); break;
-		    case '*': 	t = new TCtoken(MULOP,"*"); charBuff = getChar(); break;
+		    case '*': 	charBuff = getChar();
+						if (charBuff == '/'){
+							t = new TCtoken(RCOMMENT); charBuff = getChar(); break;}
+						else {
+							t = new TCtoken(MULOP,"*"); charBuff = getChar(); break;}
+						break;
     		case '/':	charBuff = getChar();
-						if (charBuff != '/'){
-							t = new TCtoken(DIVOP,"/"); charBuff = getChar(); break;}
-		      			else if (charBuff == '/'){
+						if (charBuff == '/'){
 							t = new TCtoken(COMMENT); charBuff = getChar(); break;}
-		      			else if (charBuff == '*') { 
-			      			t = new TCtoken(LCOMMENT); charBuff = getChar(); break;
-							while (charBuff != '*') {
-								charBuff = getChar();}
-							if (charBuff != '/') {
-			      				reportWARNING("  ","Comment Error");
-      							exit (EXIT_FAILURE);}
-						else { 
-								t = new TCtoken(RCOMMENT); charBuff = getChar(); break;}}
+		      			else if (charBuff == '*'){
+							t = new TCtoken(LCOMMENT); charBuff = getChar(); break;}
+		      			else { 
+			      			t = new TCtoken(DIVOP, "/"); charBuff = getChar(); break;}
 		      			break;
         	case '<': 	charBuff = getChar();
             		    if (charBuff == '=') {
@@ -209,10 +207,17 @@ namespace toyc {
    
 std::string getNextLine() {
   std::string line;
+  std::string buff;
+  pos = 0; lineNum++;
+  if (lineNum <= 9) {
+  	buff = "  ";}
+  else if (lineNum < 1000) {
+    buff = " ";}
+  buff = buff + std::to_string(lineNum) + ": ";
   std::getline(infile,line);
   line = line + " ";
-  pos = 0; lineNum++;
-  if (verbose) reportDEBUG("  ", " input ", lineNum+ ": " +line);
+  buff = buff + line;
+  //if (verbose) reportDEBUG("  ", " input ",lineNum+ "" +buff);
   return line;
 }
 
