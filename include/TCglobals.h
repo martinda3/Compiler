@@ -16,5 +16,5 @@ namespace toyc {
 //	extern booldump_symbolTable;
 
 	void turnVerboseOn();
-	void turnVerboseOFF();
+	void turnVerboseOff();
 }

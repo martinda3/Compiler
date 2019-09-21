@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
     processCommandLine(argc,argv);
     TClexer *scanner = new TClexer(inputFileName);
     int tok;
-    turnVerboseOn();
+    //turnVerboseOn();
     while ((tok=scanner->getToken()->getTokenType()) != EOFILE);} 
   catch(...) {
     std::cerr << "ERROR: scanning failed" << std::endl;
@@ -28,16 +28,17 @@ int main(int argc, char *argv[]) {
         switch(argc) {
         case 1: printUsageMessage(); 
 		break;
-        case 2: if (argv[1][0] != '-')
+        case 2: if (argv[1][0] != '-') {
                   inputFileName = argv[1];
-                else
-                  printUsageMessage();
+                  turnVerboseOff();}
+                else {
+                  printUsageMessage();}
                 break;
         case 3: if (argv[1][0]=='-' && argv[1][1]=='v') {
                   turnVerboseOn();
                   inputFileName = argv[2];} 
-		else 
-		  printUsageMessage();
+				else {
+		  		  printUsageMessage();}
                 break;
         default: printUsageMessage();}
     }
