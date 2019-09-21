@@ -117,6 +117,9 @@ namespace toyc {
 						break;
     		case '/':	charBuff = getChar();
 						if (charBuff == '/'){
+							int temp = lineNum;
+							while (temp == lineNum) {
+								charBuff = getChar();}
 							t = new TCtoken(COMMENT); charBuff = getChar(); break;}
 		      			else if (charBuff == '*'){
 							t = new TCtoken(LCOMMENT); charBuff = getChar(); break;}
