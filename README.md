@@ -1,5 +1,8 @@
 # EGRE 591: Compiler Construction
 By Charles D. & Dajion M.
 
-# Branches
-We will develop on our individual branches and before pushing to Master we will push both branches to the testing branch. After the code works in testing, we will push to master.
+# Commits
+To show that you are pushing working code push twice.
+first after running make clean
+the push after rumming make
+
