@@ -119,6 +119,9 @@ namespace toyc {
 		      			else if (charBuff == '*'){
 							while (true) {
 								charBuff = getChar();
+								if (charBuff == EOFCHAR) {
+		      						reportWARNING("  ","Block Comment Error");
+    								exit (EXIT_FAILURE);}
 								if (charBuff == '*') {
 									charBuff = getChar();
 									if (charBuff == '/') {
