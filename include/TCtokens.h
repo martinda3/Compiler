@@ -10,7 +10,7 @@ namespace toyc {
 	   	NUMBER, RELOP, ADDOP, MULOP,	// Math
 		ASSIGNOP, DIVOP,		// 
 		ID, CHARLITERAL, STRING,	// Strings
-	   	COMMENT, LCOMMENT, RCOMMENT,	// Comments 
+	   	COMMENT, BLOCK,	// Comments 
 		LPAREN, RPAREN, NOT, COLON,	// Symbols
 		LCURLY, RCURLY, LBRACKET,	//
 		RBRACKET, COMMA, SEMICOLON, 	//

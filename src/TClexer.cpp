@@ -109,12 +109,7 @@ namespace toyc {
       	switch (charBuff) {
 			case '+': 	t = new TCtoken(ADDOP,"+"); charBuff = getChar(); break;
 		    case '-': 	t = new TCtoken(ADDOP,"-"); charBuff = getChar(); break;
-		    case '*': 	charBuff = getChar();
-						if (charBuff == '/'){
-							t = new TCtoken(RCOMMENT); charBuff = getChar(); break;}
-						else {
-							t = new TCtoken(MULOP,"*"); charBuff = getChar(); break;}
-						break;
+		    case '*': 	t = new TCtoken(MULOP,"*"); charBuff = getChar(); break;
     		case '/':	charBuff = getChar();
 						if (charBuff == '/'){
 							int temp = lineNum;
@@ -122,7 +117,14 @@ namespace toyc {
 								charBuff = getChar();}
 							t = new TCtoken(COMMENT); charBuff = getChar(); break;}
 		      			else if (charBuff == '*'){
-							t = new TCtoken(LCOMMENT); charBuff = getChar(); break;}
+							while (true) {
+								charBuff = getChar();
+								if (charBuff == '*') {
+									charBuff = getChar();
+									if (charBuff == '/') {
+										t = new TCtoken(BLOCK); charBuff = getChar(); break;}
+									else { continue; } } }
+							break;}
 		      			else { 
 			      			t = new TCtoken(DIVOP, "/"); charBuff = getChar(); break;}
 		      			break;
