@@ -57,7 +57,7 @@ namespace toyc {
     case GOTO: 		str += "(<GOTO>, \""+lexeme+"\")";          		break;
     case SKIP: 		str += "(<SKIP>, \""+lexeme+"\")";          		break;
     case NONE: 		str += "(<NONE>, \""+lexeme+"\")";          		break;
-    case EOFILE: 	str += "(<EOFILE>, \""+lexeme+"\")";          		break;
+    case EOFILE: 	str += "(<EOFILE>)";          		break;
     case THEN:      	str += "(<THEN>, \""+lexeme+"\")";               		break;
     default:        	str += "[error token]";        		break; 
     }

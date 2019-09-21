@@ -14,9 +14,11 @@ namespace toyc {
   static int pos;
   static int lineNum = 0;
   static std::string lexeme = ""; 
-  static char EOFCHAR = '\0'; // arbitrary non-printing char
+  static char EOFCHAR = '\0'; 		// arbitrary non-printing char
   static std::ifstream infile;
-  
+ 
+  static int t_tokens = 0;			// Total token count
+
   char getChar();
   std::string getNextLine();
   bool isInAlphabet(char);
@@ -33,12 +35,14 @@ namespace toyc {
   }
   
   TCtoken* TClexer::getToken() {
+	t_tokens++;
     lexeme = ""; TCtoken* t;
 
     while (isspace(charBuff) && (charBuff != EOFCHAR)) charBuff = getChar();
     if (charBuff == EOFCHAR) {
     	t = new TCtoken(EOFILE); 
         if (verbose) reportDEBUG("  ","SCANNER",t->toString());
+        if (verbose) reportDEBUG("  ","SCANNER"," Total tokens: " + std::to_string(t_tokens));
         return t;} 
 	else if (isdigit(charBuff)) {
       	do { lexeme += charBuff; charBuff = getChar(); } 
