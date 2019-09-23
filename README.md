@@ -3,6 +3,5 @@ By Charles D. & Dajion M.
 
 # Commits
 To show that you are pushing working code push twice.
-first after running make clean
-the push after rumming make
-
+First after running make clean.
+Then push after running make.
