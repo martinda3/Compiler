@@ -1,6 +1,7 @@
 #include <iostream>
 
-namespace toyc {
+namespace toyc
+{
 	std::string inputFileName;
 	std::string outputClassFileName;
 	std::string targetFileName;
@@ -11,8 +12,8 @@ namespace toyc {
 	std::string VERSION = "v 1.0.0";
 	std::string AUTHOR = "Dajion Martin, Charles Dietzel";
 
-	bool verbose=false;
+	bool verbose = false;
 
-	void turnVerboseOn() { verbose = true;}
-	void turnVerboseOff() { verbose = false;}
+	void turnVerboseOn() { verbose = true; }
+	void turnVerboseOff() { verbose = false; }
 }
