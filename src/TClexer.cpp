@@ -54,10 +54,23 @@ namespace toyc
 		else if (isdigit(charBuff))
 		{
 			do { lexeme += charBuff; charBuff = getChar(); }
-			while (isdigit(charBuff));
+			while (isdigit(charBuff));//digits
 			if (charBuff == '.')
-			{
+			{//optional_fraction
 				lexeme += charBuff; charBuff = getChar();
+				if (!isdigit(charBuff))
+					reportWARNING("  ", "illegal character ignored 1");
+				//reportWARNING("","illegal character '"+charBuff+"' ignored");
+				do { lexeme += charBuff; charBuff = getChar(); }
+				while (isdigit(charBuff));
+			}
+			if (charBuff == 'E')
+			{//optional_exponent
+				lexeme += charBuff; charBuff = getChar();
+				if (charBuff == '+' || charBuff == '-')
+				{
+					lexeme += charBuff; charBuff = getChar();
+				}
 				if (!isdigit(charBuff))
 					reportWARNING("  ", "illegal character ignored 1");
 				//reportWARNING("","illegal character '"+charBuff+"' ignored");
