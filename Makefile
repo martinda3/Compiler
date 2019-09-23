@@ -43,10 +43,9 @@ testrun:
 
 alltests:
 	$(MAKE) $(TARGET)
-	for f in $(TESTFILES); \
-	do \
-	echo "File:" $$f; \
-	$(TARGET) $$f -v; \
+	for test in $(TESTFILES); do \
+	echo "File:" $$test; \
+	$(TARGET) -v $$test; \
 	done
 
 
