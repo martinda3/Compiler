@@ -74,7 +74,8 @@ namespace toyc
 			if (charBuff == '.')
 			{
 				reportWARNING("  ", "Number Comment Error");
-				exit(EXIT_FAILURE);
+				charBuff = getChar();
+				//exit(EXIT_FAILURE);
 			}	
 			if (charBuff == 'E')
 			{//optional_exponent
@@ -151,6 +152,7 @@ namespace toyc
 			switch (charBuff)
 			{
 				case '+': 	t = new TCtoken(ADDOP, lexeme);		charBuff = getChar(); break;
+				case '%': 	t = new TCtoken(MODOP, lexeme);		charBuff = getChar(); break;
 				case '[': 	t = new TCtoken(LBRACKET, lexeme);	charBuff = getChar(); break;
 				case ']': 	t = new TCtoken(RBRACKET, lexeme);	charBuff = getChar(); break;
 				case '{': 	t = new TCtoken(LCURLY, lexeme);	charBuff = getChar(); break;
@@ -372,7 +374,7 @@ namespace toyc
 
 	bool isInAlphabet(char ch)
 	{
-		return (isalpha(ch) || isdigit(ch) ||
+		return (isalpha(ch) || isdigit(ch) || (ch == '%') ||
 				(ch == '+') || (ch == '-') || (ch == '*') || (ch == '/') ||
 				(ch == '<') || (ch == '>') || (ch == '(') || (ch == ')') ||
 				(ch == '=') || (ch == ';') || (ch == ':') || (ch == '!') ||

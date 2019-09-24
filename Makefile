@@ -76,7 +76,7 @@ tests:
 	@echo "  [CHECKER]  Total tokens: 4";
 	@echo ". . . . . . . . .";
 	@echo " #11"  $(TESTDIR)/eleven.tc "...";
-	$(TARGET) -v $(TESTDIR)/eleven.tc
+	$(TARGET) $(TESTDIR)/eleven.tc
 	@echo "  [CHECKER]  Total tokens: 5";
 	@echo ". . . . . . . . .";
 	@echo " #12"  $(TESTDIR)/twelve.tc "...";

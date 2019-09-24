@@ -37,6 +37,7 @@ namespace toyc
 			case NEWLINE: 		str += "(<NEWLINE>, \"" + lexeme + "\")";   break;
 			case NUMBER:       	str += "(<NUMBER>, \"" + lexeme + "\")";   	break;
 			case ADDOP:     	str += "(<ADDOP>, \"" + lexeme + "\")"; 	break;
+			case MODOP:     	str += "(<MODOP>, \"" + lexeme + "\")"; 	break;
 			case MULOP:     	str += "(<MULOP>, \"" + lexeme + "\")"; 	break;
 			case RELOP:     	str += "(<RELOP>, \"" + lexeme + "\")"; 	break;
 			case DIVOP:     	str += "(<DIVOP>, \"" + lexeme + "\")"; 	break;
