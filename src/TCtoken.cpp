@@ -19,6 +19,7 @@ namespace toyc
 		switch (tokenType)
 		{
 			case DO:	    	str += "(<DO>, \"" + lexeme + "\")";    	break;
+			case NOTEQUAL:	  	str += "(<NOTEQUAL>, \"" + lexeme + "\")";  break;
 			case IF: 			str += "(<IF>, \"" + lexeme + "\")";	    break;
 			case FOR: 			str += "(<FOR>, \"" + lexeme + "\")";	    break;
 			case INT: 			str += "(<INT>, \"" + lexeme + "\")";	    break;

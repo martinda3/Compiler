@@ -43,12 +43,19 @@ namespace toyc
 		t_tokens++;						// Add to token count
 		lexeme = ""; TCtoken* t;
 
+		if (t_tokens > 1000) 
+		{
+			reportWARNING("  ", "Check this token");
+			reportDEBUG("  ", "SCANNER", t->toString());
+			exit(EXIT_FAILURE);
+		}
+
 		while (isspace(charBuff) && (charBuff != EOFCHAR)) charBuff = getChar();
 		if (charBuff == EOFCHAR)
 		{
 			t = new TCtoken(EOFILE);
 			if (verbose) reportDEBUG("  ", "SCANNER", t->toString());
-			if (verbose) reportDEBUG("  ", "SCANNER", " Total tokens: " + std::to_string(t_tokens));
+			reportDEBUG("  ", "SCANNER", " Total tokens: " + std::to_string(t_tokens));
 			return t;					// When Scanner complete, will print number of tokens
 		}
 		else if (isdigit(charBuff))
@@ -72,7 +79,7 @@ namespace toyc
 			if (charBuff == 'E')
 			{//optional_exponent
 				lexeme += charBuff; charBuff = getChar();
-				if (charBuff == '+' || charBuff == '-')
+				if (charBuff == '+' || charBuff == '-' || isdigit(charBuff))
 				{
 					lexeme += charBuff; charBuff = getChar();
 				}
@@ -233,12 +240,11 @@ namespace toyc
 							if (charBuff == '=')
 							{
 								lexeme += charBuff;
-								t = new TCtoken(NOT, lexeme); charBuff = getChar(); break;
+								t = new TCtoken(NOTEQUAL, lexeme); charBuff = getChar(); break;
 							}
 							else
 							{
-								reportWARNING("  ", "Missing an &");
-								exit(EXIT_FAILURE);
+								t = new TCtoken(NOT, lexeme); charBuff = getChar(); break;
 							}
 				case '(': 	t = new TCtoken(LPAREN, lexeme); charBuff = getChar(); break;
 				case ')': 	t = new TCtoken(RPAREN, lexeme); charBuff = getChar(); break;
@@ -307,6 +313,7 @@ namespace toyc
 				case ';': 	t = new TCtoken(SEMICOLON, lexeme); charBuff = getChar(); break;
 				case ':': 	t = new TCtoken(COLON, lexeme);     charBuff = getChar(); break;
 				case ',': 	t = new TCtoken(COMMA, lexeme);     charBuff = getChar(); break;
+				case '.':   reportWARNING("  ", "Bad symble");  exit(EXIT_FAILURE);
 				default: 	// shouldn't happen!
 							t = new TCtoken(NONE, lexeme);
 			}
