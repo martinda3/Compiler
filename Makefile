@@ -45,7 +45,7 @@ alltests:
 	$(MAKE) $(TARGET)
 	for test in $(TESTFILES); do \
 	echo "File:" $$test; \
-	$(TARGET) -v $$test; \
+	$(TARGET) $$test; \
 	done
 
 

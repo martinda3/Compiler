@@ -64,6 +64,11 @@ namespace toyc
 				do { lexeme += charBuff; charBuff = getChar(); }
 				while (isdigit(charBuff));
 			}
+			if (charBuff == '.')
+			{
+				reportWARNING("  ", "Number Comment Error");
+				exit(EXIT_FAILURE);
+			}	
 			if (charBuff == 'E')
 			{//optional_exponent
 				lexeme += charBuff; charBuff = getChar();
