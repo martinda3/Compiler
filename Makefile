@@ -93,4 +93,12 @@ tests:
 	@echo ". . . . . . . . .";
 	@echo "All Have Succeded";
 
+fails:
+	$(MAKE) $(TARGET)
+	@echo ". . . . . . . . .";
+	@echo " #6"  $(TESTDIR)/six_1.tc "...";
+	$(TARGET) -v $(TESTDIR)/six_1.tc
+	@echo "  [CHECKER]  Total tokens: 1";
+	@echo ". . . . . . . . .";
+
 .PHONY: clean

@@ -66,16 +66,18 @@ namespace toyc
 			{//optional_fraction
 				lexeme += charBuff; charBuff = getChar();
 				if (!isdigit(charBuff))
-					reportWARNING("  ", "illegal character ignored 1");
-				//reportWARNING("","illegal character '"+charBuff+"' ignored");
+				{
+					reportWARNING("  ",". cannot be follot be a non-digit ignoring .");
+					t = new TCtoken(NUMBER, lexeme); charBuff = getChar();
+				}
+				
 				do { lexeme += charBuff; charBuff = getChar(); }
 				while (isdigit(charBuff));
 			}
 			if (charBuff == '.')
 			{
-				reportWARNING("  ", "Number Comment Error");
+				reportWARNING("  ", ". cannot be followed by .");
 				charBuff = getChar();
-				//exit(EXIT_FAILURE);
 			}	
 			if (charBuff == 'E')
 			{//optional_exponent
