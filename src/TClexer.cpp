@@ -51,7 +51,7 @@ namespace toyc {
         lexeme = "";
         TCtoken *t;
         if (t_tokens > 100) {                                       // Breaks on infinite loops DM
-            reportWARNING("  ", "Check this token");                // Returns problematic token
+            reportWARNING("  ", "Check this token");                // Returns problematic token DM
             reportDEBUG("  ", "SCANNER", t->toString());
             exit(EXIT_FAILURE);
         }
@@ -60,30 +60,30 @@ namespace toyc {
         if (charBuff == EOFCHAR) {
             t = new TCtoken(EOFILE);
             if (verbose) reportDEBUG("  ", "SCANNER", t->toString());
-            reportDEBUG("  ", "SCANNER", " Total tokens: " + std::to_string(t_tokens));
-            return t;                    // When Scanner complete, will print number of tokens
-        } else if (isdigit(charBuff)) {
-            int dot = 0;
-            int EEE = 0;
-            int ender = 0;
-            do {
-                lexeme += charBuff;
-                charBuff = getChar();
-                switch (charBuff) {
+            reportDEBUG("  ", "SCANNER", " Total tokens: " + std::to_string(t_tokens));     // Returns token count DM
+            return t;
+        } else if (isdigit(charBuff)) {         // TODO Break up isdigit, isalpha, & issymbol into functions
+            int dot = 0;           // Counter for '.' DM
+            int EEE = 0;           // Counter for 'E' DM
+            int ender = 0;         // Trigger for exiting state DM
+            do {                                                            // Following was added by DM
+                lexeme += charBuff;                                         // Previous character is good
+                charBuff = getChar();                                       // Load charater into lookahead
+                switch (charBuff) {                                         // Testing the lookahead buffer
                     case '.':
-                        if (dot > 0) {
-                            dot++;
-                            ender++;
-                            reportWARNING("  ", " Two . in one number");
-                            t = new TCtoken(NUMBER, lexeme);
-                        } else {
-                            dot++;
-                            lexeme += charBuff;
-                        }
-                        charBuff = getChar();
-                        if (isalpha(charBuff)) {
-                            lexeme += '0';
-                            ender = 1;
+                        if (dot > 0) {                                      // There has been a '.' in current token
+                            dot++;                                          // Update counter for number of '.'
+                            ender++;                                        // Triggers Error: token is complete DM
+                            reportWARNING("  ", " Two . in one number");    // Soft Exception DM
+                            t = new TCtoken(NUMBER, lexeme);                // New token
+                        } else {                                            // First '.' in current token
+                            dot++;                                          // Update counter for number of '.'
+                            lexeme += charBuff;                             // Lookahead buffer is safe; Continue
+                        }                                                   // Before exiting, make sure next char safe
+                        charBuff = getChar();                               // Load next char into lookahead
+                        if (isalpha(charBuff)) {                            // If lookahead is not safe
+                            lexeme += '0';                                  // Add '0' after '.'
+                            ender = 1;                                      // Exit current state
                         }
                         break;
                     case 'E':
