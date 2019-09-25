@@ -5,14 +5,20 @@
 
 namespace toyc {
 
-  class TClexer {
-  	public:
-  		TClexer(std::string);
-  		TCtoken* getToken();
-		std::string getLine();
-  		std::string getLexeme();
-  		int getLineNum();
-  		int getPos(); };
- 
+    class TClexer {
+    public:
+        TClexer(std::string);
+
+        TCtoken *getToken();
+
+        std::string getLine();
+
+        std::string getLexeme();
+
+        int getLineNum();
+
+        int getPos();
+    };
+
 }
 #endif
