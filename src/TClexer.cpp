@@ -88,8 +88,8 @@ namespace toyc
 									ender = 1; 
 								}
 				}
-		}
-			while (ender != 1);//digits
+			}
+			while (ender != 1 && isdigit(charBuff));//digits
 			t = new TCtoken(NUMBER, lexeme); 	
 		}
 		else if (isalpha(charBuff))
@@ -315,7 +315,7 @@ namespace toyc
 				case ';': 	t = new TCtoken(SEMICOLON, lexeme); charBuff = getChar(); break;
 				case ':': 	t = new TCtoken(COLON, lexeme);     charBuff = getChar(); break;
 				case ',': 	t = new TCtoken(COMMA, lexeme);     charBuff = getChar(); break;
-				case '.':   reportWARNING("  ", "Bad symble");//  charBuff = getChar(); //exit(EXIT_FAILURE);
+				case '.':   reportWARNING("  ", "Bad symble");  charBuff = getChar(); //exit(EXIT_FAILURE);
 				default: 	// shouldn't happen!
 							t = new TCtoken(NONE, lexeme);
 			}
