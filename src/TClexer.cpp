@@ -73,6 +73,7 @@ namespace toyc
 								{
 									ender++;
 									reportWARNING("  "," Two . in a row.");
+									charBuff = getChar(); break;
 								}
 								dot++;
 								lexeme += charBuff; charBuff = getChar();
