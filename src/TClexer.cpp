@@ -68,6 +68,8 @@ namespace toyc
 				lexeme += charBuff; charBuff = getChar();
 				switch (charBuff)
 				{
+					case EOFILE:	break;
+					case '\0':	break;
 					case '.':
 								if (dot == 1) 
 								{
@@ -83,9 +85,10 @@ namespace toyc
 									reportWARNING("  "," Digit follows the .");
 									charBuff = getChar(); break;
 								}
+								break;
 				}
 			}
-			while (ender != 1 || charBuff != '\0');//digits
+			while (ender != 1);//digits
 			t = new TCtoken(NUMBER, lexeme); 	
 		}
 		else if (isalpha(charBuff))
