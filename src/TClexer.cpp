@@ -61,7 +61,7 @@ namespace toyc
 		else if (isdigit(charBuff))
 		{
 			int dot = 0;
-			//int EEE = 0;
+			int EEE = 0;
 			int ender = 0;
 			do 
 			{ 
@@ -73,7 +73,7 @@ namespace toyc
 								{
 									dot++;
 									ender++;
-									reportWARNING("  "," Two . in a row.");
+									reportWARNING("  "," Two . in one number");
 									t = new TCtoken(NUMBER, lexeme); 	
 								}
 								else 
@@ -86,7 +86,26 @@ namespace toyc
 								{	
 									lexeme += '0';
 									ender = 1; 
+								} break;
+					case 'E':
+								if (EEE > 0) 
+								{
+									EEE++;
+									ender++;
+									reportWARNING("  "," Two E in one number");
+									t = new TCtoken(NUMBER, lexeme); 	
 								}
+								else 
+								{
+									EEE++;
+									lexeme += charBuff;
+								}
+								charBuff = getChar();
+								if (isalpha(charBuff)) 
+								{	
+									lexeme += '0';
+									ender = 1; 
+								} break;
 				}
 			}
 			while (ender != 1 && isdigit(charBuff));//digits
