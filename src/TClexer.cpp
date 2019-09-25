@@ -43,7 +43,7 @@ namespace toyc
 		t_tokens++;						// Add to token count
 		lexeme = ""; TCtoken* t;
 
-		if (t_tokens > 10) 
+		if (t_tokens > 100) 
 		{
 			reportWARNING("  ", "Check this token");
 			reportDEBUG("  ", "SCANNER", t->toString());
@@ -101,10 +101,10 @@ namespace toyc
 									lexeme += charBuff;
 								}
 								charBuff = getChar();
-								if (isalpha(charBuff)) 
+								if (!isdigit(charBuff)) 
 								{	
-									lexeme += '0';
-									ender = 1; 
+									if (charBuff ==  '+' || charBuff ==  '-') { lexeme += charBuff; charBuff = getChar();}
+									else if (!isdigit(charBuff)) { lexeme += '1' ;charBuff = getChar(); ender = 1;} 
 								} break;
 				}
 			}
