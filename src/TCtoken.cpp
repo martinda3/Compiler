@@ -45,8 +45,8 @@ namespace toyc
 			case ID:       		str += "(<ID>, \"" + lexeme + "\")";    	break;
 			case CHARLITERAL:	str += "(<CHARLITERAL, \"" + lexeme + "\")"; break;
 			case STRING: 		str += "(<STRING>, \"" + lexeme + "\")";    break;
-			case COMMENT: 		str += "(<COMMENT>)";          			break;
-			case BLOCK: 		str += "(<BLOCK>)";         			break;
+			case COMMENT: 		str += "(<COMMENT>)";						break;
+			case BLOCK: 		str += "(<BLOCK>)";							break;
 			case LPAREN: 		str += "(<LPAREN>, \"" + lexeme + "\")";    break;
 			case RPAREN: 		str += "(<RPAREN>, \"" + lexeme + "\")";    break;
 			case NOT: 			str += "(<NOT>, \"" + lexeme + "\")";       break;
@@ -57,14 +57,14 @@ namespace toyc
 			case RBRACKET: 		str += "(<RBRACKET>, \"" + lexeme + "\")";  break;
 			case COMMA: 		str += "(<COMMA>, \"" + lexeme + "\")";     break;
 			case SEMICOLON: 	str += "(<SEMICOLON>, \"" + lexeme + "\")"; break;
-			case AND: 		str += "(<AND>, \"" + lexeme + "\")";   	    break;
-			case OR: 		str += "(<OR>, \"" + lexeme + "\")";  	        break;
-			case GOTO: 		str += "(<GOTO>, \"" + lexeme + "\")";          break;
-			case SKIP: 		str += "(<SKIP>, \"" + lexeme + "\")";          break;
-			case NONE: 		str += "(<NONE>, \"" + lexeme + "\")";          break;
-			case EOFILE: 	str += "(<EOFILE>)";          				break;
-			case THEN:      	str += "(<THEN>, \"" + lexeme + "\")";      break;
-			default:        	str += "[error token]";        			break;
+			case AND:	 		str += "(<AND>, \"" + lexeme + "\")";   	break;
+			case OR:			str += "(<OR>, \"" + lexeme + "\")";		break;
+			case GOTO:			str += "(<GOTO>, \"" + lexeme + "\")";		break;
+			case SKIP:	 		str += "(<SKIP>, \"" + lexeme + "\")";		break;
+			case NONE:			str += "(<NONE>, \"" + lexeme + "\")";		break;
+			case EOFILE:		str += "(<EOFILE>)";						break;
+			case THEN:      	str += "(<THEN>, \"" + lexeme + "\")";		break;
+			default:        	str += "[error token]";						break;
 		}
 		return str;
 	}

@@ -60,39 +60,27 @@ namespace toyc
 		}
 		else if (isdigit(charBuff))
 		{
-			do { lexeme += charBuff; charBuff = getChar(); }
-			while (isdigit(charBuff));//digits
-			if (charBuff == '.')
-			{//optional_fraction
+			int dot = 0;
+			//int EEE = 0;
+			int ender = 0;
+			do 
+			{ 
 				lexeme += charBuff; charBuff = getChar();
-				if (!isdigit(charBuff))
+				switch (charBuff)
 				{
-					reportWARNING("  ",". cannot be follot be a non-digit ignoring .");
-					t = new TCtoken(NUMBER, lexeme); charBuff = getChar();
+					case '.':
+								if (dot == 1) 
+								{
+									ender++;
+									reportWARNING("  "," Two . in a row.");
+								}
+								dot++;
+								lexeme += charBuff; charBuff = getChar();
+								if (!isdigit(charBuff)) { ender = 1; }
 				}
-				
-				do { lexeme += charBuff; charBuff = getChar(); }
-				while (isdigit(charBuff));
 			}
-			if (charBuff == '.')
-			{
-				reportWARNING("  ", ". cannot be followed by .");
-				charBuff = getChar();
-			}	
-			if (charBuff == 'E')
-			{//optional_exponent
-				lexeme += charBuff; charBuff = getChar();
-				if (charBuff == '+' || charBuff == '-' || isdigit(charBuff))
-				{
-					lexeme += charBuff; charBuff = getChar();
-				}
-				if (!isdigit(charBuff))
-					reportWARNING("  ", "illegal character ignored 1");
-					//reportWARNING("","illegal character '"+charBuff+"' ignored");
-				do { lexeme += charBuff; charBuff = getChar(); }
-				while (isdigit(charBuff));
-			}
-			t = new TCtoken(NUMBER, lexeme);
+			while (ender != 1 && isdigit(charBuff));//digits
+			t = new TCtoken(NUMBER, lexeme); 	
 		}
 		else if (isalpha(charBuff))
 		{
@@ -317,7 +305,7 @@ namespace toyc
 				case ';': 	t = new TCtoken(SEMICOLON, lexeme); charBuff = getChar(); break;
 				case ':': 	t = new TCtoken(COLON, lexeme);     charBuff = getChar(); break;
 				case ',': 	t = new TCtoken(COMMA, lexeme);     charBuff = getChar(); break;
-				case '.':   reportWARNING("  ", "Bad symble");  exit(EXIT_FAILURE);
+				case '.':   reportWARNING("  ", "Bad symble");  charBuff = getChar(); //exit(EXIT_FAILURE);
 				default: 	// shouldn't happen!
 							t = new TCtoken(NONE, lexeme);
 			}
@@ -346,7 +334,6 @@ namespace toyc
 			}
 			if (isInAlphabet(ch) || isspace(ch)) break;
 			reportWARNING("  ", "illegal character ignored 2");
-			//reportWARNING("","illegal character '"+line[pos]+"' ignored")
 			pos++;
 		}
 		while (true);
@@ -356,21 +343,10 @@ namespace toyc
 	std::string getNextLine()
 	{
 		std::string line;
-		std::string buff;
-		pos = 0; lineNum++;
-		if (lineNum <= 9)
-		{
-			buff = "  ";
-		}
-		else if (lineNum < 1000)
-		{
-			buff = " ";
-		}
-		buff = buff + std::to_string(lineNum) + ": ";
 		std::getline(infile, line);
+		pos = 0; lineNum++;
 		line = line + " ";
-		buff = buff + line;
-		//if (verbose) reportDEBUG("  ", " input ",lineNum+ "" +buff);
+		//if (verbose) reportDEBUG("  ", " INPUT ",lineNum+ "" +line);
 		return line;
 	}
 

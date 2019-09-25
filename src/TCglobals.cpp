@@ -14,6 +14,6 @@ namespace toyc
 
 	bool verbose = false;
 
-	void turnVerboseOn() { verbose = true; }
+	void turnVerboseOn()  { verbose = true; }
 	void turnVerboseOff() { verbose = false; }
 }

@@ -29,35 +29,36 @@ int main(int argc, char* argv[])
 	}
 }
 
+
 void processCommandLine(int argc, char* argv[])
 {
 	switch (argc)
 	{
 		case 1:
-			printUsageMessage();
-			break;
+				printUsageMessage();
+				break;
 		case 2:
-			if (argv[1][0] != '-')
-			{
-				inputFileName = argv[1];
-				turnVerboseOff();
-			}
-			else
-			{
-				printUsageMessage();
-			}
-			break;
+				if (argv[1][0] != '-')
+				{
+					inputFileName = argv[1];
+					turnVerboseOff();
+				}
+				else
+				{
+					printUsageMessage();
+				}
+				break;
 		case 3:
-			if (argv[1][0] == '-' && argv[1][1] == 'v')
-			{
-				turnVerboseOn();
-				inputFileName = argv[2];
-			}
-			else
-			{
-				printUsageMessage();
-			}
-			break;
+				if (argv[1][0] == '-' && argv[1][1] == 'v')
+				{
+					turnVerboseOn();
+					inputFileName = argv[2];
+				}
+				else
+				{
+					printUsageMessage();
+				}
+				break;
 		default: printUsageMessage();
 	}
 }
@@ -65,6 +66,6 @@ void processCommandLine(int argc, char* argv[])
 void printUsageMessage()
 {
 	std::cout << "Usage: tc [-v] input_file" << std::endl;
-	std::cout << "  where -v means verbose output" << std::endl;
+	std::cout << "Where -v means verbose output" << std::endl;
 }
 

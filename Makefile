@@ -98,7 +98,7 @@ fails:
 	@echo ". . . . . . . . .";
 	@echo " #6"  $(TESTDIR)/six_1.tc "...";
 	$(TARGET) -v $(TESTDIR)/six_1.tc
-	@echo "  [CHECKER]  Total tokens: 1";
+	@echo "  [CHECKER]  Total tokens: 7";
 	@echo ". . . . . . . . .";
 
 .PHONY: clean
