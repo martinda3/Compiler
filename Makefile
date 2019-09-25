@@ -97,8 +97,23 @@ fails:
 	$(MAKE) $(TARGET)
 	@echo ". . . . . . . . .";
 	@echo " #6"  $(TESTDIR)/six_1.tc "...";
-	$(TARGET) -v $(TESTDIR)/six_1.tc
+	$(TARGET) $(TESTDIR)/six_1.tc
 	@echo "  [CHECKER]  Total tokens: 7";
 	@echo ". . . . . . . . .";
+	@echo " #6"  $(TESTDIR)/six_2.tc "...";
+	$(TARGET) $(TESTDIR)/six_2.tc
+	@echo "  [CHECKER]  Total tokens: 4";
+	@echo ". . . . . . . . .";
+	@echo " #6"  $(TESTDIR)/six_3.tc "...";
+	$(TARGET) $(TESTDIR)/six_3.tc
+	@echo "  [CHECKER]  Total tokens: 4";
+	@echo ". . . . . . . . .";
+	@echo " #6"  $(TESTDIR)/six_4.tc "...";
+	$(TARGET) $(TESTDIR)/six_4.tc
+	@echo "  [CHECKER]  Total tokens: 6";
+	@echo ". . . . . . . . .";
+
+
+
 
 .PHONY: clean
