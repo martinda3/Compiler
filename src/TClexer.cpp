@@ -43,7 +43,7 @@ namespace toyc
 		t_tokens++;						// Add to token count
 		lexeme = ""; TCtoken* t;
 
-		if (t_tokens > 1000) 
+		if (t_tokens > 10) 
 		{
 			reportWARNING("  ", "Check this token");
 			reportDEBUG("  ", "SCANNER", t->toString());
@@ -69,21 +69,24 @@ namespace toyc
 				switch (charBuff)
 				{
 					case '.':
-								if (dot == 1) 
+								if (dot > 0) 
 								{
+									dot++;
+									ender++;
 									reportWARNING("  "," Two . in a row.");
-									charBuff = getChar(); break;
-									ender++;
+									t = new TCtoken(NUMBER, lexeme); 	
 								}
-								dot++;
-								lexeme += charBuff; charBuff = getChar();
-								if (!isdigit(charBuff)) 
-								{ 
-									reportWARNING("  "," Digit follows the .");
-									charBuff = getChar(); break;
-									ender++;
+								else 
+								{
+									dot++;
+									lexeme += charBuff;
 								}
-								break;	
+								charBuff = getChar();
+								if (isalpha(charBuff)) 
+								{	
+									lexeme += '0';
+									ender = 1; 
+								}
 				}
 		}
 			while (ender != 1);//digits
