@@ -68,26 +68,24 @@ namespace toyc
 				lexeme += charBuff; charBuff = getChar();
 				switch (charBuff)
 				{
-					case EOFILE:	break;
-					case '\0':	break;
 					case '.':
 								if (dot == 1) 
 								{
-									ender++;
 									reportWARNING("  "," Two . in a row.");
 									charBuff = getChar(); break;
+									ender++;
 								}
 								dot++;
 								lexeme += charBuff; charBuff = getChar();
 								if (!isdigit(charBuff)) 
 								{ 
-									ender++;
 									reportWARNING("  "," Digit follows the .");
 									charBuff = getChar(); break;
+									ender++;
 								}
-								break;
+								break;	
 				}
-			}
+		}
 			while (ender != 1);//digits
 			t = new TCtoken(NUMBER, lexeme); 	
 		}
@@ -314,7 +312,7 @@ namespace toyc
 				case ';': 	t = new TCtoken(SEMICOLON, lexeme); charBuff = getChar(); break;
 				case ':': 	t = new TCtoken(COLON, lexeme);     charBuff = getChar(); break;
 				case ',': 	t = new TCtoken(COMMA, lexeme);     charBuff = getChar(); break;
-				case '.':   reportWARNING("  ", "Bad symble");  charBuff = getChar(); //exit(EXIT_FAILURE);
+				case '.':   reportWARNING("  ", "Bad symble");//  charBuff = getChar(); //exit(EXIT_FAILURE);
 				default: 	// shouldn't happen!
 							t = new TCtoken(NONE, lexeme);
 			}
