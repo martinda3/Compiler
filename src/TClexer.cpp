@@ -71,21 +71,25 @@ namespace toyc
 					case '.':
 								if (dot == 1) 
 								{
+									ender++;
 									reportWARNING("  "," Two . in a row.");
+									t = new TCtoken(NUMBER, lexeme); 	
 									charBuff = getChar(); break;
-									ender++;
 								}
-								dot++;
-								lexeme += charBuff; charBuff = getChar();
-								if (!isdigit(charBuff)) 
-								{ 
-									reportWARNING("  "," Digit follows the .");
-									charBuff = getChar(); break;
-									ender++;
+								else
+								{
+									dot++;
+									lexeme += charBuff; charBuff = getChar();
+									if (!isdigit(charBuff)) 
+									{ 
+										reportWARNING("  "," Digit follows the .");
+										charBuff = getChar();
+										ender++; break;
+									}		
 								}
 								break;	
 				}
-		}
+			}
 			while (ender != 1);//digits
 			t = new TCtoken(NUMBER, lexeme); 	
 		}
