@@ -51,7 +51,7 @@ namespace toyc {
         lexeme = "";
         TCtoken *t;
         if (t_tokens > 100) {                                       // Breaks on infinite loops DM
-            reportWARNING("  ", "Check this token");                // Returns problematic token DM
+            reportWARNING("  ", " System: More than 100 tokens.");   // Returns problematic token DM
             reportDEBUG("  ", "SCANNER", t->toString());
             exit(EXIT_FAILURE);
         }
@@ -60,7 +60,7 @@ namespace toyc {
         if (charBuff == EOFCHAR) {
             t = new TCtoken(EOFILE);
             if (verbose) reportDEBUG("  ", "SCANNER", t->toString());
-            reportDEBUG("  ", "SCANNER", " Total tokens: " + std::to_string(t_tokens));     // Returns token count DM
+            reportDEBUG("  ", "COUNTER", " Total tokens: " + std::to_string(t_tokens));     // Returns token count DM
             return t;
         } else if (isdigit(charBuff)) {         // TODO Break up isdigit, isalpha, & issymbol into functions
             int dot = 0;           // Counter for '.' DM
@@ -74,7 +74,7 @@ namespace toyc {
                         if (dot > 0) {                                      // There has been a '.' in current token
                             dot++;                                          // Update counter for number of '.'
                             ender++;                                        // Triggers Error: token is complete DM
-                            reportWARNING("  ", " Two . in one number");    // Soft Exception DM
+                            reportWARNING("  ", " Semantic: A number cannot have two .'s");    // Soft Exception DM
                             t = new TCtoken(NUMBER, lexeme);                // New token
                         } else {                                            // First '.' in current token
                             dot++;                                          // Update counter for number of '.'
@@ -90,7 +90,7 @@ namespace toyc {
                         if (EEE > 0) {
                             EEE++;
                             ender++;
-                            reportWARNING("  ", " Two E in one number");
+                            reportWARNING("  ", " Semantic: A number cannot have two E's");
                             t = new TCtoken(NUMBER, lexeme);
                         } else {
                             EEE++;
@@ -184,11 +184,11 @@ namespace toyc {
                     t = new TCtoken(RBRACKET, lexeme);
                     charBuff = getChar();
                     break;
-                case '{':                                                   //
+                case '{':                                                   // New DM
                     t = new TCtoken(LCURLY, lexeme);
                     charBuff = getChar();
                     break;
-                case '}':                                                    //
+            case '}':                                                       // New DM
                     t = new TCtoken(RCURLY, lexeme);
                     charBuff = getChar();
                     break;
@@ -200,7 +200,7 @@ namespace toyc {
                     t = new TCtoken(MULOP, lexeme);
                     charBuff = getChar();
                     break;
-                case '/':                                                   // New DM
+                case '/':                                                   // New symbol DM
                     charBuff = getChar();
                     if (charBuff == '/') {                                  // If lookahead has a '/' -> inline comment
                         int temp = lineNum;                                 // Save value of current line
@@ -210,30 +210,30 @@ namespace toyc {
                         t = new TCtoken(COMMENT);                           // after succesfull newline return token
                         charBuff = getChar();       // TODO Check if comment should happen before or after a newline
                         break;
-                    } else if (charBuff == '*') {                           // Block c
+                    } else if (charBuff == '*') {                           // Block Commet
                         while (true) {
-                            charBuff = getChar();
-                            if (charBuff == EOFCHAR) {
-                                reportWARNING("  ", "Block Comment Error");
-                                exit(EXIT_FAILURE);
+                            charBuff = getChar();                           // Load lookahead untill a '*'
+                            if (charBuff == EOFCHAR) {                      // Error handling for EOF
+                                reportWARNING("  ", " Syntax: Missing */ for Block Comment");
+                                //exit(EXIT_FAILURE);                         // Hard exception
                             }
-                            if (charBuff == '*') {
-                                charBuff = getChar();
-                                if (charBuff == '/') {
-                                    t = new TCtoken(BLOCK);
+                            if (charBuff == '*') {                          // If '*'
+                                charBuff = getChar();                       // Load lookahead again
+                                if (charBuff == '/') {                      // If '/' then Block Comment
+                                    t = new TCtoken(BLOCK);                 // Return new token
                                     charBuff = getChar();
                                     break;
-                                } else { continue; }
+                                } else { continue; }                        // Keep loading lookahead
                             }
                         }
                         break;
                     } else {
-                        t = new TCtoken(DIVOP, lexeme);
+                        t = new TCtoken(DIVOP, lexeme);                     // If not Comment of Block Comment, DIVOP
                         charBuff = getChar();
                         break;
                     }
                     break;
-                case '<':
+                case '<':                                                   // Added logic for <= DM
                     charBuff = getChar();
                     if (charBuff == '=') {
                         lexeme += charBuff;
@@ -243,7 +243,7 @@ namespace toyc {
                     } else
                         t = new TCtoken(RELOP, lexeme);
                     break;
-                case '|':
+                case '|':                                                   // Checks for two || consecutively
                     charBuff = getChar();
                     if (charBuff == '|') {
                         lexeme += charBuff;
@@ -251,8 +251,8 @@ namespace toyc {
                         charBuff = getChar();
                         break;
                     } else {
-                        reportWARNING("  ", "Missing an |");
-                        exit(EXIT_FAILURE);
+                        reportWARNING("  ", " Syntax:  Missing | for OR  operator");
+                        charBuff = getChar();
                     }
                 case '&':
                     charBuff = getChar();
@@ -260,10 +260,11 @@ namespace toyc {
                         lexeme += charBuff;
                         t = new TCtoken(AND, lexeme);
                         charBuff = getChar();
+                        lexeme = "";
                         break;
                     } else {
-                        reportWARNING("  ", "Missing an &");
-                        exit(EXIT_FAILURE);
+                        reportWARNING("  ", " Syntax:  Missing & for AND operator");
+                        charBuff = getChar();
                     }
                 case '>':
                     charBuff = getChar();
@@ -319,8 +320,8 @@ namespace toyc {
                             lexeme += charBuff;
                             charBuff = getChar();
                             if (charBuff == EOFCHAR) {
-                                reportWARNING("  ", "String Error");
-                                exit(EXIT_FAILURE);
+                                reportWARNING("  ", " Syntax:  Missing \" for STRING");
+                                charBuff = getChar();
                             }
                         }
                         lexeme += charBuff;
@@ -340,7 +341,7 @@ namespace toyc {
                         charBuff = getChar();
                         if (charBuff != '\'') {
                             reportWARNING("  ", "Char literal Error");
-                            exit(EXIT_FAILURE);
+                            charBuff = getChar();
                         } else {
                             lexeme += charBuff;
                             t = new TCtoken(CHARLITERAL, lexeme);
@@ -357,7 +358,7 @@ namespace toyc {
                         break;
                     } else {
                         reportWARNING("  ", "\\ Error");
-                        exit(EXIT_FAILURE);
+                        charBuff = getChar();
                     }
                 case ';':
                     t = new TCtoken(SEMICOLON, lexeme);
@@ -371,11 +372,9 @@ namespace toyc {
                     t = new TCtoken(COMMA, lexeme);
                     charBuff = getChar();
                     break;
-                case '.':
-                    reportWARNING("  ", "Bad symble");
-                    charBuff = getChar(); //exit(EXIT_FAILURE);
                 default:    // shouldn't happen!
                     t = new TCtoken(NONE, lexeme);
+                    break;
             }
         }
         if (verbose) reportDEBUG("  ", "SCANNER", t->toString());
@@ -396,12 +395,18 @@ namespace toyc {
             if (infile.eof()) return EOFCHAR;
             if (line.empty() || pos > line.length()) line = getNextLine();
             char ch = line[pos];
+            if ((ch == '.')) {
+                if (isspace(line[pos + 1])) {
+                    reportWARNING("  ", " Scanner: Illegal Character. Ignoring");
+                    pos++;
+                }
+            }
             if (((ch == '/') && (line[pos + 1] == '/')) || (ch == '\0')) {
                 line = getNextLine();
                 ch = line[pos];
             }
             if (isInAlphabet(ch) || isspace(ch)) break;
-            reportWARNING("  ", "illegal character ignored 2");
+            reportWARNING("  ", " Scanner: Illegal Character. Ignoring");
             pos++;
         } while (true);
         return line[pos++];
