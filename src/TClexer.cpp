@@ -77,10 +77,15 @@ namespace toyc
 								}
 								dot++;
 								lexeme += charBuff; charBuff = getChar();
-								if (!isdigit(charBuff)) { ender = 1; }
+								if (!isdigit(charBuff)) 
+								{ 
+									ender++;
+									reportWARNING("  "," Digit follows the .");
+									charBuff = getChar(); break;
+								}
 				}
 			}
-			while (ender != 1 && isdigit(charBuff));//digits
+			while (ender != 1 || charBuff != '\0');//digits
 			t = new TCtoken(NUMBER, lexeme); 	
 		}
 		else if (isalpha(charBuff))
