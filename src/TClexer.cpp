@@ -86,7 +86,7 @@ namespace toyc {
                             ender = 1;                                      // Exit current state
                         }
                         break;
-                    case 'E':
+                    case 'E':                                               // The following is the same approch as '.'
                         if (EEE > 0) {
                             EEE++;
                             ender++;
@@ -102,20 +102,20 @@ namespace toyc {
                                 lexeme += charBuff;
                                 charBuff = getChar();
                             } else if (!isdigit(charBuff)) {
-                                lexeme += '1';
+                                lexeme += '1';                              // Add a '1' after the 'E' for correctness
                                 charBuff = getChar();
                                 ender = 1;
                             }
                         }
                         break;
                 }
-            } while (ender != 1 && isdigit(charBuff));//digits
+            } while (ender != 1 && isdigit(charBuff));                      // TODO Fix this. It is functional but ugly
             t = new TCtoken(NUMBER, lexeme);
         } else if (isalpha(charBuff)) {
             do {
                 lexeme += charBuff;
-                charBuff = getChar();
-            } while (isalpha(charBuff) || isdigit(charBuff));        // Added Keywords
+                charBuff = getChar();                                       // New/Modified keywords added by DM
+            } while (isalpha(charBuff) || isdigit(charBuff));               // Largely unchanged; Added/Modified tokens
             if (tokenChecker(lexeme, std::string("WRITE")))
                 t = new TCtoken(WRITE, lexeme);
             else if (tokenChecker(lexeme, "READ"))
@@ -167,28 +167,28 @@ namespace toyc {
             else { t = new TCtoken(ID, lexeme); }
         } else {
             lexeme += charBuff;
-            switch (charBuff) {
+            switch (charBuff) {                                             // Largely unchaged; Added other symbols DM
                 case '+':
                     t = new TCtoken(ADDOP, lexeme);
                     charBuff = getChar();
                     break;
-                case '%':
+                case '%':                                                   // New DM
                     t = new TCtoken(MODOP, lexeme);
                     charBuff = getChar();
                     break;
-                case '[':
+                case '[':                                                   // New
                     t = new TCtoken(LBRACKET, lexeme);
                     charBuff = getChar();
                     break;
-                case ']':
+                case ']':                                                   // New
                     t = new TCtoken(RBRACKET, lexeme);
                     charBuff = getChar();
                     break;
-                case '{':
+                case '{':                                                   //
                     t = new TCtoken(LCURLY, lexeme);
                     charBuff = getChar();
                     break;
-                case '}':
+                case '}':                                                    //
                     t = new TCtoken(RCURLY, lexeme);
                     charBuff = getChar();
                     break;
@@ -200,17 +200,17 @@ namespace toyc {
                     t = new TCtoken(MULOP, lexeme);
                     charBuff = getChar();
                     break;
-                case '/':
+                case '/':                                                   // New DM
                     charBuff = getChar();
-                    if (charBuff == '/') {
-                        int temp = lineNum;
-                        while (temp == lineNum) {
-                            charBuff = getChar();
+                    if (charBuff == '/') {                                  // If lookahead has a '/' -> inline comment
+                        int temp = lineNum;                                 // Save value of current line
+                        while (temp == lineNum) {                           // Wait till stare of newline
+                            charBuff = getChar();                           // TODO Check if irrelevant
                         }
-                        t = new TCtoken(COMMENT);
-                        charBuff = getChar();
+                        t = new TCtoken(COMMENT);                           // after succesfull newline return token
+                        charBuff = getChar();       // TODO Check if comment should happen before or after a newline
                         break;
-                    } else if (charBuff == '*') {
+                    } else if (charBuff == '*') {                           // Block c
                         while (true) {
                             charBuff = getChar();
                             if (charBuff == EOFCHAR) {
