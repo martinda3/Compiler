@@ -1,3 +1,10 @@
+/*
+   EGRE 591 Compiler Construction
+   Created By: Dan Relser
+   Modifed By: Dajion Martin & Charles Dieztel
+
+ */
+
 #include <iostream>
 #include <fstream>
 
@@ -10,14 +17,13 @@
 namespace toyc {
 
     static char charBuff;
-    static std::string line;
+    static char EOFCHAR = '\0';
     static int pos;
     static int lineNum = 0;
+    static int t_tokens = 0;            // Counts Total number to tokens DM
+    static std::string line;
     static std::string lexeme = "";
-    static char EOFCHAR = '\0';        // arbitrary non-printing char
     static std::ifstream infile;
-
-    static int t_tokens = 0;            // New Counts Total number to tokens
 
     char getChar();
 
@@ -25,8 +31,8 @@ namespace toyc {
 
     bool isInAlphabet(char);
 
-
     bool tokenChecker(std::string, std::string);
+
 
     TClexer::TClexer(std::string fname) {
         inputFileName = fname;
@@ -41,11 +47,11 @@ namespace toyc {
     }
 
     TCtoken *TClexer::getToken() {
-        t_tokens++;                        // Add to token count
+        t_tokens++;                                                 // Token counter DM
         lexeme = "";
         TCtoken *t;
-        if (t_tokens > 100) {
-            reportWARNING("  ", "Check this token");
+        if (t_tokens > 100) {                                       // Breaks on infinite loops DM
+            reportWARNING("  ", "Check this token");                // Returns problematic token
             reportDEBUG("  ", "SCANNER", t->toString());
             exit(EXIT_FAILURE);
         }
@@ -385,7 +391,7 @@ namespace toyc {
 
     int TClexer::getLineNum() { return lineNum; }
 
-    char getChar() {
+    char getChar() {                            // Handles getting the next character
         do {
             if (infile.eof()) return EOFCHAR;
             if (line.empty() || pos > line.length()) line = getNextLine();
@@ -401,19 +407,19 @@ namespace toyc {
         return line[pos++];
     }
 
-    std::string getNextLine() {
+    std::string getNextLine() {                                     // Gets the next line in *.tc file
         std::string line;
         std::getline(infile, line);
         pos = 0;
         lineNum++;
         line = line + " ";
-        //if (verbose) reportDEBUG("  ", " INPUT ",lineNum+ "" +line);
+        //if (verbose) reportDEBUG("  ", " INPUT ",lineNum+ "" +line);          // Usure what this does DM
         return line;
     }
 
-    bool isInAlphabet(char ch) {
-        return (isalpha(ch) || isdigit(ch) || (ch == '%') ||
-                (ch == '+') || (ch == '-') || (ch == '*') || (ch == '/') ||
+    bool isInAlphabet(char ch) {                                    // Handles the input stream DM
+        return (isalpha(ch) || isdigit(ch) || (ch == '%') ||        // Added other symboles that are allowable DM
+                (ch == '+') || (ch == '-') || (ch == '*') || (ch == '/') ||     // TODO: Make an issymble(char) fuction
                 (ch == '<') || (ch == '>') || (ch == '(') || (ch == ')') ||
                 (ch == '=') || (ch == ';') || (ch == ':') || (ch == '!') ||
                 (ch == '[') || (ch == ']') || (ch == '{') || (ch == '}') ||
@@ -421,14 +427,13 @@ namespace toyc {
                 (ch == '\\') || (ch == '\"') || (ch == '\''));
     }
 
-    bool compareChar(char &c1, char &c2) {
-        if (isupper(c1)) return false;
+    bool compareChar(char &c1, char &c2) {                          // Compares individual chars, takes into account
+        if (isupper(c1)) return false;                              // if a char is Uppercase or Lowercase DM
         else if (c1 == tolower(c2)) return true;
-        //else if (std::toupper(c1) == std::toupper(c2)) return true;
         return false;
     }
 
-    bool tokenChecker(std::string str1, std::string str2) {
+    bool tokenChecker(std::string str1, std::string str2) {         //  Compares lexeme to token DM
         return ((str1.size() == str2.size()) &&
                 std::equal(str1.begin(), str1.end(), str2.begin(), &compareChar));
     }

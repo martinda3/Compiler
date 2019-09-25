@@ -1,3 +1,11 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Created By: Dan Relser
+   Modified By: Dajion Martin
+
+ */
+
 #include <iostream>
 
 #include "TCtoken.h"
@@ -5,23 +13,23 @@
 
 namespace toyc {
 
-    TCtoken::TCtoken() { tokenType = NONE; }
+    TCtoken::TCtoken() { tokenType = NONE; }                   // Returns if Error
 
-    TCtoken::TCtoken(int t) {
+    TCtoken::TCtoken(int t) {                                   // Returns token without lexeme
         tokenType = t;
         lexeme = "";
     }
 
-    TCtoken::TCtoken(int t, std::string s) {
+    TCtoken::TCtoken(int t, std::string s) {                    // Returns token with lexeme
         tokenType = t;
         lexeme = s;
     }
 
-    int TCtoken::getTokenType() { return tokenType; }
+    int TCtoken::getTokenType() { return tokenType; }           // Returns token object
 
-    std::string TCtoken::getLexeme() { return lexeme; }
+    std::string TCtoken::getLexeme() { return lexeme; }         // Returns token object's lexeme
 
-    std::string TCtoken::toString() {
+    std::string TCtoken::toString() {                           // These are the unquie token objects & token's type
         std::string str = "";
         switch (tokenType) {
             case DO:
@@ -106,10 +114,10 @@ namespace toyc {
                 str += "(<STRING>, \"" + lexeme + "\")";
                 break;
             case COMMENT:
-                str += "(<COMMENT>)";
+                str += "(<COMMENT>)";                               // Does not return a lexeme
                 break;
             case BLOCK:
-                str += "(<BLOCK>)";
+                str += "(<BLOCK>)";                                 // Does not return a lexeme
                 break;
             case LPAREN:
                 str += "(<LPAREN>, \"" + lexeme + "\")";

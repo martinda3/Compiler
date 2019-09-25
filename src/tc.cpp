@@ -1,5 +1,10 @@
-#include <iostream>
+/*
+   EGRE 591 Compiler Construction
+   By: Dajion Martin & Charles Dietzel
 
+ */
+
+#include <iostream>
 #include "TCtoken.h"
 #include "TClexer.h"
 #include "TCglobals.h"

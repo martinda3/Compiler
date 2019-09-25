@@ -1,6 +1,13 @@
+/*
+   EGRE 591 Compiler Construction
+   By: Dajion Martin & Charles Dietzel
+
+ */
+
 #include <iostream>
 
 namespace toyc {
+
     std::string inputFileName;
     std::string outputClassFileName;
     std::string targetFileName;
