@@ -1,4 +1,5 @@
 /*
+
    EGRE 591 Compiler Construction
    Created By: Dan Relser
    Modifed By: Dajion Martin & Charles Dieztel
@@ -18,12 +19,13 @@ namespace toyc {
 
     static char charBuff;
     static char EOFCHAR = '\0';
-    static int pos;
+    static unsigned int pos;                                                // Modified to compiletime warning
     static int lineNum = 0;
-    static int t_tokens = 0;            // Counts Total number to tokens DM
+    static int t_tokens = 0;                                                // Counts Total number to tokens DM
     static std::string line;
     static std::string lexeme = "";
     static std::ifstream infile;
+    int lineTemp;
 
     char getChar();
 
@@ -47,12 +49,12 @@ namespace toyc {
     }
 
     TCtoken *TClexer::getToken() {
-        t_tokens++;                                                 // Token counter DM
+        t_tokens++;                                                         // Token counter DM
         lexeme = "";
         TCtoken *t;
-        if (t_tokens > 100) {                                       // Breaks on infinite loops DM
-            reportWARNING("  ", " System: More than 100 tokens.");   // Returns problematic token DM
-            reportDEBUG("  ", "SCANNER", t->toString());
+        if (t_tokens > 1000) {                                              // Breaks on infinite loops DM
+            reportWARNING("  ", " System: More than 100 tokens.");          // Returns problematic token DM
+            //reportDEBUG("  ", "SCANNER", t->toString());					// Used for debugging
             exit(EXIT_FAILURE);
         }
 
@@ -60,12 +62,12 @@ namespace toyc {
         if (charBuff == EOFCHAR) {
             t = new TCtoken(EOFILE);
             if (verbose) reportDEBUG("  ", "SCANNER", t->toString());
-            reportDEBUG("  ", "COUNTER", " Total tokens: " + std::to_string(t_tokens));     // Returns token count DM
+            if (verbose) reportDEBUG("  ", "COUNTER", " Total tokens: " + std::to_string(t_tokens));	// Returns token count DM
             return t;
-        } else if (isdigit(charBuff)) {         // TODO Break up isdigit, isalpha, & issymbol into functions
-            int dot = 0;           // Counter for '.' DM
-            int EEE = 0;           // Counter for 'E' DM
-            int ender = 0;         // Trigger for exiting state DM
+        } else if (isdigit(charBuff)) {                     // TODO Break up isdigit, isalpha, & issymbol into functions
+            int dot = 0;                                                    // Counter for '.' DM
+            int EEE = 0;                                                    // Counter for 'E' DM
+            int ender = 0;                                                  // Trigger for exiting state DM
             do {                                                            // Following was added by DM
                 lexeme += charBuff;                                         // Previous character is good
                 charBuff = getChar();                                       // Load charater into lookahead
@@ -188,7 +190,7 @@ namespace toyc {
                     t = new TCtoken(LCURLY, lexeme);
                     charBuff = getChar();
                     break;
-            case '}':                                                       // New DM
+                case '}':                                                   // New DM
                     t = new TCtoken(RCURLY, lexeme);
                     charBuff = getChar();
                     break;
@@ -205,17 +207,15 @@ namespace toyc {
                     if (charBuff == '/') {                                  // If lookahead has a '/' -> inline comment
                         int temp = lineNum;                                 // Save value of current line
                         while (temp == lineNum) {                           // Wait till stare of newline
-                            charBuff = getChar();                           // TODO Check if irrelevant
+                            charBuff = getChar();
                         }
                         t = new TCtoken(COMMENT);                           // after succesfull newline return token
-                        charBuff = getChar();       // TODO Check if comment should happen before or after a newline
-                        break;
+                        break;						// TODO Check if comment should happen before or after a newline
                     } else if (charBuff == '*') {                           // Block Commet
                         while (true) {
                             charBuff = getChar();                           // Load lookahead untill a '*'
                             if (charBuff == EOFCHAR) {                      // Error handling for EOF
                                 reportWARNING("  ", " Syntax: Missing */ for Block Comment");
-                                //exit(EXIT_FAILURE);                         // Hard exception
                             }
                             if (charBuff == '*') {                          // If '*'
                                 charBuff = getChar();                       // Load lookahead again
@@ -233,7 +233,7 @@ namespace toyc {
                         break;
                     }
                     break;
-                case '<':                                                   // Added logic for <= DM
+                case '<':
                     charBuff = getChar();
                     if (charBuff == '=') {
                         lexeme += charBuff;
@@ -251,9 +251,12 @@ namespace toyc {
                         charBuff = getChar();
                         break;
                     } else {
-                        reportWARNING("  ", " Syntax:  Missing | for OR  operator");
+                        reportWARNING("  ", " Syntax:  Missing | for AND operator");
+                        lexeme = "";
                         charBuff = getChar();
+                        break;
                     }
+                    break;
                 case '&':
                     charBuff = getChar();
                     if (charBuff == '&') {
@@ -266,6 +269,7 @@ namespace toyc {
                         reportWARNING("  ", " Syntax:  Missing & for AND operator");
                         charBuff = getChar();
                     }
+                    break;
                 case '>':
                     charBuff = getChar();
                     if (charBuff == '=') {
@@ -291,6 +295,7 @@ namespace toyc {
                         charBuff = getChar();
                         break;
                     }
+                    break;
                 case '(':
                     t = new TCtoken(LPAREN, lexeme);
                     charBuff = getChar();
@@ -309,6 +314,7 @@ namespace toyc {
                         t = new TCtoken(ASSIGNOP, lexeme);
                     break;
                 case '\"':
+                    lineTemp = lineNum;
                     charBuff = getChar();
                     if (charBuff == '\"') {
                         lexeme = "IS_EMPTY";
@@ -319,9 +325,10 @@ namespace toyc {
                         while (charBuff != '\"') {
                             lexeme += charBuff;
                             charBuff = getChar();
-                            if (charBuff == EOFCHAR) {
+                            if (lineNum != lineTemp) {
                                 reportWARNING("  ", " Syntax:  Missing \" for STRING");
                                 charBuff = getChar();
+                                break;
                             }
                         }
                         lexeme += charBuff;
@@ -329,6 +336,7 @@ namespace toyc {
                         charBuff = getChar();
                         break;
                     }
+                    break;
                 case '\'':
                     charBuff = getChar();
                     if (charBuff == '\'') {
@@ -349,6 +357,7 @@ namespace toyc {
                             break;
                         }
                     }
+                    break;
                 case '\\':
                     charBuff = getChar();
                     if (charBuff == 'n') {
@@ -357,9 +366,11 @@ namespace toyc {
                         charBuff = getChar();
                         break;
                     } else {
-                        reportWARNING("  ", "\\ Error");
+                        reportWARNING("  ", " Scanner: Illegal Character. Ignoring");
                         charBuff = getChar();
+                        break;
                     }
+                    break;
                 case ';':
                     t = new TCtoken(SEMICOLON, lexeme);
                     charBuff = getChar();
@@ -372,7 +383,7 @@ namespace toyc {
                     t = new TCtoken(COMMA, lexeme);
                     charBuff = getChar();
                     break;
-                default:    // shouldn't happen!
+                default:													// Should not happen
                     t = new TCtoken(NONE, lexeme);
                     break;
             }
@@ -390,7 +401,7 @@ namespace toyc {
 
     int TClexer::getLineNum() { return lineNum; }
 
-    char getChar() {                            // Handles getting the next character
+    char getChar() {														// Handles getting the next character
         do {
             if (infile.eof()) return EOFCHAR;
             if (line.empty() || pos > line.length()) line = getNextLine();
@@ -401,7 +412,7 @@ namespace toyc {
                     pos++;
                 }
             }
-            if (((ch == '/') && (line[pos + 1] == '/')) || (ch == '\0')) {
+            if (ch == '\0') {
                 line = getNextLine();
                 ch = line[pos];
             }
@@ -412,19 +423,19 @@ namespace toyc {
         return line[pos++];
     }
 
-    std::string getNextLine() {                                     // Gets the next line in *.tc file
+    std::string getNextLine() {												// Gets the next line in *.tc file
         std::string line;
         std::getline(infile, line);
         pos = 0;
         lineNum++;
         line = line + " ";
-        //if (verbose) reportDEBUG("  ", " INPUT ",lineNum+ "" +line);          // Usure what this does DM
+        //if (verbose) reportDEBUG("  ", " INPUT ",lineNum+ "" +line);		// Usure what this does DM
         return line;
     }
 
-    bool isInAlphabet(char ch) {                                    // Handles the input stream DM
-        return (isalpha(ch) || isdigit(ch) || (ch == '%') ||        // Added other symboles that are allowable DM
-                (ch == '+') || (ch == '-') || (ch == '*') || (ch == '/') ||     // TODO: Make an issymble(char) fuction
+    bool isInAlphabet(char ch) {											// Handles the input stream DM
+        return (isalpha(ch) || isdigit(ch) || (ch == '%') ||				// Added other symboles that are allowable DM
+                (ch == '+') || (ch == '-') || (ch == '*') || (ch == '/') || // TODO: Make an issymble(char) fuction
                 (ch == '<') || (ch == '>') || (ch == '(') || (ch == ')') ||
                 (ch == '=') || (ch == ';') || (ch == ':') || (ch == '!') ||
                 (ch == '[') || (ch == ']') || (ch == '{') || (ch == '}') ||
@@ -432,13 +443,13 @@ namespace toyc {
                 (ch == '\\') || (ch == '\"') || (ch == '\''));
     }
 
-    bool compareChar(char &c1, char &c2) {                          // Compares individual chars, takes into account
-        if (isupper(c1)) return false;                              // if a char is Uppercase or Lowercase DM
+    bool compareChar(char &c1, char &c2) {									// Compares individual chars, takes into account
+        if (isupper(c1)) return false;										// if a char is Uppercase or Lowercase DM
         else if (c1 == tolower(c2)) return true;
         return false;
     }
 
-    bool tokenChecker(std::string str1, std::string str2) {         //  Compares lexeme to token DM
+    bool tokenChecker(std::string str1, std::string str2) {					//  Compares lexeme to token DM
         return ((str1.size() == str2.size()) &&
                 std::equal(str1.begin(), str1.end(), str2.begin(), &compareChar));
     }

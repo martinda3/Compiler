@@ -1,6 +1,7 @@
 /*
    EGRE 591 Compiler Construction
-   By: Dajion Martin & Charles Dietzel
+   Created By: Dan Resler
+   Unmodified
 
  */
 
