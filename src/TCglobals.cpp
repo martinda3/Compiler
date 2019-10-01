@@ -8,6 +8,8 @@
 
 #include <iostream>
 
+#include "TCsymTable.h"
+
 namespace toyc
 {
 
