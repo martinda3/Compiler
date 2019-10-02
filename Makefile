@@ -36,9 +36,9 @@ clean:
 	@echo " Cleaning..."; 
 	@echo " $(RM) -r $(BUILDDIR) $(TARGET) $(SCANNER) $(PARSER)"; $(RM) -r $(BUILDDIR) $(TARGET) $(SCANNER) $(PARSER)
 
-tests:
-	$(MAKE) $(TARGET)
-	@echo "	Passed if no scanner output. For output make vests";
+part1:
+	$(MAKE) $(TARGET2)
+	@echo "	Passed if no scanner output";
 	@echo "[Test  1]"; $(TARGET) $(TESTDIR)/one.tc
 	@echo "[Test  2]"; $(TARGET) $(TESTDIR)/two.tc
 	@echo "[Test  3]"; $(TARGET) $(TESTDIR)/three.tc
@@ -59,11 +59,6 @@ tests:
 	@echo "  [CHECKER]  1 Warning";
 	@echo "[Test 18]"; $(TARGET) $(TESTDIR)/six_3.tc
 	@echo "[Test 19]"; $(TARGET) $(TESTDIR)/six_4.tc
-	@echo "All Have Succeded";
-
-
-vests:
-	$(MAKE) $(TARGET)
 	@echo "[Test  1]"; $(TARGET) -v $(TESTDIR)/one.tc
 	@echo "  [CHECKER] Correct Total: 7";
 	@echo "[Test  2]"; $(TARGET) -v $(TESTDIR)/two.tc
@@ -98,5 +93,25 @@ vests:
 	@echo "  [CHECKER] Correct Total: 4";
 	@echo "[Test 19]"; $(TARGET) -v $(TESTDIR)/six_4.tc
 	@echo "  [CHECKER] Correct Total: 6";
+	@echo "PASSED ALL TESTS FOR PART 1";
+
+part2:
+	$(MAKE) $(TARGET)
+	@echo "	Passed if no scanner output";
+	@echo "[factorial.tc]"; $(TARGET) -v $(TESTDIR)/factorial.tc
+	@echo "[test1.tc]"; $(TARGET) -v $(TESTDIR)/test1.tc
+	@echo "[test1a.tc]"; $(TARGET) -v $(TESTDIR)/test1a.tc
+	@echo "[test1b.tc]"; $(TARGET) -v $(TESTDIR)/test1b.tc
+	@echo "[test1c.tc]"; $(TARGET) -v $(TESTDIR)/test1c.tc
+	@echo "[test2.tc]"; $(TARGET) -v $(TESTDIR)/test2.tc
+	@echo "[test3.tc]"; $(TARGET) -v $(TESTDIR)/test3.tc
+	@echo "[test4.tc]"; $(TARGET) -v $(TESTDIR)/test4.tc
+	@echo "[test5.tc]"; $(TARGET) -v $(TESTDIR)/test5.tc
+	@echo "[test6.tc]"; $(TARGET) -v $(TESTDIR)/test6.tc
+	@echo "[test7.tc]"; $(TARGET) -v $(TESTDIR)/test7.tc
+	@echo "[test8.tc]"; $(TARGET) -v $(TESTDIR)/test8.tc
+	@echo "[test9.tc]"; $(TARGET) -v $(TESTDIR)/test9.tc
+	@echo "[test10.tc]"; $(TARGET) -v $(TESTDIR)/test10.tc
+	@echo "[scanTest1.tc]"; $(TARGET) -v $(TESTDIR)/scanTest1.tc
 
 .PHONY: clean

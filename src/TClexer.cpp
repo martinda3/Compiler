@@ -15,8 +15,7 @@
 #include "TCtokens.h"
 #include "TCoutput.h"
 
-namespace toyc
-{
+namespace toyc {
 
 	static char charBuff;
 	static char EOFCHAR = '\0';
@@ -144,7 +143,7 @@ namespace toyc
 				charBuff = getChar();                                       // New/Modified keywords added by DM
 			}
 			while (isalpha(charBuff) || isdigit(charBuff));               // Largely unchanged; Added/Modified tokens
-			if (tokenChecker(lexeme, std::string("WRITE")))					// The way this works is that the text for some tokens is 
+			if (tokenChecker(lexeme, std::string("WRITE")))					// The way this works is that the text for some tokens is
 				t = new TCtoken(WRITE, lexeme);								// the uppercase version of the lexeme corresponding to that
 			else if (tokenChecker(lexeme, "READ"))							// token. So to determine the correct token to return, simply
 				t = new TCtoken(READ, lexeme);								// convert the token name to lowercase and check if it is
@@ -201,7 +200,7 @@ namespace toyc
 			switch (charBuff)												// lexer to properly handle single '|' and '&' characters.
 			{																// The way it works is that if there is only
 				case '|':													// one of those characters, then it fails over to the rest of the
-					charBuff = getChar();									// state machine below. This is a bit of a hacky solution, 
+					charBuff = getChar();									// state machine below. This is a bit of a hacky solution,
 					if (charBuff == '|')									// and it doesn't work in cases where there is a '|' immediately
 					{														// followed by a '&'. However, it should be good enough for now. CD
 						lexeme += charBuff;
@@ -315,7 +314,7 @@ namespace toyc
 							break;
 						}
 						break;
-					case '<':													// Checks for < or <= CD 
+					case '<':													// Checks for < or <= CD
 						charBuff = getChar();
 						if (charBuff == '=')
 						{
@@ -510,15 +509,18 @@ namespace toyc
 	}
 
 	std::string getNextLine()
-	{												// Gets the next line in *.tc file
-		std::string line;
-		std::getline(infile, line);
-		pos = 0;
-		lineNum++;
-		line = line + " ";
-		//if (verbose) reportDEBUG("  ", " INPUT ",lineNum+ "" +line);		// Usure what this does DM
-		return line;
-	}
+    {
+        std::string line, num;
+        std::getline(infile,line);
+        line = line + " ";
+        pos = 0; lineNum++;
+        if (lineNum > 10) {num = "  ";}
+        else if (lineNum > 99) {num = " ";}
+        num += std::to_string(lineNum);
+        if (verbose) reportDEBUG("\n ","INPUT"," " + num + ": "+line);
+        //if (verbose) reportDEBUG(" ","INPUT",lineNum+": "+line);
+        return line;
+    }
 
 	bool isInAlphabet(char ch)
 	{											// Handles the input stream DM

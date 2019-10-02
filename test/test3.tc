@@ -1,0 +1,10 @@
+a1 = 1;
+b = 0;
+label0:
+if a1 <= 1000 then goto label1;
+a1 = a1 + 1;
+b = b + 1;
+goto label0;
+label1:
+write b;
+

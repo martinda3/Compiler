@@ -1,9 +1,3 @@
-/*
-   EGRE 591 Compiler Construction
-   Created By: Dan Resler
-   Unmodified
-
- */
 #include <iostream>
 
 #include "TCtoken.h"
@@ -20,20 +14,7 @@ using namespace std;
 void processCommandLine(int, char *[]);
 
 void printUsageMessage();
-/* Old code to make scanner work
-int main(int argc, char *argv[]) {
-    try {
-        processCommandLine(argc, argv);
-        TClexer *scanner = new TClexer(inputFileName);
-        int tok;
-        //turnVerboseOn();
-        while ((tok = scanner->getToken()->getTokenType()) != EOFILE);
-    }
-    catch (...) {
-        std::cerr << "ERROR: scanning failed" << std::endl;
-        exit(EXIT_FAILURE);
-    }
-}*/ New code to make Parser work
+
 int main(int argc, char *argv[]) {
     try {
         processCommandLine(argc, argv);
@@ -54,20 +35,16 @@ void processCommandLine(int argc, char *argv[]) {
             printUsageMessage();
             break;
         case 2:
-            if (argv[1][0] != '-') {
+            if (argv[1][0] != '-')
                 inputFileName = argv[1];
-                turnVerboseOff();
-            } else {
+            else
                 printUsageMessage();
-            }
             break;
         case 3:
             if (argv[1][0] == '-' && argv[1][1] == 'v') {
                 turnVerboseOn();
                 inputFileName = argv[2];
-            } else {
-                printUsageMessage();
-            }
+            } else printUsageMessage();
             break;
         default:
             printUsageMessage();
@@ -76,6 +53,6 @@ void processCommandLine(int argc, char *argv[]) {
 
 void printUsageMessage() {
     std::cout << "Usage: tc [-v] input_file" << std::endl;
-    std::cout << "Where -v means verbose output" << std::endl;
+    std::cout << "  where -v means verbose output" << std::endl;
 }
 
