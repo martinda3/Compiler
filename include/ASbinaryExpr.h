@@ -8,15 +8,15 @@ namespace toyc {
 
     class ASbinaryExpr : public ASexpr {
     public:
-        ASbinaryExpr(TCtoken*, ASexpr*, ASexpr*);
+        ASbinaryExpr(TCtoken *, ASexpr *, ASexpr *);
 
         std::string toString();
 
-        ASexpr* getOp1();
+        ASexpr *getOp1();
 
-        ASexpr* getOp2();
+        ASexpr *getOp2();
 
-        TCtoken* getOper();
+        TCtoken *getOper();
 
     private:
         TCtoken *oper;

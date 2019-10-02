@@ -5,7 +5,7 @@
 #include "TCglobals.h"
 
 namespace toyc {
-    ASifState::ASifState(ASexpr* e, int l) {
+    ASifState::ASifState(ASexpr *e, int l) {
         expression = e;
         label = l;
         setType(IFstate);

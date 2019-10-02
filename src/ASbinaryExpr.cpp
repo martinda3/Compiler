@@ -3,7 +3,7 @@
 #include "ASbinaryExpr.h"
 
 namespace toyc {
-    ASbinaryExpr::ASbinaryExpr(TCtoken* opr, ASexpr* oper1, ASexpr* oper2) {
+    ASbinaryExpr::ASbinaryExpr(TCtoken *opr, ASexpr *oper1, ASexpr *oper2) {
         oper = opr;
         op1 = oper1;
         op2 = oper2;

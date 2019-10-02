@@ -3,7 +3,7 @@
 #include "ASunaryExpr.h"
 
 namespace toyc {
-    ASunaryExpr::ASunaryExpr(TCtoken* t, ASexpr* e) {
+    ASunaryExpr::ASunaryExpr(TCtoken *t, ASexpr *e) {
         oper = t;
         expr = e;
     }

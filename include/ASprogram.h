@@ -10,7 +10,7 @@ namespace toyc {
 
     class ASprogram : public ASabstractSyntax {
     public:
-        ASprogram(std::string, ASstatement*[], int);
+        ASprogram(std::string, ASstatement *[], int);
 
         std::string toString();
 

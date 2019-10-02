@@ -13,32 +13,34 @@
 namespace toyc {
 
     void reportDEBUG(std::string prefix, std::string type, std::string message) {
-        std::cerr << prefix+"["+type+"]" + message << std::endl;
+        std::cerr << prefix + "[" + type + "]" + message << std::endl;
     }
 
     void reportWARNING(std::string prefix, std::string message) {
-        std::cerr << prefix+"%warning: " + message << std::endl;
+        std::cerr << prefix + "%warning: " + message << std::endl;
     }
 
     void reportSYNTAX_ERROR(TClexer *l, std::string message) {
-        int ln; std::string lnstr;
+        int ln;
+        std::string lnstr;
         std::string sep = ": ";
-        std::cerr << (ln=l->getLineNum()) << sep << l->getLine() << std::endl;
+        std::cerr << (ln = l->getLineNum()) << sep << l->getLine() << std::endl;
         lnstr += ln;
         std::cerr <<
                   pad(lnstr.length()) <<
-                  pad(l->getPos()+sep.length()-(l->getLexeme().length())+1) <<
-                  "^ %error: " <<  message << std::endl;
+                  pad(l->getPos() + sep.length() - (l->getLexeme().length()) + 1) <<
+                  "^ %error: " << message << std::endl;
     }
 
-    void reportSEMANTIC_ERROR(TClexer* l,std::string message) {
-        int ln; std::string lnstr;
+    void reportSEMANTIC_ERROR(TClexer *l, std::string message) {
+        int ln;
+        std::string lnstr;
         std::string sep = ": ";
-        std::cerr << (ln=l->getLineNum())<< sep << l->getLine() << std::endl;
+        std::cerr << (ln = l->getLineNum()) << sep << l->getLine() << std::endl;
         lnstr += ln;
         std::cerr <<
                   pad(lnstr.length()) <<
-                  pad(l->getPos()+sep.length()-(l->getLexeme().length())-1) <<
+                  pad(l->getPos() + sep.length() - (l->getLexeme().length()) - 1) <<
                   "^ %error: " << message << std::endl;
         /*
         std::cout << "line number len = " << lnstr.length() << std::endl;
@@ -50,14 +52,14 @@ namespace toyc {
     }
 
     void reportSEMANTIC_ERROR(std::string message) {
-        std::cerr << ("%error: "+ message) << std::endl;
+        std::cerr << ("%error: " + message) << std::endl;
     }
 
-    void dumpAST(ASabstractSyntax* ast) {
+    void dumpAST(ASabstractSyntax *ast) {
         std::cout << "abstract syntax tree:" << std::endl << ast->toString() << std::endl;
     }
 
-    void dumpST(TCsymTable* st) {
+    void dumpST(TCsymTable *st) {
         std::cout << "symbol table:" << std::endl << st->toString() << std::endl;
     }
 
@@ -70,15 +72,16 @@ namespace toyc {
 
     std::string pad(int n) {
         std::string s = "";
-        for (int i = 1; i <= n; i++) s+=" ";
+        for (int i = 1; i <= n; i++) s += " ";
         return s;
     }
 
     int _pos = 0;
-    int _INDENTSIZE=2;
+    int _INDENTSIZE = 2;
 
     std::string spaces() { return pad(_pos); }
 
     void indent() { _pos += _INDENTSIZE; }
+
     void outdent() { _pos -= _INDENTSIZE; }
 }

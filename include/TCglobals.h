@@ -17,6 +17,7 @@ namespace toyc {
     extern bool verbose;
 
     void turnVerboseOn();
+
     void turnVerboseOff();
 
 }

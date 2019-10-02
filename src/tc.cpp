@@ -20,6 +20,7 @@ using namespace std;
 void processCommandLine(int, char *[]);
 
 void printUsageMessage();
+
 /* Old code to make scanner work
 int main(int argc, char *argv[]) {
     try {
@@ -33,7 +34,8 @@ int main(int argc, char *argv[]) {
         std::cerr << "ERROR: scanning failed" << std::endl;
         exit(EXIT_FAILURE);
     }
-}*/ New code to make Parser work
+}*/
+
 int main(int argc, char *argv[]) {
     try {
         processCommandLine(argc, argv);

@@ -33,142 +33,142 @@ namespace toyc {
         std::string str = "";
         switch (tokenType) {
             case DO:
-                str += "(<DO>,\"" + lexeme + "\")";
+                str += " token DO " + lexeme;
                 break;
             case NOTEQUAL:
-                str += "(<NOTEQUAL> ,\"" + lexeme + "\")";
+                str += " token NOTEQUAL> ,\"" + lexeme;
                 break;
             case IF:
-                str += "(<IF>,\"" + lexeme + "\")";
+                str += " token IF " + lexeme;
                 break;
             case FOR:
-                str += "(<FOR>,\"" + lexeme + "\")";
+                str += " token FOR " + lexeme;
                 break;
             case INT:
-                str += "(<INT>,\"" + lexeme + "\")";
+                str += " token INT " + lexeme;
                 break;
             case ELSE:
-                str += "(<ELSE>,\"" + lexeme + "\")";
+                str += " token ELSE " + lexeme;
                 break;
             case CHAR:
-                str += "(<CHAR>,\"" + lexeme + "\")";
+                str += " token CHAR " + lexeme;
                 break;
             case CASE:
-                str += "(<CASE>,\"" + lexeme + "\")";
+                str += " token CASE " + lexeme;
                 break;
             case READ:
-                str += "(<READ>,\"" + lexeme + "\")";
+                str += " token READ " + lexeme;
                 break;
             case WHILE:
-                str += "(<WHILE>,\"" + lexeme + "\")";
+                str += " token WHILE " + lexeme;
                 break;
             case SWITCH:
-                str += "(<SWITCH>,\"" + lexeme + "\")";
+                str += " token SWITCH " + lexeme;
                 break;
             case RETURN:
-                str += "(<RETURN>,\"" + lexeme + "\")";
+                str += " token RETURN " + lexeme;
                 break;
             case BREAK:
-                str += "(<BREAK>,\"" + lexeme + "\")";
+                str += " token BREAK " + lexeme;
                 break;
             case WRITE:
-                str += "(<WRITE>,\"" + lexeme + "\")";
+                str += " token WRITE " + lexeme;
                 break;
             case DEFAULT:
-                str += "(<DEFAULT>,\"" + lexeme + "\")";
+                str += " token DEFAULT " + lexeme;
                 break;
             case CONTINUE:
-                str += "(<CONTINUE>,\"" + lexeme + "\")";
+                str += " token CONTINUE " + lexeme;
                 break;
             case NEWLINE:
-                str += "(<NEWLINE>,\"" + lexeme + "\")";
+                str += " token NEWLINE " + lexeme;
                 break;
             case NUMBER:
-                str += "(<NUMBER>,\"" + lexeme + "\")";
+                str += " token NUMBER " + lexeme;
                 break;
             case ADDOP:
-                str += "(<ADDOP>,\"" + lexeme + "\")";
+                str += " token ADDOP " + lexeme;
                 break;
             case MODOP:
-                str += "(<MODOP>,\"" + lexeme + "\")";
+                str += " token MODOP " + lexeme;
                 break;
             case MULOP:
-                str += "(<MULOP>,\"" + lexeme + "\")";
+                str += " token MULOP " + lexeme;
                 break;
             case RELOP:
-                str += "(<RELOP>,\"" + lexeme + "\")";
+                str += " token RELOP " + lexeme;
                 break;
             case DIVOP:
-                str += "(<DIVOP>,\"" + lexeme + "\")";
+                str += " token DIVOP " + lexeme;
                 break;
             case ASSIGNOP:
-                str += "(<ASSIGNOP>,\"" + lexeme + "\")";
+                str += " token ASSIGNOP " + lexeme;
                 break;
             case ID:
-                str += "(<ID>,\"" + lexeme + "\")";
+                str += " token ID " + lexeme;
                 break;
             case CHARLITERAL:
-                str += "(<CHARLITERAL>,\"" + lexeme + "\")";
+                str += " token CHARLITERAL " + lexeme;
                 break;
             case STRING:
-                str += "(<STRING>,\"" + lexeme + "\")";
+                str += " token STRING " + lexeme;
                 break;
             case COMMENT:
-                str += "(<COMMENT>)";                               // Does not return a lexeme
+                str += " token COMMENT";                               // Does not return a lexeme
                 break;
             case BLOCK:
-                str += "(<BLOCK>)";                                 // Does not return a lexeme
+                str += " token BLOCK";                                 // Does not return a lexeme
                 break;
             case LPAREN:
-                str += "(<LPAREN>,\"" + lexeme + "\")";
+                str += " token LPAREN " + lexeme;
                 break;
             case RPAREN:
-                str += "(<RPAREN>,\"" + lexeme + "\")";
+                str += " token RPAREN " + lexeme;
                 break;
             case NOT:
-                str += "(<NOT>,\"" + lexeme + "\")";
+                str += " token NOT " + lexeme;
                 break;
             case COLON:
-                str += "(<COLON>,\"" + lexeme + "\")";
+                str += " token COLON " + lexeme;
                 break;
             case LCURLY:
-                str += "(<LCURLY>,\"" + lexeme + "\")";
+                str += " token LCURLY " + lexeme;
                 break;
             case RCURLY:
-                str += "(<RCURLY>,\"" + lexeme + "\")";
+                str += " token RCURLY " + lexeme;
                 break;
             case LBRACKET:
-                str += "(<LBRACKET>,\"" + lexeme + "\")";
+                str += " token LBRACKET " + lexeme;
                 break;
             case RBRACKET:
-                str += "(<RBRACKET>,\"" + lexeme + "\")";
+                str += " token RBRACKET " + lexeme;
                 break;
             case COMMA:
-                str += "(<COMMA>,\"" + lexeme + "\")";
+                str += " token COMMA " + lexeme;
                 break;
             case SEMICOLON:
-                str += "(<SEMICOLON>,\"" + lexeme + "\")";
+                str += " token SEMICOLON " + lexeme;
                 break;
             case AND:
-                str += "(<AND>,\"" + lexeme + "\")";
+                str += " token AND " + lexeme;
                 break;
             case OR:
-                str += "(<OR>,\"" + lexeme + "\")";
+                str += " token OR " + lexeme;
                 break;
             case GOTO:
-                str += "(<GOTO>,\"" + lexeme + "\")";
+                str += " token GOTO " + lexeme;
                 break;
             case SKIP:
-                str += "(<SKIP>,\"" + lexeme + "\")";
+                str += " token SKIP " + lexeme;
                 break;
             case NONE:
-                str += "(<NONE>,\"" + lexeme + "\")";
+                str += " token NONE " + lexeme;
                 break;
             case EOFILE:
-                str += "(<EOFILE>)";
+                str += " token EOFILE";
                 break;
             case THEN:
-                str += "(<THEN>,        \"" + lexeme + "\")";
+                str += " token THEN " + lexeme;
                 break;
             default:
                 str += "[error token]";

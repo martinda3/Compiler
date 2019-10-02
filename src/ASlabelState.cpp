@@ -7,7 +7,7 @@
 
 namespace toyc {
 
-    ASlabelState::ASlabelState(int l, ASstatement* s) {
+    ASlabelState::ASlabelState(int l, ASstatement *s) {
         label = l;
         statement = s;
         setType(LABELstate);

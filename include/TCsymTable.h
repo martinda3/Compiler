@@ -12,11 +12,17 @@ namespace toyc {
         TCsymTable();
 
         int add(TCsymbol *);
+
         int find(std::string);
-        int find(TCsymbol*);
+
+        int find(TCsymbol *);
+
         TCsymbol *getSym(int);
-        TCsymbol *getSym(TCtoken*);
+
+        TCsymbol *getSym(TCtoken *);
+
         int getSize();
+
         std::string toString();
 
     private:

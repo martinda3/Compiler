@@ -8,7 +8,7 @@ namespace toyc {
 
     class ASwriteState : public ASstatement {
     public:
-        ASwriteState(ASexpr*);
+        ASwriteState(ASexpr *);
 
         ASexpr *getExpression();
 

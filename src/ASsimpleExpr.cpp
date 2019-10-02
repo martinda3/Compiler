@@ -5,7 +5,7 @@
 #include "TCglobals.h"
 
 namespace toyc {
-    ASsimpleExpr::ASsimpleExpr(TCtoken* e) { expr = e; }
+    ASsimpleExpr::ASsimpleExpr(TCtoken *e) { expr = e; }
 
     std::string ASsimpleExpr::toString() {
         std::string str = "";

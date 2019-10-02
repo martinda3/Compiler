@@ -9,7 +9,7 @@ namespace toyc {
     public:
         TClexer(std::string);
 
-        TCtoken* getToken();
+        TCtoken *getToken();
 
         std::string getLine();
 

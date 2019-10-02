@@ -8,7 +8,7 @@ namespace toyc {
 
     class ASassignState : public ASstatement {
     public:
-        ASassignState(int, ASexpr*);
+        ASassignState(int, ASexpr *);
 
         std::string toString();
 

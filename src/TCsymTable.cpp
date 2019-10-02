@@ -21,17 +21,17 @@ namespace toyc {
         return -1;
     }
 
-    int TCsymTable::find(TCsymbol* t) {
+    int TCsymTable::find(TCsymbol *t) {
         for (int i = 0; i < size; i++)
             if (symTable[i] == t) return i;
         return -1;
     }
 
-    TCsymbol * TCsymTable::getSym(int index) {
+    TCsymbol *TCsymTable::getSym(int index) {
         return ((index < 0 || index >= MAX_SYMS) ? NULL : symTable[index]);
     }
 
-    TCsymbol *TCsymTable::getSym(TCtoken* t) {
+    TCsymbol *TCsymTable::getSym(TCtoken *t) {
         int loc = find(t->getLexeme());
         if (loc == -1) loc = add(new TCsymbol(t->getLexeme(), NO_TYPE));
         return getSym(loc);

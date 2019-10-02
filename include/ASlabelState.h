@@ -7,7 +7,7 @@ namespace toyc {
 
     class ASlabelState : public ASstatement {
     public:
-        ASlabelState(int, ASstatement*);
+        ASlabelState(int, ASstatement *);
 
         std::string toString();
 

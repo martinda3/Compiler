@@ -7,7 +7,7 @@
 namespace toyc {
     class ASunaryExpr : public ASexpr {
     public:
-        ASunaryExpr(TCtoken*, ASexpr*);
+        ASunaryExpr(TCtoken *, ASexpr *);
 
         ASexpr *getExpr();
 

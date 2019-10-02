@@ -8,7 +8,7 @@ namespace toyc {
 
     class ASifState : public ASstatement {
     public:
-        ASifState(ASexpr*, int);
+        ASifState(ASexpr *, int);
 
         int getLabel();
 

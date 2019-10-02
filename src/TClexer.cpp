@@ -67,7 +67,7 @@ namespace toyc {
 		{											// If it is the EOF, report that and return an EOFILE token
 			t = new TCtoken(EOFILE);
 			if (verbose) reportDEBUG("  ", "SCANNER", t->toString());
-			if (verbose) reportDEBUG("  ", "COUNTER", " Total tokens: " + std::to_string(t_tokens));	// Returns token count DM
+			//if (verbose) reportDEBUG("  ", "COUNTER", " Total tokens: " + std::to_string(t_tokens));	// Returns token count DM
 			return t;
 		}
 		else if (isdigit(charBuff))											// TODO: add error handling for cases with more than one consecutive '.' or 'E'
@@ -514,8 +514,8 @@ namespace toyc {
         std::getline(infile,line);
         line = line + " ";
         pos = 0; lineNum++;
-        if (lineNum > 10) {num = "  ";}
-        else if (lineNum > 99) {num = " ";}
+        if (lineNum < 10) {num = " ";}
+        else if (lineNum < 99) {num = "";}
         num += std::to_string(lineNum);
         if (verbose) reportDEBUG("\n ","INPUT"," " + num + ": "+line);
         //if (verbose) reportDEBUG(" ","INPUT",lineNum+": "+line);

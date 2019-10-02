@@ -11,27 +11,27 @@ namespace toyc {
 
     class TCparser {
     public:
-        TCparser(TClexer* s);
+        TCparser(TClexer *s);
 
-        ASabstractSyntax* parse();
+        ASabstractSyntax *parse();
 
     private:
-        TClexer* scanner;
-        TCtoken* buff;
+        TClexer *scanner;
+        TCtoken *buff;
 
         ASabstractSyntax *program();
 
         int statementList(ASstatement *[], int);
 
-        ASstatement* statement();
+        ASstatement *statement();
 
-        ASexpr* expr();
+        ASexpr *expr();
 
-        ASexpr* term();
+        ASexpr *term();
 
-        ASexpr* element();
+        ASexpr *element();
 
-        ASexpr* factor();
+        ASexpr *factor();
 
         void accept(int);
     };

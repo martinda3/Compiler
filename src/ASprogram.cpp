@@ -6,7 +6,7 @@
 
 namespace toyc {
 
-    ASprogram::ASprogram(std::string n, ASstatement* statements[], int num) {
+    ASprogram::ASprogram(std::string n, ASstatement *statements[], int num) {
         for (int i = 0; i < num; i++) statementList[i] = statements[i];
         name = n;
         numStatements = num;

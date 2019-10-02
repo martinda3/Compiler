@@ -4,7 +4,7 @@
 
 namespace toyc {
 
-    ASwriteState::ASwriteState(ASexpr* e) {
+    ASwriteState::ASwriteState(ASexpr *e) {
         expression = e;
         setType(WRITEstate);
     }

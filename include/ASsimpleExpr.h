@@ -8,11 +8,11 @@ namespace toyc {
 
     class ASsimpleExpr : public ASexpr {
     public:
-        ASsimpleExpr(TCtoken*);
+        ASsimpleExpr(TCtoken *);
 
         std::string toString();
 
-        TCtoken* getExpr();
+        TCtoken *getExpr();
 
     private:
         TCtoken *expr;

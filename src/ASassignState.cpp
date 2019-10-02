@@ -7,7 +7,7 @@
 
 namespace toyc {
 
-    ASassignState::ASassignState(int l, ASexpr* e) {
+    ASassignState::ASassignState(int l, ASexpr *e) {
         var = l;
         expression = e;
         setType(ASSIGNstate);
