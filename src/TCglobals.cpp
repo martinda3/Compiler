@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-#include "TCsymTable.h"
+//#include "TCsymTable.h"
 
 namespace toyc
 {

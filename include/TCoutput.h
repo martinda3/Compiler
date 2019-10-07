@@ -2,8 +2,8 @@
 #define TCOUTPUT_H
 
 #include "TClexer.h"
-#include "ASabstractSyntax.h"
-#include "TCsymTable.h"
+//#include "ASabstractSyntax.h"
+//#include "TCsymTable.h"
 
 namespace toyc {
 
