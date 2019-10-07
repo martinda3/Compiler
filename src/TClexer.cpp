@@ -465,7 +465,7 @@ namespace toyc
 						{
 							t = new TCtoken(NOT, lexeme);
 							tokenFound = true;
-							charBuff = getChar();
+							//charBuff = getChar();
 							break;
 						}
 						break;
