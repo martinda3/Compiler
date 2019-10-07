@@ -364,6 +364,7 @@ namespace toyc
 									}
 								}
 							}
+							charBuff = getChar();
 							break;
 						}
 						else
