@@ -17,7 +17,7 @@ namespace toyc {
     }
 
     void reportWARNING(std::string prefix, std::string message) {
-        std::cerr << prefix + "%warning: " + message << std::endl;
+        std::cerr << prefix + "[WARNING]" + message << std::endl;
     }
 
     void reportSYNTAX_ERROR(TClexer *l, std::string message) {
