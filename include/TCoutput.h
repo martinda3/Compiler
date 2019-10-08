@@ -2,6 +2,7 @@
 #define TCOUTPUT_H
 
 #include "TClexer.h"
+
 #include "ASabstractSyntax.h"
 #include "TCsymTable.h"
 

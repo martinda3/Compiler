@@ -52,11 +52,8 @@ part1:
 	@echo "[Test 12]"; $(TARGET) $(TESTDIR)/twelve.tc
 	@echo "[Test 13]"; $(TARGET) $(TESTDIR)/thirteen.tc
 	@echo "[Test 14]"; $(TARGET) $(TESTDIR)/fourteen.tc
-	@echo "  [CHECKER]  6 Warnings";
 	@echo "[Test 16]"; $(TARGET) $(TESTDIR)/six_1.tc
-	@echo "  [CHECKER]  1 Warning";
 	@echo "[Test 17]"; $(TARGET) $(TESTDIR)/six_2.tc
-	@echo "  [CHECKER]  1 Warning";
 	@echo "[Test 18]"; $(TARGET) $(TESTDIR)/six_3.tc
 	@echo "[Test 19]"; $(TARGET) $(TESTDIR)/six_4.tc
 	@echo "[Test  1]"; $(TARGET) -v $(TESTDIR)/one.tc
@@ -113,5 +110,7 @@ part2:
 	@echo "[test9.tc]"; $(TARGET) -v $(TESTDIR)/test9.tc
 	@echo "[test10.tc]"; $(TARGET) -v $(TESTDIR)/test10.tc
 	@echo "[scanTest1.tc]"; $(TARGET) -v $(TESTDIR)/scanTest1.tc
+	@echo "[Test 20]"; $(TARGET) -v $(TESTDIR)/p1tokens.tc
+	@echo "  [CHECKER] Correct Total: ??";
 
 .PHONY: clean
