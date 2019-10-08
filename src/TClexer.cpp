@@ -624,6 +624,12 @@ namespace toyc
 			if (infile.eof()) return EOFCHAR;
 			if (line.empty() || pos > line.length()) line = getNextLine();
 			char ch = line[pos];
+			if ((ch == '/'))
+			{
+				if (line[pos + 1] == '/' || line[pos +1] == '*')
+				{
+				}
+			}
 			if ((ch == '.'))
 			{
 				if (isspace(line[pos + 1]))
@@ -637,9 +643,12 @@ namespace toyc
 				line = getNextLine();
 				ch = line[pos];
 			}
-			if (isInAlphabet(ch) || isspace(ch)) break;
+			if (isInAlphabet(ch) || isspace(ch) || ch == EOFCHAR) break;
+			else { 
+					reportWARNING("  ", " Scanner: Illegal gffsaredCharacter. Ignoring");
+					pos++;}
 			//reportWARNING("  ", " Scanner: Illegal Character. Ignoring3"); NOTE: This is commented, because in a comment
-			pos++;	// Any character is valid, so you can't rely on this simple sort of error logic.
+//			pos++;	// Any character is valid, so you can't rely on this simple sort of error logic.
 		}
 		while (true);
 		//reportWARNING("getChar: ", std::string(1, line[pos + 1]));
