@@ -1,0 +1,9 @@
+        a = 0;
+        b = 25;
+        if (a < b) and (b <> 25) then goto label1;
+        write 0;
+        goto end;
+label1: 
+label2: write 1;
+end:    skip;
+

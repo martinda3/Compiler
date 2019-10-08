@@ -15,41 +15,38 @@
 #include "TCtokens.h"
 #include "TCoutput.h"
 
-namespace toyc
-{
+namespace toyc {
 
-	static char charBuff;
-	static char EOFCHAR = '\0';
-	static unsigned int pos;                                                // Modified to compiletime warning
-	static int lineNum = 0;
-	static int t_tokens = 0;                                                // Counts Total number to tokens DM
-	static std::string line;
-	static std::string lexeme = "";
-	static std::ifstream infile;
-	int lineTemp;
+    static char charBuff;
+    static char EOFCHAR = '\0';
+    static unsigned int pos;                                                // Modified to compiletime warning
+    static int lineNum = 0;
+    static int t_tokens = 0;                                                // Counts Total number to tokens DM
+    static std::string line;
+    static std::string lexeme = "";
+    static std::ifstream infile;
+    int lineTemp;
 
-	char getChar();
+    char getChar();
 
-	std::string getNextLine();
+    std::string getNextLine();
 
-	bool isInAlphabet(char);
+    bool isInAlphabet(char);
 
-	bool tokenChecker(std::string, std::string);
+    bool tokenChecker(std::string, std::string);
 
 
-	TClexer::TClexer(std::string fname)
-	{
-		inputFileName = fname;
-		line = "";
-		pos = 0;
-		infile.open(inputFileName);											// Opens the file to be compiled
-		if (infile.fail())
-		{												// Checks for an error opening the file
-			std::cerr << "ERROR: input file not found" << std::endl;
-			exit(EXIT_FAILURE);
-		}
-		charBuff = getChar();
-	}
+    TClexer::TClexer(std::string fname) {
+        inputFileName = fname;
+        line = "";
+        pos = 0;
+        infile.open(inputFileName);                                            // Opens the file to be compiled
+        if (infile.fail()) {                                                // Checks for an error opening the file
+            std::cerr << "ERROR: input file not found" << std::endl;
+            exit(EXIT_FAILURE);
+        }
+        charBuff = getChar();
+    }
 
 	TCtoken* TClexer::getToken()
 	{
@@ -609,85 +606,72 @@ namespace toyc
 	}
 
 
-	std::string TClexer::getLine() { return line; }
 
-	std::string TClexer::getLexeme() { return lexeme; }
+    std::string TClexer::getLine() { return line; }
 
-	int TClexer::getPos() { return pos; }
+    std::string TClexer::getLexeme() { return lexeme; }
 
-	int TClexer::getLineNum() { return lineNum; }
+    int TClexer::getPos() { return pos; }
 
-	char getChar()
-	{														// Handles getting the next character
-		do
-		{
-			if (infile.eof()) return EOFCHAR;
-			if (line.empty() || pos > line.length()) line = getNextLine();
-			char ch = line[pos];
-			if ((ch == '/'))
-			{
-				if (line[pos + 1] == '/' || line[pos +1] == '*')
-				{
-				}
-			}
-			if ((ch == '.'))
-			{
-				if (isspace(line[pos + 1]))
-				{
-					reportWARNING("  ", " Scanner: Illegal Character. Ignoring");
-					pos++;
-				}
-			}
-			if (ch == '\0')
-			{
-				line = getNextLine();
-				ch = line[pos];
-			}
-			if (isInAlphabet(ch) || isspace(ch) || ch == EOFCHAR) break;
-			else { 
-					reportWARNING("  ", " Scanner: Illegal gffsaredCharacter. Ignoring");
-					pos++;}
-			//reportWARNING("  ", " Scanner: Illegal Character. Ignoring3"); NOTE: This is commented, because in a comment
-//			pos++;	// Any character is valid, so you can't rely on this simple sort of error logic.
-		}
-		while (true);
-		//reportWARNING("getChar: ", std::string(1, line[pos + 1]));
-		return line[pos++];
-	}
+    int TClexer::getLineNum() { return lineNum; }
 
-	std::string getNextLine()
-	{												// Gets the next line in *.tc file
-		std::string line;
-		std::getline(infile, line);
-		pos = 0;
-		lineNum++;
-		line = line + " ";
-		//if (verbose) reportDEBUG("  ", " INPUT ",lineNum+ "" +line);		// Usure what this does DM
-		return line;
-	}
 
-	bool isInAlphabet(char ch)
-	{											// Handles the input stream DM
-		return (isalpha(ch) || isdigit(ch) || (ch == '%') ||				// Added other symboles that are allowable DM
-			(ch == '+') || (ch == '-') || (ch == '*') || (ch == '/') || // TODO: Make an issymble(char) fuction
-				(ch == '<') || (ch == '>') || (ch == '(') || (ch == ')') ||
-				(ch == '=') || (ch == ';') || (ch == ':') || (ch == '!') ||
-				(ch == '[') || (ch == ']') || (ch == '{') || (ch == '}') ||
-				(ch == ',') || (ch == '|') || (ch == '&') || (ch == '.') ||
-				(ch == '\\') || (ch == '\"') || (ch == '\''));
-	}
+    char getChar() {                                                        // Handles getting the next character
+        do {
+            if (infile.eof()) return EOFCHAR;
+            if (line.empty() || pos > line.length()) line = getNextLine();
+            char ch = line[pos];
+            if ((ch == '.')) {
+                if (isspace(line[pos + 1])) {
+                    reportWARNING("  ", " Scanner: Illegal Character. Ignoring");
+                    pos++;
+                }
+            }
+            if (ch == '\0') {
+                line = getNextLine();
+                ch = line[pos];
+            }
+            if (isInAlphabet(ch) || isspace(ch)) break;
+            reportWARNING("  ", " Scanner: Illegal Character. Ignoring");
+            pos++;
+        } while (true);
+        return line[pos++];
+    }
 
-	bool compareChar(char& c1, char& c2)
-	{									// Compares individual chars, takes into account
-		if (isupper(c1)) return false;										// if a char is Uppercase or Lowercase DM
-		else if (c1 == tolower(c2)) return true;
-		return false;
-	}
+    std::string getNextLine() {
+        std::string line, num;
+        std::getline(infile, line);
+        line = line + " ";
+        pos = 0;
+        lineNum++;
+        if (lineNum < 10) { num = " "; }
+        else if (lineNum < 99) { num = ""; }
+        num += std::to_string(lineNum);
+        if (verbose) reportDEBUG("\n ", "INPUT", " " + num + ": " + line);
+        //if (verbose) reportDEBUG(" ","INPUT",lineNum+": "+line);
+        return line;
+    }
 
-	bool tokenChecker(std::string str1, std::string str2)
-	{					//  Compares lexeme to token DM
-		return ((str1.size() == str2.size()) &&
-				std::equal(str1.begin(), str1.end(), str2.begin(), &compareChar)); // How does this function reference thing work CD
-	}
+    bool isInAlphabet(char ch) {                                            // Handles the input stream DM
+        return (isalpha(ch) || isdigit(ch) || (ch == '%') ||// Added other symboles that are allowable DM
+                (ch == '+') || (ch == '-') || (ch == '*') || (ch == '/') || // TODO: Make an issymble(char) fuction
+                (ch == '<') || (ch == '>') || (ch == '(') || (ch == ')') ||
+                (ch == '=') || (ch == ';') || (ch == ':') || (ch == '!') ||
+                (ch == '[') || (ch == ']') || (ch == '{') || (ch == '}') ||
+                (ch == ',') || (ch == '|') || (ch == '&') || (ch == '.') ||
+                (ch == '\\') || (ch == '\"') || (ch == '\''));
+    }
+
+    bool compareChar(char &c1, char &c2) {                                    // Compares individual chars, takes into account
+        if (isupper(c1)) return false;                                        // if a char is Uppercase or Lowercase DM
+        else if (c1 == tolower(c2)) return true;
+        return false;
+    }
+
+    bool tokenChecker(std::string str1, std::string str2) {                    //  Compares lexeme to token DM
+        return ((str1.size() == str2.size()) &&
+                std::equal(str1.begin(), str1.end(), str2.begin(),
+                           &compareChar)); // How does this function reference thing work CD
+    }
 
 }
