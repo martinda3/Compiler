@@ -83,18 +83,18 @@ namespace toyc {
 
     ASabstractSyntax *TCparser::program() {
         // program --> statementList
-        enteringDEBUG("program");
+        enteringDEBUG("Program");
         ASstatement *stateList[MAX_STATEMENTS];
         symTable = new TCsymTable();
         int num = statementList(stateList, 0);
-        exitingDEBUG("program");
+        exitingDEBUG("Program");
         return new ASprogram(inputFileName, stateList, num);
     }
 
     int TCparser::statementList(ASstatement *l[], int n) {
         int num = 0;
         // statementList --> statement ; statementList | epsilon
-        enteringDEBUG("statementList");
+        enteringDEBUG("List");
         if (!(buff->getTokenType() == EOFILE)) {
             l[n] = statement();
             accept(SEMICOLON);
@@ -102,7 +102,7 @@ namespace toyc {
         } else {
             num = n;
         }
-        exitingDEBUG("statementList");
+        exitingDEBUG("List");
         return num;
     }
 
@@ -110,7 +110,8 @@ namespace toyc {
         ASstatement *s = NULL;
         int loc;
         TCsymbol *sym;
-        enteringDEBUG("statement");
+        enteringDEBUG("Statment");
+
         if (buff->getTokenType() == ID) {
             sym = symTable->getSym(buff);
             loc = symTable->find(buff->getLexeme());
@@ -141,12 +142,21 @@ namespace toyc {
                 reportSYNTAX_ERROR(scanner, "':' or '=' expected");
                 exit(EXIT_FAILURE);
             }
-        } else if (buff->getTokenType() == WRITE) {
+        }
+
+
+
+        else if (buff->getTokenType() == WRITE) {
             // statement --> WRITE expr
             buff = scanner->getToken();
             //            enter_special_id(TCglobals.symtable,TCtoken.Tokens.WRITE);
             s = new ASwriteState(expr());
-        } else if (buff->getTokenType() == READ) {
+        }
+
+
+
+
+        else if (buff->getTokenType() == READ) {
             // statement --> READ ID
             buff = scanner->getToken();
 //            enter_special_id(TCglobals.symtable,TCtoken.Tokens.READ);
@@ -167,7 +177,12 @@ namespace toyc {
                 reportSYNTAX_ERROR(scanner, "variable expected");
                 exit(EXIT_FAILURE);
             }
-        } else if (buff->getTokenType() == IF) {
+        }
+
+
+
+
+        else if (buff->getTokenType() == IF) {
             // statement --> IF expr THEN GOTO ID
             buff = scanner->getToken();
             ASexpr *cond = expr();
@@ -190,7 +205,12 @@ namespace toyc {
                 reportSYNTAX_ERROR(scanner, "label expected");
                 exit(EXIT_FAILURE);
             }
-        } else if (buff->getTokenType() == GOTO) {
+        }
+
+
+
+
+        else if (buff->getTokenType() == GOTO) {
             // statement --> GOTO ID
             buff = scanner->getToken();
             if (buff->getTokenType() == ID) {
@@ -206,15 +226,53 @@ namespace toyc {
                 buff = scanner->getToken();
             } else
                 reportSYNTAX_ERROR(scanner, "label expected");
-        } else if (buff->getTokenType() == SKIP) {
+        }
+
+
+
+        else if (buff->getTokenType() == SKIP) {
             //statement --> SKIP
             buff = scanner->getToken();
             s = new ASskipState();
+        }
+
+
+
+
+        else if (buff->getTokenType() == INT) {
+            //statement --> INT
+            buff = scanner->getToken();
+	        if (buff->getTokenType() == ID) {
+		        loc = symTable->find(buff->getLexeme());
+		        if (loc >= 0) {
+			        enum symType stype = symTable->getSym(loc)->getType();
+			        if (stype == NO_TYPE)
+				        symTable->getSym(loc)->setType(VAR);
+			        else if (stype == LABEL || stype == OFFSET) {
+				        reportSEMANTIC_ERROR(scanner, "variable expected");
+				        exit(EXIT_FAILURE);
+			        } // else it's a VAR so do nothing
+		        } else if (loc == -1) loc = symTable->add(new TCsymbol(buff->getLexeme(), VAR));
+		        buff = scanner->getToken();
+		        if (buff->getTokenType() == ASSIGNOP) {
+			        accept(ASSIGNOP);
+			        buff = scanner->getToken();
+			        if (buff->getTokenType() == NUMBER) {
+				        accept(NUMBER);
+				        buff = scanner->getToken();
+			        }
+		        }
+	        } else if (buff->getTokenType() != ASSIGNOP || buff->getTokenType() != SEMICOLON) {
+		        reportSEMANTIC_ERROR(scanner, "= || ; expected");
+		        exit(EXIT_FAILURE);
+	        } else  {
+		        reportSEMANTIC_ERROR(scanner, "ID expected");
+		        exit(EXIT_FAILURE);}
         } else {
             reportSYNTAX_ERROR(scanner, "statement expected");
             exit(EXIT_FAILURE);
         }
-        exitingDEBUG("statement");
+        exitingDEBUG("Statment");
         return s;
     }
 

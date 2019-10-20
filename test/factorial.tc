@@ -1,10 +1,11 @@
          read n;
-         product = 1;
-         count = 2;
-loopBegin:
-         if count > n then goto loopEnd;
-         product = product * count;
-         count = count + 1;
+/*        product = 1;
+//         count = 2;
+//loopBegin:
+//         if count > n then goto loopEnd;
+//         product = product * count;
+ //        count = count + 1;
          goto loopBegin;
-loopEnd: skip;
-         write product;
+//loopEnd: skip;
+  //       write product; */
+

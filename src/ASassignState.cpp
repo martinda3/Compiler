@@ -18,9 +18,7 @@ namespace toyc {
     ASexpr *ASassignState::getExpression() { return expression; }
 
     std::string ASassignState::toString() {
-        return
-                "assign(" + symTable->getSym(getVar())->toString() + "," +
-                expression->toString() + ")";
+        return "assign(" + symTable->getSym(getVar())->toString() + "," + expression->toString() + ")";
     }
 
 }
