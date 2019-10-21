@@ -20,7 +20,7 @@ using namespace std;
 void processCommandLine(int, char *[]);
 
 void printUsageMessage();
-
+/*
 int main(int argc, char *argv[]) {
     try {
         processCommandLine(argc, argv);
@@ -33,8 +33,8 @@ int main(int argc, char *argv[]) {
         std::cerr << "ERROR: scanning failed" << std::endl;
         exit(EXIT_FAILURE);
     }
-}
-/*
+}*/
+
 int main(int argc, char *argv[]) {
     try {
         processCommandLine(argc, argv);
@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
         std::cerr << "ERROR: scanning failed" << std::endl;
         exit(EXIT_FAILURE);
     }
-}*/
+}
 
 void processCommandLine(int argc, char *argv[]) {
     switch (argc) {

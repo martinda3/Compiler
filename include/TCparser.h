@@ -25,6 +25,8 @@ namespace toyc {
 
         ASstatement *statement();
 
+        int definition();
+
         ASexpr *expr();
 
         ASexpr *term();
