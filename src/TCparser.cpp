@@ -72,23 +72,44 @@ namespace toyc {
     return p;
   }
   
-  void enteringDEBUG(std::string s) {
-    if (verbose) reportDEBUG("    ","parser","entering "+s);
-  }
+  void enteringDEBUG(std::string s) { if (verbose) reportDEBUG("    ","parser","entering "+s); }
 
-  void exitingDEBUG(std::string s) {
-    if (verbose) reportDEBUG("    ","parser","exiting "+s);
-  }
- 
+  void tokenDEBUG(std::string s) { if (verbose) reportDEBUG("    ","parser","token is "+s); }
+
+  void exitingDEBUG(std::string s) { if (verbose) reportDEBUG("    ","parser","exiting "+s); }
+
   ASabstractSyntax* TCparser::program() {
         // program --> statementList
         enteringDEBUG("program");
-        ASstatement *stateList[MAX_STATEMENTS];
-        symTable = new TCsymTable();
-        int num = statementList(stateList,0);
+        //ASstatement *stateList[MAX_STATEMENTS];
+	    definition();
+        //symTable = new TCsymTable();
+        //int num = statementList(stateList,0);
         exitingDEBUG("program");
-        return new ASprogram(inputFileName,stateList,num);
+        //return new ASprogram(inputFileName,stateList,num);
   }
+
+  int TCparser::definition(){
+  	enteringDEBUG("definition");
+	type();
+	accept(ID);
+	
+  	exitingDEBUG("definition");
+
+  }
+
+  int TCparser::type(){
+  	enteringDEBUG("type");
+  	if (buff->getTokenType() == INT) {
+	    tokenDEBUG("int");
+	    buff = scanner->getToken();
+  	} else if (buff->getTokenType() == CHAR){
+	    tokenDEBUG("char");
+	    buff = scanner->getToken();
+  	}
+  	exitingDEBUG("type");
+  }
+
 
   int TCparser::statementList(ASstatement *l[],int n) {
     int num=0;

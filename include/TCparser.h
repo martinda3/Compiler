@@ -27,6 +27,8 @@ namespace toyc {
 
         int definition();
 
+        int type();
+
         ASexpr *expr();
 
         ASexpr *term();
