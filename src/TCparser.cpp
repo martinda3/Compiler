@@ -74,7 +74,7 @@ namespace toyc {
   
   void enteringDEBUG(std::string s) { if (verbose) reportDEBUG("    ","parser","entering "+s); }
 
-  void tokenDEBUG(std::string s) { if (verbose) reportDEBUG("    ","parser","token is "+s); }
+  void tokenDEBUG(std::string s) { if (verbose) reportDEBUG("    ","parser"," "+s); }
 
   void exitingDEBUG(std::string s) { if (verbose) reportDEBUG("    ","parser","exiting "+s); }
 
@@ -82,7 +82,8 @@ namespace toyc {
         // program --> statementList
         enteringDEBUG("program");
         //ASstatement *stateList[MAX_STATEMENTS];
-	    definition();
+        while (buff->getTokenType() == INT || buff->getTokenType() == CHAR) {
+	    definition();}
         //symTable = new TCsymTable();
         //int num = statementList(stateList,0);
         exitingDEBUG("program");
@@ -93,21 +94,36 @@ namespace toyc {
   	enteringDEBUG("definition");
 	type();
 	accept(ID);
-	
-  	exitingDEBUG("definition");
+	if (buff->getTokenType() == SEMICOLON) {
+		exitingDEBUG("definition");
+		accept(SEMICOLON);
+	} if (buff->getTokenType() == LPAREN) {
+		functiondefinition();
+	}
+  	//exitingDEBUG("definition");
+
+  }
+
+	int TCparser::functiondefinition(){
+  	enteringDEBUG("functiondefinition");
+  	//accept(NUMBER);
+  	buff = scanner->getToken();
+  	exitingDEBUG("functiondefinition");
 
   }
 
   int TCparser::type(){
   	enteringDEBUG("type");
   	if (buff->getTokenType() == INT) {
-	    tokenDEBUG("int");
-	    buff = scanner->getToken();
+	    tokenDEBUG("type = INT");
   	} else if (buff->getTokenType() == CHAR){
-	    tokenDEBUG("char");
-	    buff = scanner->getToken();
+	    tokenDEBUG("type = CHAR");
+  	} else {
+	    reportSEMANTIC_ERROR(scanner,"int or char expected");
+	    exit(EXIT_FAILURE);
   	}
   	exitingDEBUG("type");
+  	buff = scanner->getToken();
   }
 
 

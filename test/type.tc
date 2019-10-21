@@ -1,2 +1,2 @@
-int vaar = 2;
+int vaar;
 int test;
