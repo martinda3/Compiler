@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include <typeinfo>
 
 #include "TClexer.h"
@@ -88,6 +89,8 @@ namespace toyc {
         //int num = statementList(stateList,0);
         exitingDEBUG("program");
         //return new ASprogram(inputFileName,stateList,num);
+
+	  return 0;
   }
 
   int TCparser::definition(){
@@ -97,18 +100,56 @@ namespace toyc {
 	if (buff->getTokenType() == SEMICOLON) {
 		exitingDEBUG("definition");
 		accept(SEMICOLON);
-	} if (buff->getTokenType() == LPAREN) {
+	} else if (buff->getTokenType() == LPAREN) {
 		functiondefinition();
+	} else {
+		reportSEMANTIC_ERROR(scanner,"; expected");
+		exit(EXIT_FAILURE);
 	}
-  	//exitingDEBUG("definition");
-
+	  return 0;
   }
 
-	int TCparser::functiondefinition(){
+  int TCparser::functiondefinition(){
   	enteringDEBUG("functiondefinition");
   	//accept(NUMBER);
   	buff = scanner->getToken();
   	exitingDEBUG("functiondefinition");
+	  return 0;
+  }
+
+  int TCparser::functionheader(){
+  	enteringDEBUG("functionheader");
+  	buff = scanner->getToken();
+  	exitingDEBUG("functionheader");
+	  return 0;
+  }
+
+  int TCparser::functionbody(){
+  	enteringDEBUG("functionbody");
+  	buff = scanner->getToken();
+  	exitingDEBUG("functionbody");
+	  return 0;
+  }
+
+  int TCparser::formalparamlist(){
+  	enteringDEBUG("formalparamlist");
+  	buff = scanner->getToken();
+  	exitingDEBUG("formalparamlist");
+	  return 0;
+  }
+
+  int TCparser::expressionstatment(){
+  	enteringDEBUG("expressionstatment");
+  	buff = scanner->getToken();
+  	exitingDEBUG("expressionstatment");
+	  return 0;
+  }
+
+  int TCparser::breakstatment(){
+  	enteringDEBUG("breakstatment");
+  	buff = scanner->getToken();
+  	exitingDEBUG("breakstatment");
+  	return 0;
 
   }
 
@@ -124,7 +165,24 @@ namespace toyc {
   	}
   	exitingDEBUG("type");
   	buff = scanner->getToken();
+  	return 0;
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   int TCparser::statementList(ASstatement *l[],int n) {
@@ -401,7 +459,7 @@ namespace toyc {
     else {
       std::string str="";
       str += t;
-      reportSYNTAX_ERROR(scanner,str+" expected");
+      reportSYNTAX_ERROR(scanner, str + " expected");
       exit(EXIT_FAILURE);
     }
   }

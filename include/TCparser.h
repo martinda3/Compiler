@@ -31,6 +31,17 @@ namespace toyc {
 
         int functiondefinition();
 
+        int functionheader();
+
+        int functionbody();
+
+        int formalparamlist();
+
+        int breakstatment();
+
+        int expressionstatment();
+
+
         ASexpr *expr();
 
         ASexpr *term();

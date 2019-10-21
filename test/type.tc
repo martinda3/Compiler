@@ -1,2 +1,1 @@
-int vaar;
-int test;
+int test (int one);

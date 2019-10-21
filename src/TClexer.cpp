@@ -77,9 +77,7 @@ namespace toyc {
 			{
 				t = new TCtoken(EOFILE);
 				tokenFound = true;
-				if (verbose) reportDEBUG("  ", "SCANNER", t->toString());
-				if (verbose)
-					reportDEBUG("  ", "COUNTER", " Total tokens: " + std::to_string(t_tokens));
+				if (verbose) reportDEBUG("  ", "SCANNER", t->toString()  + " " + std::to_string(t_tokens) + " tokens");
 				return t;
 			}
 			else if (isdigit(charBuff))
