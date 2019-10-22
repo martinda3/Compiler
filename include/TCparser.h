@@ -25,11 +25,11 @@ namespace toyc {
 
         ASstatement *statement();
 
-        int definition();
+        int Definition();
 
-        int type();
+        int Type();
 
-        int functiondefinition();
+        int FunctionDefinition();
 
         int functionheader();
 

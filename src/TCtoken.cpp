@@ -33,142 +33,142 @@ namespace toyc {
         std::string str = "";
         switch (tokenType) {
             case DO:
-                str += " token DO " + lexeme;
+                str += " DO " + lexeme;
                 break;
             case NOTEQUAL:
-                str += " token NOTEQUAL> ,\"" + lexeme;
+                str += " NOTEQUAL> ,\"" + lexeme;
                 break;
             case IF:
-                str += " token IF " + lexeme;
+                str += " IF " + lexeme;
                 break;
             case FOR:
-                str += " token FOR " + lexeme;
+                str += " FOR " + lexeme;
                 break;
             case INT:
-                str += " token INT " + lexeme;
+                str += " INT " + lexeme;
                 break;
             case ELSE:
-                str += " token ELSE " + lexeme;
+                str += " ELSE " + lexeme;
                 break;
             case CHAR:
-                str += " token CHAR " + lexeme;
+                str += " CHAR " + lexeme;
                 break;
             case CASE:
-                str += " token CASE " + lexeme;
+                str += " CASE " + lexeme;
                 break;
             case READ:
-                str += " token READ " + lexeme;
+                str += " READ " + lexeme;
                 break;
             case WHILE:
-                str += " token WHILE " + lexeme;
+                str += " WHILE " + lexeme;
                 break;
             case SWITCH:
-                str += " token SWITCH " + lexeme;
+                str += " SWITCH " + lexeme;
                 break;
             case RETURN:
-                str += " token RETURN " + lexeme;
+                str += " RETURN " + lexeme;
                 break;
             case BREAK:
-                str += " token BREAK " + lexeme;
+                str += " BREAK " + lexeme;
                 break;
             case WRITE:
-                str += " token WRITE " + lexeme;
+                str += " WRITE " + lexeme;
                 break;
             case DEFAULT:
-                str += " token DEFAULT " + lexeme;
+                str += " DEFAULT " + lexeme;
                 break;
             case CONTINUE:
-                str += " token CONTINUE " + lexeme;
+                str += " CONTINUE " + lexeme;
                 break;
             case NEWLINE:
-                str += " token NEWLINE " + lexeme;
+                str += " NEWLINE " + lexeme;
                 break;
             case NUMBER:
-                str += " token NUMBER " + lexeme;
+                str += " NUMBER " + lexeme;
                 break;
             case ADDOP:
-                str += " token ADDOP " + lexeme;
+                str += " ADDOP " + lexeme;
                 break;
             case MODOP:
-                str += " token MODOP " + lexeme;
+                str += " MODOP " + lexeme;
                 break;
             case MULOP:
-                str += " token MULOP " + lexeme;
+                str += " MULOP " + lexeme;
                 break;
             case RELOP:
-                str += " token RELOP " + lexeme;
+                str += " RELOP " + lexeme;
                 break;
             case DIVOP:
-                str += " token DIVOP " + lexeme;
+                str += " DIVOP " + lexeme;
                 break;
             case ASSIGNOP:
-                str += " token ASSIGNOP " + lexeme;
+                str += " ASSIGNOP " + lexeme;
                 break;
             case ID:
-                str += " token ID " + lexeme;
+                str += " ID " + lexeme;
                 break;
             case CHARLITERAL:
-                str += " token CHARLITERAL " + lexeme;
+                str += " CHARLITERAL " + lexeme;
                 break;
             case STRING:
-                str += " token STRING " + lexeme;
+                str += " STRING " + lexeme;
                 break;
             case COMMENT:
-                str += " token COMMENT";                               // Does not return a lexeme
+                str += " COMMENT";                               // Does not return a lexeme
                 break;
             case BLOCK:
-                str += " token BLOCK";                                 // Does not return a lexeme
+                str += " BLOCK";                                 // Does not return a lexeme
                 break;
             case LPAREN:
-                str += " token LPAREN " + lexeme;
+                str += " LPAREN " + lexeme;
                 break;
             case RPAREN:
-                str += " token RPAREN " + lexeme;
+                str += " RPAREN " + lexeme;
                 break;
             case NOT:
-                str += " token NOT " + lexeme;
+                str += " NOT " + lexeme;
                 break;
             case COLON:
-                str += " token COLON " + lexeme;
+                str += " COLON " + lexeme;
                 break;
             case LCURLY:
-                str += " token LCURLY " + lexeme;
+                str += " LCURLY " + lexeme;
                 break;
             case RCURLY:
-                str += " token RCURLY " + lexeme;
+                str += " RCURLY " + lexeme;
                 break;
             case LBRACKET:
-                str += " token LBRACKET " + lexeme;
+                str += " LBRACKET " + lexeme;
                 break;
             case RBRACKET:
-                str += " token RBRACKET " + lexeme;
+                str += " RBRACKET " + lexeme;
                 break;
             case COMMA:
-                str += " token COMMA " + lexeme;
+                str += " COMMA " + lexeme;
                 break;
             case SEMICOLON:
-                str += " token SEMICOLON " + lexeme;
+                str += " SEMICOLON " + lexeme;
                 break;
             case AND:
-                str += " token AND " + lexeme;
+                str += " AND " + lexeme;
                 break;
             case OR:
-                str += " token OR " + lexeme;
+                str += " OR " + lexeme;
                 break;
             case GOTO:
-                str += " token GOTO " + lexeme;
+                str += " GOTO " + lexeme;
                 break;
             case SKIP:
-                str += " token SKIP " + lexeme;
+                str += " SKIP " + lexeme;
                 break;
             case NONE:
-                str += " token NONE " + lexeme;
+                str += " NONE " + lexeme;
                 break;
             case EOFILE:
-                str += " token EOFILE";
+                str += " EOFILE";
                 break;
             case THEN:
-                str += " token THEN " + lexeme;
+                str += " THEN " + lexeme;
                 break;
             default:
                 str += "[error token]";

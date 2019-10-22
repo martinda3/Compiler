@@ -81,28 +81,28 @@ namespace toyc {
 
   ASabstractSyntax* TCparser::program() {
         // program --> statementList
-        enteringDEBUG("program");
+        enteringDEBUG("Program");
         //ASstatement *stateList[MAX_STATEMENTS];
-        while (buff->getTokenType() == INT || buff->getTokenType() == CHAR) {
-	    definition();}
+        //while (buff->getTokenType() == INT || buff->getTokenType() == CHAR) {
+	    Definition();//}
         //symTable = new TCsymTable();
         //int num = statementList(stateList,0);
-        exitingDEBUG("program");
+        exitingDEBUG("Program");
         //return new ASprogram(inputFileName,stateList,num);
 
 	  return 0;
   }
 
-  int TCparser::definition(){
-  	enteringDEBUG("definition");
-	type();
+  int TCparser::Definition(){
+  	enteringDEBUG("Definition");
+	Type();
 	accept(ID);
 	if (buff->getTokenType() == SEMICOLON) {
-		exitingDEBUG("definition");
+		exitingDEBUG("Definition");
 		accept(SEMICOLON);
 	} else if (buff->getTokenType() == LPAREN) {
 		accept(LPAREN);
-		functiondefinition();
+		FunctionDefinition();
 	} else {
 		reportSEMANTIC_ERROR(scanner,"; expected");
 		exit(EXIT_FAILURE);
@@ -110,25 +110,25 @@ namespace toyc {
 	  return 0;
   }
 
-  int TCparser::type(){
-  	enteringDEBUG("type");
+  int TCparser::Type(){
+  	enteringDEBUG("Type");
   	if (buff->getTokenType() == INT) {
-  		tokenDEBUG("type = INT");
+  		tokenDEBUG("     MESSAGE ALERT INT");
   	} else if (buff->getTokenType() == CHAR){
-  		tokenDEBUG("type = CHAR");
+  		tokenDEBUG("     MESSAGE ALERT CHAR");
   	} else {
   		reportSEMANTIC_ERROR(scanner,"int or char expected");
   		exit(EXIT_FAILURE);
   	}
-  	exitingDEBUG("type");
+  	exitingDEBUG("Type");
   	buff = scanner->getToken();
   	return 0;
   }
 
-  int TCparser::functiondefinition(){
-  	enteringDEBUG("functiondefinition");
+  int TCparser::FunctionDefinition(){
+  	enteringDEBUG("Function Definition");
   	functionheader();
-	exitingDEBUG("functiondefinition");
+	exitingDEBUG("Function Definition");
   	functionbody();
 	return 0;
   }
@@ -143,13 +143,14 @@ namespace toyc {
 
   int TCparser::functionbody(){
   	enteringDEBUG("functionbody");
+  	compoundstantment();
   	exitingDEBUG("functionbody");
 	return 0;
   }
 
   int TCparser::formalparamlist(){
   	enteringDEBUG("formalparamlist");
-  	type();
+  	Type();
 	accept(ID);
 	exitingDEBUG("formalparamlist");
 	return 0;
@@ -157,15 +158,25 @@ namespace toyc {
 
   int TCparser::expressionstatment(){
   	enteringDEBUG("expressionstatment");
-  	buff = scanner->getToken();
   	exitingDEBUG("expressionstatment");
 	  return 0;
   }
 
   int TCparser::compoundstantment(){
   	enteringDEBUG("compoundstantment");
-  	buff = scanner->getToken();
-  	exitingDEBUG("compoundstantment");
+  	if (buff->getTokenType() == LCURLY) {
+	    buff = scanner->getToken();
+	    Type();
+	    accept(ID);
+	    accept(SEMICOLON);
+	    accept(RCURLY);
+	    accept(SEMICOLON);
+	    exitingDEBUG("compoundstantment");
+  	}
+  	else {
+	    reportSEMANTIC_ERROR(scanner,"{ expected");
+	    exit(EXIT_FAILURE);
+  	}
   	return 0;
   }
 
