@@ -31,30 +31,31 @@ namespace toyc {
 
         int FunctionDefinition();
 
-        int functionheader();
+        int FunctionHeader();
 
-        int functionbody();
+        int FunctionBody();
 
-        int formalparamlist();
+        int FormalParamList();
 
-        int breakstatment();
+        int BreakStatement();
 
-        int expressionstatment();
-		int compoundstantment();
-		int ifstatment();
-		int nullstatment();
-		int returnstatment();
-		int whilestatment();
-		int readstatment();
-		int writestatment();
-		int newlinestatment();
-		int expression();
-		int relopexpression();
-		int simpleexpression();
-		int term();
-		int primary();
-		int functioncall();
-		int actualparameters();
+        int ExpressionStatement();
+		int CompoundStatement();
+		int IfStatement();
+		int NullStatement();
+		int ReturnStatement();
+		int WhileStatement();
+		int ReadStatement();
+		int WriteStatement();
+		int NewLineStatement();
+		int Expression();
+        int FunctionCall();
+		int RelopExpression();
+		int SimpleExpression();
+		int Term();
+		int Primary();
+		int FunctionCall();
+		int ActualParameters();
 
         ASexpr *expr();
 
