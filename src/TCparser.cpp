@@ -288,7 +288,7 @@ namespace toyc {
         exitingDEBUG("Primary");
         return 0;
     }
-    int TCparcer::FunctionCall(){
+    int TCparser::FunctionCall(){
         // FunctionCall -- > LPAREN ActualParameters RPAREN
         enteringDEBUG("FunctionCall");
         exitingDEBUG("FunctionCall");

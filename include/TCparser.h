@@ -38,7 +38,7 @@ namespace toyc {
         int FormalParamList();
 
         int BreakStatement();
-
+		int FunctionCall();
         int ExpressionStatement();
 		int CompoundStatement();
 		int IfStatement();
@@ -49,12 +49,10 @@ namespace toyc {
 		int WriteStatement();
 		int NewLineStatement();
 		int Expression();
-        int FunctionCall();
 		int RelopExpression();
 		int SimpleExpression();
 		int Term();
 		int Primary();
-		int FunctionCall();
 		int ActualParameters();
 
         ASexpr *expr();
