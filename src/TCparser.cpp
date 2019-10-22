@@ -101,6 +101,7 @@ namespace toyc {
 		exitingDEBUG("definition");
 		accept(SEMICOLON);
 	} else if (buff->getTokenType() == LPAREN) {
+		accept(LPAREN);
 		functiondefinition();
 	} else {
 		reportSEMANTIC_ERROR(scanner,"; expected");
@@ -126,31 +127,32 @@ namespace toyc {
 
   int TCparser::functiondefinition(){
   	enteringDEBUG("functiondefinition");
-  	//accept(NUMBER);
-  	buff = scanner->getToken();
-  	exitingDEBUG("functiondefinition");
-	  return 0;
+  	functionheader();
+	exitingDEBUG("functiondefinition");
+  	functionbody();
+	return 0;
   }
 
   int TCparser::functionheader(){
   	enteringDEBUG("functionheader");
-  	buff = scanner->getToken();
-  	exitingDEBUG("functionheader");
-	  return 0;
+  	formalparamlist();
+	accept(RPAREN);
+	exitingDEBUG("functionheader");
+	return 0;
   }
 
   int TCparser::functionbody(){
   	enteringDEBUG("functionbody");
-  	buff = scanner->getToken();
   	exitingDEBUG("functionbody");
-	  return 0;
+	return 0;
   }
 
   int TCparser::formalparamlist(){
   	enteringDEBUG("formalparamlist");
-  	buff = scanner->getToken();
-  	exitingDEBUG("formalparamlist");
-	  return 0;
+  	type();
+	accept(ID);
+	exitingDEBUG("formalparamlist");
+	return 0;
   }
 
   int TCparser::expressionstatment(){
