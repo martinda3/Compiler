@@ -40,11 +40,25 @@ namespace toyc {
         int breakstatment();
 
         int expressionstatment();
-
+		int compoundstantment();
+		int ifstatment();
+		int nullstatment();
+		int returnstatment();
+		int whilestatment();
+		int readstatment();
+		int writestatment();
+		int newlinestatment();
+		int expression();
+		int relopexpression();
+		int simpleexpression();
+		int term();
+		int primary();
+		int functioncall();
+		int actualparameters();
 
         ASexpr *expr();
 
-        ASexpr *term();
+       // ASexpr *term();
 
         ASexpr *element();
 

@@ -109,6 +109,21 @@ namespace toyc {
 	  return 0;
   }
 
+  int TCparser::type(){
+  	enteringDEBUG("type");
+  	if (buff->getTokenType() == INT) {
+  		tokenDEBUG("type = INT");
+  	} else if (buff->getTokenType() == CHAR){
+  		tokenDEBUG("type = CHAR");
+  	} else {
+  		reportSEMANTIC_ERROR(scanner,"int or char expected");
+  		exit(EXIT_FAILURE);
+  	}
+  	exitingDEBUG("type");
+  	buff = scanner->getToken();
+  	return 0;
+  }
+
   int TCparser::functiondefinition(){
   	enteringDEBUG("functiondefinition");
   	//accept(NUMBER);
@@ -145,45 +160,109 @@ namespace toyc {
 	  return 0;
   }
 
-  int TCparser::breakstatment(){
-  	enteringDEBUG("breakstatment");
+  int TCparser::compoundstantment(){
+  	enteringDEBUG("compoundstantment");
   	buff = scanner->getToken();
-  	exitingDEBUG("breakstatment");
-  	return 0;
-
-  }
-
-  int TCparser::type(){
-  	enteringDEBUG("type");
-  	if (buff->getTokenType() == INT) {
-	    tokenDEBUG("type = INT");
-  	} else if (buff->getTokenType() == CHAR){
-	    tokenDEBUG("type = CHAR");
-  	} else {
-	    reportSEMANTIC_ERROR(scanner,"int or char expected");
-	    exit(EXIT_FAILURE);
-  	}
-  	exitingDEBUG("type");
-  	buff = scanner->getToken();
+  	exitingDEBUG("compoundstantment");
   	return 0;
   }
 
+  int TCparser::ifstatment(){
+  	enteringDEBUG("ifstatment");
+  	buff = scanner->getToken();
+  	exitingDEBUG("ifstatment");
+  	return 0;
+  }
+
+  int TCparser::nullstatment(){
+  	enteringDEBUG("nullstatment");
+  	buff = scanner->getToken();
+  	exitingDEBUG("nullstatment");
+  	return 0;
+  }
+
+  int TCparser::returnstatment(){
+  	enteringDEBUG("returnstatment");
+  	buff = scanner->getToken();
+  	exitingDEBUG("returnstatment");
+  	return 0;
+  }
 
 
+  int TCparser::whilestatment(){
+  	enteringDEBUG("whilestatment");
+  	buff = scanner->getToken();
+  	exitingDEBUG("whilestatment");
+  	return 0;
+  }
 
 
+  int TCparser::readstatment(){
+  	enteringDEBUG("readstatment");
+  	buff = scanner->getToken();
+  	exitingDEBUG("readstatment");
+  	return 0;
+  }
 
 
+  int TCparser::writestatment(){
+  	enteringDEBUG("writestatement");
+  	buff = scanner->getToken();
+  	exitingDEBUG("writestatment");
+  	return 0;
+  }
+
+  int TCparser::newlinestatment(){
+  	enteringDEBUG("newlinestatment");
+  	buff = scanner->getToken();
+  	exitingDEBUG("newlinestatment");
+  	return 0;
+  }
 
 
+  int TCparser::expression(){
+  	enteringDEBUG("expression");
+  	buff = scanner->getToken();
+  	exitingDEBUG("expression");
+  	return 0;
+  }
 
 
+  int TCparser::relopexpression(){
+  	enteringDEBUG("relopexpression");
+  	buff = scanner->getToken();
+  	exitingDEBUG("relopexpression");
+  	return 0;
+  }
 
+  int TCparser::simpleexpression(){
+  	enteringDEBUG("simpleexpression");
+  	buff = scanner->getToken();
+  	exitingDEBUG("simplleexpression");
+  	return 0;
+  }
 
+  int TCparser::term(){
+  	enteringDEBUG("term");
+  	buff = scanner->getToken();
+  	exitingDEBUG("term");
+  	return 0;
+  }
 
+  int TCparser::primary(){
+  	enteringDEBUG("primary");
+  	buff = scanner->getToken();
+  	exitingDEBUG("primary");
+  	return 0;
+  }
 
-
-
+  int TCparser::actualparameters(){
+  	enteringDEBUG("actualparameters");
+  	buff = scanner->getToken();
+  	exitingDEBUG("actualparameters");
+  	return 0;
+  }
+/*
 
   int TCparser::statementList(ASstatement *l[],int n) {
     int num=0;
@@ -308,24 +387,24 @@ namespace toyc {
     }
     exitingDEBUG("statement");
     return s;
-  }
-  
+  }*/
+/*  
   ASexpr* TCparser::expr() {
     // expr --> term | term RELOP expr
     enteringDEBUG("expr");
-    ASexpr* op1 = term(), *op2=NULL, *result=NULL;
+   // ASexpr* op1 = term(), *op2=NULL, *result=NULL;
     TCtoken* oper = buff;
     if ( buff->getTokenType() == RELOP ) {
       buff = scanner->getToken();
-      op2 = expr();
-      result = new ASbinaryExpr(oper,op1,op2);
+//      op2 = expr();
+ //     result = new ASbinaryExpr(oper,op1,op2);
      } else 
       result = op1;
     exitingDEBUG("expr");
     return result;
     }
-
-  ASexpr* TCparser::term() {
+*/
+ /* ASexpr* TCparser::term() {
     // term --> element | element ADDOP term | element OR term
     enteringDEBUG("term");
     ASexpr *op1 = element(), *op2=NULL, *result=NULL;
@@ -338,8 +417,8 @@ namespace toyc {
     } else result = op1;
     exitingDEBUG("term");
     return result;
-  }
-
+  }*/
+/*
   ASexpr* TCparser::element() {
     // element --> factor | factor MULOP element | factor AND element
     enteringDEBUG("element");
@@ -400,7 +479,7 @@ namespace toyc {
     exitingDEBUG("factor");
     return operand;
   }
-  
+  */
   /*
     private static void enter_special_id(SymbolTable st, TCtoken.Tokens type) {
         TCsymbol sym=null;
