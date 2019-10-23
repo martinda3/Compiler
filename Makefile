@@ -37,8 +37,8 @@ clean:
 	@echo " $(RM) -r $(BUILDDIR) $(TARGET) $(SCANNER) $(PARSER)"; $(RM) -r $(BUILDDIR) $(TARGET) $(SCANNER) $(PARSER)
 
 tests:
-	$(MAKE) $(TARGET2)
-	@echo "	Passed if no scanner output";
+	$(MAKE) $(TARGET)
+	@echo "	Together we stand untied we fall";
 	@echo "[Part 2]"; $(TARGET) -v $(TESTDIR)/type.tc
 
 .PHONY: clean

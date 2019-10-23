@@ -158,8 +158,8 @@ namespace toyc
 		if (buff->getTokenType() == INT || buff->getTokenType() == CHAR)
 		{
 			FormalParamList();
-			accept(RPAREN);
 			exitingDEBUG("Function Header");
+			accept(RPAREN);
 		}
 		else if (buff->getTokenType() == RPAREN)
 		{
@@ -182,21 +182,21 @@ namespace toyc
 	int TCparser::FormalParamList() // DONE
 	{
 		// FormalParamList --> Type ID { COMMA Type ID }
-		enteringDEBUG("FormalParamList");
+		enteringDEBUG("Formal Param List");
 		Type();
 		accept(ID);
 		if (buff->getTokenType() != RPAREN)
 		{
-			enteringDEBUG("FormalParamList Additional");
+			enteringDEBUG("Formal Param List Additional");
 			while (buff->getTokenType() != RPAREN)
 			{
 				accept(COMMA);
 				Type();
 				accept(ID);
 			}
-			exitingDEBUG("FormalParamList Additional");
+			exitingDEBUG("Formal Param List Additional");
 		}
-		exitingDEBUG("FormalParamList");
+		exitingDEBUG("Formal Param List");
 		return 0;
 	}
 
@@ -251,16 +251,28 @@ namespace toyc
 		return 0;
 	}
 
-	int TCparser::IfStatement()
+	int TCparser::IfStatement() // WIP
 	{
-		// IfStatement --> IF LPAREN Expression RPAREN Statement [ else Statement ]
+		// IfStatement --> IF LPAREN Expression RPAREN Statement [ ELSE Statement ]
 		enteringDEBUG("IfStatement");
+		accept(IF);
+		accept(LPAREN);
+		Expression();
+		accept(RPAREN);
+		Statement();
+		if (buff->getTokenType() == ELSE)
+		{
+			enteringDEBUG("IfStatement Additional");
+			accept(ELSE);
+			Statement();
+			exitingDEBUG("IfStatement Additional");
+		}
 		exitingDEBUG("IfStatement");
 		return 0;
 	}
 
-	int TCparser::Statement()
-		{
+	int TCparser::Statement() // WIP
+	{
 		// Statement --> ExpressionStatement
 		//             | BreakStatement
 		//             | CompoundStatement
@@ -318,7 +330,7 @@ namespace toyc
 				break;
 		}
 		return 0;
-		}
+	}
 
 	int TCparser::BreakStatement() // DONE NEED TO TEST
 	{
@@ -413,14 +425,11 @@ namespace toyc
 		// Expression --> RelopExpression { ASSIGNOP RelopExpression }
 		enteringDEBUG("Expression");
 		RelopExpression();
-		if (buff->getTokenType() != SEMICOLON)
+		if (buff->getTokenType() == ASSIGNOP)
 		{
 			enteringDEBUG("Expression Additional");
-			while (buff->getTokenType() != SEMICOLON)
-			{
-				accept(ASSIGNOP);
-				RelopExpression();
-			}
+			accept(ASSIGNOP);
+			RelopExpression();
 			exitingDEBUG("Expression Additional");
 		}
 		exitingDEBUG("Expression");
@@ -432,33 +441,27 @@ namespace toyc
 		// RelopExpression --> SimpleExpression { RELOP SimpleExpression }
 		enteringDEBUG("RelopExpression");
 		SimpleExpression();
-		if (buff->getTokenType() != SEMICOLON)
+		if (buff->getTokenType() == RELOP)
 		{
 			enteringDEBUG("RelopExpression Additional");
-			while (buff->getTokenType() != SEMICOLON)
-			{
-				accept(RELOP);
-				SimpleExpression();
-			}
+			accept(RELOP);
+			SimpleExpression();
 			exitingDEBUG("RelopExpression Additional");
 		}
 		exitingDEBUG("RelopExpression");
 		return 0;
 	}
 
-	int TCparser::SimpleExpression()
+	int TCparser::SimpleExpression() // WIP
 	{
 		// SimpleExpression --> Term { ADDOP Primary }
 		enteringDEBUG("SimpleExpression");
 		Term();
-		if (buff->getTokenType() != SEMICOLON)
+		if (buff->getTokenType() == ADDOP)
 		{
 			enteringDEBUG("SimpleExpression Additional");
-			while (buff->getTokenType() != SEMICOLON)
-			{
-				accept(ADDOP);
-				Term();
-			}
+			accept(ADDOP);
+			Term();
 			exitingDEBUG("SimpleExpression Additional");
 		}
 		exitingDEBUG("SimpleExpression");
@@ -470,14 +473,11 @@ namespace toyc
 		// Term --> Primary { MULOP Primary }
 		enteringDEBUG("Term");
 		Primary();
-		if (buff->getTokenType() != SEMICOLON)
+		if (buff->getTokenType() == MULOP)
 		{
 			enteringDEBUG("Term Additional");
-			while (buff->getTokenType() != SEMICOLON)
-			{
-				accept(MULOP);
-				Primary();
-			}
+			accept(MULOP);
+			Primary();
 			exitingDEBUG("Term Additional");
 		}
 		exitingDEBUG("Term");
@@ -486,7 +486,7 @@ namespace toyc
 
 	int TCparser::Primary() // WIP
 	{
-		// Primary --> ID [ FunctionCall }
+		// Primary --> ID [ FunctionCall ]
 		//           | NUMBER
 		//           | STRING
 		//           | CHARLITERAL
@@ -495,6 +495,11 @@ namespace toyc
 		enteringDEBUG("Primary");
 		switch (buff->getTokenType())
 		{
+			case ID:
+				accept(ID);
+				//FunctionCall();
+				break;
+
 			case NUMBER:
 				accept(NUMBER);
 				break;
@@ -513,10 +518,10 @@ namespace toyc
 				accept(RPAREN);
 				break;
 
-//			case MINUS:
-//				accept(MINUS);
-//				Primary();
-//				break;
+				//			case MINUS:
+				//				accept(MINUS);
+				//				Primary();
+				//				break;
 
 			case NOT:
 				accept(NOT);
