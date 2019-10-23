@@ -85,19 +85,21 @@ namespace toyc
 	ASabstractSyntax* TCparser::program() // DONE
 	{
 		enteringDEBUG("Program");
-		while (buff->getTokenType() != EOFILE)
+		//Definition();
+		while (true)
 		{
-			try
+			Definition();
+			if (buff->getTokenType() != EOFILE)
 			{
-				Definition();
+				continue;
 			}
-			catch (int t)
+			else
 			{
-				break;
+				exitingDEBUG("Program");
+				return 0;
 			}
 		}
-		exitingDEBUG("Program");
-		return 0;
+
 	}
 
 	int TCparser::Definition() // DONE
@@ -200,7 +202,7 @@ namespace toyc
 		return 0;
 	}
 
-	int TCparser::ExpressionStatement()
+	int TCparser::ExpressionStatement() // WIP
 	{
 		// ExpressionStatement --> Expression
 		enteringDEBUG("ExpressionStatement");
@@ -231,7 +233,7 @@ namespace toyc
 		if (buff->getTokenType() != RCURLY)
 		{
 			enteringDEBUG("Statement");
-		}
+		//}
 		while (true)
 		{
 			if (buff->getTokenType() != RCURLY)
@@ -246,6 +248,7 @@ namespace toyc
 				accept(SEMICOLON);
 				break;
 			}
+		}
 		}
 		// Need to add error handling
 		return 0;
@@ -300,6 +303,7 @@ namespace toyc
 
 			case RETURN:
 				ReturnStatement();
+				accept(SEMICOLON);
 				break;
 
 			case WHILE:
@@ -357,7 +361,6 @@ namespace toyc
 		accept(RETURN);
 		Expression(); //Not working
 		exitingDEBUG("Return Statement");
-		accept(SEMICOLON);
 		return 0;
 	}
 
@@ -429,6 +432,13 @@ namespace toyc
 		{
 			enteringDEBUG("Expression Additional");
 			accept(ASSIGNOP);
+			RelopExpression();
+			exitingDEBUG("Expression Additional");
+		}
+		else if (buff->getTokenType() == NOTEQUAL)
+		{
+			enteringDEBUG("Expression Additional");
+			accept(NOTEQUAL);
 			RelopExpression();
 			exitingDEBUG("Expression Additional");
 		}
@@ -513,8 +523,10 @@ namespace toyc
 				break;
 
 			case LPAREN:
+				enteringDEBUG("Primary Additional");
 				accept(LPAREN);
 				Expression();
+				exitingDEBUG("Primary Additional");
 				accept(RPAREN);
 				break;
 
@@ -523,9 +535,11 @@ namespace toyc
 				//				Primary();
 				//				break;
 
-			case NOT:
-				accept(NOT);
+			case NOTEQUAL:
+				enteringDEBUG("Primary Additional");
+				accept(NOTEQUAL);
 				Primary();
+				exitingDEBUG("Primary Additional");
 				break;
 
 			default:
@@ -845,12 +859,16 @@ namespace toyc
 	void TCparser::accept(int t)
 	{
 		if (t == buff->getTokenType())
+		{
 			buff = scanner->getToken();
+		}
+		else if (buff->getTokenType() == EOFILE)
+		{
+			exit(0);
+		}
 		else
 		{
 			throw t;
-			//reportSYNTAX_ERROR(scanner, str + " expected");
-			//exit(EXIT_FAILURE);
 		}
 	}
 
