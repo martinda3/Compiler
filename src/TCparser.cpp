@@ -255,7 +255,6 @@ namespace toyc
 	{
 		// IfStatement --> IF LPAREN Expression RPAREN Statement [ else Statement ]
 		enteringDEBUG("IfStatement");
-		buff = scanner->getToken();
 		exitingDEBUG("IfStatement");
 		return 0;
 	}
@@ -283,46 +282,54 @@ namespace toyc
 				NullStatement();
 				break;
 
+			case IF:
+				IfStatement();
+				break;
+
+			case RETURN:
+				ReturnStatement();
+				break;
+
+			case WHILE:
+				WhileStatement();
+				break;
+
+			case READ:
+				ReadStatement();
+				break;
+
+			case WRITE:
+				WriteStatement();
+				break;
+
+			case NEWLINE:
+				NewLineStatement();
+				break;
+
+			case LCURLY:
+				CompoundStatement();
+				break;
+
 //			case BREAK:
 //				BreakStatement();
 //				break;
-//			case BREAK:
-//				BreakStatement();
-//				break;
-//			case BREAK:
-//				BreakStatement();
-//				break;
-//			case BREAK:
-//				BreakStatement();
-//				break;
-//			case BREAK:
-//				BreakStatement();
-//				break;
-//			case BREAK:
-//				BreakStatement();
-//				break;
-//			case BREAK:
-//				BreakStatement();
-//				break;
-//			case BREAK:
-//				BreakStatement();
-//				break;
+
 			default:
 				break;
 		}
 		return 0;
 		}
 
-	int TCparser::BreakStatement()
-		{
+	int TCparser::BreakStatement() // DONE NEED TO TEST
+	{
 		// BreakStatement --> BREAK SEMICOLON
 		enteringDEBUG("BreakStatement");
 		exitingDEBUG("BreakStatement");
 		accept(BREAK);
 		return 0;
-		}
+	}
 
-	int TCparser::NullStatement()
+	int TCparser::NullStatement() // DONE NEED TO TEST
 	{
 		// SEMICOLON
 		enteringDEBUG("NullStatement");
@@ -331,65 +338,110 @@ namespace toyc
 		return 0;
 	}
 
-	int TCparser::ReturnStatement()
+	int TCparser::ReturnStatement() // WIP
 	{
 		// RETURN [ Expression ] SEMICOLON
-		enteringDEBUG("ReturnStatement");
-		buff = scanner->getToken();
-		exitingDEBUG("ReturnStatement");
+		enteringDEBUG("Return Statement");
+		accept(RETURN);
+		Expression(); //Not working
+		exitingDEBUG("Return Statement");
+		accept(SEMICOLON);
 		return 0;
 	}
 
-	int TCparser::WhileStatement()
+	int TCparser::WhileStatement() // WIP
 	{
 		// WHILE LPAREN Expression RPAREN Statement
-		enteringDEBUG("WhileStatement");
-		buff = scanner->getToken();
-		exitingDEBUG("WhileStatement");
+		enteringDEBUG("While Statement");
+		accept(WHILE);
+		accept(LPAREN);
+		Expression(); //Not working
+		accept(RPAREN);
+		Statement();
+		exitingDEBUG("While Statement");
 		return 0;
 	}
 
-	int TCparser::ReadStatement()
+	int TCparser::ReadStatement() // WIP
 	{
 		// READ LPAREN ID { COMMA ID } RPAREN SEMICOLON
 		enteringDEBUG("ReadStatement");
-		buff = scanner->getToken();
+		accept(READ);
+		accept(LPAREN);
+		accept(ID);
+		if (buff->getTokenType() != RPAREN)
+		{
+			enteringDEBUG("ReadStatement Additional");
+			while (buff->getTokenType() != RPAREN)
+			{
+				accept(COMMA);
+				accept(ID);
+			}
+			exitingDEBUG("ReadStatement Additional");
+		}
+		accept(RPAREN);
 		exitingDEBUG("ReadStatement");
+		accept(SEMICOLON);
 		return 0;
 	}
 
-	int TCparser::WriteStatement()
+	int TCparser::WriteStatement() // WIP
 	{
 		// WRITE LPAREN ActualParameters RPAREN SEMICOLON
 		enteringDEBUG("WriteStatement");
-		buff = scanner->getToken();
+		accept(WRITE);
+		accept(LPAREN);
+		ActualParameters();
+		accept(RPAREN);
 		exitingDEBUG("WriteStatement");
+		accept(SEMICOLON);
 		return 0;
 	}
 
-	int TCparser::NewLineStatement()
+	int TCparser::NewLineStatement() // WIP
 	{
 		// NewLineStatement --> NEWLINE SEMICOLON
 		enteringDEBUG("NewLineStatement");
-		buff = scanner->getToken();
+		accept(NEWLINE);
 		exitingDEBUG("NewLineStatement");
+		accept(SEMICOLON);
 		return 0;
 	}
 
-	int TCparser::Expression()
+	int TCparser::Expression()  // WIP
 	{
 		// Expression --> RelopExpression { ASSIGNOP RelopExpression }
 		enteringDEBUG("Expression");
-		buff = scanner->getToken();
+		RelopExpression();
+		if (buff->getTokenType() != SEMICOLON)
+		{
+			enteringDEBUG("Expression Additional");
+			while (buff->getTokenType() != SEMICOLON)
+			{
+				accept(ASSIGNOP);
+				RelopExpression();
+			}
+			exitingDEBUG("Expression Additional");
+		}
 		exitingDEBUG("Expression");
 		return 0;
 	}
 
-	int TCparser::RelopExpression()
+	int TCparser::RelopExpression() // WIP
 	{
 		// RelopExpression --> SimpleExpression { RELOP SimpleExpression }
 		enteringDEBUG("RelopExpression");
-		buff = scanner->getToken();
+		SimpleExpression();
+		if (buff->getTokenType() != SEMICOLON)
+		{
+			enteringDEBUG("RelopExpression Additional");
+			while (buff->getTokenType() != SEMICOLON)
+			{
+				accept(RELOP);
+				SimpleExpression();
+			}
+			exitingDEBUG("RelopExpression Additional");
+		}
 		exitingDEBUG("RelopExpression");
 		return 0;
 	}
@@ -398,21 +450,41 @@ namespace toyc
 	{
 		// SimpleExpression --> Term { ADDOP Primary }
 		enteringDEBUG("SimpleExpression");
-		buff = scanner->getToken();
+		Term();
+		if (buff->getTokenType() != SEMICOLON)
+		{
+			enteringDEBUG("SimpleExpression Additional");
+			while (buff->getTokenType() != SEMICOLON)
+			{
+				accept(ADDOP);
+				Term();
+			}
+			exitingDEBUG("SimpleExpression Additional");
+		}
 		exitingDEBUG("SimpleExpression");
 		return 0;
 	}
 
-	int TCparser::Term()
+	int TCparser::Term() // WIP
 	{
 		// Term --> Primary { MULOP Primary }
 		enteringDEBUG("Term");
-		buff = scanner->getToken();
+		Primary();
+		if (buff->getTokenType() != SEMICOLON)
+		{
+			enteringDEBUG("Term Additional");
+			while (buff->getTokenType() != SEMICOLON)
+			{
+				accept(MULOP);
+				Primary();
+			}
+			exitingDEBUG("Term Additional");
+		}
 		exitingDEBUG("Term");
 		return 0;
 	}
 
-	int TCparser::Primary()
+	int TCparser::Primary() // WIP
 	{
 		// Primary --> ID [ FunctionCall }
 		//           | NUMBER
@@ -421,27 +493,73 @@ namespace toyc
 		//           | LPAREN Expression RPAREN
 		//           | MINUS | NOT Primary
 		enteringDEBUG("Primary");
-		buff = scanner->getToken();
+		switch (buff->getTokenType())
+		{
+			case NUMBER:
+				accept(NUMBER);
+				break;
+
+			case STRING:
+				accept(STRING);
+				break;
+
+			case CHARLITERAL:
+				accept(CHARLITERAL);
+				break;
+
+			case LPAREN:
+				accept(LPAREN);
+				Expression();
+				accept(RPAREN);
+				break;
+
+//			case MINUS:
+//				accept(MINUS);
+//				Primary();
+//				break;
+
+			case NOT:
+				accept(NOT);
+				Primary();
+				break;
+
+			default:
+				break;
+		}
 		exitingDEBUG("Primary");
 		return 0;
 	}
 
-	int TCparser::FunctionCall()
+	int TCparser::FunctionCall() // WIP
 	{
 		// FunctionCall -- > LPAREN ActualParameters RPAREN
 		enteringDEBUG("FunctionCall");
+		accept(LPAREN);
+		ActualParameters();
+		accept(RPAREN);
 		exitingDEBUG("FunctionCall");
 		return 0;
 	}
 
-	int TCparser::ActualParameters()
+	int TCparser::ActualParameters() // WIP
 	{
 		// Expression { COMMA Expression }
 		enteringDEBUG("ActualParameters");
-		buff = scanner->getToken();
+		Expression();
+		if (buff->getTokenType() != COMMA)
+		{
+			enteringDEBUG("ActualParameters Additional");
+			while (buff->getTokenType() != RPAREN)
+			{
+				accept(COMMA);
+				Expression();
+			}
+			exitingDEBUG("ActualParameters Additional");
+		}
 		exitingDEBUG("ActualParameters");
 		return 0;
 	}
+
 	/*
 
 	  int TCparser::statementList(ASstatement *l[],int n) {
