@@ -76,11 +76,11 @@ namespace toyc
 		return p;
 	}
 
-	void enteringDEBUG(std::string s) { if (verbose) reportDEBUG("    ", "parser", "entering " + s); }
+	void enteringDEBUG(std::string s) { if (verbose) reportDEBUG("    ", "PARSER", "entering " + s); }
 
-	void tokenDEBUG(std::string s) { if (verbose) reportDEBUG("    ", "parser", " " + s); }
+	void tokenDEBUG(std::string s)    { if (verbose) reportDEBUG("       ", "INFO", " " + s); }
 
-	void exitingDEBUG(std::string s) { if (verbose) reportDEBUG("    ", "parser", "exiting " + s); }
+	void exitingDEBUG(std::string s)  { if (verbose) reportDEBUG("    ", "PARSER", "exiting " + s); }
 
 	ASabstractSyntax* TCparser::program()
 	{
@@ -114,6 +114,7 @@ namespace toyc
 		{
 			accept(SEMICOLON);
 		}
+		exitingDEBUG("Definition");
 		return 0;
 	}
 
@@ -123,12 +124,14 @@ namespace toyc
 		try
 		{
 			accept(INT);
+			exitingDEBUG("Type");
 		}
 		catch (int t)
 		{
 			accept(CHAR);
+			exitingDEBUG("Type");
 		}
-		exitingDEBUG("Type");
+
 		return 0;
 	}
 
@@ -146,6 +149,7 @@ namespace toyc
 	{
 		//FunctionHeader --> LPAREN [ FormalParamList ] RPAREN
 		enteringDEBUG("FunctionHeader");
+		accept(LPAREN);
 		FormalParamList();
 		accept(RPAREN);
 		exitingDEBUG("FunctionHeader");
@@ -167,6 +171,20 @@ namespace toyc
 		enteringDEBUG("FormalParamList");
 		Type();
 		accept(ID);
+		while (true){
+		try
+		{
+			enteringDEBUG("FormalParamList Additional");
+			accept(COMMA);
+			Type();
+			accept(ID);
+		}
+		catch (int t)
+		{
+			exitingDEBUG("FormalParamList Additional");
+			break;
+		}
+		}
 		exitingDEBUG("FormalParamList");
 		return 0;
 	}
