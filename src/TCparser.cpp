@@ -76,16 +76,19 @@ namespace toyc
 		return p;
 	}
 
-	void enteringDEBUG(std::string s) { if (verbose) reportDEBUG("    ", "PARSER", "entering " + s); }
+	void enteringDEBUG(std::string s) { if (verbose) reportDEBUG("    ", "parser", "entering " + s); }
 
-	void tokenDEBUG(std::string s)    { if (verbose) reportDEBUG("       ", "INFO", " " + s); }
+	void tokenDEBUG(std::string s) { if (verbose) reportDEBUG("    ", "parser", " " + s); }
 
-	void exitingDEBUG(std::string s)  { if (verbose) reportDEBUG("    ", "PARSER", "exiting " + s); }
+	void exitingDEBUG(std::string s) { if (verbose) reportDEBUG("    ", "parser", "exiting " + s); }
 
-	ASabstractSyntax* TCparser::program() // DONE
+	ASabstractSyntax* TCparser::program()
 	{
 		enteringDEBUG("Program");
+<<<<<<< HEAD
 		//Definition();
+=======
+>>>>>>> de26ac47f9d38146005ac8eeb9fd7c326b990889
 		while (true)
 		{
 			Definition();
@@ -95,199 +98,221 @@ namespace toyc
 			}
 			else
 			{
+<<<<<<< HEAD
 				exitingDEBUG("Program");
 				return 0;
+=======
+				accept(EOFILE);
+				break;
+>>>>>>> de26ac47f9d38146005ac8eeb9fd7c326b990889
 			}
 		}
 
 	}
 
-	int TCparser::Definition() // DONE
+	int TCparser::Definition()
 	{
-		// Definition --> Type ID ( FunctionDefinition | SEMICOLON )
 		enteringDEBUG("Definition");
 		Type();
 		accept(ID);
 		try
 		{
-			if (buff->getTokenType() == SEMICOLON) {
-				exitingDEBUG("Definition");
-			}
-			accept(SEMICOLON);
+			FunctionDefinition();
 		}
 		catch (int t)
 		{
-			FunctionDefinition();
-			exitingDEBUG("Definition");
+			accept(SEMICOLON);
 		}
 		return 0;
 	}
 
-	int TCparser::Type() // Functional Needs testing
+	int TCparser::Type()
 	{
-		// Type --> INT | CHAR
 		enteringDEBUG("Type");
 		try
 		{
 			accept(INT);
-			exitingDEBUG("Type");
 		}
 		catch (int t)
 		{
 			accept(CHAR);
-			exitingDEBUG("Type");
 		}
-		// Error and Handling not done
+		exitingDEBUG("Type");
 		return 0;
 	}
 
-	int TCparser::FunctionDefinition() // DONE NEED TO TEST MORE
+	int TCparser::FunctionDefinition()
 	{
 		// FunctionDefinition  --> FunctionHeader FunctionBody
 		enteringDEBUG("Function Definition");
 		FunctionHeader();
 		FunctionBody();
 		exitingDEBUG("Function Definition");
-		accept(SEMICOLON); // Accept is here so that parser output will be correct
 		return 0;
 	}
 
-	int TCparser::FunctionHeader() // DONE
+	int TCparser::FunctionHeader()
 	{
 		//FunctionHeader --> LPAREN [ FormalParamList ] RPAREN
-		enteringDEBUG("Function Header");
+		enteringDEBUG("FunctionHeader");
 		accept(LPAREN);
-		if (buff->getTokenType() == INT || buff->getTokenType() == CHAR)
+		try
 		{
 			FormalParamList();
-			exitingDEBUG("Function Header");
-			accept(RPAREN);
 		}
-		else if (buff->getTokenType() == RPAREN)
+		catch (int t)
 		{
-			reportSEMANTIC_ERROR(scanner,"FormalParamList expected");
-			exit(EXIT_FAILURE);
 		}
+		accept(RPAREN);
+		exitingDEBUG("FunctionHeader");
 		return 0;
 	}
 
-	int TCparser::FunctionBody()  // DONE NEED TO TEST MORE
+	int TCparser::FunctionBody()
 	{
 		// FunctionBody --> CompoundStatement
 		enteringDEBUG("FunctionBody");
 		CompoundStatement();
-		accept(SEMICOLON);
 		exitingDEBUG("FunctionBody");
 		return 0;
 	}
 
-	int TCparser::FormalParamList() // DONE
+	int TCparser::FormalParamList()
 	{
 		// FormalParamList --> Type ID { COMMA Type ID }
-		enteringDEBUG("Formal Param List");
+		enteringDEBUG("FormalParamList");
 		Type();
 		accept(ID);
-		if (buff->getTokenType() != RPAREN)
+		while (true)
 		{
-			enteringDEBUG("Formal Param List Additional");
-			while (buff->getTokenType() != RPAREN)
+			try
 			{
 				accept(COMMA);
-				Type();
-				accept(ID);
 			}
-			exitingDEBUG("Formal Param List Additional");
+			catch (int t)
+			{
+				break;
+			}
+			Type();
+			accept(ID);
 		}
-		exitingDEBUG("Formal Param List");
+		exitingDEBUG("FormalParamList");
 		return 0;
 	}
 
+<<<<<<< HEAD
 	int TCparser::ExpressionStatement() // WIP
+=======
+	int TCparser::Statement()
+	{
+		//Statement --> ExpressionStatement | BreakStatement | CompoundStatement | IfStatement | NullStatement | ReturnStatement | WhileStatement | ReadStatement | WriteStatement | NewLineStatement
+		enteringDEBUG("Statement");
+		try { ExpressionStatement(); exitingDEBUG("Statement"); return 0; }
+		catch (int t) {}
+		try { BreakStatement(); exitingDEBUG("Statement"); return 0; }
+		catch (int t) {}
+		try { CompoundStatement(); exitingDEBUG("Statement"); return 0; }
+		catch (int t) {}
+		try { IfStatement(); exitingDEBUG("Statement"); return 0; }
+		catch (int t) {}
+		try { NullStatement(); exitingDEBUG("Statement"); return 0; }
+		catch (int t) {}
+		try { ReturnStatement(); exitingDEBUG("Statement"); return 0; }
+		catch (int t) {}
+		try { WhileStatement(); exitingDEBUG("Statement"); return 0; }
+		catch (int t) {}
+		try { ReadStatement(); exitingDEBUG("Statement"); return 0; }
+		catch (int t) {}
+		try { WriteStatement(); exitingDEBUG("Statement"); return 0; }
+		catch (int t) {}
+		try { NewLineStatement(); exitingDEBUG("Statement"); return 0; }
+	}
+
+	int TCparser::ExpressionStatement()
+>>>>>>> de26ac47f9d38146005ac8eeb9fd7c326b990889
 	{
 		// ExpressionStatement --> Expression
 		enteringDEBUG("ExpressionStatement");
 		Expression();
-		exitingDEBUG("ExpressionStatement");
 		accept(SEMICOLON);
+		exitingDEBUG("ExpressionStatement");
 		return 0;
 	}
 
-	int TCparser::CompoundStatement() // Need statment and error handling
+	int TCparser::BreakStatement()
+	{
+		// BreakStatement --> break ;
+		enteringDEBUG("ExpressionStatement");
+		accept(BREAK);
+		accept(SEMICOLON);
+		exitingDEBUG("ExpressionStatement");
+		return 0;
+	}
+
+	int TCparser::CompoundStatement()
 	{
 		// CompoundStatement --> LCURLY { Type ID SEMICOLON } { Statement } RCURLY
 		enteringDEBUG("CompoundStatement");
 		accept(LCURLY);
-		while (buff->getTokenType() == INT || buff->getTokenType() == CHAR) // { Type ID SEMICOLON }
+		while (true)
 		{
 			try
 			{
 				Type();
-				accept(ID);
-				accept(SEMICOLON);
+			}
+			catch (int t)
+			{
+				break;
+			}
+<<<<<<< HEAD
+		}
+		if (buff->getTokenType() != RCURLY)
+		{
+			enteringDEBUG("Statement");
+		//}
+=======
+			accept(ID);
+			accept(SEMICOLON);
+		}
+>>>>>>> de26ac47f9d38146005ac8eeb9fd7c326b990889
+		while (true)
+		{
+			try
+			{
+				Statement();
 			}
 			catch (int t)
 			{
 				break;
 			}
 		}
-		if (buff->getTokenType() != RCURLY)
-		{
-			enteringDEBUG("Statement");
-		//}
-		while (true)
-		{
-			if (buff->getTokenType() != RCURLY)
-			{
-				Statement();
-			}
-			else
-			{
-				exitingDEBUG("Statement");
-				accept(RCURLY);
-				exitingDEBUG("CompoundStatement");
-				accept(SEMICOLON);
-				break;
-			}
-		}
+<<<<<<< HEAD
 		}
 		// Need to add error handling
+=======
+		accept(RCURLY);
+		exitingDEBUG("CompoundStatement");
+>>>>>>> de26ac47f9d38146005ac8eeb9fd7c326b990889
 		return 0;
 	}
 
-	int TCparser::IfStatement() // WIP
+	int TCparser::IfStatement()
 	{
-		// IfStatement --> IF LPAREN Expression RPAREN Statement [ ELSE Statement ]
+		// IfStatement --> IF LPAREN Expression RPAREN Statement [ else Statement ]
 		enteringDEBUG("IfStatement");
 		accept(IF);
 		accept(LPAREN);
 		Expression();
 		accept(RPAREN);
 		Statement();
-		if (buff->getTokenType() == ELSE)
+		try
 		{
-			enteringDEBUG("IfStatement Additional");
 			accept(ELSE);
 			Statement();
-			exitingDEBUG("IfStatement Additional");
 		}
-		exitingDEBUG("IfStatement");
-		return 0;
-	}
-
-	int TCparser::Statement() // WIP
-	{
-		// Statement --> ExpressionStatement
-		//             | BreakStatement
-		//             | CompoundStatement
-		//             | IfStatement
-		//             | NullStatement
-		//             | ReturnStatement
-		//             | WhileStatement
-		//             | ReadStatement
-		//             | WriteStatement
-		//             | NewLineStatement
-		switch (buff->getTokenType())
+		catch (int t)
 		{
+<<<<<<< HEAD
 			case BREAK:
 				BreakStatement();
 				accept(SEMICOLON);
@@ -332,75 +357,86 @@ namespace toyc
 
 			default:
 				break;
+=======
+>>>>>>> de26ac47f9d38146005ac8eeb9fd7c326b990889
 		}
+		exitingDEBUG("IfStatement");
 		return 0;
 	}
 
-	int TCparser::BreakStatement() // DONE NEED TO TEST
-	{
-		// BreakStatement --> BREAK SEMICOLON
-		enteringDEBUG("BreakStatement");
-		exitingDEBUG("BreakStatement");
-		accept(BREAK);
-		return 0;
-	}
-
-	int TCparser::NullStatement() // DONE NEED TO TEST
+	int TCparser::NullStatement()
 	{
 		// SEMICOLON
 		enteringDEBUG("NullStatement");
-		exitingDEBUG("NullStatement");
 		accept(SEMICOLON);
+		exitingDEBUG("NullStatement");
 		return 0;
 	}
 
-	int TCparser::ReturnStatement() // WIP
+	int TCparser::ReturnStatement()
 	{
 		// RETURN [ Expression ] SEMICOLON
-		enteringDEBUG("Return Statement");
+		enteringDEBUG("ReturnStatement");
 		accept(RETURN);
+<<<<<<< HEAD
 		Expression(); //Not working
 		exitingDEBUG("Return Statement");
+=======
+		try
+		{
+			Expression();
+		}
+		catch (int t)
+		{
+		}
+		accept(SEMICOLON);
+		exitingDEBUG("ReturnStatement");
+>>>>>>> de26ac47f9d38146005ac8eeb9fd7c326b990889
 		return 0;
 	}
 
-	int TCparser::WhileStatement() // WIP
+
+	int TCparser::WhileStatement()
 	{
 		// WHILE LPAREN Expression RPAREN Statement
-		enteringDEBUG("While Statement");
+		enteringDEBUG("WhileStatement");
 		accept(WHILE);
 		accept(LPAREN);
-		Expression(); //Not working
+		Expression();
 		accept(RPAREN);
 		Statement();
-		exitingDEBUG("While Statement");
+		exitingDEBUG("WhileStatement");
 		return 0;
 	}
 
-	int TCparser::ReadStatement() // WIP
+
+	int TCparser::ReadStatement()
 	{
 		// READ LPAREN ID { COMMA ID } RPAREN SEMICOLON
 		enteringDEBUG("ReadStatement");
 		accept(READ);
 		accept(LPAREN);
 		accept(ID);
-		if (buff->getTokenType() != RPAREN)
+		while (true)
 		{
-			enteringDEBUG("ReadStatement Additional");
-			while (buff->getTokenType() != RPAREN)
+			try
 			{
 				accept(COMMA);
-				accept(ID);
 			}
-			exitingDEBUG("ReadStatement Additional");
+			catch (int t)
+			{
+				break;
+			}
+			accept(ID);
 		}
 		accept(RPAREN);
-		exitingDEBUG("ReadStatement");
 		accept(SEMICOLON);
+		exitingDEBUG("ReadStatement");
 		return 0;
 	}
 
-	int TCparser::WriteStatement() // WIP
+
+	int TCparser::WriteStatement()
 	{
 		// WRITE LPAREN ActualParameters RPAREN SEMICOLON
 		enteringDEBUG("WriteStatement");
@@ -408,32 +444,38 @@ namespace toyc
 		accept(LPAREN);
 		ActualParameters();
 		accept(RPAREN);
-		exitingDEBUG("WriteStatement");
 		accept(SEMICOLON);
+		exitingDEBUG("WriteStatement");
 		return 0;
 	}
 
-	int TCparser::NewLineStatement() // WIP
+	int TCparser::NewLineStatement()
 	{
 		// NewLineStatement --> NEWLINE SEMICOLON
 		enteringDEBUG("NewLineStatement");
 		accept(NEWLINE);
-		exitingDEBUG("NewLineStatement");
 		accept(SEMICOLON);
+		exitingDEBUG("NewLineStatement");
 		return 0;
 	}
 
-	int TCparser::Expression()  // WIP
+
+	int TCparser::Expression()
 	{
 		// Expression --> RelopExpression { ASSIGNOP RelopExpression }
 		enteringDEBUG("Expression");
 		RelopExpression();
-		if (buff->getTokenType() == ASSIGNOP)
+		while (true)
 		{
-			enteringDEBUG("Expression Additional");
-			accept(ASSIGNOP);
+			try
+			{
+				accept(ASSIGNOP);
+			}
+			catch (int t)
+			{
+				break;
+			}
 			RelopExpression();
-			exitingDEBUG("Expression Additional");
 		}
 		else if (buff->getTokenType() == NOTEQUAL)
 		{
@@ -446,82 +488,101 @@ namespace toyc
 		return 0;
 	}
 
-	int TCparser::RelopExpression() // WIP
+
+	int TCparser::RelopExpression()
 	{
 		// RelopExpression --> SimpleExpression { RELOP SimpleExpression }
 		enteringDEBUG("RelopExpression");
 		SimpleExpression();
-		if (buff->getTokenType() == RELOP)
+		while (true)
 		{
-			enteringDEBUG("RelopExpression Additional");
-			accept(RELOP);
+			try
+			{
+				accept(RELOP);
+			}
+			catch (int t)
+			{
+				break;
+			}
 			SimpleExpression();
-			exitingDEBUG("RelopExpression Additional");
 		}
 		exitingDEBUG("RelopExpression");
 		return 0;
 	}
 
-	int TCparser::SimpleExpression() // WIP
+	int TCparser::SimpleExpression()
 	{
 		// SimpleExpression --> Term { ADDOP Primary }
 		enteringDEBUG("SimpleExpression");
 		Term();
-		if (buff->getTokenType() == ADDOP)
+		while (true)
 		{
-			enteringDEBUG("SimpleExpression Additional");
-			accept(ADDOP);
+			try
+			{
+				accept(ADDOP);
+			}
+			catch (int t)
+			{
+				break;
+			}
 			Term();
-			exitingDEBUG("SimpleExpression Additional");
 		}
 		exitingDEBUG("SimpleExpression");
 		return 0;
 	}
 
-	int TCparser::Term() // WIP
+	int TCparser::Term()
 	{
 		// Term --> Primary { MULOP Primary }
 		enteringDEBUG("Term");
 		Primary();
-		if (buff->getTokenType() == MULOP)
+		while (true)
 		{
-			enteringDEBUG("Term Additional");
-			accept(MULOP);
+			try
+			{
+				accept(MULOP);
+			}
+			catch (int t)
+			{
+				break;
+			}
 			Primary();
-			exitingDEBUG("Term Additional");
 		}
 		exitingDEBUG("Term");
 		return 0;
 	}
 
-	int TCparser::Primary() // WIP
+	int TCparser::Primary()
 	{
-		// Primary --> ID [ FunctionCall ]
+		// Primary --> ID [ FunctionCall }
 		//           | NUMBER
 		//           | STRING
 		//           | CHARLITERAL
 		//           | LPAREN Expression RPAREN
 		//           | MINUS | NOT Primary
 		enteringDEBUG("Primary");
-		switch (buff->getTokenType())
+		tok = buff->getTokenType();
+		switch (tok)
 		{
 			case ID:
 				accept(ID);
-				//FunctionCall();
+				try
+				{
+					FunctionCall();
+				}
+				catch (int t)
+				{
+				}
 				break;
-
 			case NUMBER:
 				accept(NUMBER);
 				break;
-
 			case STRING:
 				accept(STRING);
 				break;
-
 			case CHARLITERAL:
 				accept(CHARLITERAL);
 				break;
-
 			case LPAREN:
 				enteringDEBUG("Primary Additional");
 				accept(LPAREN);
@@ -529,6 +590,7 @@ namespace toyc
 				exitingDEBUG("Primary Additional");
 				accept(RPAREN);
 				break;
+<<<<<<< HEAD
 
 				//			case MINUS:
 				//				accept(MINUS);
@@ -538,47 +600,60 @@ namespace toyc
 			case NOTEQUAL:
 				enteringDEBUG("Primary Additional");
 				accept(NOTEQUAL);
+=======
+			case MINUS:
+				accept(MINUS);
+				Primary();
+				break;
+			case NOT:
+				accept(NOT);
+>>>>>>> de26ac47f9d38146005ac8eeb9fd7c326b990889
 				Primary();
 				exitingDEBUG("Primary Additional");
 				break;
-
-			default:
+			case default:
+				throw tok;
 				break;
 		}
 		exitingDEBUG("Primary");
 		return 0;
 	}
-
-	int TCparser::FunctionCall() // WIP
+	int TCparser::FunctionCall()
 	{
 		// FunctionCall -- > LPAREN ActualParameters RPAREN
 		enteringDEBUG("FunctionCall");
 		accept(LPAREN);
-		ActualParameters();
+		try
+		{
+			ActualParameters();
+		}
+		catch (int t)
+		{
+		}
 		accept(RPAREN);
 		exitingDEBUG("FunctionCall");
 		return 0;
 	}
-
-	int TCparser::ActualParameters() // WIP
+	int TCparser::ActualParameters()
 	{
 		// Expression { COMMA Expression }
 		enteringDEBUG("ActualParameters");
 		Expression();
-		if (buff->getTokenType() != COMMA)
+		while (true)
 		{
-			enteringDEBUG("ActualParameters Additional");
-			while (buff->getTokenType() != RPAREN)
+			try
 			{
 				accept(COMMA);
-				Expression();
 			}
-			exitingDEBUG("ActualParameters Additional");
+			catch (int t)
+			{
+				break;
+			}
+			Expression();
 		}
 		exitingDEBUG("ActualParameters");
 		return 0;
 	}
-
 	/*
 
 	  int TCparser::statementList(ASstatement *l[],int n) {

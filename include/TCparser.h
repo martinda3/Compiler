@@ -23,7 +23,6 @@ namespace toyc {
 
         int statementList(ASstatement *[], int);
 
-        //ASstatement *statement();
         int Statement();
 
         int Definition();
