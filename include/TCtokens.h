@@ -8,7 +8,7 @@ namespace toyc {
         CASE, READ, WHILE, SWITCH,    //
         RETURN, BREAK, WRITE, DEFAULT,    //
         CONTINUE, NEWLINE,        //
-        NUMBER, RELOP, ADDOP, MULOP,    // Math
+        NUMBER, MINUS, RELOP, ADDOP, MULOP,    // Math
         ASSIGNOP, DIVOP, NOTEQUAL,        //
         ID, CHARLITERAL, STRING,    // Strings
         COMMENT, BLOCK, MODOP,    // Comments

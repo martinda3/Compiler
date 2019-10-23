@@ -137,8 +137,8 @@ namespace toyc
 		// FunctionDefinition  --> FunctionHeader FunctionBody
 		enteringDEBUG("Function Definition");
 		FunctionHeader();
-		exitingDEBUG("Function Definition");
 		FunctionBody();
+		exitingDEBUG("Function Definition");
 		return 0;
 	}
 
@@ -146,7 +146,14 @@ namespace toyc
 	{
 		//FunctionHeader --> LPAREN [ FormalParamList ] RPAREN
 		enteringDEBUG("FunctionHeader");
-		FormalParamList();
+		accept(LPAREN);
+		try
+		{
+			FormalParamList();
+		}
+		catch (int t)
+		{
+		}
 		accept(RPAREN);
 		exitingDEBUG("FunctionHeader");
 		return 0;
@@ -167,14 +174,64 @@ namespace toyc
 		enteringDEBUG("FormalParamList");
 		Type();
 		accept(ID);
+		while (true)
+		{
+			try
+			{
+				accept(COMMA);
+			}
+			catch (int t)
+			{
+				break;
+			}
+			Type();
+			accept(ID);
+		}
 		exitingDEBUG("FormalParamList");
 		return 0;
+	}
+
+	int TCparser::Statement()
+	{
+		//Statement --> ExpressionStatement | BreakStatement | CompoundStatement | IfStatement | NullStatement | ReturnStatement | WhileStatement | ReadStatement | WriteStatement | NewLineStatement
+		enteringDEBUG("Statement");
+		try { ExpressionStatement(); exitingDEBUG("Statement"); return 0; }
+		catch (int t) {}
+		try { BreakStatement(); exitingDEBUG("Statement"); return 0; }
+		catch (int t) {}
+		try { CompoundStatement(); exitingDEBUG("Statement"); return 0; }
+		catch (int t) {}
+		try { IfStatement(); exitingDEBUG("Statement"); return 0; }
+		catch (int t) {}
+		try { NullStatement(); exitingDEBUG("Statement"); return 0; }
+		catch (int t) {}
+		try { ReturnStatement(); exitingDEBUG("Statement"); return 0; }
+		catch (int t) {}
+		try { WhileStatement(); exitingDEBUG("Statement"); return 0; }
+		catch (int t) {}
+		try { ReadStatement(); exitingDEBUG("Statement"); return 0; }
+		catch (int t) {}
+		try { WriteStatement(); exitingDEBUG("Statement"); return 0; }
+		catch (int t) {}
+		try { NewLineStatement(); exitingDEBUG("Statement"); return 0; }
 	}
 
 	int TCparser::ExpressionStatement()
 	{
 		// ExpressionStatement --> Expression
 		enteringDEBUG("ExpressionStatement");
+		Expression();
+		accept(SEMICOLON);
+		exitingDEBUG("ExpressionStatement");
+		return 0;
+	}
+
+	int TCparser::BreakStatement()
+	{
+		// BreakStatement --> break ;
+		enteringDEBUG("ExpressionStatement");
+		accept(BREAK);
+		accept(SEMICOLON);
 		exitingDEBUG("ExpressionStatement");
 		return 0;
 	}
@@ -183,21 +240,33 @@ namespace toyc
 	{
 		// CompoundStatement --> LCURLY { Type ID SEMICOLON } { Statement } RCURLY
 		enteringDEBUG("CompoundStatement");
-		if (buff->getTokenType() == LCURLY)
+		accept(LCURLY);
+		while (true)
 		{
-			buff = scanner->getToken();
-			Type();
+			try
+			{
+				Type();
+			}
+			catch (int t)
+			{
+				break;
+			}
 			accept(ID);
 			accept(SEMICOLON);
-			accept(RCURLY);
-			accept(SEMICOLON);
-			exitingDEBUG("CompoundStatement");
 		}
-		else
+		while (true)
 		{
-			reportSEMANTIC_ERROR(scanner, "{ expected");
-			exit(EXIT_FAILURE);
+			try
+			{
+				Statement();
+			}
+			catch (int t)
+			{
+				break;
+			}
 		}
+		accept(RCURLY);
+		exitingDEBUG("CompoundStatement");
 		return 0;
 	}
 
@@ -205,7 +274,19 @@ namespace toyc
 	{
 		// IfStatement --> IF LPAREN Expression RPAREN Statement [ else Statement ]
 		enteringDEBUG("IfStatement");
-		buff = scanner->getToken();
+		accept(IF);
+		accept(LPAREN);
+		Expression();
+		accept(RPAREN);
+		Statement();
+		try
+		{
+			accept(ELSE);
+			Statement();
+		}
+		catch (int t)
+		{
+		}
 		exitingDEBUG("IfStatement");
 		return 0;
 	}
@@ -214,7 +295,7 @@ namespace toyc
 	{
 		// SEMICOLON
 		enteringDEBUG("NullStatement");
-		buff = scanner->getToken();
+		accept(SEMICOLON);
 		exitingDEBUG("NullStatement");
 		return 0;
 	}
@@ -223,7 +304,15 @@ namespace toyc
 	{
 		// RETURN [ Expression ] SEMICOLON
 		enteringDEBUG("ReturnStatement");
-		buff = scanner->getToken();
+		accept(RETURN);
+		try
+		{
+			Expression();
+		}
+		catch (int t)
+		{
+		}
+		accept(SEMICOLON);
 		exitingDEBUG("ReturnStatement");
 		return 0;
 	}
@@ -233,7 +322,11 @@ namespace toyc
 	{
 		// WHILE LPAREN Expression RPAREN Statement
 		enteringDEBUG("WhileStatement");
-		buff = scanner->getToken();
+		accept(WHILE);
+		accept(LPAREN);
+		Expression();
+		accept(RPAREN);
+		Statement();
 		exitingDEBUG("WhileStatement");
 		return 0;
 	}
@@ -243,7 +336,23 @@ namespace toyc
 	{
 		// READ LPAREN ID { COMMA ID } RPAREN SEMICOLON
 		enteringDEBUG("ReadStatement");
-		buff = scanner->getToken();
+		accept(READ);
+		accept(LPAREN);
+		accept(ID);
+		while (true)
+		{
+			try
+			{
+				accept(COMMA);
+			}
+			catch (int t)
+			{
+				break;
+			}
+			accept(ID);
+		}
+		accept(RPAREN);
+		accept(SEMICOLON);
 		exitingDEBUG("ReadStatement");
 		return 0;
 	}
@@ -253,7 +362,11 @@ namespace toyc
 	{
 		// WRITE LPAREN ActualParameters RPAREN SEMICOLON
 		enteringDEBUG("WriteStatement");
-		buff = scanner->getToken();
+		accept(WRITE);
+		accept(LPAREN);
+		ActualParameters();
+		accept(RPAREN);
+		accept(SEMICOLON);
 		exitingDEBUG("WriteStatement");
 		return 0;
 	}
@@ -262,7 +375,8 @@ namespace toyc
 	{
 		// NewLineStatement --> NEWLINE SEMICOLON
 		enteringDEBUG("NewLineStatement");
-		buff = scanner->getToken();
+		accept(NEWLINE);
+		accept(SEMICOLON);
 		exitingDEBUG("NewLineStatement");
 		return 0;
 	}
@@ -272,7 +386,19 @@ namespace toyc
 	{
 		// Expression --> RelopExpression { ASSIGNOP RelopExpression }
 		enteringDEBUG("Expression");
-		buff = scanner->getToken();
+		RelopExpression();
+		while (true)
+		{
+			try
+			{
+				accept(ASSIGNOP);
+			}
+			catch (int t)
+			{
+				break;
+			}
+			RelopExpression();
+		}
 		exitingDEBUG("Expression");
 		return 0;
 	}
@@ -282,7 +408,19 @@ namespace toyc
 	{
 		// RelopExpression --> SimpleExpression { RELOP SimpleExpression }
 		enteringDEBUG("RelopExpression");
-		buff = scanner->getToken();
+		SimpleExpression();
+		while (true)
+		{
+			try
+			{
+				accept(RELOP);
+			}
+			catch (int t)
+			{
+				break;
+			}
+			SimpleExpression();
+		}
 		exitingDEBUG("RelopExpression");
 		return 0;
 	}
@@ -291,7 +429,19 @@ namespace toyc
 	{
 		// SimpleExpression --> Term { ADDOP Primary }
 		enteringDEBUG("SimpleExpression");
-		buff = scanner->getToken();
+		Term();
+		while (true)
+		{
+			try
+			{
+				accept(ADDOP);
+			}
+			catch (int t)
+			{
+				break;
+			}
+			Term();
+		}
 		exitingDEBUG("SimpleExpression");
 		return 0;
 	}
@@ -300,7 +450,19 @@ namespace toyc
 	{
 		// Term --> Primary { MULOP Primary }
 		enteringDEBUG("Term");
-		buff = scanner->getToken();
+		Primary();
+		while (true)
+		{
+			try
+			{
+				accept(MULOP);
+			}
+			catch (int t)
+			{
+				break;
+			}
+			Primary();
+		}
 		exitingDEBUG("Term");
 		return 0;
 	}
@@ -314,7 +476,45 @@ namespace toyc
 		//           | LPAREN Expression RPAREN
 		//           | MINUS | NOT Primary
 		enteringDEBUG("Primary");
-		buff = scanner->getToken();
+		tok = buff->getTokenType();
+		switch (tok)
+		{
+			case ID:
+				accept(ID);
+				try
+				{
+					FunctionCall();
+				}
+				catch (int t)
+				{
+				}
+				break;
+			case NUMBER:
+				accept(NUMBER);
+				break;
+			case STRING:
+				accept(STRING);
+				break;
+			case CHAR:
+				accept(CHAR);
+				break;
+			case LPAREN:
+				accept(LPAREN);
+				Expression();
+				accept(RPAREN);
+				break;
+			case MINUS:
+				accept(MINUS);
+				Primary();
+				break;
+			case NOT:
+				accept(NOT);
+				Primary();
+				break;
+			case default:
+				throw tok;
+				break;
+		}
 		exitingDEBUG("Primary");
 		return 0;
 	}
@@ -322,13 +522,35 @@ namespace toyc
 	{
 		// FunctionCall -- > LPAREN ActualParameters RPAREN
 		enteringDEBUG("FunctionCall");
+		accept(LPAREN);
+		try
+		{
+			ActualParameters();
+		}
+		catch (int t)
+		{
+		}
+		accept(RPAREN);
 		exitingDEBUG("FunctionCall");
+		return 0;
 	}
 	int TCparser::ActualParameters()
 	{
 		// Expression { COMMA Expression }
 		enteringDEBUG("ActualParameters");
-		buff = scanner->getToken();
+		Expression();
+		while (true)
+		{
+			try
+			{
+				accept(COMMA);
+			}
+			catch (int t)
+			{
+				break;
+			}
+			Expression();
+		}
 		exitingDEBUG("ActualParameters");
 		return 0;
 	}
