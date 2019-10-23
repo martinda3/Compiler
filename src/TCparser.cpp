@@ -82,7 +82,7 @@ namespace toyc
 
 	void exitingDEBUG(std::string s)  { if (verbose) reportDEBUG("    ", "PARSER", "exiting " + s); }
 
-	ASabstractSyntax* TCparser::program()
+	ASabstractSyntax* TCparser::program() // DONE
 	{
 		enteringDEBUG("Program");
 		while (true)
@@ -101,62 +101,81 @@ namespace toyc
 		return 0;
 	}
 
-	int TCparser::Definition()
+	int TCparser::Definition() // DONE
 	{
-		enteringDEBUG("Definition");
+		// Definition --> Type ID ( FunctionDefinition | SEMICOLON )
+		//enteringDEBUG("Definition");
 		Type();
 		accept(ID);
 		try
 		{
-			FunctionDefinition();
+			if (buff->getTokenType() == SEMICOLON) {
+				//exitingDEBUG("Definition");
+			}
+			accept(SEMICOLON);
 		}
 		catch (int t)
 		{
-			accept(SEMICOLON);
+			FunctionDefinition();
+			//exitingDEBUG("Definition");
 		}
-		exitingDEBUG("Definition");
 		return 0;
 	}
 
-	int TCparser::Type()
+	int TCparser::Type() // Functional Needs testing
 	{
-		enteringDEBUG("Type");
+		// Type --> INT | CHAR
+		//enteringDEBUG("Type");
 		try
 		{
 			accept(INT);
-			exitingDEBUG("Type");
+			//exitingDEBUG("Type");
 		}
 		catch (int t)
 		{
 			accept(CHAR);
-			exitingDEBUG("Type");
+			//exitingDEBUG("Type");
 		}
-
+		// Error and Handling not done
 		return 0;
 	}
 
-	int TCparser::FunctionDefinition()
+	int TCparser::FunctionDefinition() // DONE NEED TO TEST MORE
 	{
 		// FunctionDefinition  --> FunctionHeader FunctionBody
 		enteringDEBUG("Function Definition");
 		FunctionHeader();
-		exitingDEBUG("Function Definition");
 		FunctionBody();
+		exitingDEBUG("Function Definition");
+
 		return 0;
 	}
 
-	int TCparser::FunctionHeader()
+	int TCparser::FunctionHeader() // DONE
 	{
 		//FunctionHeader --> LPAREN [ FormalParamList ] RPAREN
-		enteringDEBUG("FunctionHeader");
+		//enteringDEBUG("FunctionHeader");
 		accept(LPAREN);
-		FormalParamList();
-		accept(RPAREN);
-		exitingDEBUG("FunctionHeader");
+		if (buff->getTokenType() == INT || buff->getTokenType() == CHAR)
+		{
+			FormalParamList();
+			accept(RPAREN);
+			//exitingDEBUG("FunctionHeader");
+		}
+		else if (buff->getTokenType() == RPAREN)
+		{
+			accept(RPAREN);
+			//exitingDEBUG("FunctionHeader");
+		}
+		else
+		{
+			reportSEMANTIC_ERROR(scanner, "type || ) expected");
+			exit(EXIT_FAILURE);
+		}
 		return 0;
 	}
 
-	int TCparser::FunctionBody()
+	int TCparser::FunctionBody()  // DONE NEED TO TEST MORE
 	{
 		// FunctionBody --> CompoundStatement
 		enteringDEBUG("FunctionBody");
@@ -165,27 +184,24 @@ namespace toyc
 		return 0;
 	}
 
-	int TCparser::FormalParamList()
+	int TCparser::FormalParamList() // DONE
 	{
 		// FormalParamList --> Type ID { COMMA Type ID }
-		enteringDEBUG("FormalParamList");
+		//enteringDEBUG("FormalParamList");
 		Type();
 		accept(ID);
-		while (true){
-		try
+		if (buff->getTokenType() != RPAREN)
 		{
-			enteringDEBUG("FormalParamList Additional");
-			accept(COMMA);
-			Type();
-			accept(ID);
+			//enteringDEBUG("FormalParamList Additional");
+			while (buff->getTokenType() != RPAREN)
+			{
+				accept(COMMA);
+				Type();
+				accept(ID);
+			}
+			//exitingDEBUG("FormalParamList Additional");
 		}
-		catch (int t)
-		{
-			exitingDEBUG("FormalParamList Additional");
-			break;
-		}
-		}
-		exitingDEBUG("FormalParamList");
+		//exitingDEBUG("FormalParamList");
 		return 0;
 	}
 
@@ -203,7 +219,7 @@ namespace toyc
 		enteringDEBUG("CompoundStatement");
 		if (buff->getTokenType() == LCURLY)
 		{
-			buff = scanner->getToken();
+			//buff = scanner->getToken();
 			Type();
 			accept(ID);
 			accept(SEMICOLON);
@@ -341,7 +357,9 @@ namespace toyc
 		// FunctionCall -- > LPAREN ActualParameters RPAREN
 		enteringDEBUG("FunctionCall");
 		exitingDEBUG("FunctionCall");
+		return 0;
 	}
+
 	int TCparser::ActualParameters()
 	{
 		// Expression { COMMA Expression }
