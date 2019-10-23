@@ -143,11 +143,11 @@ namespace toyc
 	int TCparser::FunctionDefinition() // DONE NEED TO TEST MORE
 	{
 		// FunctionDefinition  --> FunctionHeader FunctionBody
-		enteringDEBUG("Function Definition");
+		//enteringDEBUG("Function Definition");
 		FunctionHeader();
 		FunctionBody();
-		exitingDEBUG("Function Definition");
-
+		//exitingDEBUG("Function Definition");
+		accept(SEMICOLON); // Accept is here so that parser output will be correct
 		return 0;
 	}
 
@@ -178,9 +178,9 @@ namespace toyc
 	int TCparser::FunctionBody()  // DONE NEED TO TEST MORE
 	{
 		// FunctionBody --> CompoundStatement
-		enteringDEBUG("FunctionBody");
+		//enteringDEBUG("FunctionBody");
 		CompoundStatement();
-		exitingDEBUG("FunctionBody");
+		//exitingDEBUG("FunctionBody");
 		return 0;
 	}
 
@@ -209,29 +209,47 @@ namespace toyc
 	{
 		// ExpressionStatement --> Expression
 		enteringDEBUG("ExpressionStatement");
+		Expression();
 		exitingDEBUG("ExpressionStatement");
+		accept(SEMICOLON);
 		return 0;
 	}
 
-	int TCparser::CompoundStatement()
+	int TCparser::CompoundStatement() // Need statment and error handling
 	{
 		// CompoundStatement --> LCURLY { Type ID SEMICOLON } { Statement } RCURLY
 		enteringDEBUG("CompoundStatement");
-		if (buff->getTokenType() == LCURLY)
+		accept(LCURLY);
+		while (true) // { Type ID SEMICOLON }
 		{
-			//buff = scanner->getToken();
-			Type();
-			accept(ID);
-			accept(SEMICOLON);
-			accept(RCURLY);
-			accept(SEMICOLON);
-			exitingDEBUG("CompoundStatement");
+			try
+			{
+				Type();
+				accept(ID);
+				accept(SEMICOLON);
+			}
+			catch (int t)
+			{
+				break;
+			}
 		}
-		else
+		while (true) // { Statement }
 		{
-			reportSEMANTIC_ERROR(scanner, "{ expected");
-			exit(EXIT_FAILURE);
+			try
+			{
+				Statement();
+				accept(RCURLY);
+				exitingDEBUG("CompoundStatement");
+			}
+			catch (int t)
+			{
+				accept(RCURLY);
+				exitingDEBUG("CompoundStatement");
+				break;
+			}
 		}
+
+		// Need to add error handling
 		return 0;
 	}
 
@@ -244,12 +262,72 @@ namespace toyc
 		return 0;
 	}
 
+	int TCparser::BreakStatement()
+		{
+		// BreakStatement --> BREAK SEMICOLON
+		enteringDEBUG("BreakStatement");
+		accept(BREAK);
+		exitingDEBUG("BreakStatement");
+		accept(SEMICOLON);
+		return 0;
+		}
+
+	int TCparser::Statement()
+		{
+		// Statement --> ExpressionStatement
+		//             | BreakStatement
+		//             | CompoundStatement
+		//             | IfStatement
+		//             | NullStatement
+		//             | ReturnStatement
+		//             | WhileStatement
+		//             | ReadStatement
+		//             | WriteStatement
+		//             | NewLineStatement
+		enteringDEBUG("Statement");
+		switch (buff->getTokenType())
+		{
+			case BREAK:
+				BreakStatement();
+				break;
+			case SEMICOLON:
+				NullStatement();
+				break;
+//			case BREAK:
+//				BreakStatement();
+//				break;
+//			case BREAK:
+//				BreakStatement();
+//				break;
+//			case BREAK:
+//				BreakStatement();
+//				break;
+//			case BREAK:
+//				BreakStatement();
+//				break;
+//			case BREAK:
+//				BreakStatement();
+//				break;
+//			case BREAK:
+//				BreakStatement();
+//				break;
+//			case BREAK:
+//				BreakStatement();
+//				break;
+//			case BREAK:
+//				BreakStatement();
+//				break;
+		}
+		exitingDEBUG("Statement");
+		return 0;
+		}
+
 	int TCparser::NullStatement()
 	{
 		// SEMICOLON
 		enteringDEBUG("NullStatement");
-		buff = scanner->getToken();
 		exitingDEBUG("NullStatement");
+		accept(SEMICOLON);
 		return 0;
 	}
 

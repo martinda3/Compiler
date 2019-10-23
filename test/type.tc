@@ -1,3 +1,12 @@
 char test;
-int oneone (int one, char done, int tester, int fdsaf) { int helper;};
-char checkme () {};
+
+int oneone (int one, char done, int tester, int fdsaf) 
+{ 
+	int helper;
+	;
+	break;
+};
+char checkme () 
+{
+
+};
