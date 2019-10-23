@@ -495,8 +495,8 @@ namespace toyc
 			case STRING:
 				accept(STRING);
 				break;
-			case CHAR:
-				accept(CHAR);
+			case CHARLITERAL:
+				accept(CHARLITERAL);
 				break;
 			case LPAREN:
 				accept(LPAREN);
