@@ -1,12 +1,21 @@
-char test;
+int isEven(int n){
+	if ( (n % 2) == 0)
+		return 1;
+	else
+		return 0;
+}
 
-int oneone (int one, char done, int tester, int fdsaf) 
-{ 
-	int helper;
-	;
-	break;
-};
-char checkme () 
-{
-
-};
+int main() {
+	int i;
+	i = 1;
+	while (i <= 10) {
+		write(i);
+		if ( isEven(i) )	
+			write(" is even");
+		else
+			write(" is odd");
+		newline;
+		i = i + 1;
+	}
+	return;
+}

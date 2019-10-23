@@ -85,7 +85,7 @@ namespace toyc
 	ASabstractSyntax* TCparser::program() // DONE
 	{
 		enteringDEBUG("Program");
-		while (true)
+		while (buff->getTokenType() != EOFILE)
 		{
 			try
 			{
@@ -93,7 +93,6 @@ namespace toyc
 			}
 			catch (int t)
 			{
-				accept(EOFILE);
 				break;
 			}
 		}
@@ -104,20 +103,20 @@ namespace toyc
 	int TCparser::Definition() // DONE
 	{
 		// Definition --> Type ID ( FunctionDefinition | SEMICOLON )
-		//enteringDEBUG("Definition");
+		enteringDEBUG("Definition");
 		Type();
 		accept(ID);
 		try
 		{
 			if (buff->getTokenType() == SEMICOLON) {
-				//exitingDEBUG("Definition");
+				exitingDEBUG("Definition");
 			}
 			accept(SEMICOLON);
 		}
 		catch (int t)
 		{
 			FunctionDefinition();
-			//exitingDEBUG("Definition");
+			exitingDEBUG("Definition");
 		}
 		return 0;
 	}
@@ -125,16 +124,16 @@ namespace toyc
 	int TCparser::Type() // Functional Needs testing
 	{
 		// Type --> INT | CHAR
-		//enteringDEBUG("Type");
+		enteringDEBUG("Type");
 		try
 		{
 			accept(INT);
-			//exitingDEBUG("Type");
+			exitingDEBUG("Type");
 		}
 		catch (int t)
 		{
 			accept(CHAR);
-			//exitingDEBUG("Type");
+			exitingDEBUG("Type");
 		}
 		// Error and Handling not done
 		return 0;
@@ -143,10 +142,10 @@ namespace toyc
 	int TCparser::FunctionDefinition() // DONE NEED TO TEST MORE
 	{
 		// FunctionDefinition  --> FunctionHeader FunctionBody
-		//enteringDEBUG("Function Definition");
+		enteringDEBUG("Function Definition");
 		FunctionHeader();
 		FunctionBody();
-		//exitingDEBUG("Function Definition");
+		exitingDEBUG("Function Definition");
 		accept(SEMICOLON); // Accept is here so that parser output will be correct
 		return 0;
 	}
@@ -154,22 +153,17 @@ namespace toyc
 	int TCparser::FunctionHeader() // DONE
 	{
 		//FunctionHeader --> LPAREN [ FormalParamList ] RPAREN
-		//enteringDEBUG("FunctionHeader");
+		enteringDEBUG("Function Header");
 		accept(LPAREN);
 		if (buff->getTokenType() == INT || buff->getTokenType() == CHAR)
 		{
 			FormalParamList();
 			accept(RPAREN);
-			//exitingDEBUG("FunctionHeader");
+			exitingDEBUG("Function Header");
 		}
 		else if (buff->getTokenType() == RPAREN)
 		{
-			accept(RPAREN);
-			//exitingDEBUG("FunctionHeader");
-		}
-		else
-		{
-			reportSEMANTIC_ERROR(scanner, "type || ) expected");
+			reportSEMANTIC_ERROR(scanner,"FormalParamList expected");
 			exit(EXIT_FAILURE);
 		}
 		return 0;
@@ -178,30 +172,31 @@ namespace toyc
 	int TCparser::FunctionBody()  // DONE NEED TO TEST MORE
 	{
 		// FunctionBody --> CompoundStatement
-		//enteringDEBUG("FunctionBody");
+		enteringDEBUG("FunctionBody");
 		CompoundStatement();
-		//exitingDEBUG("FunctionBody");
+		accept(SEMICOLON);
+		exitingDEBUG("FunctionBody");
 		return 0;
 	}
 
 	int TCparser::FormalParamList() // DONE
 	{
 		// FormalParamList --> Type ID { COMMA Type ID }
-		//enteringDEBUG("FormalParamList");
+		enteringDEBUG("FormalParamList");
 		Type();
 		accept(ID);
 		if (buff->getTokenType() != RPAREN)
 		{
-			//enteringDEBUG("FormalParamList Additional");
+			enteringDEBUG("FormalParamList Additional");
 			while (buff->getTokenType() != RPAREN)
 			{
 				accept(COMMA);
 				Type();
 				accept(ID);
 			}
-			//exitingDEBUG("FormalParamList Additional");
+			exitingDEBUG("FormalParamList Additional");
 		}
-		//exitingDEBUG("FormalParamList");
+		exitingDEBUG("FormalParamList");
 		return 0;
 	}
 
@@ -220,7 +215,7 @@ namespace toyc
 		// CompoundStatement --> LCURLY { Type ID SEMICOLON } { Statement } RCURLY
 		enteringDEBUG("CompoundStatement");
 		accept(LCURLY);
-		while (true) // { Type ID SEMICOLON }
+		while (buff->getTokenType() == INT || buff->getTokenType() == CHAR) // { Type ID SEMICOLON }
 		{
 			try
 			{
@@ -233,22 +228,25 @@ namespace toyc
 				break;
 			}
 		}
-		while (true) // { Statement }
+		if (buff->getTokenType() != RCURLY)
 		{
-			try
+			enteringDEBUG("Statement");
+		}
+		while (true)
+		{
+			if (buff->getTokenType() != RCURLY)
 			{
 				Statement();
-				accept(RCURLY);
-				exitingDEBUG("CompoundStatement");
 			}
-			catch (int t)
+			else
 			{
+				exitingDEBUG("Statement");
 				accept(RCURLY);
 				exitingDEBUG("CompoundStatement");
+				accept(SEMICOLON);
 				break;
 			}
 		}
-
 		// Need to add error handling
 		return 0;
 	}
@@ -262,16 +260,6 @@ namespace toyc
 		return 0;
 	}
 
-	int TCparser::BreakStatement()
-		{
-		// BreakStatement --> BREAK SEMICOLON
-		enteringDEBUG("BreakStatement");
-		accept(BREAK);
-		exitingDEBUG("BreakStatement");
-		accept(SEMICOLON);
-		return 0;
-		}
-
 	int TCparser::Statement()
 		{
 		// Statement --> ExpressionStatement
@@ -284,15 +272,17 @@ namespace toyc
 		//             | ReadStatement
 		//             | WriteStatement
 		//             | NewLineStatement
-		enteringDEBUG("Statement");
 		switch (buff->getTokenType())
 		{
 			case BREAK:
 				BreakStatement();
+				accept(SEMICOLON);
 				break;
+
 			case SEMICOLON:
 				NullStatement();
 				break;
+
 //			case BREAK:
 //				BreakStatement();
 //				break;
@@ -317,8 +307,18 @@ namespace toyc
 //			case BREAK:
 //				BreakStatement();
 //				break;
+			default:
+				break;
 		}
-		exitingDEBUG("Statement");
+		return 0;
+		}
+
+	int TCparser::BreakStatement()
+		{
+		// BreakStatement --> BREAK SEMICOLON
+		enteringDEBUG("BreakStatement");
+		exitingDEBUG("BreakStatement");
+		accept(BREAK);
 		return 0;
 		}
 
@@ -340,7 +340,6 @@ namespace toyc
 		return 0;
 	}
 
-
 	int TCparser::WhileStatement()
 	{
 		// WHILE LPAREN Expression RPAREN Statement
@@ -350,7 +349,6 @@ namespace toyc
 		return 0;
 	}
 
-
 	int TCparser::ReadStatement()
 	{
 		// READ LPAREN ID { COMMA ID } RPAREN SEMICOLON
@@ -359,7 +357,6 @@ namespace toyc
 		exitingDEBUG("ReadStatement");
 		return 0;
 	}
-
 
 	int TCparser::WriteStatement()
 	{
@@ -379,7 +376,6 @@ namespace toyc
 		return 0;
 	}
 
-
 	int TCparser::Expression()
 	{
 		// Expression --> RelopExpression { ASSIGNOP RelopExpression }
@@ -388,7 +384,6 @@ namespace toyc
 		exitingDEBUG("Expression");
 		return 0;
 	}
-
 
 	int TCparser::RelopExpression()
 	{
@@ -430,6 +425,7 @@ namespace toyc
 		exitingDEBUG("Primary");
 		return 0;
 	}
+
 	int TCparser::FunctionCall()
 	{
 		// FunctionCall -- > LPAREN ActualParameters RPAREN
