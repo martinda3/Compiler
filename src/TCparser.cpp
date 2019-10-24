@@ -78,7 +78,26 @@ namespace toyc
 		return 0;
 	}
 
-	int TCparser::Definition() // Exit for Definition does not work
+	int TCparser::DefinitionList(ASstatement* l[], int n)
+	{
+		int num = 0;
+		// statementList --> statement ; statementList | epsilon
+		enteringDEBUG("DefinitionList");
+		if (!(buff->getTokenType() == EOFILE))
+		{
+			l[n] = Definition();
+			//accept(SEMICOLON);
+			num = DefinitionList(l, n + 1);
+		}
+		else
+		{
+			num = n;
+		}
+		exitingDEBUG("DefinitionList");
+		return num;
+	}
+
+	ASstatement *TCparser::Definition() // Exit for Definition does not work
 	{
 		// Definition --> Type ID ( FunctionDefinition | SEMICOLON )
 		enteringDEBUG("Definition");
@@ -97,7 +116,7 @@ namespace toyc
 			FunctionDefinition();
 			exitingDEBUG("Definition");
 		}
-		return 0;
+		//return 0;
 	}
 
 	int TCparser::Type() // Functional Needs testing

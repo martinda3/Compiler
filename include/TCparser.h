@@ -21,11 +21,11 @@ namespace toyc {
 
         ASabstractSyntax *program();
 
-        int statementList(ASstatement *[], int);
+        int DefinitionList(ASstatement *[], int);
 
         int Statement();
 
-        int Definition();
+        ASstatement* Definition();
 
         int Type();
 
