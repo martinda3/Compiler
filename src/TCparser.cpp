@@ -105,23 +105,12 @@ namespace toyc
 		enteringDEBUG("Definition");
 		Type();
 		accept(ID);
-		//try
-		//{
-			//if (buff->getTokenType() == SEMICOLON) {
-				//exitingDEBUG("Definition");
-			//}
-			//accept(SEMICOLON);
-		//}
-		//catch (int t)
-		//{
 		try
 		{
 			FunctionDefinition();
 		}
 		catch (int t) {}
 		exitingDEBUG("Definition");
-		//}
-		//return 0;
 	}
 
 	int TCparser::Type() // Functional Needs testing
@@ -235,16 +224,28 @@ namespace toyc
 			accept(ID);
 			accept(SEMICOLON);
 		}
-		if (buff->getTokenType() != RCURLY)
+		try
 		{
 			enteringDEBUG("Statement");
 			while (buff->getTokenType() != RCURLY)
 			{
 				Statement();
 			}
-			exitingDEBUG("Statement");
-			exitingDEBUG("CompoundStatement");
+
 		}
+		catch (int t) {}
+		exitingDEBUG("Statement");
+		exitingDEBUG("CompoundStatement");
+//		if (buff->getTokenType() != RCURLY)
+//		{
+//			enteringDEBUG("Statement");
+//			while (buff->getTokenType() != RCURLY)
+//			{
+//				Statement();
+//			}
+//			exitingDEBUG("Statement");
+//			exitingDEBUG("CompoundStatement");
+//		}
 		accept(RCURLY);
 		return 0;
 	}
@@ -323,6 +324,7 @@ namespace toyc
 				break;
 
 			default:
+				ExpressionStatement();
 				break;
 		}
 		return 0;
