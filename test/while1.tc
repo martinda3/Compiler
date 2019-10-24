@@ -10,12 +10,12 @@ int i;
 i = 1;
 while (i <= 10) {
 write(i);
-if ( isEven(i) )
+if ( x > 1 )
 write(" is even");
 else
 write(" is odd");
 newline;
 i = i + 1;
 }
-return;
+return 0;
 }

@@ -50,7 +50,7 @@ namespace toyc
 
 	void exitingDEBUG(std::string s) { if (verbose) reportDEBUG("    ", "PARSER", "exiting " + s); }
 
-	ASabstractSyntax* TCparser::program() // Exit for program does not work
+	ASabstractSyntax* TCparser::program()
 	{
 		enteringDEBUG("Program");
 		while (true)
@@ -88,7 +88,6 @@ namespace toyc
 		if (!(buff->getTokenType() == EOFILE))
 		{
 			l[n] = Definition();
-			//accept(SEMICOLON);
 			num = DefinitionList(l, n + 1);
 		}
 		else
@@ -99,7 +98,7 @@ namespace toyc
 		return num;
 	}
 
-	ASstatement *TCparser::Definition() // Exit for Definition does not work
+	ASstatement *TCparser::Definition()
 	{
 		// Definition --> Type ID ( FunctionDefinition | SEMICOLON )
 		enteringDEBUG("Definition");
@@ -147,10 +146,9 @@ namespace toyc
 			FunctionBody();
 		}
 		catch (int t) {}
-		//FunctionHeader();
-		//FunctionBody();
+
 		exitingDEBUG("Function Definition3333333333333333333333");
-		//return 0;
+		return 0;
 	}
 
 	int TCparser::FunctionHeader() // DONE
@@ -236,16 +234,6 @@ namespace toyc
 		catch (int t) {}
 		exitingDEBUG("Statement");
 		exitingDEBUG("CompoundStatement");
-//		if (buff->getTokenType() != RCURLY)
-//		{
-//			enteringDEBUG("Statement");
-//			while (buff->getTokenType() != RCURLY)
-//			{
-//				Statement();
-//			}
-//			exitingDEBUG("Statement");
-//			exitingDEBUG("CompoundStatement");
-//		}
 		accept(RCURLY);
 		return 0;
 	}
@@ -273,16 +261,16 @@ namespace toyc
 
 	int TCparser::Statement() // WIP
 	{
-		// Statement --> ExpressionStatement
-		//             | BreakStatement
-		//             | CompoundStatement
-		//             | IfStatement
-		//             | NullStatement
-		//             | ReturnStatement
-		//             | WhileStatement
-		//             | ReadStatement
-		//             | WriteStatement
-		//             | NewLineStatement
+		/* Statement --> ExpressionStatement
+		               | BreakStatement
+		               | CompoundStatement
+		               | IfStatement
+		               | NullStatement
+		               | ReturnStatement
+		               | WhileStatement
+		               | ReadStatement
+		               | WriteStatement
+		               | NewLineStatement */
 		switch (buff->getTokenType())
 		{
 			case BREAK:
@@ -353,7 +341,7 @@ namespace toyc
 		// RETURN [ Expression ] SEMICOLON
 		enteringDEBUG("Return Statement");
 		accept(RETURN);
-		Expression(); //Not working
+		Expression();
 		exitingDEBUG("Return Statement");
 		return 0;
 	}
@@ -396,7 +384,7 @@ namespace toyc
 
 	int TCparser::WriteStatement() // WIP
 	{
-		// WRITE LPAREN ActualParameters RPAREN SEMICOLON
+		// WriteStatement -> WRITE LPAREN ActualParameters RPAREN SEMICOLON
 		enteringDEBUG("WriteStatement");
 		accept(WRITE);
 		accept(LPAREN);
@@ -490,19 +478,19 @@ namespace toyc
 
 	int TCparser::Primary() // WIP
 	{
-		// Primary --> ID [ FunctionCall ]
-		//           | NUMBER
-		//           | STRING
-		//           | CHARLITERAL
-		//           | LPAREN Expression RPAREN
-		//           | MINUS | NOT Primary
+		/* Primary --> ID [ FunctionCall ]
+		             | NUMBER
+		             | STRING
+		             | CHARLITERAL
+		             | LPAREN Expression RPAREN
+		             | MINUS | NOT Primary */
 		enteringDEBUG("Primary");
 		int tok = buff->getTokenType();
 		switch (tok)
 		{
 			case ID:
 				accept(ID);
-				//FunctionCall();
+				//FunctionCall(); DOSENOT WORK
 				break;
 
 			case NUMBER:
@@ -534,7 +522,6 @@ namespace toyc
 
 			default:
 				throw tok;
-				break;
 		}
 		exitingDEBUG("Primary");
 		return 0;
@@ -553,7 +540,7 @@ namespace toyc
 
 	int TCparser::ActualParameters() // WIP
 	{
-		// Expression { COMMA Expression }
+		// ActualParameters -> Expression { COMMA Expression }
 		enteringDEBUG("ActualParameters");
 		Expression();
 		if (buff->getTokenType() != COMMA)
@@ -695,8 +682,7 @@ namespace toyc
 		}
 		exitingDEBUG("statement");
 		return s;
-	  }*/
-	  /*
+	  }
 		ASexpr* TCparser::expr() {
 		  // expr --> term | term RELOP expr
 		  enteringDEBUG("expr");
@@ -711,8 +697,7 @@ namespace toyc
 		  exitingDEBUG("expr");
 		  return result;
 		  }
-	  */
-	  /* ASexpr* TCparser::term() {
+	  ASexpr* TCparser::term() {
 		 // term --> element | element ADDOP term | element OR term
 		 enteringDEBUG("term");
 		 ASexpr *op1 = element(), *op2=NULL, *result=NULL;
@@ -725,8 +710,7 @@ namespace toyc
 		 } else result = op1;
 		 exitingDEBUG("term");
 		 return result;
-	   }*/
-	   /*
+	   }
 		 ASexpr* TCparser::element() {
 		   // element --> factor | factor MULOP element | factor AND element
 		   enteringDEBUG("element");
@@ -787,8 +771,6 @@ namespace toyc
 		   exitingDEBUG("factor");
 		   return operand;
 		 }
-		 */
-		 /*
 		   private static void enter_special_id(SymbolTable st, TCtoken.Tokens type) {
 			   TCsymbol sym=null;
 			   if (type == TCtoken.Tokens.READ)
