@@ -62,35 +62,39 @@ namespace toyc
 
 	ASabstractSyntax* TCparser::program() // Exit for program does not work
 	{
-		//enteringDEBUG("Program");
-		while (true)
-		{
-			try
-			{
-				Definition();
-				//exitingDEBUG("Program");
-				accept(EOFILE);
-			}
-			catch (int t)
-			{
-				accept(EOFILE);
-				break;
-			}
-	}
-	//exitingDEBUG("Program");
-	return 0;
+		enteringDEBUG("Program");
+		ASstatement *stateList[MAX_STATEMENTS];
+		//symTable = new TCsymTable();
+		int num = DefinitionList(stateList,0);
+		exitingDEBUG("Program");
+		return new ASprogram(inputFileName,stateList,num);
 	}
 
-	int TCparser::Definition() // Exit for Definition does not work
+	int TCparser::DefinitionList(ASstatement *l[],int n) {
+		int num=0;
+		// statementList --> statement ; statementList | epsilon
+		enteringDEBUG("DefinitionList");
+		if (!(buff->getTokenType()==EOFILE)) {
+			l[n] = Definition();
+			//accept(SEMICOLON);
+			num = DefinitionList(l,n+1);
+		} else {
+			num = n;
+		}
+		exitingDEBUG("DefinitionList");
+		return num;
+		}
+
+	ASstatement *TCparser::Definition() // Exit for Definition does not work
 	{
 		// Definition --> Type ID ( FunctionDefinition | SEMICOLON )
-		//enteringDEBUG("Definition");
+		enteringDEBUG("Definition");
 		Type();
 		accept(ID);
 		try
 		{
 			if (buff->getTokenType() == SEMICOLON) {
-				//exitingDEBUG("Definition");
+				exitingDEBUG("Definition");
 			}
 			accept(SEMICOLON);
 		}
@@ -99,7 +103,7 @@ namespace toyc
 			FunctionDefinition();
 			exitingDEBUG("Definition");
 		}
-		return 0;
+		//return 0;
 	}
 
 	int TCparser::Type() // Functional Needs testing
