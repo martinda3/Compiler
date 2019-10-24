@@ -72,7 +72,6 @@ namespace toyc
 
 	int TCparser::DefinitionList(ASstatement *l[],int n) {
 		int num=0;
-		// statementList --> statement ; statementList | epsilon
 		enteringDEBUG("DefinitionList");
 		if (!(buff->getTokenType()==EOFILE)) {
 			l[n] = Definition();
@@ -91,18 +90,22 @@ namespace toyc
 		enteringDEBUG("Definition");
 		Type();
 		accept(ID);
+		//try
+		//{
+			//if (buff->getTokenType() == SEMICOLON) {
+				//exitingDEBUG("Definition");
+			//}
+			//accept(SEMICOLON);
+		//}
+		//catch (int t)
+		//{
 		try
 		{
-			if (buff->getTokenType() == SEMICOLON) {
-				exitingDEBUG("Definition");
-			}
-			accept(SEMICOLON);
-		}
-		catch (int t)
-		{
 			FunctionDefinition();
-			exitingDEBUG("Definition");
 		}
+		catch (int t) {}
+		exitingDEBUG("Definition");
+		//}
 		//return 0;
 	}
 
@@ -115,11 +118,13 @@ namespace toyc
 			accept(INT);
 			exitingDEBUG("Type");
 		}
-		catch (int t)
+		catch (int t) {}
+		try
 		{
 			accept(CHAR);
-			exitingDEBUG("Type");
+			exitingDEBUG("Type");;
 		}
+		catch (int t) {}
 		// Error and Handling not done
 		return 0;
 	}
@@ -128,11 +133,20 @@ namespace toyc
 	{
 		// FunctionDefinition  --> FunctionHeader FunctionBody
 		enteringDEBUG("Function Definition");
-		FunctionHeader();
-		FunctionBody();
-		exitingDEBUG("Function Definition");
-		accept(SEMICOLON); // Accept is here so that parser output will be correct
-		return 0;
+		try
+		{
+			FunctionHeader();
+		}
+		catch (int t) {}
+		try
+		{
+			FunctionBody();
+		}
+		catch (int t) {}
+		//FunctionHeader();
+		//FunctionBody();
+		exitingDEBUG("Function Definition3333333333333333333333");
+		//return 0;
 	}
 
 	int TCparser::FunctionHeader() // DONE
@@ -202,39 +216,24 @@ namespace toyc
 		accept(LCURLY);
 		while (buff->getTokenType() == INT || buff->getTokenType() == CHAR) // { Type ID SEMICOLON }
 		{
-			try
-			{
-				Type();
-				accept(ID);
-				accept(SEMICOLON);
-			}
-			catch (int t)
-			{
-				break;
-			}
+			Type();
+			accept(ID);
+			accept(SEMICOLON);
 		}
 		if (buff->getTokenType() != RCURLY)
 		{
 			enteringDEBUG("Statement");
-		//}
-		while (true)
-		{
-			if (buff->getTokenType() != RCURLY)
+			while (buff->getTokenType() != RCURLY)
 			{
 				Statement();
 			}
-			else
-			{
-				exitingDEBUG("Statement");
-				accept(RCURLY);
-				exitingDEBUG("CompoundStatement");
-				break;
-			}
+			exitingDEBUG("Statement");
+			exitingDEBUG("CompoundStatement");
 		}
-		}
-		// Need to add error handling
+		accept(RCURLY);
 		return 0;
 	}
+
 
 	int TCparser::IfStatement() // WIP
 	{
