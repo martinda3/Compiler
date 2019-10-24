@@ -10,7 +10,7 @@ int i;
 i = 1;
 while (i <= 10) {
 write(i);
-if ( x > 1 )
+if ( isEven(i) )
 write(" is even");
 else
 write(" is odd");

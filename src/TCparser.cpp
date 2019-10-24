@@ -490,7 +490,13 @@ namespace toyc
 		{
 			case ID:
 				accept(ID);
-				//FunctionCall(); DOSENOT WORK
+				try
+				{
+					FunctionCall();
+				}
+				catch (int t)
+				{
+				}
 				break;
 
 			case NUMBER:
