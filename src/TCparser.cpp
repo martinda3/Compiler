@@ -52,7 +52,8 @@ namespace toyc
 
 	ASabstractSyntax* TCparser::program()
 	{
-		enteringDEBUG("Program");
+		enteringDEBUG("Program");   //  Need to call DefinitionList to recirsivly repeat
+		/*
 		while (true)
 		{
 			try
@@ -73,7 +74,7 @@ namespace toyc
 					exit(EXIT_FAILURE);
 				}
 			}
-		}
+		}*/
 		ASstatement* stateList[MAX_STATEMENTS];
 		//symTable = new TCsymTable();
 		int num = DefinitionList(stateList, 0);
@@ -84,17 +85,22 @@ namespace toyc
 	int TCparser::DefinitionList(ASstatement *l[],int n) {
 		int num=0;
 
-		enteringDEBUG("DefinitionList");
+		enteringDEBUG("DefinitionList888888888888888888");
 		if (!(buff->getTokenType() == EOFILE))
 		{
 			l[n] = Definition();
 			num = DefinitionList(l, n + 1);
 		}
+//		else if (buff->getTokenType() == EOFILE)
+//		{
+//			exitingDEBUG("Program");
+//		}
 		else
 		{
 			num = n;
+
 		}
-		exitingDEBUG("DefinitionList");
+		exitingDEBUG("DefinitionListHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
 		return num;
 	}
 
@@ -107,9 +113,9 @@ namespace toyc
 		try
 		{
 			FunctionDefinition();
+			exitingDEBUG("Definition");
 		}
 		catch (int t) {}
-		exitingDEBUG("Definition");
 	}
 
 	int TCparser::Type() // Functional Needs testing
@@ -144,10 +150,9 @@ namespace toyc
 		try
 		{
 			FunctionBody();
+			exitingDEBUG("Function Definition3333333333333333333333");
 		}
 		catch (int t) {}
-
-		exitingDEBUG("Function Definition3333333333333333333333");
 		return 0;
 	}
 
@@ -158,7 +163,12 @@ namespace toyc
 		accept(LPAREN);
 		if (buff->getTokenType() == INT || buff->getTokenType() == CHAR)
 		{
-			FormalParamList();
+			try
+			{
+				FormalParamList();
+			}
+			catch  (int t) {}
+			//FormalParamList();
 			exitingDEBUG("Function Header");
 			accept(RPAREN);
 		}
@@ -174,9 +184,14 @@ namespace toyc
 	{
 		// FunctionBody --> CompoundStatement
 		enteringDEBUG("FunctionBody");
-		CompoundStatement();
-		accept(SEMICOLON);
+		try
+		{
+			CompoundStatement();
+		}
+		catch  (int t) {}
+		//CompoundStatement();
 		exitingDEBUG("FunctionBody");
+		accept(SEMICOLON);
 		return 0;
 	}
 
@@ -842,10 +857,10 @@ namespace toyc
 			tokenDEBUG(std::to_string(t));
 			buff = scanner->getToken();
 		}
-		else if (buff->getTokenType() == EOFILE)
-		{
-			exit(0);
-		}
+//		else if (buff->getTokenType() == EOFILE)
+//		{
+//			exit(0);
+//		}
 		else
 		{
 			throw t;

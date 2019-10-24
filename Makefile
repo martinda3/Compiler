@@ -39,18 +39,20 @@ clean:
 iftests:
 	$(MAKE) $(TARGET)
 	@echo "	If Statments";
-	@echo "[Test 1] if (n == 0) "; $(TARGET) -v $(TESTDIR)/type.tc
-	@echo "[Test 2] if ((n*3) == 0) "; $(TARGET) -v  $(TESTDIR)/type1.tc
-	@echo "[Test 3] if (n > 0) ";  $(TARGET) -v $(TESTDIR)/type2.tc
-	@echo "[Test 4] if (n < 0) ";  $(TARGET) -v $(TESTDIR)/type3.tc
-	@echo "[Test 5] if (n <= 0) "; $(TARGET) -v $(TESTDIR)/type4.tc
-	@echo "[Test 6] if (n >= 0) "; $(TARGET) -v $(TESTDIR)/type5.tc
-	@echo "[Test 7] if (n != 0) "; $(TARGET) -v $(TESTDIR)/type6.tc
-	@echo "[Test 7] if (n)";       $(TARGET) -v $(TESTDIR)/type7.tc
+	@echo "[Test 1] if (n == 0) "; $(TARGET)  $(TESTDIR)/type.tc
+	@echo "[Test 2] if ((n*3) == 0) "; $(TARGET)   $(TESTDIR)/type1.tc
+	@echo "[Test 3] if (n > 0) ";  $(TARGET)  $(TESTDIR)/type2.tc
+	@echo "[Test 4] if (n < 0) ";  $(TARGET)  $(TESTDIR)/type3.tc
+	@echo "[Test 5] if (n <= 0) "; $(TARGET)  $(TESTDIR)/type4.tc
+	@echo "[Test 6] if (n >= 0) "; $(TARGET)  $(TESTDIR)/type5.tc
+	@echo "[Test 7] if (n != 0) "; $(TARGET)  $(TESTDIR)/type6.tc
+	@echo "[Test 7] if (n)";       $(TARGET)  $(TESTDIR)/type7.tc
+	@echo "	If Statments passed";
 
 while:
 	$(MAKE) $(TARGET)
 	@echo "	While Statments";
-	@echo "[Test 1] while (n == 0) "; $(TARGET) -v $(TESTDIR)/while1.tc
+	@echo "[Test 1] while (n == 0) "; $(TARGET)  $(TESTDIR)/while1.tc
+	@echo "	While Statments passed";
 
 .PHONY: clean
