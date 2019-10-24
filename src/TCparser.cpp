@@ -530,11 +530,6 @@ namespace toyc
 				accept(RPAREN);
 				break;
 
-				//			case MINUS:
-				//				accept(MINUS);
-				//				Primary();
-				//				break;
-
 			case NOTEQUAL:
 				enteringDEBUG("Primary Additional");
 				accept(NOTEQUAL);
