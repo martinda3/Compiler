@@ -36,9 +36,16 @@ clean:
 	@echo " Cleaning..."; 
 	@echo " $(RM) -r $(BUILDDIR) $(TARGET) $(SCANNER) $(PARSER)"; $(RM) -r $(BUILDDIR) $(TARGET) $(SCANNER) $(PARSER)
 
-tests:
+iftests:
 	$(MAKE) $(TARGET)
-	@echo "	Together we stand untied we fall";
-	@echo "[Part 2]"; $(TARGET) -v $(TESTDIR)/type.tc
+	@echo "	If Statments";
+	@echo "[Test 1] if (n == 0) "; $(TARGET) $(TESTDIR)/type.tc
+	@echo "[Test 2] if ((n*3) == 0) "; $(TARGET) $(TESTDIR)/type1.tc
+	@echo "[Test 3] if (n > 0) "; $(TARGET) $(TESTDIR)/type2.tc
+	@echo "[Test 4] if (n < 0) "; $(TARGET) $(TESTDIR)/type3.tc
+	@echo "[Test 5] if (n <= 0) "; $(TARGET) $(TESTDIR)/type4.tc
+	@echo "[Test 6] if (n >= 0) "; $(TARGET) $(TESTDIR)/type5.tc
+	@echo "[Test 7] if (n != 0) "; $(TARGET) $(TESTDIR)/type6.tc
+	@echo "[Test 7] if (n)"; $(TARGET) $(TESTDIR)/type7.tc
 
 .PHONY: clean

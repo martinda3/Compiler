@@ -36,7 +36,7 @@ namespace toyc {
                 str += " DO " + lexeme;
                 break;
             case NOTEQUAL:
-                str += " NOTEQUAL> ,\"" + lexeme;
+                str += " NOTEQUAL " + lexeme;
                 break;
             case IF:
                 str += " IF " + lexeme;
