@@ -20,7 +20,7 @@ namespace toyc {
         std::cerr << prefix + "[WARNING]" + message << std::endl;
     }
 
-    void reportSYNTAX_ERROR(TClexer *l, std::string message) {
+    void reportSEMANTIC_ERROR(TClexer *l, std::string message) {
         int ln;
         std::string lnstr;
         std::string sep = ": ";
@@ -32,7 +32,7 @@ namespace toyc {
                   "^ %error: " << message << std::endl;
     }
 
-    void reportSEMANTIC_ERROR(TClexer *l, std::string message) {
+    void reportSYNTAX_ERROR(TClexer *l, std::string message) {
         int ln;
         std::string lnstr;
         std::string sep = ": ";
@@ -51,7 +51,7 @@ namespace toyc {
         */
     }
 
-    void reportSEMANTIC_ERROR(std::string message) {
+    void reportSYNTAX_ERROR(std::string message) {
         std::cerr << ("%error: " + message) << std::endl;
     }
 

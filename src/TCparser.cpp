@@ -48,7 +48,7 @@ namespace toyc
 		catch (int t)
 		{
 			std::string error = "Expected token number " + std::to_string(t);
-			reportSEMANTIC_ERROR(scanner, error);
+			reportSYNTAX_ERROR(scanner, error);
 			exit(EXIT_FAILURE);
 		}
 
@@ -125,7 +125,7 @@ namespace toyc
 		FunctionHeader();
 		FunctionBody();
 		exitingDEBUG("Function Definition");
-		accept(SEMICOLON); // Accept is here so that parser output will be correct
+		accept(SEMICOLON); // Accept is here so that parser output will be correct================================================================
 		return 0;
 	}
 
@@ -142,7 +142,7 @@ namespace toyc
 		}
 		else if (buff->getTokenType() == RPAREN)
 		{
-			reportSEMANTIC_ERROR(scanner,"FormalParamList expected");
+			reportSYNTAX_ERROR(scanner,"FormalParamList expected");
 			exit(EXIT_FAILURE);
 		}
 		return 0;
@@ -789,7 +789,7 @@ namespace toyc
 				std::string str = symTable->getSym(label)->getId();
 				if (!targetLabelExists(str, p))
 				{
-					reportSEMANTIC_ERROR("target label '" + str + "' not found");
+					reportSYNTAX_ERROR("target label '" + str + "' not found");
 					exit(EXIT_FAILURE);
 				}
 			}

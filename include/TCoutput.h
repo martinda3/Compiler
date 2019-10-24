@@ -12,11 +12,11 @@ namespace toyc {
 
     void reportWARNING(std::string prefix, std::string message);
 
-    void reportSYNTAX_ERROR(TClexer *, std::string);
-
     void reportSEMANTIC_ERROR(TClexer *, std::string);
 
-    void reportSEMANTIC_ERROR(std::string);
+    void reportSYNTAX_ERROR(TClexer *, std::string);
+
+    void reportSYNTAX_ERROR(std::string);
 
 
     void dumpAST(ASabstractSyntax *ast);
