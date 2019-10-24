@@ -39,50 +39,65 @@ namespace toyc
 	ASabstractSyntax* TCparser::parse()
 	{
 		buff = scanner->getToken();
-		try
-		{
-			ASabstractSyntax* p = program();
-			checkIfAllLabelTargetsAreDefined((ASprogram*)p);
-			return p;
-		}
-		catch (int t)
-		{
-			std::string error = "Expected token number " + std::to_string(t);
-			reportSYNTAX_ERROR(scanner, error);
-			exit(EXIT_FAILURE);
-		}
-
+		ASabstractSyntax* p = program();
+		checkIfAllLabelTargetsAreDefined((ASprogram*)p);
+		return p;
 	}
 
 	void enteringDEBUG(std::string s) { if (verbose) reportDEBUG("    ", "PARSER", "entering " + s); }
 
-	void tokenDEBUG(std::string s)    { if (verbose) reportDEBUG("       ", "INFO", " " + s); }
+	void tokenDEBUG(std::string s) { if (verbose) reportDEBUG("       ", "INFO", " " + s); }
 
-	void exitingDEBUG(std::string s)  { if (verbose) reportDEBUG("    ", "PARSER", "exiting " + s); }
+	void exitingDEBUG(std::string s) { if (verbose) reportDEBUG("    ", "PARSER", "exiting " + s); }
 
 	ASabstractSyntax* TCparser::program() // Exit for program does not work
 	{
 		enteringDEBUG("Program");
-		ASstatement *stateList[MAX_STATEMENTS];
+		while (true)
+		{
+			try
+			{
+				Definition();
+			}
+			catch (int t)
+			{
+				if (buff->getTokenType() == EOFILE)
+				{
+					accept(EOFILE);
+					break;
+				}
+				else
+				{
+					std::string error = "Expected token number " + std::to_string(t);
+					reportSYNTAX_ERROR(scanner, error);
+					exit(EXIT_FAILURE);
+				}
+			}
+		}
+		ASstatement* stateList[MAX_STATEMENTS];
 		//symTable = new TCsymTable();
-		int num = DefinitionList(stateList,0);
+		int num = DefinitionList(stateList, 0);
 		exitingDEBUG("Program");
-		return new ASprogram(inputFileName,stateList,num);
+		return new ASprogram(inputFileName, stateList, num);
 	}
 
 	int TCparser::DefinitionList(ASstatement *l[],int n) {
 		int num=0;
+
 		enteringDEBUG("DefinitionList");
-		if (!(buff->getTokenType()==EOFILE)) {
+		if (!(buff->getTokenType() == EOFILE))
+		{
 			l[n] = Definition();
 			//accept(SEMICOLON);
-			num = DefinitionList(l,n+1);
-		} else {
+			num = DefinitionList(l, n + 1);
+		}
+		else
+		{
 			num = n;
 		}
 		exitingDEBUG("DefinitionList");
 		return num;
-		}
+	}
 
 	ASstatement *TCparser::Definition() // Exit for Definition does not work
 	{
@@ -480,7 +495,8 @@ namespace toyc
 		//           | LPAREN Expression RPAREN
 		//           | MINUS | NOT Primary
 		enteringDEBUG("Primary");
-		switch (buff->getTokenType())
+		int tok = buff->getTokenType();
+		switch (tok)
 		{
 			case ID:
 				accept(ID);
@@ -515,6 +531,7 @@ namespace toyc
 				break;
 
 			default:
+				throw tok;
 				break;
 		}
 		exitingDEBUG("Primary");
@@ -832,6 +849,7 @@ namespace toyc
 	{
 		if (t == buff->getTokenType())
 		{
+			tokenDEBUG(std::to_string(t));
 			buff = scanner->getToken();
 		}
 		else if (buff->getTokenType() == EOFILE)
