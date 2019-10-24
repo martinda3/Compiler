@@ -48,7 +48,7 @@ namespace toyc
 		catch (int t)
 		{
 			std::string error = "Expected token number " + std::to_string(t);
-			reportSEMANTIC_ERROR(scanner, error);
+			reportSYNTAX_ERROR(scanner, error);
 			exit(EXIT_FAILURE);
 		}
 
@@ -794,7 +794,7 @@ namespace toyc
 				std::string str = symTable->getSym(label)->getId();
 				if (!targetLabelExists(str, p))
 				{
-					reportSEMANTIC_ERROR("target label '" + str + "' not found");
+					reportSYNTAX_ERROR("target label '" + str + "' not found");
 					exit(EXIT_FAILURE);
 				}
 			}
