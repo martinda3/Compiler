@@ -71,16 +71,7 @@ namespace toyc
 	ASabstractSyntax* TCparser::parse()
 	{
 		buff = scanner->getToken();
-		try
-		{
-			ASabstractSyntax* p = program();
-		}
-		catch (int t)
-		{
-			std::string error = "Expected token number " + std::to_string(t);
-			reportSEMANTIC_ERROR(scanner, error);
-			exit(EXIT_FAILURE);
-		}
+		ASabstractSyntax* p = program();
 		checkIfAllLabelTargetsAreDefined((ASprogram*)p);
 		return p;
 	}
