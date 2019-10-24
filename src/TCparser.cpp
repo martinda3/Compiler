@@ -30,38 +30,6 @@
 namespace toyc
 {
 
-	/*
-   Concrete syntax
-   ---------------
-   program --> statementList
-   statementList --> statement ; statementList | epsilon
-   statement --> ID : statement |
-				 ID = expr |
-				 WRITE expr |
-				 READ ID |
-				 IF expr THEN GOTO ID |
-				 GOTO ID |
-				 SKIP
-   expr --> term | term RELOP expr
-   term --> element | element ADDOP term | element OR term
-   element --> factor | factor MULOP element | factor AND element
-   factor --> NUMBER | ID | - expr | ( expr )
-
-   Abstract syntax
-   ---------------
-   Program --> prog(Id,(Statement*))
-   Statement --> labeled(Id,Statement)
-			   | assign(Id,Expression)
-			   | write(Expression)
-			   | read(Id)
-			   | if(Expression,Id)
-			   | goto(Id)
-			   | skip()
-   Expression --> Number | Id
-				| binaryExpr(Operator, Expression, Expression)
-				| unaryExpr(Operator, Expression)
-  */
-
 	static void checkIfAllLabelTargetsAreDefined(ASprogram*);
 
 	static bool targetLabelExists(std::string, ASprogram*);
@@ -71,9 +39,19 @@ namespace toyc
 	ASabstractSyntax* TCparser::parse()
 	{
 		buff = scanner->getToken();
-		ASabstractSyntax* p = program();
-		checkIfAllLabelTargetsAreDefined((ASprogram*)p);
-		return p;
+		try
+		{
+			ASabstractSyntax* p = program();
+			checkIfAllLabelTargetsAreDefined((ASprogram*)p);
+			return p;
+		}
+		catch (int t)
+		{
+			std::string error = "Expected token number " + std::to_string(t);
+			reportSEMANTIC_ERROR(scanner, error);
+			exit(EXIT_FAILURE);
+		}
+
 	}
 
 	void enteringDEBUG(std::string s) { if (verbose) reportDEBUG("    ", "PARSER", "entering " + s); }
@@ -82,24 +60,23 @@ namespace toyc
 
 	void exitingDEBUG(std::string s)  { if (verbose) reportDEBUG("    ", "PARSER", "exiting " + s); }
 
-	ASabstractSyntax* TCparser::program() // DONE
+	ASabstractSyntax* TCparser::program()
 	{
 		enteringDEBUG("Program");
-		//Definition();
 		while (true)
 		{
-			Definition();
-			if (buff->getTokenType() != EOFILE)
+			try
 			{
-				continue;
+				Definition();
 			}
-			else
+			catch (int t)
 			{
-				exitingDEBUG("Program");
-				return 0;
+				accept(EOFILE);
+				break;
 			}
-		}
-
+	}
+	exitingDEBUG("Program");
+	return 0;
 	}
 
 	int TCparser::Definition() // DONE
@@ -326,10 +303,6 @@ namespace toyc
 				CompoundStatement();
 				break;
 
-//			case BREAK:
-//				BreakStatement();
-//				break;
-
 			default:
 				break;
 		}
@@ -529,11 +502,6 @@ namespace toyc
 				exitingDEBUG("Primary Additional");
 				accept(RPAREN);
 				break;
-
-				//			case MINUS:
-				//				accept(MINUS);
-				//				Primary();
-				//				break;
 
 			case NOTEQUAL:
 				enteringDEBUG("Primary Additional");
