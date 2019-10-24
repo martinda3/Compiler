@@ -74,8 +74,11 @@ namespace toyc
 				}
 			}
 		}
+		ASstatement* stateList[MAX_STATEMENTS];
+		//symTable = new TCsymTable();
+		int num = DefinitionList(stateList, 0);
 		exitingDEBUG("Program");
-		return 0;
+		return new ASprogram(inputFileName, stateList, num);
 	}
 
 	int TCparser::DefinitionList(ASstatement* l[], int n)
