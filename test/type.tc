@@ -1,5 +1,5 @@
 int isEven(int n){
-	if (n == 0)
+	if (n == )
 		return 1;
 	else
 		return 0;
