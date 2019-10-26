@@ -13,6 +13,7 @@ namespace toyc
 		}
 		id = identifier;
 		numExpressions = num;
+		setType(FUNCCALLexpr);
 	}
 
 	std::string ASfuncCall::toString()

@@ -6,7 +6,11 @@
 
 namespace toyc
 {
-	ASsimpleExpr::ASsimpleExpr(TCtoken* e) { expr = e; }
+	ASsimpleExpr::ASsimpleExpr(TCtoken* e)
+	{
+		expr = e;
+		setType(SIMPLEexpr);
+	}
 
 	std::string ASsimpleExpr::toString()
 	{

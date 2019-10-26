@@ -2,24 +2,29 @@
 #define ASIFSTATE_H
 
 #include "ASstatement.h"
-#include "ASexpr.h"
+#include "ASexpression.h"
 
-namespace toyc {
+#define MAX_STATEMENTS 500 // arbitrary
 
-    class ASifState : public ASstatement {
-    public:
-        ASifState(ASexpr *, int);
+namespace toyc
+{
+	class ASifState : public ASstatement
+	{
+	public:
+		ASifState(ASexpression*, ASstatement*, ASstatement*);
+		ASifState(ASexpression*, ASstatement*);
+		std::string toString();
 
-        int getLabel();
+		ASexpression* getOp1();
+		ASstatement* getOp2();
+		ASstatement* getOp3();
 
-        ASexpr *getExpression();
-
-        std::string toString();
-
-    private:
-        ASexpr *expression;
-        int label;
-    };
+	private:
+		ASexpression* op1;
+		ASstatement* op2;
+		ASstatement* op3;
+		bool hasop;
+	};
 
 }
 #endif

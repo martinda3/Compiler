@@ -6,19 +6,39 @@
 
 namespace toyc
 {
-	ASreadState::ASreadState(int sym)
+	ASreadState::ASreadState(ASsimpleExpr* identifiers[], int num)
 	{
-		id = sym;
+		for (int i = 0; i < num; i++)
+		{
+			identifierList[i] = identifiers[i];
+
+		}
+		numIdentifiers = num;
 		setType(READstate);
 	}
 
+	ASsimpleExpr* ASreadState::getIdentifier(int num)
+	{
+		return identifierList[num];
+	}
+	int ASreadState::getNumIdentifiers()
+	{
+		return numIdentifiers;
+	}
 	std::string ASreadState::toString()
 	{
+		if (numIdentifiers == 0)
+		{
+			return "error";
+		}
 		std::string str = "";
-		str += symTable->getSym(id)->toString();
-		return "read(" + str + ")";
+		str += "readStatement(" + identifierList[0]->toString();
+		for (int i = 1; i < numIdentifiers; i++)
+		{
+			str += ", " + identifierList[i]->toString();
+		}
+		str += ")";
+		return str;
 	}
-
-	int ASreadState::getId() { return id; }
 
 }

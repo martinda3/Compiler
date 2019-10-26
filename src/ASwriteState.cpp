@@ -13,6 +13,7 @@ namespace toyc
 
 		}
 		numExpressions = num;
+		setType(WRITEstate);
 	}
 
 	ASexpression* ASwriteState::getExpression(int num)

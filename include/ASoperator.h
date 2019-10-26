@@ -17,6 +17,7 @@ namespace toyc
 	class ASoperator :public ASabstractSyntax
 	{
 	public:
+		ASoperator(enum operType);
 		std::string toString();
 		enum operType getType();
 		void setType(enum operType);

@@ -9,6 +9,7 @@ namespace toyc
 		oper = opr;
 		op1 = oper1;
 		op2 = oper2;
+		setType(EXPRexpr);
 	}
 
 	std::string ASexpr::toString()

@@ -8,7 +8,7 @@ namespace toyc
 
 	enum exprType
 	{
-		FUNCCALLexpr, EXPRexpr, MINUSexpr, NOTexpr
+		FUNCCALLexpr, EXPRexpr, MINUSexpr, NOTexpr, SIMPLEexpr
 	};
 
 	class ASexpression :public ASabstractSyntax

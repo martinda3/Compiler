@@ -3,6 +3,11 @@
 
 namespace toyc
 {
+	ASoperator::ASoperator(enum operType t)
+	{
+		type = t;
+
+	}
 
 	enum operType ASoperator::getType() { return type; }
 	void ASoperator::setType(enum operType t) { type = t; }
