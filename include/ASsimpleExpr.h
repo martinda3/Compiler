@@ -4,20 +4,22 @@
 #include "ASexpr.h"
 #include "TCtoken.h"
 
-namespace toyc {
+namespace toyc
+{
 
-    class ASsimpleExpr : public ASexpr {
-    public:
-        ASsimpleExpr(TCtoken *);
+	class ASsimpleExpr : public ASexpr
+	{
+	public:
+		ASsimpleExpr(TCtoken*);
 
-        std::string toString();
+		std::string toString();
 
-        TCtoken *getExpr();
+		TCtoken* getExpr();
 
-    private:
-        TCtoken *expr;
+	private:
+		TCtoken* expr;
 
-    };
+	};
 
 }
 #endif

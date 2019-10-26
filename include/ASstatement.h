@@ -6,8 +6,9 @@
 namespace toyc {
 
     enum stateType {
-        ASSIGNstate, GOTOstate, IFstate, LABELstate,
-        READstate, SKIPstate, WRITEstate
+        EXPRstate, BREAKstate, BLOCKstate, IFstate,
+        NULLstate, RETURNstate, WHILEstate, READstate,
+		WRITEstate, NEWLINEstate
     };
 
     class ASstatement : public ASabstractSyntax {

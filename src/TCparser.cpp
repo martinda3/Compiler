@@ -76,7 +76,7 @@ namespace toyc
 			}
 		}*/
 		ASstatement* stateList[MAX_STATEMENTS];
-		//symTable = new TCsymTable();
+		symTable = new TCsymTable();
 		int num = DefinitionList(stateList, 0);
 		exitingDEBUG("Program");
 		return new ASprogram(inputFileName, stateList, num);
@@ -85,7 +85,7 @@ namespace toyc
 	int TCparser::DefinitionList(ASstatement *l[],int n) {
 		int num=0;
 
-		enteringDEBUG("DefinitionList888888888888888888");
+		enteringDEBUG("DefinitionList");
 		if (!(buff->getTokenType() == EOFILE))
 		{
 			l[n] = Definition();
@@ -100,16 +100,20 @@ namespace toyc
 			num = n;
 
 		}
-		exitingDEBUG("DefinitionListHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+		exitingDEBUG("DefinitionList");
 		return num;
 	}
 
 	ASstatement *TCparser::Definition()
 	{
 		// Definition --> Type ID ( FunctionDefinition | SEMICOLON )
+		ASstatement* s = NULL;
+		int loc;
+		TCsymbol* sym;
 		enteringDEBUG("Definition");
 		Type();
 		accept(ID);
+
 		try
 		{
 			FunctionDefinition();
@@ -150,7 +154,7 @@ namespace toyc
 		try
 		{
 			FunctionBody();
-			exitingDEBUG("Function Definition3333333333333333333333");
+			exitingDEBUG("Function Definition");
 		}
 		catch (int t) {}
 		return 0;

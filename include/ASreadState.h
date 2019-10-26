@@ -1,21 +1,27 @@
-#ifndef ASREADSTATE_H
-#define ASREADSTATE_H
+#ifndef ASWRITESTATE_H
+#define ASWRITESTATE_H
 
 #include "ASstatement.h"
+#include "ASsimpleExpr.h"
 
-namespace toyc {
+#define MAX_STATEMENTS 500 // arbitrary
 
-    class ASreadState : public ASstatement {
-    public:
-        ASreadState(int);
+namespace toyc
+{
 
-        std::string toString();
+	class ASreadState : public ASstatement
+	{
+	public:
+		ASreadState(ASsimpleExpr* [], int);
 
-        int getId();
+		ASsimpleExpr* getIdentifier(int);
+		std::string toString();
+		int getNumIdentifiers();
 
-    private:
-        int id;
-    };
+	private:
+		ASsimpleExpr* identifierList[MAX_STATEMENTS];
+		int numIdentifiers;
+	};
 
 }
 #endif

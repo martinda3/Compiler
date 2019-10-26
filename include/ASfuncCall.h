@@ -1,25 +1,29 @@
-#ifndef ASWRITESTATE_H
-#define ASWRITESTATE_H
+#ifndef ASFUNCCALL_H
+#define ASFUNCCALL_H
 
-#include "ASstatement.h"
+
 #include "ASexpression.h"
+#include "ASsimpleExpr.h"
+#include "TCtoken.h"
 
 #define MAX_STATEMENTS 500 // arbitrary
 
 namespace toyc
 {
 
-	class ASwriteState : public ASstatement
+	class ASfuncCall :public ASexpression
 	{
 	public:
-		ASwriteState(ASexpression* [], int);
-
-		ASexpression* getExpression(int);
+		ASfuncCall(ASsimpleExpr*, ASexpression* [], int);
 		std::string toString();
+
+		ASsimpleExpr* getOp1();
+		ASexpression* getExpression(int);
 		int getNumExpressions();
 
 	private:
 		ASexpression* expressionList[MAX_STATEMENTS];
+		ASsimpleExpr* id;
 		int numExpressions;
 	};
 
