@@ -10,27 +10,36 @@ namespace toyc {
     std::string ASstatement::toTypeString(enum stateType t) {
         std::string s;
         switch (t) {
-            case ASSIGNstate:
-                s = "ASSIGNstate";
+            case EXPRstate:
+                s = "EXPRstate";
                 break;
-            case GOTOstate:
-                s = "GOTOstate";
+            case BREAKstate:
+                s = "BREAKstate";
+                break;
+            case BLOCKstate:
+                s = "BLOCKstate";
                 break;
             case IFstate:
                 s = "IFstate";
                 break;
-            case LABELstate:
-                s = "LABELstate";
+            case NULLstate:
+                s = "NULLstate";
                 break;
-            case READstate:
-                s = "READstate";
+            case RETURNstate:
+                s = "RETURNstate";
                 break;
-            case SKIPstate:
-                s = "SKIPstate";
-                break;
-            case WRITEstate:
-                s = "WRITEstate";
-                break;
+			case WHILEstate:
+				s = "WRITEstate";
+				break;
+			case READstate:
+				s = "READstate";
+				break;
+			case WRITEstate:
+				s = "WRITEstate";
+				break;
+			case NEWLINEstate:
+				s = "NEWLINEstate";
+				break;
             default:
                 s = "error";
                 break;

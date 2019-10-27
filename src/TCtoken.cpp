@@ -89,7 +89,7 @@ namespace toyc
 				str += " NEWLINE " + lexeme;
 				break;
 			case NUMBER:
-				str += "number(" + lexeme + ")";
+				str += " NUMBER " + lexeme;
 				break;
 			case ADDOP:
 				str += " ADDOP " + lexeme;
@@ -110,19 +110,19 @@ namespace toyc
 				str += " ASSIGNOP " + lexeme;
 				break;
 			case ID:
-				str += "id(" + lexeme + ")";
+				str += " ID " + lexeme;
 				break;
 			case CHARLITERAL:
-				str += "char('" + lexeme + "')";
+				str += " CHARLITERAL " + lexeme;
 				break;
 			case STRING:
-				str += "string(\"" + lexeme + "\")";
+				str += " STRING " + lexeme;
 				break;
 			case COMMENT:
-				str += " COMMENT";                               // Does not return a lexeme
+				str += " COMMENT ";                               // Does not return a lexeme
 				break;
 			case BLOCK:
-				str += " BLOCK";                                 // Does not return a lexeme
+				str += " BLOCK ";                                 // Does not return a lexeme
 				break;
 			case LPAREN:
 				str += " LPAREN " + lexeme;
