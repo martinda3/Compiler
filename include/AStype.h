@@ -2,25 +2,18 @@
 #define ASTYPE_H
 
 #include "ASabstractSyntax.h"
+#include "TCtoken.h"
 
 namespace toyc
 {
-
-	enum typeType // well this name is dumb :)
-	{
-		INTtype, CHARtype
-	};
-
 	class AStype : public ASabstractSyntax
 	{
 	public:
-		AStype(enum typeType);
+		AStype(TCtoken*);
 		std::string toString();
-		enum typeType getType();
-		void setType(enum typeType);
-		std::string toTypeString(enum typeType);
+		TCtoken* getExpr();
 	private:
-		enum typeType type;
+		TCtoken* expr;
 
 	};
 

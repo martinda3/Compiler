@@ -1,35 +1,30 @@
 #include <iostream>
+
 #include "AStype.h"
+#include "TCtokens.h"
+#include "TCglobals.h"
 
 namespace toyc
 {
-	AStype::AStype(enum typeType t)
+	AStype::AStype(TCtoken* e)
 	{
-		type = t;
+		expr = e;
 	}
 
-	enum typeType AStype::getType() { return type; }
-	void AStype::setType(enum typeType t) { type = t; }
 	std::string AStype::toString()
 	{
 		std::string s;
-		switch (type)
+		switch (expr->getTokenType())
 		{
-			case INTtype:		s = "int";			break;
-			case CHARtype:		s = "char";			break;
-			default:			s = "error";		break;
+			case INT:		s = "int(" + expr->getLexeme() + ")";		break;
+			case CHAR:		s = "char(" + expr->getLexeme() + ")";		break;
+			default:		s = "error";								break;
 		}
 		return s;
 	}
-	std::string AStype::toTypeString(enum typeType)
+
+	TCtoken* AStype::getExpr()
 	{
-		std::string s;
-		switch (type)
-		{
-			case INTtype:		s = "INTtype";			break;
-			case CHARtype:		s = "CHARtype";			break;
-			default:			s = "error";			break;
-		}
-		return s;
+		return expr;
 	}
 }
