@@ -14,7 +14,7 @@ namespace toyc
 	std::string ASoperator::toString()
 	{
 		std::string s;
-		switch (t)
+		switch (type)
 		{
 			case ADDoper:		s = " + ";			break;
 			case SUBoper:		s = " - ";			break;
@@ -37,7 +37,7 @@ namespace toyc
 	std::string ASoperator::toTypeString(enum operType)
 	{
 		std::string s;
-		switch (t)
+		switch (type)
 		{
 			case ADDoper:		s = "ADDoper";			break;
 			case SUBoper:		s = "SUBoper";			break;

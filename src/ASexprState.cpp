@@ -10,11 +10,11 @@ namespace toyc
 		setType(EXPRstate);
 	}
 
-	std::string ASifState::toString()
+	std::string ASexprState::toString()
 	{
 		return "exprStatement(" + op->toString() + ")";
 	}
 
-	ASexpression* ASifState::getOp1() { return op; }
+	ASexpression* ASexprState::getOp() { return op; }
 
 }

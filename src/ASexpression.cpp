@@ -15,7 +15,7 @@ namespace toyc
 			case EXPRexpr:		s = "EXPRexpr";		break;
 			case MINUSexpr:		s = "MINUSexpr";	break;
 			case NOTexpr:		s = "NOTexpr";		break;
-			case SIMPLEexpr:	s = "SIMPLEexpr"	break;
+			case SIMPLEexpr:	s = "SIMPLEexpr";	break;
 			default:			s = "error";		break;
 		}
 		return s;

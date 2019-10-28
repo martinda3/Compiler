@@ -11,7 +11,7 @@ namespace toyc
 		setType(MINUSexpr);
 	}
 
-	ASexpr* ASminus::getExpression() { return expression; }
+	ASexpression* ASminus::getExpression() { return expression; }
 
 	std::string ASminus::toString()
 	{

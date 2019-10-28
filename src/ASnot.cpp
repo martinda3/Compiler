@@ -11,7 +11,7 @@ namespace toyc
 		setType(NOTexpr);
 	}
 
-	ASexpr* ASnot::getExpression() { return expression; }
+	ASexpression* ASnot::getExpression() { return expression; }
 
 	std::string ASnot::toString()
 	{

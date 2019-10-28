@@ -13,7 +13,7 @@ namespace toyc
 	std::string AStype::toString()
 	{
 		std::string s;
-		switch (t)
+		switch (type)
 		{
 			case INTtype:		s = "int";			break;
 			case CHARtype:		s = "char";			break;
@@ -24,7 +24,7 @@ namespace toyc
 	std::string AStype::toTypeString(enum typeType)
 	{
 		std::string s;
-		switch (t)
+		switch (type)
 		{
 			case INTtype:		s = "INTtype";			break;
 			case CHARtype:		s = "CHARtype";			break;

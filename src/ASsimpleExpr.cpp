@@ -29,7 +29,7 @@ namespace toyc
 			case STRING:
 				str += "string(" + expr->getLexeme() + ")";
 				break;
-			case default:
+			default:
 				str += "error";
 				break;
 		}

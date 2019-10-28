@@ -7,7 +7,7 @@
 namespace toyc
 {
 
-	class ASsimpleExpr : public ASexpr
+	class ASsimpleExpr : public ASexpression
 	{
 	public:
 		ASsimpleExpr(TCtoken*);

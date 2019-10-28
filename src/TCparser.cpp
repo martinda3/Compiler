@@ -11,21 +11,33 @@
 #include "TCsymTable.h"
 
 #include "ASprogram.h"
+//#include "ASdefintion.h"
 #include "ASstatement.h"
-#include "ASexpr.h"
+#include "ASexpression.h"
+#include "ASoperator.h"
 
-#include "ASassignState.h"
-#include "ASbinaryExpr.h"
-#include "ASgotoState.h"
+//#include "ASprog.h"
+
+//#include "ASfuncDef.h"
+//#include "ASvarDef.h"
+
+#include "ASexprState.h"
+#include "ASbreakState.h"
+//#include "ASblockState.h"
 #include "ASifState.h"
-#include "ASlabelState.h"
+#include "ASnullState.h"
+#include "ASreturnState.h"
+#include "ASwhileState.h"
 #include "ASreadState.h"
-#include "ASsimpleExpr.h"
-#include "ASskipState.h"
-#include "ASunaryExpr.h"
 #include "ASwriteState.h"
+#include "ASnewLineState.h"
 
-#include "ASbinaryExpr.h"
+#include "ASsimpleExpr.h"
+#include "ASfuncCall.h"
+#include "ASexpr.h"
+#include "ASminus.h"
+#include "ASnot.h"
+
 
 namespace toyc
 {
@@ -40,7 +52,7 @@ namespace toyc
 	{
 		buff = scanner->getToken();
 		ASabstractSyntax* p = program();
-		checkIfAllLabelTargetsAreDefined((ASprogram*)p);
+		//checkIfAllLabelTargetsAreDefined((ASprogram*)p);
 		return p;
 	}
 
@@ -806,7 +818,7 @@ namespace toyc
 		   }
 		 */
 
-	static void checkIfAllLabelTargetsAreDefined(ASprogram* p)
+	/*static void checkIfAllLabelTargetsAreDefined(ASprogram* p)
 	{
 		for (int i = 0; i < p->getNumStatements(); i++)
 		{
@@ -840,7 +852,7 @@ namespace toyc
 		}
 		return false;
 	}
-
+	*/
 	/*
 	  private static void setSymbolAttributes(Lexer s, TCsymbol sym, String expected) {
 		  String str;
