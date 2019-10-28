@@ -1,40 +1,25 @@
-
 #include <iostream>
-
 #include "ASprogram.h"
-#include "TCoutput.h"
 
-namespace toyc {
+namespace toyc
+{
 
-    ASprogram::ASprogram(std::string n, ASstatement *statements[], int num) {
-        for (int i = 0; i < num; i++) statementList[i] = statements[i];
-        name = n;
-        numStatements = num;
-    }
+	enum progType ASprogram::getType() { return type; }
 
-    std::string ASprogram::getName() { return name; }
+	void ASprogram::setType(enum progType t) { type = t; }
 
-    ASstatement *ASprogram::getStatement(int n) { return statementList[n]; }
-
-    int ASprogram::getNumStatements() { return numStatements; }
-
-    std::string ASprogram::toString() {
-        if (numStatements == 0) return "prog([])";
-        std::string s = "prog(\n";
-        indent();
-        s += spaces() + name + ",\n";
-        s += spaces() + "[\n";
-        indent();
-        if (numStatements > 0) {
-            s += (spaces() + statementList[0]->toString());
-            for (int i = 1; i < numStatements; i++)
-                s += ",\n" + spaces() + statementList[i]->toString();
-        }
-        outdent();
-        s += "\n" + spaces() + "]\n";
-        outdent();
-        s += spaces() + ")\n";
-        return s;
-    }
-
+	std::string ASprogram::toTypeString(enum progType t)
+	{
+		std::string s;
+		switch (t)
+		{
+			case PROGprog:
+				s = "PROGprog";
+				break;
+			default:
+				s = "error";
+				break;
+		}
+		return s;
+	}
 }

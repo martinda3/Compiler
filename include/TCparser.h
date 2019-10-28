@@ -5,6 +5,7 @@
 #include "TCtoken.h"
 #include "ASabstractSyntax.h"
 #include "ASstatement.h"
+#include "ASdefinition.h"
 #include "ASexpr.h"
 
 namespace toyc {
@@ -21,11 +22,11 @@ namespace toyc {
 
         ASabstractSyntax *program();
 
-        int DefinitionList(ASstatement *[], int);
+        int DefinitionList(ASdefinition *[], int);
 
         int Statement();
 
-        ASstatement* Definition();
+        ASdefinition* Definition();
 
         int Type();
 

@@ -2,29 +2,29 @@
 #define ASPROGRAM_H
 
 #include "ASabstractSyntax.h"
-#include "ASstatement.h"
 
-#define MAX_STATEMENTS 500 // arbitrary
+namespace toyc
+{
 
-namespace toyc {
+	enum progType
+	{
+		PROGprog // This probably has no reason to exist, but i am keeping it anyway
+	};
 
-    class ASprogram : public ASabstractSyntax {
-    public:
-        ASprogram(std::string, ASstatement *[], int);
+	class ASprogram : public ASabstractSyntax
+	{
+	public:
+		virtual std::string toString() = 0;
 
-        std::string toString();
+		enum progType getType();
 
-        std::string getName();
+		void setType(enum progType);
 
-        ASstatement *getStatement(int);
+		std::string toTypeString(enum progType);
 
-        int getNumStatements();
-
-    private:
-        ASstatement *statementList[MAX_STATEMENTS];
-        std::string name;
-        int numStatements;
-    };
+	private:
+		enum progType type;
+	};
 
 }
 #endif

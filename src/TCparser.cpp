@@ -11,19 +11,19 @@
 #include "TCsymTable.h"
 
 #include "ASprogram.h"
-//#include "ASdefintion.h"
+#include "ASdefinition.h"
 #include "ASstatement.h"
 #include "ASexpression.h"
 #include "ASoperator.h"
 
-//#include "ASprog.h"
+#include "ASprog.h"
 
-//#include "ASfuncDef.h"
-//#include "ASvarDef.h"
+#include "ASfuncDef.h"
+#include "ASvarDef.h"
 
 #include "ASexprState.h"
 #include "ASbreakState.h"
-//#include "ASblockState.h"
+#include "ASblockState.h"
 #include "ASifState.h"
 #include "ASnullState.h"
 #include "ASreturnState.h"
@@ -87,15 +87,16 @@ namespace toyc
 				}
 			}
 		}*/
-		ASstatement* stateList[MAX_STATEMENTS];
+		ASdefinition* definitionList[MAX_STATEMENTS];
 		symTable = new TCsymTable();
-		int num = DefinitionList(stateList, 0);
+		int num = DefinitionList(definitionList, 0);
 		exitingDEBUG("Program");
-		return new ASprogram(inputFileName, stateList, num);
+		return new ASprog(definitionList, num);
 	}
 
-	int TCparser::DefinitionList(ASstatement *l[],int n) {
-		int num=0;
+	int TCparser::DefinitionList(ASdefinition* l[], int n)
+	{
+		int num = 0;
 
 		enteringDEBUG("DefinitionList");
 		if (!(buff->getTokenType() == EOFILE))
@@ -103,10 +104,10 @@ namespace toyc
 			l[n] = Definition();
 			num = DefinitionList(l, n + 1);
 		}
-//		else if (buff->getTokenType() == EOFILE)
-//		{
-//			exitingDEBUG("Program");
-//		}
+		//		else if (buff->getTokenType() == EOFILE)
+		//		{
+		//			exitingDEBUG("Program");
+		//		}
 		else
 		{
 			num = n;
@@ -116,7 +117,7 @@ namespace toyc
 		return num;
 	}
 
-	ASstatement *TCparser::Definition()
+	ASdefinition* TCparser::Definition()
 	{
 		// Definition --> Type ID ( FunctionDefinition | SEMICOLON )
 		ASstatement* s = NULL;
@@ -183,7 +184,7 @@ namespace toyc
 			{
 				FormalParamList();
 			}
-			catch  (int t) {}
+			catch (int t) {}
 			//FormalParamList();
 			exitingDEBUG("Function Header");
 			accept(RPAREN);
@@ -204,7 +205,7 @@ namespace toyc
 		{
 			CompoundStatement();
 		}
-		catch  (int t) {}
+		catch (int t) {}
 		//CompoundStatement();
 		exitingDEBUG("FunctionBody");
 		accept(SEMICOLON);
@@ -293,15 +294,15 @@ namespace toyc
 	int TCparser::Statement() // WIP
 	{
 		/* Statement --> ExpressionStatement
-		               | BreakStatement
-		               | CompoundStatement
-		               | IfStatement
-		               | NullStatement
-		               | ReturnStatement
-		               | WhileStatement
-		               | ReadStatement
-		               | WriteStatement
-		               | NewLineStatement */
+					   | BreakStatement
+					   | CompoundStatement
+					   | IfStatement
+					   | NullStatement
+					   | ReturnStatement
+					   | WhileStatement
+					   | ReadStatement
+					   | WriteStatement
+					   | NewLineStatement */
 		switch (buff->getTokenType())
 		{
 			case BREAK:
@@ -510,11 +511,11 @@ namespace toyc
 	int TCparser::Primary() // WIP
 	{
 		/* Primary --> ID [ FunctionCall ]
-		             | NUMBER
-		             | STRING
-		             | CHARLITERAL
-		             | LPAREN Expression RPAREN
-		             | MINUS | NOT Primary */
+					 | NUMBER
+					 | STRING
+					 | CHARLITERAL
+					 | LPAREN Expression RPAREN
+					 | MINUS | NOT Primary */
 		enteringDEBUG("Primary");
 		int tok = buff->getTokenType();
 		switch (tok)
@@ -818,53 +819,53 @@ namespace toyc
 		   }
 		 */
 
-	/*static void checkIfAllLabelTargetsAreDefined(ASprogram* p)
-	{
-		for (int i = 0; i < p->getNumStatements(); i++)
-		{
-			ASstatement* s = p->getStatement(i);
-			int label =
-				(s->getType() == GOTOstate) ? ((ASgotoState*)s)->getLabel() :
-				(s->getType() == IFstate) ? ((ASifState*)s)->getLabel() : -1;
-			if (label != -1)
-			{
-				std::string str = symTable->getSym(label)->getId();
-				if (!targetLabelExists(str, p))
-				{
-					reportSYNTAX_ERROR("target label '" + str + "' not found");
-					exit(EXIT_FAILURE);
-				}
-			}
-		}
-	}
+		 /*static void checkIfAllLabelTargetsAreDefined(ASprogram* p)
+		 {
+			 for (int i = 0; i < p->getNumStatements(); i++)
+			 {
+				 ASstatement* s = p->getStatement(i);
+				 int label =
+					 (s->getType() == GOTOstate) ? ((ASgotoState*)s)->getLabel() :
+					 (s->getType() == IFstate) ? ((ASifState*)s)->getLabel() : -1;
+				 if (label != -1)
+				 {
+					 std::string str = symTable->getSym(label)->getId();
+					 if (!targetLabelExists(str, p))
+					 {
+						 reportSYNTAX_ERROR("target label '" + str + "' not found");
+						 exit(EXIT_FAILURE);
+					 }
+				 }
+			 }
+		 }
 
-	static bool targetLabelExists(std::string str, ASprogram* p)
-	{
-		for (int i = 0; i < p->getNumStatements(); i++)
-		{
-			ASstatement* s = p->getStatement(i);
-			if (s->getType() == LABELstate)
-			{
-				ASlabelState* ls = (ASlabelState*)s;
-				if (str == symTable->getSym(ls->getLabel())->getId())
-					return true;
-			}
-		}
-		return false;
-	}
-	*/
-	/*
-	  private static void setSymbolAttributes(Lexer s, TCsymbol sym, String expected) {
-		  String str;
-		  if (sym.getAttributes().containsValue(str=(expected.equals("variable")?"label":"variable")))
-			  TCoutput.reportSEMANTIC_ERROR(s,"'"+sym.getId()+"' is a "+str);
-		  else
-			  sym.setAttribute(TCsymbol.Attributes.type,expected);
-		  if (expected.equals("variable") &&
-			  !sym.getAttributes().containsKey(TCsymbol.Attributes.offset))
-			  sym.setAttribute(TCsymbol.Attributes.offset,new Integer(sym.getNextOffset()));
-	  }
-	  */
+		 static bool targetLabelExists(std::string str, ASprogram* p)
+		 {
+			 for (int i = 0; i < p->getNumStatements(); i++)
+			 {
+				 ASstatement* s = p->getStatement(i);
+				 if (s->getType() == LABELstate)
+				 {
+					 ASlabelState* ls = (ASlabelState*)s;
+					 if (str == symTable->getSym(ls->getLabel())->getId())
+						 return true;
+				 }
+			 }
+			 return false;
+		 }
+		 */
+		 /*
+		   private static void setSymbolAttributes(Lexer s, TCsymbol sym, String expected) {
+			   String str;
+			   if (sym.getAttributes().containsValue(str=(expected.equals("variable")?"label":"variable")))
+				   TCoutput.reportSEMANTIC_ERROR(s,"'"+sym.getId()+"' is a "+str);
+			   else
+				   sym.setAttribute(TCsymbol.Attributes.type,expected);
+			   if (expected.equals("variable") &&
+				   !sym.getAttributes().containsKey(TCsymbol.Attributes.offset))
+				   sym.setAttribute(TCsymbol.Attributes.offset,new Integer(sym.getNextOffset()));
+		   }
+		   */
 
 	void TCparser::accept(int t)
 	{
@@ -873,10 +874,10 @@ namespace toyc
 			tokenDEBUG(std::to_string(t));
 			buff = scanner->getToken();
 		}
-//		else if (buff->getTokenType() == EOFILE)
-//		{
-//			exit(0);
-//		}
+		//		else if (buff->getTokenType() == EOFILE)
+		//		{
+		//			exit(0);
+		//		}
 		else
 		{
 			throw t;
