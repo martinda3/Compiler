@@ -158,9 +158,13 @@ namespace toyc
 		else if (buff->getTokenType() == CHAR)
 		{
 			operand = new AStype(accept(CHAR));
-			exitingDEBUG("Type");;
+			exitingDEBUG("Type");
 		}
-		// Error and Handling not done
+		else        // Error Handlding
+		{
+			reportSEMANTIC_ERROR(scanner, "type expected");
+			exit(EXIT_FAILURE);
+		}
 		return operand;
 	}
 
@@ -192,6 +196,11 @@ namespace toyc
 			i = 0;
 			accept(RPAREN);
 			exitingDEBUG("Function Header");
+		}
+		else      // Error Handlding
+		{
+			reportSEMANTIC_ERROR(scanner, "type or ')' expected");
+			exit(EXIT_FAILURE);
 		}
 		return i;
 	}
@@ -932,9 +941,12 @@ namespace toyc
 
 	TCtoken* TCparser::accept(int t)
 	{
+		TCtoken *token; std::string name;
 		if (t == buff->getTokenType())
 		{
-			tokenDEBUG(std::to_string(t));
+			token = buff;
+			name = token->getLexeme();
+			tokenDEBUG(name);
 			buff = scanner->getToken();
 			return buff;
 		}
