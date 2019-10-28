@@ -8,13 +8,14 @@ namespace toyc
 
 	enum exprType
 	{
-		FUNCCALLexpr, EXPRexpr, MINUSexpr, NOTexpr, SIMPLEexpr
+		FUNCCALLexpr, EXPRexpr, MINUSexpr, NOTexpr, SIMPLEexpr, EMPTYexpr
 	};
 
 	class ASexpression :public ASabstractSyntax
 	{
 	public:
-		virtual std::string toString() = 0;
+		ASexpression();
+		virtual std::string toString();
 		enum exprType getType();
 		void setType(enum exprType);
 		std::string toTypeString(enum exprType);

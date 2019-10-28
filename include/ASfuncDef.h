@@ -4,7 +4,7 @@
 #include "ASdefinition.h"
 #include "ASexpression.h"
 #include "AStype.h"
-#include "ASvarDef.h"
+#include "ASdefinition.h"
 #include "ASstatement.h"
 
 #define MAX_STATEMENTS 500 // arbitrary
@@ -15,11 +15,11 @@ namespace toyc
 	class ASfuncDef : public ASdefinition
 	{
 	public:
-		ASfuncDef(ASexpression*, AStype*, ASvarDef* [], int, ASstatement*);
+		ASfuncDef(ASexpression*, AStype*, ASdefinition* [], int, ASstatement*);
 
 		ASexpression* getIdentifier();
 		AStype* getType();
-		ASvarDef* getVarDef(int);
+		ASdefinition* getVarDef(int);
 		ASstatement* getStatement();
 		std::string toString();
 		int getNumVarDef();
@@ -27,7 +27,7 @@ namespace toyc
 	private:
 		ASexpression* identifier;
 		AStype* type;
-		ASvarDef* varDefList[MAX_STATEMENTS];
+		ASdefinition* varDefList[MAX_STATEMENTS];
 		int numVarDef;
 		ASstatement* statement;
 	};

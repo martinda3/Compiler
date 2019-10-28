@@ -3,27 +3,31 @@
 
 #include "ASabstractSyntax.h"
 
-namespace toyc {
+namespace toyc
+{
 
-    enum stateType {
-        EXPRstate, BREAKstate, BLOCKstate, IFstate,
-        NULLstate, RETURNstate, WHILEstate, READstate,
-		WRITEstate, NEWLINEstate
-    };
+	enum stateType
+	{
+		EXPRstate, BREAKstate, BLOCKstate, IFstate,
+		NULLstate, RETURNstate, WHILEstate, READstate,
+		WRITEstate, NEWLINEstate, EMPTYstate
+	};
 
-    class ASstatement : public ASabstractSyntax {
-    public:
-        virtual std::string toString() = 0;
+	class ASstatement : public ASabstractSyntax
+	{
+	public:
+		ASstatement();
+		virtual std::string toString();
 
-        enum stateType getType();
+		enum stateType getType();
 
-        void setType(enum stateType);
+		void setType(enum stateType);
 
-        std::string toTypeString(enum stateType);
+		std::string toTypeString(enum stateType);
 
-    private:
-        enum stateType type;
-    };
+	private:
+		enum stateType type;
+	};
 
 }
 #endif

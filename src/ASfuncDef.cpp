@@ -6,7 +6,7 @@
 
 namespace toyc
 {
-	ASfuncDef::ASfuncDef(ASexpression* id, AStype* t, ASvarDef* varDef[], int num, ASstatement* s)
+	ASfuncDef::ASfuncDef(ASexpression* id, AStype* t, ASdefinition* varDef[], int num, ASstatement* s)
 	{
 		identifier = id;
 		type = t;
@@ -26,7 +26,7 @@ namespace toyc
 	{
 		return type;
 	}
-	ASvarDef* ASfuncDef::getVarDef(int num)
+	ASdefinition* ASfuncDef::getVarDef(int num)
 	{
 		return varDefList[num];
 	}

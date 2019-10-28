@@ -1,5 +1,5 @@
-#ifndef ASWRITESTATE_H
-#define ASWRITESTATE_H
+#ifndef ASREADSTATE_H
+#define ASREADSTATE_H
 
 #include "ASstatement.h"
 #include "ASexpression.h"

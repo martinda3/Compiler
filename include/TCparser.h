@@ -29,10 +29,10 @@ namespace toyc {
 		ASstatement* Statement();
 		ASdefinition* Definition();
 		AStype* Type();
-		ASdefinition* FunctionDefinition();
-		ASdefinition* FunctionHeader();
-		ASdefinition* FunctionBody();
-		ASdefinition* FormalParamList();
+		ASstatement* FunctionDefinition(ASdefinition* [], int*);
+		int FunctionHeader(ASdefinition* []);
+		ASstatement* FunctionBody();
+		int FormalParamList(ASdefinition* []);
 		ASstatement* BreakStatement();
 		ASexpression* FunctionCall();
 		ASstatement* ExpressionStatement();

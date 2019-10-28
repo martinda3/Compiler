@@ -4,7 +4,7 @@
 #include "ASstatement.h"
 #include "ASsimpleExpr.h"
 #include "AStype.h"
-#include "ASvarDef.h"
+#include "ASdefinition.h"
 
 #define MAX_STATEMENTS 500 // arbitrary
 
@@ -14,16 +14,16 @@ namespace toyc
 	class ASblockState : public ASstatement
 	{
 	public:
-		ASblockState(ASvarDef* [], int, ASstatement* [], int);
+		ASblockState(ASdefinition* [], int, ASstatement* [], int);
 
-		ASvarDef* getVarDef(int);
+		ASdefinition* getVarDef(int);
 		ASstatement* getStatement(int);
 		std::string toString();
 		int getNumVarDef();
 		int getNumStatement();
 
 	private:
-		ASvarDef* varDefList[MAX_STATEMENTS];
+		ASdefinition* varDefList[MAX_STATEMENTS];
 		int numVarDef;
 		ASstatement* statementList[MAX_STATEMENTS];
 		int numStatements;

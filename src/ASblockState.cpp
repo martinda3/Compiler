@@ -6,7 +6,7 @@
 
 namespace toyc
 {
-	ASblockState::ASblockState(ASvarDef* varDef[], int numv, ASstatement* statements[], int nums)
+	ASblockState::ASblockState(ASdefinition* varDef[], int numv, ASstatement* statements[], int nums)
 	{
 		for (int i = 0; i < numv; i++)
 		{
@@ -20,7 +20,7 @@ namespace toyc
 		numStatements = nums;
 		setType(BLOCKstate);
 	}
-	ASvarDef* ASblockState::getVarDef(int num)
+	ASdefinition* ASblockState::getVarDef(int num)
 	{
 		return varDefList[num];
 	}
