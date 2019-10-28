@@ -3,7 +3,6 @@
 
 
 #include "ASexpression.h"
-#include "ASsimpleExpr.h"
 #include "TCtoken.h"
 
 #define MAX_STATEMENTS 500 // arbitrary
@@ -14,16 +13,16 @@ namespace toyc
 	class ASfuncCall :public ASexpression
 	{
 	public:
-		ASfuncCall(ASsimpleExpr*, ASexpression* [], int);
+		ASfuncCall(ASexpression*, ASexpression* [], int);
 		std::string toString();
 
-		ASsimpleExpr* getOp1();
+		ASexpression* getOp1();
 		ASexpression* getExpression(int);
 		int getNumExpressions();
 
 	private:
 		ASexpression* expressionList[MAX_STATEMENTS];
-		ASsimpleExpr* id;
+		ASexpression* id;
 		int numExpressions;
 	};
 

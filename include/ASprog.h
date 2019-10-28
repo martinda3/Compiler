@@ -14,7 +14,7 @@ namespace toyc
 	class ASprog :public ASprogram
 	{
 	public:
-		ASprog(ASdefinition* [], int);
+		ASprog(std::string, ASdefinition* [], int);
 		std::string toString();
 
 		ASdefinition* getDefinition(int);
@@ -23,6 +23,7 @@ namespace toyc
 	private:
 		ASdefinition* definitionList[MAX_STATEMENTS];
 		int numDefinitions;
+		std::string name;
 	};
 
 }

@@ -6,7 +6,7 @@
 
 namespace toyc
 {
-	ASfuncDef::ASfuncDef(ASsimpleExpr* id, AStype* t, ASvarDef* varDef[], int num, ASstatement* s)
+	ASfuncDef::ASfuncDef(ASexpression* id, AStype* t, ASvarDef* varDef[], int num, ASstatement* s)
 	{
 		identifier = id;
 		type = t;
@@ -18,7 +18,7 @@ namespace toyc
 		statement = s;
 		setType(FUNCdef);
 	}
-	ASsimpleExpr* ASfuncDef::getIdentifier()
+	ASexpression* ASfuncDef::getIdentifier()
 	{
 		return identifier;
 	}

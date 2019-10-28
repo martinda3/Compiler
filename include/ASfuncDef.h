@@ -2,7 +2,7 @@
 #define ASFUNCDEF_H
 
 #include "ASdefinition.h"
-#include "ASsimpleExpr.h"
+#include "ASexpression.h"
 #include "AStype.h"
 #include "ASvarDef.h"
 #include "ASstatement.h"
@@ -15,9 +15,9 @@ namespace toyc
 	class ASfuncDef : public ASdefinition
 	{
 	public:
-		ASfuncDef(ASsimpleExpr*, AStype*, ASvarDef* [], int, ASstatement*);
+		ASfuncDef(ASexpression*, AStype*, ASvarDef* [], int, ASstatement*);
 
-		ASsimpleExpr* getIdentifier();
+		ASexpression* getIdentifier();
 		AStype* getType();
 		ASvarDef* getVarDef(int);
 		ASstatement* getStatement();
@@ -25,7 +25,7 @@ namespace toyc
 		int getNumVarDef();
 
 	private:
-		ASsimpleExpr* identifier;
+		ASexpression* identifier;
 		AStype* type;
 		ASvarDef* varDefList[MAX_STATEMENTS];
 		int numVarDef;

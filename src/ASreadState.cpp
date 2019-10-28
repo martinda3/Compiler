@@ -6,7 +6,7 @@
 
 namespace toyc
 {
-	ASreadState::ASreadState(ASsimpleExpr* identifiers[], int num)
+	ASreadState::ASreadState(ASexpression* identifiers[], int num)
 	{
 		for (int i = 0; i < num; i++)
 		{
@@ -17,7 +17,7 @@ namespace toyc
 		setType(READstate);
 	}
 
-	ASsimpleExpr* ASreadState::getIdentifier(int num)
+	ASexpression* ASreadState::getIdentifier(int num)
 	{
 		return identifierList[num];
 	}

@@ -2,7 +2,7 @@
 #define ASWRITESTATE_H
 
 #include "ASstatement.h"
-#include "ASsimpleExpr.h"
+#include "ASexpression.h"
 
 #define MAX_STATEMENTS 500 // arbitrary
 
@@ -12,14 +12,14 @@ namespace toyc
 	class ASreadState : public ASstatement
 	{
 	public:
-		ASreadState(ASsimpleExpr* [], int);
+		ASreadState(ASexpression* [], int);
 
-		ASsimpleExpr* getIdentifier(int);
+		ASexpression* getIdentifier(int);
 		std::string toString();
 		int getNumIdentifiers();
 
 	private:
-		ASsimpleExpr* identifierList[MAX_STATEMENTS];
+		ASexpression* identifierList[MAX_STATEMENTS];
 		int numIdentifiers;
 	};
 

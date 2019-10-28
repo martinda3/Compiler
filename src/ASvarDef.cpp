@@ -6,7 +6,7 @@
 
 namespace toyc
 {
-	ASvarDef::ASvarDef(ASsimpleExpr* identifiers[], int num, AStype* t)
+	ASvarDef::ASvarDef(ASexpression* identifiers[], int num, AStype* t)
 	{
 		for (int i = 0; i < num; i++)
 		{
@@ -18,7 +18,7 @@ namespace toyc
 		setType(VARdef);
 	}
 
-	ASsimpleExpr* ASvarDef::getIdentifier(int num)
+	ASexpression* ASvarDef::getIdentifier(int num)
 	{
 		return identifierList[num];
 	}

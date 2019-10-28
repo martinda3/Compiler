@@ -2,7 +2,7 @@
 #define ASVARDEF_H
 
 #include "ASdefinition.h"
-#include "ASsimpleExpr.h"
+#include "ASexpression.h"
 #include "AStype.h"
 
 #define MAX_STATEMENTS 500 // arbitrary
@@ -13,15 +13,15 @@ namespace toyc
 	class ASvarDef : public ASdefinition
 	{
 	public:
-		ASvarDef(ASsimpleExpr* [], int, AStype*);
+		ASvarDef(ASexpression* [], int, AStype*);
 
-		ASsimpleExpr* getIdentifier(int);
+		ASexpression* getIdentifier(int);
 		AStype* getType();
 		std::string toString();
 		int getNumIdentifiers();
 
 	private:
-		ASsimpleExpr* identifierList[MAX_STATEMENTS];
+		ASexpression* identifierList[MAX_STATEMENTS];
 		int numIdentifiers;
 		AStype* type;
 	};

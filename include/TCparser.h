@@ -6,6 +6,8 @@
 #include "ASabstractSyntax.h"
 #include "ASstatement.h"
 #include "ASdefinition.h"
+#include "ASprogram.h"
+#include "AStype.h"
 #include "ASexpr.h"
 
 namespace toyc {
@@ -20,51 +22,44 @@ namespace toyc {
         TClexer *scanner;
         TCtoken *buff;
 
-        ASabstractSyntax *program();
+        ASprogram* program();
 
         int DefinitionList(ASdefinition *[], int);
 
-        int Statement();
+		ASstatement* Statement();
+		ASdefinition* Definition();
+		AStype* Type();
+		ASdefinition* FunctionDefinition();
+		ASdefinition* FunctionHeader();
+		ASdefinition* FunctionBody();
+		ASdefinition* FormalParamList();
+		ASstatement* BreakStatement();
+		ASexpression* FunctionCall();
+		ASstatement* ExpressionStatement();
+		ASstatement* CompoundStatement();
+		ASstatement* IfStatement();
+		ASstatement* NullStatement();
+		ASstatement* ReturnStatement();
+		ASstatement* WhileStatement();
+		ASstatement* ReadStatement();
+		ASstatement* WriteStatement();
+		ASstatement* NewLineStatement();
+		ASexpression* Expression();
+		ASexpression* RelopExpression();
+		ASexpression* SimpleExpression();
+		ASexpression* Term();
+		ASexpression* Primary();
+		ASexpression* ActualParameters();
 
-        ASdefinition* Definition();
-
-        int Type();
-
-        int FunctionDefinition();
-
-        int FunctionHeader();
-
-        int FunctionBody();
-
-        int FormalParamList();
-
-        int BreakStatement();
-		int FunctionCall();
-        int ExpressionStatement();
-		int CompoundStatement();
-		int IfStatement();
-		int NullStatement();
-		int ReturnStatement();
-		int WhileStatement();
-		int ReadStatement();
-		int WriteStatement();
-		int NewLineStatement();
-		int Expression();
-		int RelopExpression();
-		int SimpleExpression();
-		int Term();
-		int Primary();
-		int ActualParameters();
-
-        ASexpr *expr();
+		//ASabstractSyntax* expr();
 
        // ASexpr *term();
 
-        ASexpr *element();
+		//ASabstractSyntax* element();
 
-        ASexpr *factor();
+		//ASabstractSyntax* factor();
 
-        void accept(int);
+        TCtoken* accept(int);
     };
 
 }

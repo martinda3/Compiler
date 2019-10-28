@@ -4,7 +4,7 @@
 
 namespace toyc
 {
-	ASfuncCall::ASfuncCall(ASsimpleExpr* identifier, ASexpression* expressions[], int num)
+	ASfuncCall::ASfuncCall(ASexpression* identifier, ASexpression* expressions[], int num)
 	{
 		for (int i = 0; i < num; i++)
 		{
@@ -32,7 +32,7 @@ namespace toyc
 		return str;
 	}
 
-	ASsimpleExpr* ASfuncCall::getOp1()
+	ASexpression* ASfuncCall::getOp1()
 	{
 		return id;
 	}

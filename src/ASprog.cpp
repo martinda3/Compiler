@@ -5,13 +5,14 @@
 
 namespace toyc
 {
-	ASprog::ASprog(ASdefinition* definitions[], int num)
+	ASprog::ASprog(std::string n, ASdefinition* definitions[], int num)
 	{
 		for (int i = 0; i < num; i++)
 		{
 			definitionList[i] = definitions[i];
 		}
 		numDefinitions = num;
+		name = n;
 		setType(PROGprog);
 	}
 
@@ -20,7 +21,7 @@ namespace toyc
 		if (numDefinitions == 0) return "prog([])";
 		std::string s = "prog(\n";
 		indent();
-		//s += spaces() + name + ",\n";
+		s += spaces() + name + ",\n";
 		s += spaces() + "[\n";
 		indent();
 		if (numDefinitions > 0)
