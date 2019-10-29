@@ -1,3 +1,10 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Created By: Dan Resler
+   Unmodified
+
+ */
 #ifndef TCOUTPUT_H
 #define TCOUTPUT_H
 

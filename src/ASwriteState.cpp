@@ -1,6 +1,15 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+   Pretty Printing: Dajion Martin
+
+ */
+
 #include <iostream>
 
 #include "ASwriteState.h"
+#include "TCoutput.h"
 
 namespace toyc
 {
@@ -31,12 +40,15 @@ namespace toyc
 			return "error";
 		}
 		std::string str = "";
-		str += "writeStatement(" + expressionList[0]->toString();
+		str += (spaces() + "writeStatement(\n");
+		indent();
+		str +=(expressionList[0]->toString() + "\n");
 		for (int i = 1; i < numExpressions; i++)
 		{
-			str += ", " + expressionList[i]->toString();
+			str += (expressionList[i]->toString());
 		}
-		str += ")";
+		outdent();
+		str += spaces() + ")\n";
 		return str;
 	}
 

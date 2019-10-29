@@ -1,3 +1,11 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+   Pretty Printing: Dajion Martin
+
+ */
+
 #include <iostream>
 
 #include "ASprog.h"
@@ -16,24 +24,26 @@ namespace toyc
 		setType(PROGprog);
 	}
 
-	std::string ASprog::toString() // stole this from Toycalc (ASprogram.cpp), hope it works
+	std::string ASprog::toString()
 	{
-		if (numDefinitions == 0) return "prog([])";
-		std::string s = "prog(\n";
+		if (numDefinitions == 0) return "program([])";
+		std::string s = "<< Abstract Syntax >>\nprogram(\n";
 		indent();
-		s += spaces() + name + ",\n";
+		s += spaces() + "sourceCodeFile(" + name + "),\n";
 		s += spaces() + "[\n";
 		indent();
 		if (numDefinitions > 0)
 		{
-			s += (spaces() + definitionList[0]->toString());
+			s += (definitionList[0]->toString());
 			for (int i = 1; i < numDefinitions; i++)
-				s += ",\n" + spaces() + definitionList[i]->toString();
+			{
+				s += "\n" + definitionList[i]->toString();
+			}
 		}
 		outdent();
 		s += "\n" + spaces() + "]\n";
 		outdent();
-		s += spaces() + ")\n";
+		s += ")\n<< Abstract Syntax >>\n";
 		return s;
 	}
 

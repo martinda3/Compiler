@@ -1,3 +1,10 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+
+ */
+
 #ifndef ASNOT_H
 #define ASNOT_H
 

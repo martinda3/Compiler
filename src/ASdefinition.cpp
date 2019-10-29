@@ -1,5 +1,14 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+   Pretty Printing: Dajion Martin
+
+ */
+
 #include <iostream>
 #include "ASdefinition.h"
+#include "TCoutput.h"
 
 namespace toyc
 {

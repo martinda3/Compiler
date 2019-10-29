@@ -1,6 +1,15 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+   Pretty Printing: Dajion Martin
+
+ */
+
 #include <iostream>
 
 #include "ASfuncCall.h"
+#include "TCoutput.h"
 
 namespace toyc
 {
@@ -20,15 +29,24 @@ namespace toyc
 	{
 		if (numExpressions == 0)
 		{
-			return "funcCall(" + id->toString() + ")";
+			std::string s;
+			s = spaces() + "funcCall(\n";
+			indent();
+			s += id->toString();
+			outdent();
+			s += "\n" + spaces() + ")\n";
+			return s;
 		}
 		std::string str = "";
-		str += "funcCall(" + id->toString();
+		str += (spaces() + "funcCall(\n");
+		indent();
+		str += (id->toString() + "\n");
 		for (int i = 0; i < numExpressions; i++)
 		{
-			str += ", " + expressionList[i]->toString();
+			str += ("\n" + expressionList[i]->toString());
 		}
-		str += ")";
+		outdent();
+		str += spaces() + ")\n";
 		return str;
 	}
 

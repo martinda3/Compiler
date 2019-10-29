@@ -1,15 +1,23 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+   Pretty Printing: Dajion Martin
+
+ */
+
 #include <iostream>
 
 #include "ASfuncDef.h"
 #include "TCsymTable.h"
 #include "TCglobals.h"
+#include "TCoutput.h"
 
 namespace toyc
 {
-	ASfuncDef::ASfuncDef(ASexpression* id, AStype* t, ASdefinition* varDef[], int num, ASstatement* s)
+	ASfuncDef::ASfuncDef(AStype* id, ASdefinition* varDef[], int num, ASstatement* s)
 	{
 		identifier = id;
-		type = t;
 		for (int i = 0; i < num; i++)
 		{
 			varDefList[i] = varDef[i];
@@ -18,13 +26,9 @@ namespace toyc
 		statement = s;
 		setType(FUNCdef);
 	}
-	ASexpression* ASfuncDef::getIdentifier()
+	AStype* ASfuncDef::getIdentifier()
 	{
 		return identifier;
-	}
-	AStype* ASfuncDef::getType()
-	{
-		return type;
 	}
 	ASdefinition* ASfuncDef::getVarDef(int num)
 	{
@@ -38,15 +42,27 @@ namespace toyc
 	{
 		if (numVarDef == 0)
 		{
-			return "varDef(" + identifier->toString() + type->toString() + statement->toString() + ")";
+			std::string s;
+			s = spaces() + "funDef(\n";
+			indent();
+			s += spaces() + identifier->toString() + ",\n" +
+			     statement->toString() + ",\n";
+			outdent();
+			s += spaces() + ")\n";
+			return s;
 		}
 		std::string str = "";
-		str += "varDef(" + identifier->toString() + type->toString();
+		str += spaces() + "funDef(\n";
+		indent();
+		str += spaces() + identifier->toString() + ",\n";
+
 		for (int i = 0; i < numVarDef; i++)
 		{
-			str += ", " + varDefList[i]->toString();
+			str += (varDefList[i]->toString());
 		}
-		str += ", " + statement->toString() + ")";
+		str += ",\n" + statement->toString() + ",\n";
+		outdent();
+		str += spaces() + ")\n";
 		return str;
 	}
 }

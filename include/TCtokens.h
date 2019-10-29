@@ -1,3 +1,10 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Created By: Dan Resler
+   Modifed By: Dajion Martin
+
+ */
 #ifndef TCTOKENS_H
 #define TCTOKENS_H
 

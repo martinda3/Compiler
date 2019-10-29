@@ -1,6 +1,15 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+   Pretty Printing: Dajion Martin
+
+ */
+
 #include <iostream>
 
 #include "ASnewLineState.h"
+#include "TCoutput.h"
 
 namespace toyc
 {
@@ -11,6 +20,6 @@ namespace toyc
 
 	std::string ASnewLineState::toString()
 	{
-		return "newLineStatement()";
+		return (spaces() + "newLineStatement()");
 	}
 }

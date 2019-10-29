@@ -1,3 +1,11 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Created By: Dan Relser
+   Mostly unmodified
+
+ */
+
 #ifndef ASABSTRACTSYNTAX_H
 #define ASABSTRACTSYNTAX_H
 

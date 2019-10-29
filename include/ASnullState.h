@@ -1,3 +1,10 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+
+ */
+
 #ifndef ASNULLSTATE_H
 #define ASNULLSTATE_H
 

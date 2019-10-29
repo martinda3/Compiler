@@ -1,3 +1,10 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+
+ */
+
 #ifndef ASPROGRAM_H
 #define ASPROGRAM_H
 

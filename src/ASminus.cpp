@@ -1,6 +1,15 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+   Pretty Printing: Dajion Martin
+
+ */
+
 #include <iostream>
 
 #include "ASminus.h"
+#include "TCoutput.h"
 
 namespace toyc
 {
@@ -15,7 +24,7 @@ namespace toyc
 
 	std::string ASminus::toString()
 	{
-		return "minus(" + expression->toString() + ")";
+		return (spaces() + "minus(\n" + spaces() + expression->toString() + "\n" + spaces() +  ")");
 	}
 
 }

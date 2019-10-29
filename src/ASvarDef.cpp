@@ -1,12 +1,21 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+   Pretty Printing: Dajion Martin
+
+ */
+
 #include <iostream>
 
 #include "ASvarDef.h"
 #include "TCsymTable.h"
 #include "TCglobals.h"
+#include "TCoutput.h"
 
 namespace toyc
 {
-	ASvarDef::ASvarDef(ASexpression* identifiers[], int num, AStype* t)
+	ASvarDef::ASvarDef(AStype* identifiers[], int num)
 	{
 		for (int i = 0; i < num; i++)
 		{
@@ -14,18 +23,14 @@ namespace toyc
 
 		}
 		numIdentifiers = num;
-		type = t;
 		setType(VARdef);
 	}
 
-	ASexpression* ASvarDef::getIdentifier(int num)
+	AStype* ASvarDef::getIdentifier(int num)
 	{
 		return identifierList[num];
 	}
-	AStype* ASvarDef::getType()
-	{
-		return type;
-	}
+
 	int ASvarDef::getNumIdentifiers()
 	{
 		return numIdentifiers;
@@ -37,10 +42,10 @@ namespace toyc
 			return "error";
 		}
 		std::string str = "";
-		str += "varDef(" + identifierList[0]->toString();
+		str += (spaces() + "varDef(" + identifierList[0]->toString());
 		for (int i = 1; i < numIdentifiers; i++)
 		{
-			str += ", " + identifierList[i]->toString();
+			str += (", " + identifierList[i]->toString());
 		}
 		str += ")";
 		return str;

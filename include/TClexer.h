@@ -1,3 +1,9 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Created By: Charles Dieztel & Dajion Martin
+
+ */
 #ifndef TCLEXER_H
 #define TCLEXER_H
 

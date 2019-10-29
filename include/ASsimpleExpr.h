@@ -1,3 +1,10 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+
+ */
+
 #ifndef ASSIMPLEEXPR_H
 #define ASSIMPLEEXPR_H
 

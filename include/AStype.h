@@ -1,3 +1,11 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+   Modifed By: Dajion Martin
+
+ */
+
 #ifndef ASTYPE_H
 #define ASTYPE_H
 
@@ -9,11 +17,12 @@ namespace toyc
 	class AStype : public ASabstractSyntax
 	{
 	public:
-		AStype(TCtoken*);
+		AStype(TCtoken*, TCtoken*);
 		std::string toString();
 		TCtoken* getExpr();
 	private:
 		TCtoken* expr;
+		TCtoken* ident;
 
 	};
 

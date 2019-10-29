@@ -1,6 +1,15 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+   Pretty Printing: Dajion Martin
+
+ */
+
 #include <iostream>
 
 #include "ASifState.h"
+#include "TCoutput.h"
 
 namespace toyc
 {
@@ -24,11 +33,24 @@ namespace toyc
 	{
 		if (hasop)
 		{
-			return "ifStatement(" + op1->toString() + ", " + op2->toString() + ", " + op3->toString() + ")";
+			s = (spaces() + "ifStatement{\n");
+			indent();
+			s += (op1->toString() + "\n" +
+					op2->toString() +
+					op3->toString() +
+					spaces() + "}\n");
+			outdent();
+			return s;
 		}
 		else
 		{
-			return "ifStatement(" + op1->toString() + ", " + op2->toString() + ")";
+			s = (spaces() + "ifStatement{\n");
+			indent();
+			s += (op1->toString() + "\n" +
+			        op2->toString() + "\n" +
+			        spaces() + "}\n");
+			outdent();
+			return s;
 		}
 	}
 

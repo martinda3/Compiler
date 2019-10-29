@@ -1,5 +1,14 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+   Pretty Printing: Dajion Martin
+
+ */
+
 #include <iostream>
 #include "ASexpression.h"
+#include "TCoutput.h"
 
 namespace toyc
 {
@@ -23,7 +32,7 @@ namespace toyc
 			case MINUSexpr:		s = "MINUSexpr";	break;
 			case NOTexpr:		s = "NOTexpr";		break;
 			case SIMPLEexpr:	s = "SIMPLEexpr";	break;
-			case EMPTYexpr:		s = "EMPTYexpr";		break;
+			case EMPTYexpr:		s = "EMPTYexpr";	break;
 			default:			s = "error";		break;
 		}
 		return s;

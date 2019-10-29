@@ -1,3 +1,10 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Created By: Dan Resler
+
+ */
+
 #ifndef TCTOKEN_H
 #define TCTOKEN_H
 

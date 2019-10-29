@@ -1,3 +1,10 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+
+ */
+
 #ifndef ASSTATEMENT_H
 #define ASSTATEMENT_H
 

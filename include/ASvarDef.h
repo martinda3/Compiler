@@ -1,3 +1,11 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+   Modifed By: Dajion Martin
+
+ */
+
 #ifndef ASVARDEF_H
 #define ASVARDEF_H
 
@@ -13,15 +21,14 @@ namespace toyc
 	class ASvarDef : public ASdefinition
 	{
 	public:
-		ASvarDef(ASexpression* [], int, AStype*);
+		ASvarDef(AStype* [], int);
 
-		ASexpression* getIdentifier(int);
-		AStype* getType();
+		AStype* getIdentifier(int);
 		std::string toString();
 		int getNumIdentifiers();
 
 	private:
-		ASexpression* identifierList[MAX_STATEMENTS];
+		AStype* identifierList[MAX_STATEMENTS];
 		int numIdentifiers;
 		AStype* type;
 	};

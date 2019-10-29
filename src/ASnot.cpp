@@ -1,6 +1,15 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+   Pretty Printing: Dajion Martin
+
+ */
+
 #include <iostream>
 
 #include "ASnot.h"
+#include "TCoutput.h"
 
 namespace toyc
 {
@@ -15,7 +24,7 @@ namespace toyc
 
 	std::string ASnot::toString()
 	{
-		return "not(" + expression->toString() + ")";
+		return (spaces() + "not(" + expression->toString() + ")");
 	}
 
 }

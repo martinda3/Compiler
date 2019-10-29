@@ -1,3 +1,10 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+
+ */
+
 #ifndef ASIFSTATE_H
 #define ASIFSTATE_H
 
@@ -23,6 +30,7 @@ namespace toyc
 		ASexpression* op1;
 		ASstatement* op2;
 		ASstatement* op3;
+		std::string s;
 		bool hasop;
 	};
 

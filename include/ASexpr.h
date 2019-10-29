@@ -1,3 +1,11 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+   Modifed By: Dajion Martin
+
+ */
+
 #ifndef ASEXPR_H
 #define ASEXPR_H
 
@@ -20,6 +28,7 @@ namespace toyc
 	private:
 		ASoperator *oper;
 		ASexpression *op1, *op2;
+		std::string s;
 	};
 
 }

@@ -20,9 +20,8 @@ namespace toyc {
     std::string ASM_FILE_EXSTENTION = "j";
     TCsymTable *symTable = NULL;
 
-
     std::string COMPILER = "toyc";
-    std::string VERSION = "v 1.0.0";
+    std::string VERSION = "v 2.0.0";
     std::string AUTHOR = "Dajion Martin, Charles Dietzel";
 
     bool verbose = false;

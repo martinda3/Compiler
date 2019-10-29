@@ -7,7 +7,7 @@
  */
 
 #include <iostream>
-
+#include <string>
 #include "TCoutput.h"
 
 namespace toyc {
@@ -56,7 +56,7 @@ namespace toyc {
     }
 
     void dumpAST(ASabstractSyntax *ast) {
-        std::cout << "abstract syntax tree:" << std::endl << ast->toString() << std::endl;
+        std::cout << std::endl << ast->toString() << std::endl;
     }
 
     void dumpST(TCsymTable *st) {
@@ -68,16 +68,17 @@ namespace toyc {
       ast.toString() << std::endl;
           System.err.println("code:\n"+code);
       }
-  */
+    */
 
     std::string pad(int n) {
         std::string s = "";
-        for (int i = 1; i <= n; i++) s += " ";
+	    for (int i = 1; i <= n; i++) s += " ";
+        // for (int i = 1; i <= n; i++) s += ".";   // For easy visiol debugging
         return s;
     }
 
     int _pos = 0;
-    int _INDENTSIZE = 2;
+    int _INDENTSIZE = 1;
 
     std::string spaces() { return pad(_pos); }
 

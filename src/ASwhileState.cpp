@@ -1,6 +1,15 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+   Pretty Printing: Dajion Martin
+
+ */
+
 #include <iostream>
 
 #include "ASwhileState.h"
+#include "TCoutput.h"
 
 namespace toyc
 {
@@ -13,7 +22,14 @@ namespace toyc
 
 	std::string ASwhileState::toString()
 	{
-		return "whileStatement(" + op1->toString() + ", " + op2->toString() + ")";
+		std::string s;
+		s = spaces() + "whileStatement(\n";
+		indent();
+		s += op1->toString() + "\n" +
+		     op2->toString() + "\n" +
+		     spaces() +  ")";
+		outdent();
+		return s;
 	}
 
 	ASexpression* ASwhileState::getOp1() { return op1; }

@@ -1,8 +1,17 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+   Pretty Printing: Dajion Martin
+
+ */
+
 #include <iostream>
 
 #include "ASblockState.h"
 #include "TCsymTable.h"
 #include "TCglobals.h"
+#include "TCoutput.h"
 
 namespace toyc
 {
@@ -38,33 +47,36 @@ namespace toyc
 	}
 	std::string ASblockState::toString()
 	{
-		std::string str = "blockStatement(";
+		std::string str = (spaces() + "blockStatement[\n");
+		indent();
 		if (numVarDef == 0 && numStatements == 0)
 		{
-			return "blockStatement()";
+			return (spaces() + "blockStatement[]\n");
 		}
 		else if (numVarDef > 0)
 		{
-			str += varDefList[0]->toString();
+			str += (varDefList[0]->toString());
 			for (int i = 1; i < numVarDef; i++)
 			{
-				str += ", " + varDefList[i]->toString();
+				str += ("\n" + varDefList[i]->toString());
 			}
 			for (int i = 0; i < numStatements; i++)
 			{
-				str += ", " + statementList[i]->toString();
+				str += ("\n" + statementList[i]->toString());
 			}
-			str += ")";
+			outdent();
+			str += (spaces() + "]");
 			return str;
 		}
 		else
 		{
-			str += statementList[0]->toString();
+			str += (statementList[0]->toString());
 			for (int i = 1; i < numStatements; i++)
 			{
-				str += ", " + statementList[i]->toString();
+				str += ("\n" + statementList[i]->toString());
 			}
-			str += ")";
+			outdent();
+			str += (spaces() + "]");
 			return str;
 		}
 	}

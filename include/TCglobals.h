@@ -1,3 +1,11 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Created By: Dan Resler
+   Unmodified
+
+ */
+
 #include "TCsymTable.h"
 
 namespace toyc {
@@ -8,7 +16,7 @@ namespace toyc {
     extern std::string ASM_FILE_EXTENSION;
     extern TCsymTable *symTable;
     //extern (AbstractSyntax type) ast;
-// extern (TargetCode type) objectcode;
+	// extern (TargetCode type) objectcode;
 
     extern std::string COMPILER;
     extern std::string VERSION;

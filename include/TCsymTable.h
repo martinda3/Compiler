@@ -1,3 +1,10 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Created By: Dan Resler
+
+ */
+
 #ifndef TCSYMTABLE_H
 #define TCSYMTABLE_H
 

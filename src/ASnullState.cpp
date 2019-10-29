@@ -1,6 +1,15 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+   Pretty Printing: Dajion Martin
+
+ */
+
 #include <iostream>
 
 #include "ASnullState.h"
+#include "TCoutput.h"
 
 namespace toyc
 {
@@ -11,6 +20,6 @@ namespace toyc
 
 	std::string ASnullState::toString()
 	{
-		return "nullStatement()";
+		return (spaces() + "nullStatement()");
 	}
 }

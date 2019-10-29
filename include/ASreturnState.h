@@ -1,3 +1,10 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+
+ */
+
 #ifndef ASRETURNSTATE_H
 #define ASRETURNSTATE_H
 
@@ -19,6 +26,7 @@ namespace toyc
 
 	private:
 		ASexpression* op;
+		std::string s;
 		bool hasop;
 	};
 

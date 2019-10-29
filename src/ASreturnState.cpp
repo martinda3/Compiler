@@ -1,6 +1,15 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+   Pretty Printing: Dajion Martin
+
+ */
+
 #include <iostream>
 
 #include "ASreturnState.h"
+#include "TCoutput.h"
 
 namespace toyc
 {
@@ -19,11 +28,16 @@ namespace toyc
 	{
 		if (hasop)
 		{
-			return "returnStatement(" + op->toString() + ")";
+			s = (spaces() + "returnStatement(\n");
+			indent();
+			s += (op->toString() + "\n");
+			outdent();
+			s += (spaces() +  ")\n");
+			return s;
 		}
 		else
 		{
-			return "returnStatement()";
+			return (spaces() + "returnStatement()\n");
 		}
 	}
 
