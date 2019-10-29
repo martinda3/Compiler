@@ -1,3 +1,11 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+   Pretty Printing: Dajion Martin
+
+ */
+
 #include <iostream>
 
 #include "ASfuncCall.h"
@@ -26,7 +34,7 @@ namespace toyc
 			indent();
 			s += id->toString();
 			outdent();
-			s += "\n" + spaces() + ")";
+			s += "\n" + spaces() + ")\n";
 			return s;
 		}
 		std::string str = "";
@@ -38,7 +46,7 @@ namespace toyc
 			str += ("\n" + expressionList[i]->toString());
 		}
 		outdent();
-		str += spaces() + ")";
+		str += spaces() + ")\n";
 		return str;
 	}
 

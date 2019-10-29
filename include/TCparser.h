@@ -1,3 +1,10 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+
+ */
+
 #ifndef TCPARSER_H
 #define TCPARSER_H
 
@@ -21,20 +28,22 @@ namespace toyc {
     private:
         TClexer *scanner;
         TCtoken *buff;
+        TCtoken* accept(int);
 
         ASprogram* program();
 
         int DefinitionList(ASdefinition *[], int);
 
-		ASstatement* Statement();
 		ASdefinition* Definition();
 		AStype* Type();
 		ASstatement* FunctionDefinition(ASdefinition* [], int*);
-		int FunctionHeader(ASdefinition* []);
-		ASstatement* FunctionBody();
+
 		int FormalParamList(ASdefinition* []);
+		int FunctionHeader(ASdefinition* []);
+
+		ASstatement* Statement();
+		ASstatement* FunctionBody();
 		ASstatement* BreakStatement();
-		ASexpression* FunctionCall();
 		ASstatement* ExpressionStatement();
 		ASstatement* CompoundStatement();
 		ASstatement* IfStatement();
@@ -44,22 +53,14 @@ namespace toyc {
 		ASstatement* ReadStatement();
 		ASstatement* WriteStatement();
 		ASstatement* NewLineStatement();
+
+		ASexpression* FunctionCall();
 		ASexpression* Expression();
 		ASexpression* RelopExpression();
 		ASexpression* SimpleExpression();
 		ASexpression* Term();
 		ASexpression* Primary();
 		ASexpression* ActualParameters();
-
-		//ASabstractSyntax* expr();
-
-       // ASexpr *term();
-
-		//ASabstractSyntax* element();
-
-		//ASabstractSyntax* factor();
-
-        TCtoken* accept(int);
     };
 
 }

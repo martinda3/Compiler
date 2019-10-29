@@ -1,3 +1,11 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+   Pretty Printing: Dajion Martin
+
+ */
+
 #include <iostream>
 
 #include "ASreadState.h"
@@ -12,7 +20,6 @@ namespace toyc
 		for (int i = 0; i < num; i++)
 		{
 			identifierList[i] = identifiers[i];
-
 		}
 		numIdentifiers = num;
 		setType(READstate);

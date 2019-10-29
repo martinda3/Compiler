@@ -1,3 +1,11 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+   Pretty Printing: Dajion Martin
+
+ */
+
 #include <iostream>
 
 #include "AStype.h"
@@ -16,12 +24,6 @@ namespace toyc
 	std::string AStype::toString()
 	{
 		std::string s;
-//		switch (expr->getTokenType())
-//		{
-//			case INT:		s = (spaces() + "int(" + expr->getLexeme() + ")");		break;
-//			case CHAR:		s = (spaces() + "char(" + expr->getLexeme() + ")");		break;
-//			default:		s =  "error";								            break;
-//		}
 		return (expr->getLexeme() + " " + ident->getLexeme());
 	}
 

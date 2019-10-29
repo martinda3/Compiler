@@ -1,3 +1,11 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+   Pretty Printing: Dajion Martin
+
+ */
+
 #include <iostream>
 
 #include "ASoperator.h"
@@ -10,7 +18,6 @@ namespace toyc
 	ASoperator::ASoperator(TCtoken* e)
 	{
 		expr = e;
-
 	}
 
 	std::string ASoperator::toString()

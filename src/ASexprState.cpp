@@ -1,3 +1,11 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+   Pretty Printing: Dajion Martin
+
+ */
+
 #include <iostream>
 
 #include "ASexprState.h"
@@ -17,7 +25,7 @@ namespace toyc
 		indent();
 		s+= op->toString() + "\n";
 		outdent();
-		s+= spaces() + ")\n";
+		s+= spaces() + ")";
 		return s;
 	}
 

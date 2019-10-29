@@ -1,3 +1,11 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+   Pretty Printing: Dajion Martin
+
+ */
+
 #include <iostream>
 
 #include "ASfuncDef.h"
@@ -34,20 +42,27 @@ namespace toyc
 	{
 		if (numVarDef == 0)
 		{
-			return (spaces() + "funDef(\n" +
-			        spaces() + identifier->toString() + "\n" +
-			        statement->toString() + "\n" + ")");
+			std::string s;
+			s = spaces() + "funDef(\n";
+			indent();
+			s += spaces() + identifier->toString() + ",\n" +
+			     statement->toString() + ",\n";
+			outdent();
+			s += spaces() + ")\n";
+			return s;
 		}
 		std::string str = "";
-		str += (spaces() + "funDef(\n" +
-				spaces() + identifier->toString() + "\n");
+		str += spaces() + "funDef(\n";
+		indent();
+		str += spaces() + identifier->toString() + ",\n";
 
 		for (int i = 0; i < numVarDef; i++)
 		{
 			str += (varDefList[i]->toString());
 		}
-		str += ("\n" + statement->toString() +
-				"\n" + spaces() + ")");
+		str += ",\n" + statement->toString() + ",\n";
+		outdent();
+		str += spaces() + ")\n";
 		return str;
 	}
 }

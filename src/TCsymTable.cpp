@@ -1,3 +1,10 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Created By: Dan Relser
+
+ */
+
 #include "TCsymbol.h"
 #include "TCsymTable.h"
 

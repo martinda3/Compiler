@@ -1,3 +1,11 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+   Modifed By: Dajion Martin
+
+ */
+
 #ifndef ASFUNCDEF_H
 #define ASFUNCDEF_H
 

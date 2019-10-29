@@ -1,3 +1,11 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Abstract Syntax: Charles Dieztel
+   Modifed By: Dajion Martin
+
+ */
+
 #ifndef ASEXPRSTATE_H
 #define ASEXPRSTATE_H
 

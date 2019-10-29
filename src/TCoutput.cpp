@@ -68,17 +68,17 @@ namespace toyc {
       ast.toString() << std::endl;
           System.err.println("code:\n"+code);
       }
-  */
+    */
 
     std::string pad(int n) {
         std::string s = "";
-	    //for (int i = 1; i <= n; i++) s += " ";
-        for (int i = 1; i <= n; i++) s += ".";
+	    for (int i = 1; i <= n; i++) s += " ";
+        // for (int i = 1; i <= n; i++) s += ".";   // For easy visiol debugging
         return s;
     }
 
     int _pos = 0;
-    int _INDENTSIZE = 2;
+    int _INDENTSIZE = 1;
 
     std::string spaces() { return pad(_pos); }
 

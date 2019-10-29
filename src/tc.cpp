@@ -26,7 +26,6 @@ int main(int argc, char *argv[]) {
         processCommandLine(argc, argv);
         TClexer *scanner = new TClexer(inputFileName);
         TCparser *parser = new TCparser(scanner);
-        //turnVerboseOn();
         ASabstractSyntax *ast = parser->parse();
         if (verbose) dumpAST(ast);
     } catch (...) {

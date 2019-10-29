@@ -1,3 +1,11 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Concrete Syntax: Dajion Martin
+   Modified By: Charles Dieztel
+
+ */
+
 #include <iostream>
 #include <string>
 #include <typeinfo>

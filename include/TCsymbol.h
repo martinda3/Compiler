@@ -1,3 +1,10 @@
+/*
+
+   EGRE 591 Compiler Construction
+   Created By: Dan Resler
+
+ */
+
 #include <iostream>
 
 #ifndef TCSYMBOL_H
