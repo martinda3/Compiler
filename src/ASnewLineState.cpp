@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "ASnewLineState.h"
+#include "TCoutput.h"
 
 namespace toyc
 {
@@ -11,6 +12,6 @@ namespace toyc
 
 	std::string ASnewLineState::toString()
 	{
-		return "newLineStatement()";
+		return (spaces() + "newLineStatement()");
 	}
 }

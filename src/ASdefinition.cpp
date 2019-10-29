@@ -1,5 +1,6 @@
 #include <iostream>
 #include "ASdefinition.h"
+#include "TCoutput.h"
 
 namespace toyc
 {

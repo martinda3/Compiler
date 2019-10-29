@@ -18,6 +18,7 @@ namespace toyc
 
 	private:
 		ASexpression* op;
+		std::string s;
 	};
 
 }

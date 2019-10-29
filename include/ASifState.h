@@ -23,6 +23,7 @@ namespace toyc
 		ASexpression* op1;
 		ASstatement* op2;
 		ASstatement* op3;
+		std::string s;
 		bool hasop;
 	};
 

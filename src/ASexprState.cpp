@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "ASexprState.h"
+#include "TCoutput.h"
 
 namespace toyc
 {
@@ -12,7 +13,12 @@ namespace toyc
 
 	std::string ASexprState::toString()
 	{
-		return "exprStatement(" + op->toString() + ")";
+		s = (spaces() + "exprStatement|\n");
+		indent();
+		s += (  spaces() + op->toString() +
+				spaces() + "    |\n");
+		outdent();
+		return s;
 	}
 
 	ASexpression* ASexprState::getOp() { return op; }

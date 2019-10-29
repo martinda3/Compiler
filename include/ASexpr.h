@@ -20,6 +20,7 @@ namespace toyc
 	private:
 		ASoperator *oper;
 		ASexpression *op1, *op2;
+		std::string s;
 	};
 
 }

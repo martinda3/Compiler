@@ -3,6 +3,7 @@
 #include "ASblockState.h"
 #include "TCsymTable.h"
 #include "TCglobals.h"
+#include "TCoutput.h"
 
 namespace toyc
 {
@@ -38,33 +39,39 @@ namespace toyc
 	}
 	std::string ASblockState::toString()
 	{
-		std::string str = "blockStatement(";
+		std::string str = (spaces() +"blockStatement|||\n");
+		indent();
 		if (numVarDef == 0 && numStatements == 0)
 		{
-			return "blockStatement()";
+			return (spaces() + "blockStatement||||||");
 		}
 		else if (numVarDef > 0)
 		{
-			str += varDefList[0]->toString();
+			str += (spaces() + varDefList[0]->toString());
 			for (int i = 1; i < numVarDef; i++)
 			{
-				str += ", " + varDefList[i]->toString();
+				//str += ", " + varDefList[i]->toString();
+				str += ("\n" + spaces() + varDefList[i]->toString());
 			}
 			for (int i = 0; i < numStatements; i++)
 			{
-				str += ", " + statementList[i]->toString();
+				//str += ", " + statementList[i]->toString();
+				str += ("\n" + spaces() +  statementList[i]->toString());
 			}
-			str += ")";
+			str += (spaces() + "|||");
+			outdent();
 			return str;
 		}
 		else
 		{
-			str += statementList[0]->toString();
+			str += (spaces() + statementList[0]->toString());
 			for (int i = 1; i < numStatements; i++)
 			{
-				str += ", " + statementList[i]->toString();
+				//str += ", " + statementList[i]->toString();
+				str += ("\n" + spaces() + statementList[i]->toString());
 			}
-			str += ")";
+			str += (spaces() + "    |||");
+			outdent();
 			return str;
 		}
 	}

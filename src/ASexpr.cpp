@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "ASexpr.h"
+#include "TCoutput.h"
 
 namespace toyc
 {
@@ -14,7 +15,14 @@ namespace toyc
 
 	std::string ASexpr::toString()
 	{
-		return "expr(" + oper->toString() + ", " + op1->toString() + ", " + op2->toString() + ")";
+		s = spaces() + "expr||\n";
+		indent();
+		s +=   (spaces() + oper->toString() + "\n" +
+				spaces() + op1->toString() + "\n" +
+				spaces() + op2->toString() + "\n" +
+				spaces()  + "    ||\n");
+		outdent();
+		return s;
 	}
 
 	ASexpression* ASexpr::getOp1() { return op1; }

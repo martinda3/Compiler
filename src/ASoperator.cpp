@@ -3,6 +3,7 @@
 #include "ASoperator.h"
 #include "TCtokens.h"
 #include "TCglobals.h"
+#include "TCoutput.h"
 
 namespace toyc
 {
@@ -15,7 +16,7 @@ namespace toyc
 	std::string ASoperator::toString()
 	{
 		std::string s;
-		s = "operator(" + expr->getLexeme() + ")";
+		s = (spaces() + "operator(" + expr->getLexeme() + ")");
 		return s;
 	}
 

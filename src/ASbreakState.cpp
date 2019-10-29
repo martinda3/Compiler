@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "ASbreakState.h"
+#include "TCoutput.h"
 
 namespace toyc
 {
@@ -11,6 +12,6 @@ namespace toyc
 
 	std::string ASbreakState::toString()
 	{
-		return "breakStatement()";
+		return (spaces() + "breakStatement()");
 	}
 }

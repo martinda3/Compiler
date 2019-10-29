@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "ASreturnState.h"
+#include "TCoutput.h"
 
 namespace toyc
 {
@@ -19,11 +20,16 @@ namespace toyc
 	{
 		if (hasop)
 		{
-			return "returnStatement(" + op->toString() + ")";
+			s = spaces() + "returnStatement(\n";
+			indent();
+			s += (  spaces() + op->toString() + "\n" +
+					spaces() + "    )\n");
+			outdent();
+			return s;
 		}
 		else
 		{
-			return "returnStatement()";
+			return (spaces() + "returnStatement()");
 		}
 	}
 

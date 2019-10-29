@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "ASfuncCall.h"
+#include "TCoutput.h"
 
 namespace toyc
 {
@@ -20,15 +21,15 @@ namespace toyc
 	{
 		if (numExpressions == 0)
 		{
-			return "funcCall(" + id->toString() + ")";
+			return (spaces() + "funcCall(" + id->toString() + ")");
 		}
 		std::string str = "";
-		str += "funcCall(" + id->toString();
+		str += (spaces() + "funcCall(" + id->toString());
 		for (int i = 0; i < numExpressions; i++)
 		{
-			str += ", " + expressionList[i]->toString();
+			str += (spaces() + ", " + expressionList[i]->toString());
 		}
-		str += ")";
+		str += (spaces() + ")");
 		return str;
 	}
 

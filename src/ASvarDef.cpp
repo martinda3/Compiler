@@ -3,6 +3,7 @@
 #include "ASvarDef.h"
 #include "TCsymTable.h"
 #include "TCglobals.h"
+#include "TCoutput.h"
 
 namespace toyc
 {
@@ -37,12 +38,12 @@ namespace toyc
 			return "error";
 		}
 		std::string str = "";
-		str += "varDef(" + identifierList[0]->toString();
+		str += (spaces() + "varDef(" + identifierList[0]->toString());
 		for (int i = 1; i < numIdentifiers; i++)
 		{
-			str += ", " + identifierList[i]->toString();
+			str += (spaces() + ", " + identifierList[i]->toString());
 		}
-		str += ")";
+		str += (spaces() + ")");
 		return str;
 	}
 

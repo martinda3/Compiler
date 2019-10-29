@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "ASminus.h"
+#include "TCoutput.h"
 
 namespace toyc
 {
@@ -15,7 +16,7 @@ namespace toyc
 
 	std::string ASminus::toString()
 	{
-		return "minus(" + expression->toString() + ")";
+		return (spaces() + "minus(" + expression->toString() + ")");
 	}
 
 }

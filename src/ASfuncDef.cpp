@@ -3,6 +3,7 @@
 #include "ASfuncDef.h"
 #include "TCsymTable.h"
 #include "TCglobals.h"
+#include "TCoutput.h"
 
 namespace toyc
 {
@@ -38,15 +39,22 @@ namespace toyc
 	{
 		if (numVarDef == 0)
 		{
-			return "varDef(" + identifier->toString() + type->toString() + statement->toString() + ")";
+			return ("varDef(\n" +
+			        spaces() + identifier->toString() + "\n" +
+			        spaces() + type->toString() + "\n" +
+			        spaces() + statement->toString() + "\n" + ")");
 		}
 		std::string str = "";
-		str += "varDef(" + identifier->toString() + type->toString();
+		str += (spaces() + "varDef(\n" +
+				spaces() + identifier->toString() + "\n" +
+				spaces() + type->toString());
+
 		for (int i = 0; i < numVarDef; i++)
 		{
-			str += ", " + varDefList[i]->toString();
+			str += ("\n" + varDefList[i]->toString());
 		}
-		str += ", " + statement->toString() + ")";
+		str += ("\n" + statement->toString() +
+				"\n" + spaces() + ")");
 		return str;
 	}
 }

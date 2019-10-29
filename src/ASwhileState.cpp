@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "ASwhileState.h"
+#include "TCoutput.h"
 
 namespace toyc
 {
@@ -13,7 +14,7 @@ namespace toyc
 
 	std::string ASwhileState::toString()
 	{
-		return "whileStatement(" + op1->toString() + ", " + op2->toString() + ")";
+		return (spaces() + "whileStatement(" + op1->toString() + ", " + op2->toString() + ")");
 	}
 
 	ASexpression* ASwhileState::getOp1() { return op1; }

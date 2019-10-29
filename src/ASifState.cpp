@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "ASifState.h"
+#include "TCoutput.h"
 
 namespace toyc
 {
@@ -24,11 +25,24 @@ namespace toyc
 	{
 		if (hasop)
 		{
-			return "ifStatement(" + op1->toString() + ", " + op2->toString() + ", " + op3->toString() + ")";
+			s = (spaces() + "ifStatementQ\n");
+			indent();
+			s += (  spaces() + op1->toString() + "\n" +
+					spaces() + op2->toString() + "\n" +
+					spaces() + op3->toString() + "\n" +
+					spaces() + "    Q\n");
+			outdent();
+			return s;
 		}
 		else
 		{
-			return "ifStatement(" + op1->toString() + ", " + op2->toString() + ")";
+			s = (spaces() + "ifStatementQ\n");
+			indent();
+			s += (  spaces() + op1->toString() + "\n" +
+			        spaces() + op2->toString() + "\n" +
+			        spaces() + "    Q\n");
+			outdent();
+			return s;
 		}
 	}
 

@@ -3,6 +3,7 @@
 #include "AStype.h"
 #include "TCtokens.h"
 #include "TCglobals.h"
+#include "TCoutput.h"
 
 namespace toyc
 {
@@ -16,9 +17,9 @@ namespace toyc
 		std::string s;
 		switch (expr->getTokenType())
 		{
-			case INT:		s = "int(" + expr->getLexeme() + ")";		break;
-			case CHAR:		s = "char(" + expr->getLexeme() + ")";		break;
-			default:		s = "error";								break;
+			case INT:		s = (spaces() + "int(" + expr->getLexeme() + ")");		break;
+			case CHAR:		s = (spaces() + "char(" + expr->getLexeme() + ")");		break;
+			default:		s =  "error";								            break;
 		}
 		return s;
 	}

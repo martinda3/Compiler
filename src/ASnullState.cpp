@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "ASnullState.h"
+#include "TCoutput.h"
 
 namespace toyc
 {
@@ -11,6 +12,6 @@ namespace toyc
 
 	std::string ASnullState::toString()
 	{
-		return "nullStatement()";
+		return (spaces() + "nullStatement()");
 	}
 }
