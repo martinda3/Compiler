@@ -15,7 +15,6 @@ namespace toyc
 
 		}
 		numIdentifiers = num;
-
 		setType(VARdef);
 	}
 
@@ -40,7 +39,7 @@ namespace toyc
 		{
 			str += (spaces() + ", " + identifierList[i]->toString());
 		}
-		str += (spaces() + ")");
+		str += ")";
 		return str;
 	}
 

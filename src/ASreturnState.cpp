@@ -21,10 +21,10 @@ namespace toyc
 		if (hasop)
 		{
 			s = spaces() + "returnStatement(\n";
-			indent();
+			//indent();
 			s += (  spaces() + op->toString() + "\n" +
-					spaces() + "    )\n");
-			outdent();
+					spaces() + ")\n");
+			//outdent();
 			return s;
 		}
 		else

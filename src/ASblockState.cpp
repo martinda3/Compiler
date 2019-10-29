@@ -40,7 +40,7 @@ namespace toyc
 	std::string ASblockState::toString()
 	{
 		std::string str = (spaces() +"blockStatement|||\n");
-		indent();
+		//indent();
 		if (numVarDef == 0 && numStatements == 0)
 		{
 			return (spaces() + "blockStatement||||||");
@@ -59,7 +59,7 @@ namespace toyc
 				str += ("\n" + spaces() +  statementList[i]->toString());
 			}
 			str += (spaces() + "|||");
-			outdent();
+			//outdent();
 			return str;
 		}
 		else
@@ -70,8 +70,8 @@ namespace toyc
 				//str += ", " + statementList[i]->toString();
 				str += ("\n" + spaces() + statementList[i]->toString());
 			}
-			str += (spaces() + "    |||");
-			outdent();
+			str += (spaces() + "|||");
+			//outdent();
 			return str;
 		}
 	}

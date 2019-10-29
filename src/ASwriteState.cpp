@@ -32,12 +32,12 @@ namespace toyc
 			return "error";
 		}
 		std::string str = "";
-		str += (spaces() + "writeStatement(" + expressionList[0]->toString());
+		str += (spaces() + "writeStatement(\n" + spaces() + expressionList[0]->toString());
 		for (int i = 1; i < numExpressions; i++)
 		{
-			str += (spaces() + ", " + expressionList[i]->toString());
+			str += ( "\n" + spaces() + expressionList[i]->toString());
 		}
-		str += ")";
+		str += "\n" + spaces() + ")";
 		return str;
 	}
 

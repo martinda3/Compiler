@@ -33,12 +33,12 @@ namespace toyc
 			return "error";
 		}
 		std::string str = "";
-		str += (spaces() + "readStatement(" + identifierList[0]->toString());
+		str += (spaces() + "readStatement(\n" + spaces() + identifierList[0]->toString());
 		for (int i = 1; i < numIdentifiers; i++)
 		{
-			str += (spaces() + ", " + identifierList[i]->toString());
+			str += ("\n" + spaces() + identifierList[i]->toString());
 		}
-		str += (spaces() + ")");
+		str += ("\n" + spaces() + ")");
 		return str;
 	}
 

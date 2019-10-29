@@ -16,12 +16,12 @@ namespace toyc
 	std::string ASexpr::toString()
 	{
 		s = spaces() + "expr||\n";
-		indent();
+		//indent();
 		s +=   (spaces() + oper->toString() + "\n" +
 				spaces() + op1->toString() + "\n" +
 				spaces() + op2->toString() + "\n" +
-				spaces()  + "    ||\n");
-		outdent();
+				spaces()  + "||\n");
+		//outdent();
 		return s;
 	}
 

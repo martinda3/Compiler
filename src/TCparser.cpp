@@ -264,14 +264,12 @@ namespace toyc
 		enteringDEBUG("CompoundStatement");
 		ASdefinition* operand[MAX_STATEMENTS];
 		ASstatement* operand2[MAX_STATEMENTS];
-		//AStype* operand3 = NULL;
 		AStype* operand4[1];
 		int i1 = 0;
 		int i2 = 0;
 		accept(LCURLY);
 		while (buff->getTokenType() == INT || buff->getTokenType() == CHAR) // { Type ID SEMICOLON }
 		{
-			//operand3 = Type();
 			operand4[0] = Type();
 			accept(ID);
 			operand[i1] = new ASvarDef(operand4, 1);

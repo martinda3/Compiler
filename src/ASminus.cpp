@@ -16,7 +16,7 @@ namespace toyc
 
 	std::string ASminus::toString()
 	{
-		return (spaces() + "minus(" + expression->toString() + ")");
+		return (spaces() + "minus(\n" + spaces() + expression->toString() + "\n" + spaces() +  ")");
 	}
 
 }
