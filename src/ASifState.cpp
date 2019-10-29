@@ -26,22 +26,22 @@ namespace toyc
 		if (hasop)
 		{
 			s = (spaces() + "ifStatement{\n");
-			//indent();
+			indent();
 			s += (op1->toString() + "\n" +
 					op2->toString() +
 					op3->toString() +
 					spaces() + "}\n");
-			//outdent();
+			outdent();
 			return s;
 		}
 		else
 		{
 			s = (spaces() + "ifStatement{\n");
-			//indent();
+			indent();
 			s += (op1->toString() + "\n" +
 			        op2->toString() + "\n" +
 			        spaces() + "}\n");
-			//outdent();
+			outdent();
 			return s;
 		}
 	}

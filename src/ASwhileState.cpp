@@ -14,10 +14,14 @@ namespace toyc
 
 	std::string ASwhileState::toString()
 	{
-		return (spaces() + "whileStatement(\n" +
-		         op1->toString() + "\n" +
-		         op2->toString() + "\n" +
-		        spaces() +  ")");
+		std::string s;
+		s = spaces() + "whileStatement(\n";
+		indent();
+		s += op1->toString() + "\n" +
+		     op2->toString() + "\n" +
+		     spaces() +  ")";
+		outdent();
+		return s;
 	}
 
 	ASexpression* ASwhileState::getOp1() { return op1; }
