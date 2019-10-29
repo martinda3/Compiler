@@ -34,9 +34,9 @@ namespace toyc
 	{
 		if (numVarDef == 0)
 		{
-			return ("funDef(\n" +
+			return (spaces() + "funDef(\n" +
 			        spaces() + identifier->toString() + "\n" +
-			        spaces() + statement->toString() + "\n" + ")");
+			        statement->toString() + "\n" + ")");
 		}
 		std::string str = "";
 		str += (spaces() + "funDef(\n" +
@@ -44,7 +44,7 @@ namespace toyc
 
 		for (int i = 0; i < numVarDef; i++)
 		{
-			str += (spaces() + varDefList[i]->toString());
+			str += (varDefList[i]->toString());
 		}
 		str += ("\n" + statement->toString() +
 				"\n" + spaces() + ")");

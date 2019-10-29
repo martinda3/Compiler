@@ -16,7 +16,7 @@ namespace toyc
 	std::string ASoperator::toString()
 	{
 		std::string s;
-		s = (spaces() + "operator(" + expr->getLexeme() + ")");
+		s = ("operator(" + expr->getLexeme() + ")");
 		return s;
 	}
 

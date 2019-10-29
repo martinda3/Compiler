@@ -37,7 +37,7 @@ namespace toyc
 		str += (spaces() + "varDef(" + identifierList[0]->toString());
 		for (int i = 1; i < numIdentifiers; i++)
 		{
-			str += (spaces() + ", " + identifierList[i]->toString());
+			str += (", " + identifierList[i]->toString());
 		}
 		str += ")";
 		return str;
