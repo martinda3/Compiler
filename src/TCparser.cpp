@@ -164,6 +164,7 @@ namespace toyc
 			accept(INT);
 			t2 = buff;
 			operand = new AStype(t1, t2);
+			exitingDEBUG(operand->toString());
 			exitingDEBUG("Type");
 		}
 		else if (buff->getTokenType() == CHAR)
@@ -954,14 +955,15 @@ namespace toyc
 
 	TCtoken* TCparser::accept(int t)
 	{
-		TCtoken *token; std::string name;
+		TCtoken *token; 
+		std::string name;
 		if (t == buff->getTokenType())
 		{
 			token = buff;
 			name = token->getLexeme();
 			tokenDEBUG(name);
 			buff = scanner->getToken();
-			return buff;
+			return token;
 		}
 		//		else if (buff->getTokenType() == EOFILE)
 		//		{
