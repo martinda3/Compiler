@@ -7,21 +7,22 @@
 
 namespace toyc
 {
-	AStype::AStype(TCtoken* e)
+	AStype::AStype(TCtoken* e, TCtoken* ee)
 	{
 		expr = e;
+		ident = ee;
 	}
 
 	std::string AStype::toString()
 	{
 		std::string s;
-		switch (expr->getTokenType())
-		{
-			case INT:		s = (spaces() + "int(" + expr->getLexeme() + ")");		break;
-			case CHAR:		s = (spaces() + "char(" + expr->getLexeme() + ")");		break;
-			default:		s =  "error";								            break;
-		}
-		return s;
+//		switch (expr->getTokenType())
+//		{
+//			case INT:		s = (spaces() + "int(" + expr->getLexeme() + ")");		break;
+//			case CHAR:		s = (spaces() + "char(" + expr->getLexeme() + ")");		break;
+//			default:		s =  "error";								            break;
+//		}
+		return (spaces() + expr->getLexeme() + " " + ident->getLexeme());
 	}
 
 	TCtoken* AStype::getExpr()

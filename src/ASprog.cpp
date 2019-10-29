@@ -37,7 +37,7 @@ namespace toyc
 		outdent();
 		s += "\n" + spaces() + "]\n";
 		outdent();
-		s += spaces() + ")\n<< Abstract Syntax >>\n";
+		s += ")\n<< Abstract Syntax >>\n";
 		return s;
 	}
 

@@ -15,18 +15,16 @@ namespace toyc
 	class ASfuncDef : public ASdefinition
 	{
 	public:
-		ASfuncDef(ASexpression*, AStype*, ASdefinition* [], int, ASstatement*);
+		ASfuncDef(AStype*, ASdefinition* [], int, ASstatement*);
 
-		ASexpression* getIdentifier();
-		AStype* getType();
+		AStype* getIdentifier();
 		ASdefinition* getVarDef(int);
 		ASstatement* getStatement();
 		std::string toString();
 		int getNumVarDef();
 
 	private:
-		ASexpression* identifier;
-		AStype* type;
+		AStype* identifier;
 		ASdefinition* varDefList[MAX_STATEMENTS];
 		int numVarDef;
 		ASstatement* statement;

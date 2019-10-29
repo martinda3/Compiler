@@ -123,7 +123,6 @@ namespace toyc
 	{
 		// Definition --> Type ID ( FunctionDefinition | SEMICOLON )
 		enteringDEBUG("Definition");
-		ASexpression* operand = NULL;
 		AStype* operand2 = NULL;
 		ASdefinition* operand3[MAX_STATEMENTS];
 		int operand4 = 0;
@@ -131,7 +130,7 @@ namespace toyc
 		*num = 0;
 		ASstatement* operand5 = NULL;
 		operand2 = Type();
-		operand = new ASsimpleExpr(accept(ID));
+		accept(ID);
 		if (buff->getTokenType() == SEMICOLON)
 		{
 			operand5 = new ASstatement();
@@ -142,22 +141,29 @@ namespace toyc
 			operand4 = *num;
 		}
 		exitingDEBUG("Definition");
-		return new ASfuncDef(operand, operand2, operand3, operand4, operand5);
+		return new ASfuncDef(operand2, operand3, operand4, operand5);
 	}
 
 	AStype* TCparser::Type() // Functional Needs testing
 	{
 		// Type --> INT | CHAR
+		TCtoken *t1, *t2;
 		enteringDEBUG("Type");
 		AStype* operand = NULL;
 		if (buff->getTokenType() == INT)
 		{
-			operand = new AStype(accept(INT));
+			t1 = buff;
+			accept(INT);
+			t2 = buff;
+			operand = new AStype(t1, t2);
 			exitingDEBUG("Type");
 		}
 		else if (buff->getTokenType() == CHAR)
 		{
-			operand = new AStype(accept(CHAR));
+			t1 = buff;
+			accept(CHAR);
+			t2 = buff;
+			operand = new AStype(t1, t2);
 			exitingDEBUG("Type");
 		}
 		else        // Error Handlding
@@ -220,20 +226,20 @@ namespace toyc
 	{
 		// FormalParamList --> Type ID { COMMA Type ID }
 		enteringDEBUG("Formal Param List");
-		ASexpression* operand[1];
-		AStype* operand2 = NULL;
-		operand2 = Type();
-		operand[0] = new ASsimpleExpr(accept(ID));
+		AStype* operand[1];
+		operand[0] = Type();
+		accept(ID);
 		int i = 0;
-		list[i] = new ASvarDef(operand, 1, operand2);
+		list[i] = new ASvarDef(operand, 1);
 		i++;
 		while (buff->getTokenType() == COMMA)
 		{
 			enteringDEBUG("Formal Param List Additional");
 			accept(COMMA);
-			operand2 = Type();
-			operand[0] = new ASsimpleExpr(accept(ID));
-			list[i] = new ASvarDef(operand, 1, operand2);
+			operand[0] = Type();
+			accept(ID);
+			int i = 0;
+			list[i] = new ASvarDef(operand, 1);
 			i++;
 			exitingDEBUG("Formal Param List Additional");
 		}
@@ -258,16 +264,17 @@ namespace toyc
 		enteringDEBUG("CompoundStatement");
 		ASdefinition* operand[MAX_STATEMENTS];
 		ASstatement* operand2[MAX_STATEMENTS];
-		AStype* operand3 = NULL;
-		ASexpression* operand4[1];
+		//AStype* operand3 = NULL;
+		AStype* operand4[1];
 		int i1 = 0;
 		int i2 = 0;
 		accept(LCURLY);
 		while (buff->getTokenType() == INT || buff->getTokenType() == CHAR) // { Type ID SEMICOLON }
 		{
-			operand3 = Type();
-			operand4[0] = new ASsimpleExpr(accept(ID));
-			operand[i1] = new ASvarDef(operand4, 1, operand3);
+			//operand3 = Type();
+			operand4[0] = Type();
+			accept(ID);
+			operand[i1] = new ASvarDef(operand4, 1);
 			i1++;
 			accept(SEMICOLON);
 		}

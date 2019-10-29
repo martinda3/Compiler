@@ -7,7 +7,7 @@
 
 namespace toyc
 {
-	ASvarDef::ASvarDef(ASexpression* identifiers[], int num, AStype* t)
+	ASvarDef::ASvarDef(AStype* identifiers[], int num)
 	{
 		for (int i = 0; i < num; i++)
 		{
@@ -15,18 +15,15 @@ namespace toyc
 
 		}
 		numIdentifiers = num;
-		type = t;
+
 		setType(VARdef);
 	}
 
-	ASexpression* ASvarDef::getIdentifier(int num)
+	AStype* ASvarDef::getIdentifier(int num)
 	{
 		return identifierList[num];
 	}
-	AStype* ASvarDef::getType()
-	{
-		return type;
-	}
+
 	int ASvarDef::getNumIdentifiers()
 	{
 		return numIdentifiers;

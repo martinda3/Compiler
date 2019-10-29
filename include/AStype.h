@@ -9,11 +9,12 @@ namespace toyc
 	class AStype : public ASabstractSyntax
 	{
 	public:
-		AStype(TCtoken*);
+		AStype(TCtoken*, TCtoken*);
 		std::string toString();
 		TCtoken* getExpr();
 	private:
 		TCtoken* expr;
+		TCtoken* ident;
 
 	};
 
