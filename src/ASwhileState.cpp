@@ -14,7 +14,7 @@ namespace toyc
 
 	std::string ASwhileState::toString()
 	{
-		return (spaces() + "whileStatement(\n" +
+		return ("whileStatement(\n" +
 		        spaces() + op1->toString() + "\n" +
 		        spaces() + op2->toString() + "\n" +
 		        spaces() +  ")");

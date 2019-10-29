@@ -19,16 +19,16 @@ namespace toyc
 		switch (expr->getTokenType())
 		{
 			case NUMBER:
-				str += (spaces() + "number(" + expr->getLexeme() + ")");
+				str += ("number(" + expr->getLexeme() + ")");
 				break;
 			case ID:
-				str += (spaces() + symTable->getSym(expr)->toString());
+				str += (symTable->getSym(expr)->toString());
 				break;
 			case CHARLITERAL:
-				str += (spaces() + "charliteral(" + expr->getLexeme() + ")");
+				str += ("charliteral(" + expr->getLexeme() + ")");
 				break;
 			case STRING:
-				str += (spaces() +"string(" + expr->getLexeme() + ")");
+				str += ("string(" + expr->getLexeme() + ")");
 				break;
 			default:
 				str += "error";

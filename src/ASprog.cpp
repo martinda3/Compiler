@@ -18,7 +18,7 @@ namespace toyc
 
 	std::string ASprog::toString() // stole this from Toycalc (ASprogram.cpp), hope it works
 	{
-		if (numDefinitions == 0) return "prog([])";
+		if (numDefinitions == 0) return "program([])";
 		std::string s = "<< Abstract Syntax >>\nprogram(\n";
 		indent();
 		s += spaces() + "sourceCodeFile(" + name + "),\n";

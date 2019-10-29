@@ -22,7 +22,7 @@ namespace toyc
 //			case CHAR:		s = (spaces() + "char(" + expr->getLexeme() + ")");		break;
 //			default:		s =  "error";								            break;
 //		}
-		return (spaces() + expr->getLexeme() + " " + ident->getLexeme());
+		return (expr->getLexeme() + " " + ident->getLexeme());
 	}
 
 	TCtoken* AStype::getExpr()

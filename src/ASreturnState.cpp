@@ -20,16 +20,12 @@ namespace toyc
 	{
 		if (hasop)
 		{
-			s = spaces() + "returnStatement(\n";
-			//indent();
-			s += (  spaces() + op->toString() + "\n" +
-					spaces() + ")\n");
-			//outdent();
+			s = (spaces() + "returnStatement(" + op->toString() + ")\n");
 			return s;
 		}
 		else
 		{
-			return (spaces() + "returnStatement()");
+			return (spaces() + "returnStatement()\n");
 		}
 	}
 

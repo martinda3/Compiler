@@ -13,10 +13,10 @@ namespace toyc
 
 	std::string ASexprState::toString()
 	{
-		s = (spaces() + "exprStatement|\n");
+		s = (spaces() + "exprStatement(\n");
 		//indent();
-		s += (  spaces() + op->toString() +
-				spaces() + "|\n");
+		s += (  spaces() + op->toString() + "\n" +
+				spaces() + ")\n");
 		//outdent();
 		return s;
 	}

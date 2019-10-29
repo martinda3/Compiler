@@ -21,15 +21,15 @@ namespace toyc
 	{
 		if (numExpressions == 0)
 		{
-			return (spaces() + "funcCall(\n" + spaces() + id->toString() + "\n" + spaces() + ")");
+			return ("funcCall("+ id->toString() + ")");
 		}
 		std::string str = "";
-		str += (spaces() + "funcCall(\n" + spaces() + id->toString());
+		str += ("funcCall(" + id->toString());
 		for (int i = 0; i < numExpressions; i++)
 		{
 			str += ("\n" + spaces() + expressionList[i]->toString());
 		}
-		str += ("\n" + spaces() + ")");
+		str += ")";
 		return str;
 	}
 

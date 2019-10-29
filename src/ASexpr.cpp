@@ -20,7 +20,7 @@ namespace toyc
 		s +=   (spaces() + oper->toString() + "\n" +
 				spaces() + op1->toString() + "\n" +
 				spaces() + op2->toString() + "\n" +
-				spaces()  + "||\n");
+				spaces()  + "||");
 		//outdent();
 		return s;
 	}
