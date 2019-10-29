@@ -73,12 +73,12 @@ namespace toyc {
     std::string pad(int n) {
         std::string s = "";
 	    //for (int i = 1; i <= n; i++) s += " ";
-        for (int i = 1; i <= n; i++) s += std::to_string(n);
+        for (int i = 1; i <= n; i++) s += ".";
         return s;
     }
 
     int _pos = 0;
-    int _INDENTSIZE = 1;
+    int _INDENTSIZE = 2;
 
     std::string spaces() { return pad(_pos); }
 
