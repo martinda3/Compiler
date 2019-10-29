@@ -13,7 +13,7 @@ I added comments
 
 Most substational change I made to AS was to the Type() fuction
 # Output as of rightnoe
-
+'''
 << Abstract Syntax >>
 program(
  sourceCodeFile(test/while1.tc),
@@ -115,6 +115,6 @@ program(
 )
 << Abstract Syntax >>
 
-
+'''
 
 
