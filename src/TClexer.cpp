@@ -31,13 +31,6 @@ namespace toyc {
 
 	static std::ifstream infile;
 
-	//char getChar();
-	//char commenter();
-	//std::string getNextLine();
-	//bool isInAlphabet(char);
-	//bool tokenChecker(std::string, std::string);
-	//void BlockComments();
-
 	/// Opens file exits if file DNE
 	TClexer::TClexer(std::string fname) {
 		inputFileName = fname;
