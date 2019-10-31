@@ -36,23 +36,22 @@ clean:
 	@echo " Cleaning..."; 
 	@echo " $(RM) -r $(BUILDDIR) $(TARGET) $(SCANNER) $(PARSER)"; $(RM) -r $(BUILDDIR) $(TARGET) $(SCANNER) $(PARSER)
 
-iftests:
+part1:
 	$(MAKE) $(TARGET)
-	@echo "	If Statments";
-	@echo "[Test 1] if (n == 0) "; $(TARGET)  $(TESTDIR)/type.tc
-	@echo "[Test 2] if ((n*3) == 0) "; $(TARGET)   $(TESTDIR)/type1.tc
-	@echo "[Test 3] if (n > 0) ";  $(TARGET)  $(TESTDIR)/type2.tc
-	@echo "[Test 4] if (n < 0) ";  $(TARGET)  $(TESTDIR)/type3.tc
-	@echo "[Test 5] if (n <= 0) "; $(TARGET)  $(TESTDIR)/type4.tc
-	@echo "[Test 6] if (n >= 0) "; $(TARGET)  $(TESTDIR)/type5.tc
-	@echo "[Test 7] if (n != 0) "; $(TARGET)  $(TESTDIR)/type6.tc
-	@echo "[Test 7] if (n)";       $(TARGET)  $(TESTDIR)/type7.tc
-	@echo "	If Statments passed";
+	@echo "	Testing Part 1";
+	@echo "[Test 1]  "; $(TARGET) - $(TESTDIR)/p1_test.tc -d 1
+	@echo "	Part 1 Passed";
 
-while:
+part2:
 	$(MAKE) $(TARGET)
-	@echo "	While Statments";
-	@echo "[Test 1] while (n == 0) "; $(TARGET)  $(TESTDIR)/while1.tc
-	@echo "	While Statments passed";
+	@echo "	Testing Part 2";
+	@echo "[Test 1]  "; $(TARGET) -v $(TESTDIR)/p2_test.tc
+	@echo "	Part 2 Passed";
+
+part2a:
+	$(MAKE) $(TARGET)
+	@echo "	Testing Abstract Syntax";
+	@echo "[Test 1]  "; $(TARGET) - $(TESTDIR)/p1_test.tc -d 3
+	@echo "	Abstract Syntax Passed";
 
 .PHONY: clean

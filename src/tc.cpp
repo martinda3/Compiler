@@ -24,9 +24,11 @@ int main(int argc, char *argv[]) {
     try {
         processCommandLine(argc, argv);
         TClexer *scanner = new TClexer(inputFileName);
-        TCparser *parser = new TCparser(scanner);
-        ASabstractSyntax *ast = parser->parse();
-        if (v_code_gen) dumpAST(ast);
+    	int tok;
+    	while ((tok=scanner->getToken()->getTokenType()) != EOFILE) ;
+        //TCparser *parser = new TCparser(scanner);
+        //ASabstractSyntax *ast = parser->parse();
+        //if (v_code_gen) dumpAST(ast);
     } catch (...) {
         std::cerr << "ERROR: scanning failed" << std::endl;
         exit(EXIT_FAILURE);

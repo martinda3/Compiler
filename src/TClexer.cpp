@@ -210,6 +210,11 @@ namespace toyc {
 					t = new TCtoken(INT, lexeme);
 					tokenFound = true;
 				}
+				else if (tokenChecker(lexeme, "NEWLINE"))
+				{
+					t = new TCtoken(NEWLINE, lexeme);
+					tokenFound = true;
+				}
 				else if (tokenChecker(lexeme, "ELSE"))
 				{
 					t = new TCtoken(ELSE, lexeme);
@@ -343,7 +348,7 @@ namespace toyc {
 							commentDepth++;
 							while (commentDepth > 0)    // Continue scanning while each block comment does not have a matching closing pair CD
 							{
-								std::cout << commentDepth;
+								//std::cout << commentDepth;
 								charBuff = commenter();
 								if (charBuff == EOFCHAR)
 								{
@@ -566,24 +571,6 @@ namespace toyc {
 								charBuff = getChar();
 								break;
 							}
-						}
-						break;
-					case '\\':                                                    // Checks for newline characters CD
-						lexeme += charBuff;
-						charBuff = getChar();
-						if (charBuff == 'n')
-						{
-							lexeme += charBuff;
-							t = new TCtoken(NEWLINE, lexeme);
-							tokenFound = true;
-							charBuff = getChar();
-							break;
-						}
-						else
-						{
-							reportWARNING("  ", " Scanner: Illegal Character. Ignoring");
-							charBuff = getChar();
-							break;
 						}
 						break;
 					case ';':                                                    // Checks for semicolons CD
