@@ -65,37 +65,15 @@ namespace toyc
 		return p;
 	}
 
-	void enteringDEBUG(std::string s) { if (verbose) reportDEBUG("    ", "PARSER", "entering " + s); }
+	void enteringDEBUG(std::string s) { if (v_parser) reportDEBUG("    ", "PARSER", "entering " + s); }
 
 	void tokenDEBUG(std::string s) { if (verbose) reportDEBUG("       ", "INFO", " " + s); }
 
-	void exitingDEBUG(std::string s) { if (verbose) reportDEBUG("    ", "PARSER", "exiting " + s); }
+	void exitingDEBUG(std::string s) { if (v_parser) reportDEBUG("    ", "PARSER", "exiting  " + s); }
 
 	ASprogram* TCparser::program()
 	{
 		enteringDEBUG("Program");   //  Need to call DefinitionList to recirsivly repeat
-		/*
-		while (true)
-		{
-			try
-			{
-				Definition();
-			}
-			catch (int t)
-			{
-				if (buff->getTokenType() == EOFILE)
-				{
-					accept(EOFILE);
-					break;
-				}
-				else
-				{
-					std::string error = "Expected token number " + std::to_string(t);
-					reportSYNTAX_ERROR(scanner, error);
-					exit(EXIT_FAILURE);
-				}
-			}
-		}*/
 		ASdefinition* definitionList[MAX_STATEMENTS];
 		symTable = new TCsymTable();
 		int num = DefinitionList(definitionList, 0);
@@ -107,23 +85,18 @@ namespace toyc
 	{
 		int num = 0;
 
-		enteringDEBUG("DefinitionList");
+		enteringDEBUG("Definition List");
 		if (!(buff->getTokenType() == EOFILE))
 		{
 			l[n] = Definition();
-			//accept(SEMICOLON);
 			num = DefinitionList(l, n + 1);
 		}
-		//		else if (buff->getTokenType() == EOFILE)
-		//		{
-		//			exitingDEBUG("Program");
-		//		}
 		else
 		{
 			num = n;
 
 		}
-		exitingDEBUG("DefinitionList");
+		exitingDEBUG("Definition List");
 		return num;
 	}
 
@@ -223,11 +196,11 @@ namespace toyc
 	ASstatement* TCparser::FunctionBody()  // DONE NEED TO TEST MORE
 	{
 		// FunctionBody --> CompoundStatement
-		enteringDEBUG("FunctionBody");
+		enteringDEBUG("Function Body");
 		ASstatement* operand = NULL;
 		operand = CompoundStatement();
 		//CompoundStatement();
-		exitingDEBUG("FunctionBody");
+		exitingDEBUG("Function Body");
 		return operand;
 	}
 
@@ -259,10 +232,10 @@ namespace toyc
 	ASstatement* TCparser::ExpressionStatement() // WIP
 	{
 		// ExpressionStatement --> Expression
-		enteringDEBUG("ExpressionStatement");
+		enteringDEBUG("Expression Statement");
 		ASexpression* operand = NULL;
 		operand = Expression();
-		exitingDEBUG("ExpressionStatement");
+		exitingDEBUG("Expression Statement");
 		accept(SEMICOLON);
 		return new ASexprState(operand);
 	}
@@ -270,7 +243,7 @@ namespace toyc
 	ASstatement* TCparser::CompoundStatement() // Need statment and error handling
 	{
 		// CompoundStatement --> LCURLY { Type ID SEMICOLON } { Statement } RCURLY
-		enteringDEBUG("CompoundStatement");
+		enteringDEBUG("Compound Statement");
 		ASdefinition* operand[MAX_STATEMENTS];
 		ASstatement* operand2[MAX_STATEMENTS];
 		AStype* operand4[1];
@@ -297,7 +270,7 @@ namespace toyc
 		catch (int t) {}
 		accept(RCURLY);
 		exitingDEBUG("Statement");
-		exitingDEBUG("CompoundStatement");
+		exitingDEBUG("Compound Statement");
 		return new ASblockState(operand, i1, operand2, i2);
 	}
 
@@ -305,7 +278,7 @@ namespace toyc
 	ASstatement* TCparser::IfStatement() // WIP
 	{
 		// IfStatement --> IF LPAREN Expression RPAREN Statement [ ELSE Statement ]
-		enteringDEBUG("IfStatement");
+		enteringDEBUG("If Statement");
 		ASexpression* operand = NULL;
 		ASstatement* operand2 = NULL;
 		ASstatement* operand3 = NULL;
@@ -316,14 +289,14 @@ namespace toyc
 		operand2 = Statement();
 		if (buff->getTokenType() == ELSE)
 		{
-			enteringDEBUG("IfStatement Additional");
+			enteringDEBUG("If Statement Additional");
 			accept(ELSE);
 			operand3 = Statement();
-			exitingDEBUG("IfStatement Additional");
-			exitingDEBUG("IfStatement");
+			exitingDEBUG("If Statement Additional");
+			exitingDEBUG("If Statement");
 			return new ASifState(operand, operand2, operand3);
 		}
-		exitingDEBUG("IfStatement");
+		exitingDEBUG("If Statement");
 		return new ASifState(operand, operand2);
 	}
 
@@ -388,18 +361,18 @@ namespace toyc
 	ASstatement* TCparser::BreakStatement() // DONE NEED TO TEST
 	{
 		// BreakStatement --> BREAK SEMICOLON
-		enteringDEBUG("BreakStatement");
+		enteringDEBUG("Break Statement");
 		accept(BREAK);
 		accept(SEMICOLON);
-		exitingDEBUG("BreakStatement");
+		exitingDEBUG("Break Statement");
 		return new ASbreakState();
 	}
 
 	ASstatement* TCparser::NullStatement() // DONE NEED TO TEST
 	{
 		// SEMICOLON
-		enteringDEBUG("NullStatement");
-		exitingDEBUG("NullStatement");
+		enteringDEBUG("Null Statement");
+		exitingDEBUG("Null Statement");
 		accept(SEMICOLON);
 		return new ASnullState();
 	}
@@ -443,7 +416,7 @@ namespace toyc
 	ASstatement* TCparser::ReadStatement() // WIP
 	{
 		// READ LPAREN ID { COMMA ID } RPAREN SEMICOLON
-		enteringDEBUG("ReadStatement");
+		enteringDEBUG("Read Statement");
 		ASexpression* operand[MAX_STATEMENTS];
 		accept(READ);
 		accept(LPAREN);
@@ -451,14 +424,14 @@ namespace toyc
 		int i = 1;
 		while (buff->getTokenType() == COMMA)
 		{
-			enteringDEBUG("ReadStatement Additional");
+			enteringDEBUG("Read Statement Additional");
 			accept(COMMA);
 			operand[i] = new ASsimpleExpr(accept(ID));
 			i++;
-			exitingDEBUG("ReadStatement Additional");
+			exitingDEBUG("Read Statement Additional");
 		}
 		accept(RPAREN);
-		exitingDEBUG("ReadStatement");
+		exitingDEBUG("Read Statement");
 		accept(SEMICOLON);
 		return new ASreadState(operand, i);
 	}
@@ -466,7 +439,7 @@ namespace toyc
 	ASstatement* TCparser::WriteStatement() // WIP
 	{
 		// WriteStatement -> WRITE LPAREN ActualParameters RPAREN SEMICOLON
-		enteringDEBUG("WriteStatement");
+		enteringDEBUG("Write Statement");
 		ASexpression* operand = NULL;
 		ASexpression* operand2[MAX_STATEMENTS];
 		accept(WRITE);
@@ -474,7 +447,7 @@ namespace toyc
 		operand = ActualParameters();
 		operand2[0] = operand;
 		accept(RPAREN);
-		exitingDEBUG("WriteStatement");
+		exitingDEBUG("Write Statement");
 		accept(SEMICOLON);
 		return new ASwriteState(operand2, 1);
 	}
@@ -482,9 +455,9 @@ namespace toyc
 	ASstatement* TCparser::NewLineStatement() // WIP
 	{
 		// NewLineStatement --> NEWLINE SEMICOLON
-		enteringDEBUG("NewLineStatement");
+		enteringDEBUG("NewLine Statement");
 		accept(NEWLINE);
-		exitingDEBUG("NewLineStatement");
+		exitingDEBUG("NewLine Statement");
 		accept(SEMICOLON);
 		return new ASnewLineState();
 	}
@@ -512,40 +485,40 @@ namespace toyc
 	ASexpression* TCparser::RelopExpression() // WIP
 	{
 		// RelopExpression --> SimpleExpression { RELOP SimpleExpression }
-		enteringDEBUG("RelopExpression");
+		enteringDEBUG("Relop Expression");
 		ASexpression* operand = NULL;
 		ASexpression* operand2 = NULL;
 		ASoperator* operand3 = NULL;
 		operand = SimpleExpression();
 		while (buff->getTokenType() == RELOP)
 		{
-			enteringDEBUG("RelopExpression Additional");
+			enteringDEBUG("Relop Expression Additional");
 			operand3 = new ASoperator(accept(RELOP));
 			operand2 = SimpleExpression();
 			operand = new ASexpr(operand3, operand2, operand);
 			exitingDEBUG("RelopExpression Additional");
 		}
-		exitingDEBUG("RelopExpression");
+		exitingDEBUG("Relop Expression");
 		return operand;
 	}
 
 	ASexpression* TCparser::SimpleExpression() // WIP
 	{
 		// SimpleExpression --> Term { ADDOP Term }
-		enteringDEBUG("SimpleExpression");
+		enteringDEBUG("Simple Expression");
 		ASexpression* operand = NULL;
 		ASexpression* operand2 = NULL;
 		ASoperator* operand3 = NULL;
 		operand = Term();
 		while (buff->getTokenType() == ADDOP)
 		{
-			enteringDEBUG("SimpleExpression Additional");
+			enteringDEBUG("Simple Expression Additional");
 			operand3 = new ASoperator(accept(ADDOP));
 			operand2 = Term();
 			operand = new ASexpr(operand3, operand2, operand);
 			exitingDEBUG("SimpleExpression Additional");
 		}
-		exitingDEBUG("SimpleExpression");
+		exitingDEBUG("Simple Expression");
 		return operand;
 	}
 
@@ -644,7 +617,7 @@ namespace toyc
 	ASexpression* TCparser::FunctionCall() // WIP
 	{
 		// FunctionCall -- > LPAREN ActualParameters RPAREN
-		enteringDEBUG("FunctionCall");
+		enteringDEBUG("Function Call");
 		ASexpression* operand = NULL;
 		accept(LPAREN);
 		try
@@ -656,245 +629,32 @@ namespace toyc
 			operand = new ASexpression();
 		}
 		accept(RPAREN);
-		exitingDEBUG("FunctionCall");
+		exitingDEBUG("Function Call");
 		return operand;
 	}
 
 	ASexpression* TCparser::ActualParameters() // WIP
 	{
 		// ActualParameters -> Expression { COMMA Expression }
-		enteringDEBUG("ActualParameters");
+		enteringDEBUG("Actual Parameters");
 		ASexpression* operand = NULL;
 		ASexpression* operand2[MAX_STATEMENTS];
 		int i = 0;
 		operand = Expression();
 		while (buff->getTokenType() == COMMA)
 		{
-			enteringDEBUG("ActualParameters Additional");
+			enteringDEBUG("Actual Parameters Additional");
 			accept(COMMA);
 			operand2[i] = Expression();
 			i++;
-			exitingDEBUG("ActualParameters Additional");
+			exitingDEBUG("Actual Parameters Additional");
 		}
 		operand = new ASfuncCall(operand, operand2, i);
-		exitingDEBUG("ActualParameters");
+		exitingDEBUG("Actual Parameters");
 		return operand;
 	}
 
 	/*
-
-	  int TCparser::statementList(ASstatement *l[],int n) {
-		int num=0;
-		// statementList --> statement ; statementList | epsilon
-		enteringDEBUG("statementList");
-		if (!(buff->getTokenType()==EOFILE)) {
-		  l[n] = statement();
-		  accept(SEMICOLON);
-		  num = statementList(l,n+1);
-		} else {
-		  num = n;
-		}
-		exitingDEBUG("statementList");
-		return num;
-	  }
-
-	  ASstatement *TCparser::statement() {
-		ASstatement* s=NULL;
-		int loc; TCsymbol *sym;
-		enteringDEBUG("statement");
-		if (buff->getTokenType() == ID) {
-		  sym = symTable->getSym(buff);
-		  loc = symTable->find(buff->getLexeme());
-		  if (loc == -1) loc = symTable->add(new TCsymbol(buff->getLexeme(),NO_TYPE));
-		  enum symType stype = symTable->getSym(loc)->getType();
-		  buff = scanner->getToken();
-		  if (buff->getTokenType() == COLON) {
-			// statement --> ID : statement
-			if (stype == NO_TYPE)
-				symTable->getSym(loc)->setType(LABEL);
-			else if (stype == VAR || stype == OFFSET) {
-			  reportSEMANTIC_ERROR(scanner,"label expected");
-			  exit(EXIT_FAILURE);
-			} // else it's a LABEL - do nothing
-			buff = scanner->getToken();
-			s = new ASlabelState(loc,statement());
-		  } else if (buff->getTokenType() == ASSIGNOP) {
-			// statement --> ID = expr
-			if (stype == NO_TYPE)
-			  symTable->getSym(loc)->setType(VAR);
-			else if (stype == LABEL || stype == OFFSET) {
-			  reportSEMANTIC_ERROR(scanner,"variable expected");
-			  exit(EXIT_FAILURE);
-			} // else it's a VAR so do nothing
-			buff = scanner->getToken();
-			s = new ASassignState(loc,expr());
-		   } else {
-			reportSYNTAX_ERROR(scanner,"':' or '=' expected");
-		exit(EXIT_FAILURE);
-		  }
-		} else if (buff->getTokenType() == WRITE) {
-		  // statement --> WRITE expr
-		  buff = scanner->getToken();
-		  //            enter_special_id(TCglobals.symtable,TCtoken.Tokens.WRITE);
-		  s = new ASwriteState(expr());
-		} else if (buff->getTokenType() == READ) {
-		  // statement --> READ ID
-		  buff = scanner->getToken();
-	//            enter_special_id(TCglobals.symtable,TCtoken.Tokens.READ);
-		  if (buff->getTokenType() == ID) {
-			loc = symTable->find(buff->getLexeme());
-			if (loc >= 0) {
-			  enum symType stype = symTable->getSym(loc)->getType();
-			  if (stype == NO_TYPE)
-				symTable->getSym(loc)->setType(VAR);
-			  else if (stype == LABEL || stype == OFFSET) {
-				reportSEMANTIC_ERROR(scanner,"variable expected");
-				exit(EXIT_FAILURE);
-			  } // else it's a VAR so do nothing
-			} else if (loc == -1) loc = symTable->add(new TCsymbol(buff->getLexeme(),VAR));
-			buff = scanner->getToken();
-			s = new ASreadState(loc);
-		  } else {
-			reportSYNTAX_ERROR(scanner,"variable expected");
-		exit(EXIT_FAILURE);
-		  }
-		} else if (buff->getTokenType() == IF) {
-		  // statement --> IF expr THEN GOTO ID
-		  buff = scanner->getToken();
-		  ASexpr *cond = expr();
-		  accept(THEN); accept(GOTO);
-		  if (buff->getTokenType()!=ID) {
-		reportSEMANTIC_ERROR(scanner,"illegal target for GOTO");
-			exit(EXIT_FAILURE);
-		  }
-		  sym = symTable->getSym(buff);
-		  loc = symTable->find(sym);
-		  if (sym->getType()!=LABEL) {
-			  if (sym->getType()==VAR) {
-			reportSEMANTIC_ERROR(scanner,"illegal target for GOTO");
-			exit(EXIT_FAILURE);
-			  } else sym->setType(LABEL);
-		  s = new ASifState(cond,loc);
-		  buff = scanner->getToken();
-		  } else {
-			reportSYNTAX_ERROR(scanner,"label expected");
-		exit(EXIT_FAILURE);
-		  }
-		} else if (buff->getTokenType() == GOTO) {
-		  // statement --> GOTO ID
-		  buff = scanner->getToken();
-		  if (buff->getTokenType() == ID) {
-			  sym = symTable->getSym(buff);
-			  loc = symTable->find(sym);
-			  if (sym->getType()!=LABEL) {
-				if (sym->getType()==VAR) {
-				  reportSEMANTIC_ERROR(scanner,"illegal target for GOTO");
-				  exit(EXIT_FAILURE);
-				} else sym->setType(LABEL);
-			  }
-			  s = new ASgotoState(loc);
-			  buff = scanner->getToken();
-		  } else
-			reportSYNTAX_ERROR(scanner,"label expected");
-		} else if (buff->getTokenType() == SKIP) {
-				//statement --> SKIP
-				buff = scanner->getToken();
-				s = new ASskipState();
-		} else {
-		  reportSYNTAX_ERROR(scanner,"statement expected");
-		  exit(EXIT_FAILURE);
-		}
-		exitingDEBUG("statement");
-		return s;
-	  }
-		ASexpr* TCparser::expr() {
-		  // expr --> term | term RELOP expr
-		  enteringDEBUG("expr");
-		 // ASexpr* op1 = term(), *op2=NULL, *result=NULL;
-		  TCtoken* oper = buff;
-		  if ( buff->getTokenType() == RELOP ) {
-			buff = scanner->getToken();
-	  //      op2 = expr();
-	   //     result = new ASbinaryExpr(oper,op1,op2);
-		   } else
-			result = op1;
-		  exitingDEBUG("expr");
-		  return result;
-		  }
-	  ASexpr* TCparser::term() {
-		 // term --> element | element ADDOP term | element OR term
-		 enteringDEBUG("term");
-		 ASexpr *op1 = element(), *op2=NULL, *result=NULL;
-		 TCtoken *oper = buff;
-		 if ( ( buff->getTokenType() == ADDOP) ||
-			  ( buff->getTokenType() == OR) ) {
-		   buff = scanner->getToken();
-		   op2 = term();
-		   result = new ASbinaryExpr(oper,op1,op2);
-		 } else result = op1;
-		 exitingDEBUG("term");
-		 return result;
-	   }
-		 ASexpr* TCparser::element() {
-		   // element --> factor | factor MULOP element | factor AND element
-		   enteringDEBUG("element");
-		   ASexpr *op1 = factor(), *op2=NULL, *result=NULL;
-		   TCtoken *oper = buff;
-		   if ( ( buff->getTokenType() == MULOP) ||
-				( buff->getTokenType() == AND) ) {
-			 buff = scanner->getToken();
-			 op2 = element();
-			 result = new ASbinaryExpr(oper,op1,op2);
-		   } else
-			 result = op1;
-		   exitingDEBUG("element");
-		   return result;
-		 }
-
-		 ASexpr* TCparser::factor() {
-		   // factor --> NUMBER | ID | - expr | ( expr )
-		   enteringDEBUG("factor");
-		   ASexpr *operand=NULL;
-		   TCtoken *t = buff;
-		   TCsymbol *sym;
-		   switch (buff->getTokenType()) {
-		   case NUMBER:
-			 buff = scanner->getToken();
-			 operand = new ASsimpleExpr(t);
-			 break;
-		   case ID:
-			 sym = symTable->getSym(buff);
-			 if ( sym->getType() == NO_TYPE ) {
-		   reportSEMANTIC_ERROR(scanner,"uninitialized variable");
-		   exit(EXIT_FAILURE);
-			 }
-			 if ( sym->getType() == LABEL ) {
-		   reportSEMANTIC_ERROR(scanner,"'"+sym->getId()+"' is a label");
-		   exit(EXIT_FAILURE);
-			 }
-			 buff = scanner->getToken();
-			 operand = new ASsimpleExpr(t);
-			 break;
-		   case ADDOP:
-			 if (!(buff->getLexeme() == "-")) {
-			   reportSYNTAX_ERROR(scanner,"unary - expected");
-			   exit(EXIT_FAILURE);
-			 }
-			 buff = scanner->getToken();
-			 operand = new ASunaryExpr(t,expr());
-			 break;
-		   case LPAREN:
-			 buff = scanner->getToken();
-			 operand = expr();
-			 accept(RPAREN);
-			 break;
-		   default:
-			 reportSYNTAX_ERROR(scanner,"NUM,ID,MINUS,or LPAREN expected");
-			 exit(EXIT_FAILURE);
-		   }
-		   exitingDEBUG("factor");
-		   return operand;
-		 }
 		   private static void enter_special_id(SymbolTable st, TCtoken.Tokens type) {
 			   TCsymbol sym=null;
 			   if (type == TCtoken.Tokens.READ)
@@ -961,14 +721,10 @@ namespace toyc
 		{
 			token = buff;
 			name = token->getLexeme();
-			tokenDEBUG(name);
+			if (v_parser) {tokenDEBUG(name);}
 			buff = scanner->getToken();
 			return token;
 		}
-		//		else if (buff->getTokenType() == EOFILE)
-		//		{
-		//			exit(0);
-		//		}
 		else
 		{
 			throw t;
