@@ -40,6 +40,7 @@ part1:
 	$(MAKE) $(TARGET)
 	@echo "	Testing Part 1";
 	@echo "[Test 1]  "; $(TARGET) - $(TESTDIR)/p1_test.tc -d 1
+	@echo "	46 tokens";
 	@echo "	Part 1 Passed";
 
 part2:

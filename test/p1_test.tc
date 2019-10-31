@@ -1,6 +1,6 @@
     int      char     return   if       else     for
     do       while    switch   case     default  write
-    read     continue break    newline
+    read     continue break    newline . 
 
 // comment #1
 /*
@@ -8,7 +8,7 @@
 //
 /*  /* */
 */ */
-
+/
 how now brown cow 15.5bye
 ' ' 'x' ''
 "silly me" ""
