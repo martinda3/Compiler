@@ -23,10 +23,25 @@ namespace toyc {
     extern std::string AUTHOR;
 
     extern bool verbose;
+    extern bool v_scanner;
+    extern bool v_parser;
+    extern bool v_code_gen;
 
     void turnVerboseOn();
 
     void turnVerboseOff();
+
+    void turnScannerOn();
+
+    void turnScannerOff();
+
+    void turnParserOn();
+
+    void turnParserOff();
+
+    void turnCodeGenOn();
+
+    void turnCodeGenOff();
 
 }
 

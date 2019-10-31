@@ -77,7 +77,7 @@ namespace toyc {
 			{
 				t = new TCtoken(EOFILE);
 				tokenFound = true;
-				if (verbose) reportDEBUG("  ", "SCANNER", t->toString()  + " " + std::to_string(t_tokens) + " tokens");
+				if (v_scanner) reportDEBUG("  ", "SCANNER", t->toString()  + " " + std::to_string(t_tokens) + " tokens");
 				return t;
 			}
 			else if (isdigit(charBuff))
@@ -613,9 +613,10 @@ namespace toyc {
 				}
 			}
 		}
-		if (verbose)
-			reportDEBUG("  ", "SCANNER",
-			            t->toString());            // In verbose mode, reports each scanned lexeme and token CD
+		if (v_scanner) 
+		{
+			reportDEBUG("  ", "SCANNER", t->toString());            // In verbose mode, reports each scanned lexeme and token CD
+		}	
 		return t;
 		}
 

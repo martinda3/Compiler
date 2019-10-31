@@ -25,8 +25,23 @@ namespace toyc {
     std::string AUTHOR = "Dajion Martin, Charles Dietzel";
 
     bool verbose = false;
+    bool v_scanner = false;
+    bool v_parser = false;
+    bool v_code_gen = false;
 
     void turnVerboseOn() { verbose = true; }
 
     void turnVerboseOff() { verbose = false; }
+
+    void turnScannerOn() { v_scanner = true; }
+
+    void turnScannerOff() { v_scanner  = false; }
+
+    void turnParserOn() { v_parser = true; }
+
+    void turnParserOff() {v_parser = false; }
+
+    void turnCodeGenOn() { v_code_gen = true; }
+
+    void turnCodeGenOff() { v_code_gen = false; }
 }
