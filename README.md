@@ -1,18 +1,11 @@
 # EGRE 591: Compiler Construction
 By Charles D. & Dajion M.
+ 
+# Part 1 Lexical Analysis Complete
+wip
 
-# Part 2 feature/prettyprinting
-as of 10/29/19 it works
-runing
-bin/tc -v test/while1.tc
-generates the abstract systax stuff
-TODO
-add comma for abstract systax & test
-I added comments
+# Part 2 Syntax Anaysis Complete
+wip
 
-
-Most substational change I made to AS was to the Type() fuction
-# Output is in a file called output.txt
-
-
-
+# Part 3 Semantic Anaysis + Code Generation Currently wproking
+wip
