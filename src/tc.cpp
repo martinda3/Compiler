@@ -38,37 +38,43 @@ void processCommandLine(int argc, char *argv[]) {
         case 1:
             printUsageMessage();
             break;
-        case 2:
-            if (argv[1][0] != '-') 
-			{
-                inputFileName = argv[1];
-                turnVerboseOff();
-            } 
-			else 
-			{
-                printUsageMessage();
-            }
-            break;
-        default:
-            //if (argv[5][0] == '-' && argv[5][1] == 'o') 
-			//{
-			//	targetFileName = argv[6];
-            //} 
+        case 3:
 			if (argv[1][0] == '-' && argv[1][1] == 'v') 
 			{
                 turnVerboseOn();
 				turnScannerOn();
 				turnCodeGenOn();
 				turnParserOn();
+				inputFileName = argv[2];
+            }
+			else
+			{
+				inputFileName = argv[2];
+			}	
+			break;
+        default:
+            //if (argv[5][0] == '-' && argv[5][1] == 'o') 
+			//{
+			//	targetFileName = argv[6];
+            //} 
+			/*if (argv[1][0] == '-' && argv[1][1] == 'v') 
+			{
+                turnVerboseOn();
+				turnScannerOn();
+				turnCodeGenOn();
+				turnParserOn();
+				inputFileName = argv[2];
             }
 			else
 			{
                 turnVerboseOff();
-			}	
+				inputFileName = argv[2];
+			}*/	
 			if (argv[3][0] == '-' && argv[3][1] == 'd') 
 			{
                 if (argv[4] == std::to_string(0))
 				{
+					inputFileName = argv[2];
 					turnVerboseOn();
 					turnParserOff();
 					turnScannerOff();
@@ -77,12 +83,14 @@ void processCommandLine(int argc, char *argv[]) {
                 else if (argv[4] == std::to_string(1))
 				{
 					turnScannerOn();
+					inputFileName = argv[2];
 					turnCodeGenOff();
 					turnParserOff();
 					turnVerboseOff();
 				}
                 else if (argv[4] == std::to_string(2))
 				{
+					inputFileName = argv[2];
 					turnParserOn();
 					turnVerboseOff();
 					turnCodeGenOff();
@@ -90,13 +98,17 @@ void processCommandLine(int argc, char *argv[]) {
 				}
                 else if (argv[4] == std::to_string(3))
 				{
+					inputFileName = argv[2];
 					turnVerboseOff();
 					turnParserOff();
 					turnScannerOff();
 					turnCodeGenOn();
 				}
             }
-            inputFileName = argv[2];
+			else
+			{
+				
+			}
 			/*else if (argv[1][0] == '-' && argv[1][1] == 'v') 
 			{
                 turnVerboseOn();
@@ -177,7 +189,7 @@ void processCommandLine(int argc, char *argv[]) {
 }
 
 void printUsageMessage() {
-    std::cout << "Usage: tc [-v] <input_file> [-d] <level> [-o] <target_file> [-c] <class_file>" << std::endl;
+    std::cout << "\nUsage: tc [-v] <input_file> [-d] <level>" << std::endl;
     //std::cout << "Where options include: Note: XX == WIP" << std::endl;
 	//std::cout << "XX   -help              -h       display this usage message" << std::endl;
 	//std::cout << "XX   -output <file>     -o <f>   specifies target file name" << std::endl;
@@ -190,7 +202,7 @@ void printUsageMessage() {
 	//std::cout << "XX   -abstract          -a        dump the abstract syntax tree" << std::endl;
 	//std::cout << "XX   -symbol            -s        dump the symbol table(s)" << std::endl;
 	//std::cout << "XX   -code              -cc       dump the generated program" << std::endl;
-	std::cout << "   -verbose           -v        display all information" << std::endl;
+	std::cout << "     -verbose           -v        display all information" << std::endl;
 	//std::cout << "XX   -version           -vv       display the program version" << std::endl;
 }
 
