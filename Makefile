@@ -52,7 +52,7 @@ part2:
 part2a:
 	$(MAKE) $(TARGET)
 	@echo "	Testing Abstract Syntax";
-	@echo "[Test 1]  "; $(TARGET) - $(TESTDIR)/p1_test.tc -d 3
+	@echo "[Test 1]  "; $(TARGET) - $(TESTDIR)/p2_test.tc -d 3
 	@echo "	Abstract Syntax Passed";
 
 .PHONY: clean

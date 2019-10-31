@@ -18,7 +18,6 @@
 namespace toyc {
 
 	static char charBuff;
-	static char lastChar;
 	static char EOFCHAR = '\0';
 
 	static unsigned int pos;
@@ -70,7 +69,7 @@ namespace toyc {
 				tokenFound = true;
 				if (v_scanner) reportDEBUG("  ", "SCANNER", t->toString()  + " " + std::to_string(t_tokens) + " tokens");
 				return t;
-			} /// NUMBER Tokens CD
+			} /// NUMBER Tokens
 			else if (isdigit(charBuff)) {
 				int DECIMALS = 0;                                               // Counter for '.' DM
 				int EXPONENTS = 0;                                              // Counter for 'E' DM
@@ -419,20 +418,17 @@ namespace toyc {
 						int temp;
 						lexeme = charBuff;
 						charBuff = getChar();
-						switch (charBuff)
-						{
+						switch (charBuff) {
 							case '/':
 								lexeme = "";
 								temp = lineNum;
 								while (temp == lineNum) {charBuff = commenter();}
 								charBuff = getChar();
 								break;
-
 							case '*':
 								lexeme = "";
 								bool quit = true;
 								int blocks = 0;
-								char last;
 								blocks++;
 								while (blocks != 0)
 								{
@@ -442,7 +438,6 @@ namespace toyc {
 
 										if (charBuff == '/')
 										{
-											last = charBuff;
 											charBuff = commenter();
 											lexeme = "";
 											if (charBuff == '*')
@@ -452,7 +447,6 @@ namespace toyc {
 											}
 										} else if (charBuff == '*')
 										{
-											last = charBuff;
 											charBuff = commenter();
 											lexeme = "";
 											if (charBuff == '/')
@@ -477,7 +471,12 @@ namespace toyc {
 								lexeme = "";
 								break;
 						}
-						if (lexeme == "/") { t = new TCtoken(DIVOP, lexeme); tokenFound = true; break; }
+						if (lexeme == "/")
+						{
+							t = new TCtoken(DIVOP, lexeme);
+							tokenFound = true;
+							break;
+						}
 						charBuff = getChar();
 						break;
 					default:
@@ -503,7 +502,7 @@ namespace toyc {
 		do {
 			if (infile.eof()) { return EOFCHAR; }
 			if (line.empty() || pos > line.length()) { line = getNextLine(); }
-			char ch = line[pos]; holder = ch; lastChar = charBuff;
+			char ch = line[pos]; holder = ch;
 			if ((ch == '.')) {
 				if (isspace(line[pos + 1])) {
 					reportWARNING("  ", " Scanner: '.' Illegal Character. Ignoring"); pos++;
@@ -522,7 +521,7 @@ namespace toyc {
 		do {
 			if (infile.eof()) { return EOFCHAR; }
 			if (line.empty() || pos > line.length())  { line = getNextLine(); }
-			char ch = line[pos]; lastChar = charBuff;
+			char ch = line[pos];
 			if (isInAlphabet(ch) || isspace(ch)) { break; }
 			pos++;
 		} while (true);
@@ -567,7 +566,6 @@ namespace toyc {
 
 	///  Compares contents of the lexeme to the given token
 	bool tokenChecker(std::string str1, std::string str2) {
-
 		return ((str1.size() == str2.size()) && std::equal(str1.begin(), str1.end(), str2.begin(), &compareChar));
 	}
 
