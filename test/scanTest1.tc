@@ -1,6 +1,0 @@
-read k;
-goto label12;
-label12: write k;
-if k then goto label2;
-label23: z = 2;
-

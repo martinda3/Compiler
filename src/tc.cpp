@@ -24,6 +24,8 @@ int main(int argc, char *argv[]) {
     try {
         processCommandLine(argc, argv);
         TClexer *scanner = new TClexer(inputFileName);
+    	//int tok;
+    	//while ((tok=scanner->getToken()->getTokenType()) != EOFILE) ;
         TCparser *parser = new TCparser(scanner);
         ASabstractSyntax *ast = parser->parse();
         if (v_code_gen) dumpAST(ast);

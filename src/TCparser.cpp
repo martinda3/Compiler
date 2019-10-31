@@ -721,7 +721,7 @@ namespace toyc
 		{
 			token = buff;
 			name = token->getLexeme();
-			if (v_parser) {tokenDEBUG(name);}
+			//if (v_parser) {tokenDEBUG(name);}
 			buff = scanner->getToken();
 			return token;
 		}

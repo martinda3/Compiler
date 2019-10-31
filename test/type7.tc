@@ -1,5 +1,0 @@
-int isEven(int n){
-	if (n)
-		return 1;
-};
-

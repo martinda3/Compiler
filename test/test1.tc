@@ -1,5 +1,0 @@
-// this is a comment
-a = 10; // and so is this
-b = 2;
-c = a + b;
-write c;

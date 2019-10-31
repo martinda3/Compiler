@@ -16,7 +16,6 @@ namespace toyc {
         TClexer(std::string);
 
         TCtoken *getToken();
-
         std::string getLine();
 
         std::string getLexeme();
@@ -26,5 +25,16 @@ namespace toyc {
         int getPos();
     };
 
+	std::string getNextLine();
+
+	char getChar();
+
+	char commenter();
+
+	bool isInAlphabet(char);
+
+	bool tokenChecker(std::string, std::string);
+
+	void BlockComments();
 }
 #endif
