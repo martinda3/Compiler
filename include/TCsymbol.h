@@ -12,9 +12,8 @@
 
 namespace toyc {
 
-    enum symType {
-        VAR, LABEL, OFFSET, NO_TYPE
-    };
+    enum symType { VAR, FUNC, NO_TYPE };
+    extern int _nextOffset;
 
     class TCsymbol {
     public:
@@ -31,9 +30,12 @@ namespace toyc {
         void setType(enum symType);
 
         std::string toString();
+        int getNextOffset();
+        int getOffset();
 
     private:
         std::string id;
+        int offset;
         enum symType type;
     };
 
