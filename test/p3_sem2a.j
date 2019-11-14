@@ -1,10 +1,10 @@
 ;
-; Source file: test/p3_test.tc
-; Target file: test/p3_test.j
-; Wed Nov 13 23:27:58 2019
+; Source file: test/p3_sem2a.tc
+; Target file: test/p3_sem2a.j
+; Wed Nov 13 23:14:31 2019
 ;
 
-.source test/p3_test.tc
+.source test/p3_sem2a.tc
 .class public 
 .super java/lang/Object
 

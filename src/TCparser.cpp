@@ -116,6 +116,11 @@ namespace toyc
         {
             loc = symTable->find(buff->getLexeme());
             if (loc == -1) loc = symTable->add(new TCsymbol(buff->getLexeme(),NO_TYPE));
+            else if (loc > -1)
+            {
+                reportSEMANTIC_ERROR(scanner,"Cannot redeclare a function");
+                exit(EXIT_FAILURE);
+            }
 
         }
 		accept(ID);
@@ -224,6 +229,11 @@ namespace toyc
         {
             loc = symTable->find(buff->getLexeme());
             if (loc == -1) loc = symTable->add(new TCsymbol(buff->getLexeme(),NO_TYPE));
+            else if (loc > -1)
+            {
+                reportSEMANTIC_ERROR(scanner,"Cannot redeclare a variable");
+                exit(EXIT_FAILURE);
+            }
             symTable->getSym(loc)->setType(VAR);
 
         }
@@ -240,6 +250,11 @@ namespace toyc
             {
                 loc = symTable->find(buff->getLexeme());
                 if (loc == -1) loc = symTable->add(new TCsymbol(buff->getLexeme(),NO_TYPE));
+                else if (loc > -1)
+                {
+                    reportSEMANTIC_ERROR(scanner,"Cannot redeclare a variable");
+                    exit(EXIT_FAILURE);
+                }
                 symTable->getSym(loc)->setType(VAR);
             }
 			accept(ID);
@@ -281,6 +296,11 @@ namespace toyc
             {
                 loc = symTable->find(buff->getLexeme());
                 if (loc == -1) loc = symTable->add(new TCsymbol(buff->getLexeme(),NO_TYPE));
+                else if (loc > -1)
+                {
+                    reportSEMANTIC_ERROR(scanner,"Cannot redeclare a variable");
+                    exit(EXIT_FAILURE);
+                }
                 symTable->getSym(loc)->setType(VAR);
             }
 			accept(ID);
@@ -575,14 +595,23 @@ namespace toyc
 	{
 		// Term --> Primary { MULOP Primary }
 		enteringDEBUG("Term");
+        TCtoken *token;
 		ASexpression* operand = NULL;
 		ASexpression* operand2 = NULL;
 		ASoperator* operand3 = NULL;
 		operand = Primary();
-		while (buff->getTokenType() == MULOP)
+		while (buff->getTokenType() == MULOP || buff->getTokenType() == DIVOP)
 		{
+            token = buff;
 			enteringDEBUG("Term Additional");
-			operand3 = new ASoperator(accept(MULOP));
+            try
+            {
+                operand3 = new ASoperator(accept(MULOP));
+            }
+            catch (int t)
+            {
+                operand3 = new ASoperator(accept(DIVOP));
+            }
 			operand2 = Primary();
 			operand = new ASexpr(operand3, operand2, operand);
 			exitingDEBUG("Term Additional");
