@@ -104,6 +104,7 @@ namespace toyc
 	{
 		// Definition --> Type ID ( FunctionDefinition | SEMICOLON )
 		enteringDEBUG("Definition");
+        int loc; TCsymbol *sym;
 		AStype* operand2 = NULL;
 		ASdefinition* operand3[MAX_STATEMENTS];
 		int operand4 = 0;
@@ -111,6 +112,14 @@ namespace toyc
 		*num = 0;
 		ASstatement* operand5 = NULL;
 		operand2 = Type();
+        if (buff->getTokenType() == ID)
+        {
+            sym = symTable->getSym(buff);
+            loc = symTable->find(buff->getLexeme());
+            if (loc == -1) loc = symTable->add(new TCsymbol(buff->getLexeme(),FUNC));
+            enum symType stype = symTable->getSym(loc)->getType();
+            std::cout << symTable->getSym(loc)->toString() << std::endl << loc << std::endl;
+        }
 		accept(ID);
 		if (buff->getTokenType() == SEMICOLON)
 		{
