@@ -1,7 +1,7 @@
 ;
 ; Source file: test/p3_test.tc
 ; Target file: test/p3_test.j
-; Wed Nov 13 23:27:58 2019
+; Thu Nov 14 00:31:05 2019
 ;
 
 .source test/p3_test.tc
@@ -11,6 +11,7 @@
 .method public <init>()V
 	.limit stack 1
 	.limit locals 1
+.line 0
 	aload_0
 	invokespecial java/lang/Object/<init>()V
 	return

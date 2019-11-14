@@ -467,7 +467,7 @@ namespace toyc
 	{
 		// READ LPAREN ID { COMMA ID } RPAREN SEMICOLON
 		enteringDEBUG("Read Statement");
-        TCsymbol *sym; int loc;
+        int loc;
 		ASexpression* operand[MAX_STATEMENTS];
 		accept(READ);
 		accept(LPAREN);
@@ -602,7 +602,6 @@ namespace toyc
 		operand = Primary();
 		while (buff->getTokenType() == MULOP || buff->getTokenType() == DIVOP)
 		{
-            token = buff;
 			enteringDEBUG("Term Additional");
             try
             {
@@ -611,6 +610,12 @@ namespace toyc
             catch (int t)
             {
                 operand3 = new ASoperator(accept(DIVOP));
+                token = buff;
+                if (token->getLexeme() == "0")
+                {
+                    reportSEMANTIC_ERROR(scanner,"Cannot Divide by 0");
+                    exit(EXIT_FAILURE);
+                }
             }
 			operand2 = Primary();
 			operand = new ASexpr(operand3, operand2, operand);
@@ -631,7 +636,7 @@ namespace toyc
 		enteringDEBUG("Primary");
 		ASexpression* operand = NULL;
 		TCtoken* t = buff;
-		TCsymbol* sym; int loc;
+		int loc;
 		int tok = buff->getTokenType();
 		switch (tok)
 		{

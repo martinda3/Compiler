@@ -23,15 +23,7 @@ TESTFILES := $(wildcard $(TESTDIR)/*.tc)
 
 $(TARGET): $(OBJECTS)
 	@echo " Linking..."
-	@echo " $(CC) $^ -o $(TARGET) $(LIB)"; $(CC) $^ -o $(TARGET) $(LIB)
-
-$(SCANNER): $(OBJECTS)
-	@echo " Linking..."
-	@echo " $(CC) $^ -o $(SCANNER) $(LIB)"; $(CC) $^ -o $(SCANNER) $(LIB)
-
-$(PARSER): $(OBJECTS)
-	@echo " Linking..."
-	@echo " $(CC) $^ -o $(PARSER) $(LIB)"; $(CC) $^ -o $(PARSER) $(LIB)
+	@echo " $(TARGET)"; $(CC) $^ -o $(TARGET) $(LIB)
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT) $(DEPS)
 	@mkdir -p $(BUILDDIR)
@@ -39,11 +31,11 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT) $(DEPS)
 	@mkdir -p $(BUILDDIR)$(JVMLABELDIR)
 	@mkdir -p $(BUILDDIR)$(JVMMETADIR)
 	@mkdir -p $(BUILDDIR)$(JVMDIRECTIVEDIR)
-	@echo " $(CC) $(CFLAGS) $(INC) -c -o $@ $<"; $(CC) $(CFLAGS) $(INC) -c -o $@ $<
+	@echo " $(CC) $<"; $(CC) $(CFLAGS) $(INC) -c -o $@ $<
 
 clean:
 	@echo " Cleaning..."; 
-	@echo " $(RM) -r $(BUILDDIR) $(TARGET) $(SCANNER) $(PARSER)"; $(RM) -r $(BUILDDIR) $(TARGET) $(SCANNER) $(PARSER)
+	@echo " $(RM) -r $(BUILDDIR) $(TARGET) "; $(RM) -r $(BUILDDIR) $(TARGET)
 
 part1:
 	$(MAKE) $(TARGET)

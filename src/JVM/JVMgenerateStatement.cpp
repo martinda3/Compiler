@@ -27,7 +27,7 @@
 namespace toyc {
 
   void JVMgenerateStatement::genStatement(ASstatement *ast,JVMtargetCode *tc) {
-    enum stateType stype = ast->getType();/*
+    /*enum stateType stype = ast->getType();
     if (stype==ASSIGNstate){
       ASassignState *as = dynamic_cast<ASassignState*>(ast);
       ASexpr *expr = as->getExpression();
