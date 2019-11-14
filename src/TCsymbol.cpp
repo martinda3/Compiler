@@ -29,6 +29,8 @@ namespace toyc
 
     int TCsymbol::getOffset() { return offset; }
 
+    void TCsymbol::setOffset(int n) { offset = n; }
+
     int TCsymbol::getNextOffset() { return _nextOffset++; }
 
 	std::string TCsymbol::toString()

@@ -32,6 +32,7 @@ namespace toyc {
         std::string toString();
         int getNextOffset();
         int getOffset();
+        void setOffset(int);
 
     private:
         std::string id;

@@ -116,6 +116,11 @@ namespace toyc
         {
             loc = symTable->find(buff->getLexeme());
             if (loc == -1) loc = symTable->add(new TCsymbol(buff->getLexeme(),NO_TYPE));
+            else if (loc > -1)
+            {
+                reportSEMANTIC_ERROR(scanner,"Cannot redeclare a function");
+                exit(EXIT_FAILURE);
+            }
 
         }
 		accept(ID);
@@ -224,6 +229,11 @@ namespace toyc
         {
             loc = symTable->find(buff->getLexeme());
             if (loc == -1) loc = symTable->add(new TCsymbol(buff->getLexeme(),NO_TYPE));
+            else if (loc > -1)
+            {
+                reportSEMANTIC_ERROR(scanner,"Cannot redeclare a variable");
+                exit(EXIT_FAILURE);
+            }
             symTable->getSym(loc)->setType(VAR);
 
         }
@@ -240,6 +250,11 @@ namespace toyc
             {
                 loc = symTable->find(buff->getLexeme());
                 if (loc == -1) loc = symTable->add(new TCsymbol(buff->getLexeme(),NO_TYPE));
+                else if (loc > -1)
+                {
+                    reportSEMANTIC_ERROR(scanner,"Cannot redeclare a variable");
+                    exit(EXIT_FAILURE);
+                }
                 symTable->getSym(loc)->setType(VAR);
             }
 			accept(ID);
@@ -281,6 +296,11 @@ namespace toyc
             {
                 loc = symTable->find(buff->getLexeme());
                 if (loc == -1) loc = symTable->add(new TCsymbol(buff->getLexeme(),NO_TYPE));
+                else if (loc > -1)
+                {
+                    reportSEMANTIC_ERROR(scanner,"Cannot redeclare a variable");
+                    exit(EXIT_FAILURE);
+                }
                 symTable->getSym(loc)->setType(VAR);
             }
 			accept(ID);
@@ -447,7 +467,7 @@ namespace toyc
 	{
 		// READ LPAREN ID { COMMA ID } RPAREN SEMICOLON
 		enteringDEBUG("Read Statement");
-        TCsymbol *sym; int loc;
+        int loc;
 		ASexpression* operand[MAX_STATEMENTS];
 		accept(READ);
 		accept(LPAREN);
@@ -575,14 +595,28 @@ namespace toyc
 	{
 		// Term --> Primary { MULOP Primary }
 		enteringDEBUG("Term");
+        TCtoken *token;
 		ASexpression* operand = NULL;
 		ASexpression* operand2 = NULL;
 		ASoperator* operand3 = NULL;
 		operand = Primary();
-		while (buff->getTokenType() == MULOP)
+		while (buff->getTokenType() == MULOP || buff->getTokenType() == DIVOP)
 		{
 			enteringDEBUG("Term Additional");
-			operand3 = new ASoperator(accept(MULOP));
+            try
+            {
+                operand3 = new ASoperator(accept(MULOP));
+            }
+            catch (int t)
+            {
+                operand3 = new ASoperator(accept(DIVOP));
+                token = buff;
+                if (token->getLexeme() == "0")
+                {
+                    reportSEMANTIC_ERROR(scanner,"Cannot Divide by 0");
+                    exit(EXIT_FAILURE);
+                }
+            }
 			operand2 = Primary();
 			operand = new ASexpr(operand3, operand2, operand);
 			exitingDEBUG("Term Additional");
@@ -602,7 +636,7 @@ namespace toyc
 		enteringDEBUG("Primary");
 		ASexpression* operand = NULL;
 		TCtoken* t = buff;
-		TCsymbol* sym; int loc;
+		int loc;
 		int tok = buff->getTokenType();
 		switch (tok)
 		{

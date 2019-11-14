@@ -53,7 +53,7 @@ int main(int argc, char *argv[]) {
 }
 
 void processCommandLine(int argc, char *argv[]) {
-    string outing, keeper; int chop, keep;
+    string outing, keeper; int chop;
     try
     {
         outing = argv[2];
