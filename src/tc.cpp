@@ -4,6 +4,8 @@
  */
 
 #include <iostream>
+#include <sstream>
+#include <vector>
 
 #include "TCtoken.h"
 #include "TClexer.h"
@@ -12,6 +14,11 @@
 #include "TCtokens.h"
 #include "TCoutput.h"
 #include "ASabstractSyntax.h"
+#include "CGcodeGenerator.h"
+#include "CGtargetCode.h"
+#include "JVMcodeGenerator.h"
+#include "JVMtargetCode.h"
+
 
 using namespace toyc;
 using namespace std;
@@ -21,21 +28,28 @@ void processCommandLine(int, char *[]);
 void printUsageMessage();
 
 int main(int argc, char *argv[]) {
-    try {
-        int loc;
-        processCommandLine(argc, argv);
+    try
+    {
+        processCommandLine(argc,argv);
         TClexer *scanner = new TClexer(inputFileName);
-    	//int tok;
-    	//while ((tok=scanner->getToken()->getTokenType()) != EOFILE) ;
-        TCparser *parser = new TCparser(scanner);
+        TCparser * parser = new TCparser(scanner);
         ASabstractSyntax *ast = parser->parse();
-        if (v_code_gen) dumpAST(ast);
-        loc = symTable->getSize();
-        for (int i = 0; i < loc; i++){ cout << symTable->getSym(i)->toString() << endl << i << endl; }
-    } catch (...) {
+
+        CGcodeGenerator *cg = new JVMcodeGenerator();
+        CGtargetCode* tc = cg->generateCode(ast);
+        tc->writeCode(tc,targetFileName);
+        if (verbose)
+        {
+            dumpAST(ast);
+            dumpST(symTable);
+            dumpCode(tc);
+        }
+    }
+    catch (...)
+        {
         std::cerr << "ERROR: scanning failed" << std::endl;
         exit(EXIT_FAILURE);
-    }
+        }
 }
 
 void processCommandLine(int argc, char *argv[]) {
@@ -96,6 +110,23 @@ void processCommandLine(int argc, char *argv[]) {
 			else { }
             break;
     }
+}
+
+vector<string> split (const string &s, char delim)
+{
+    vector<string> result;
+    stringstream ss (s);
+    string item;
+    while (getline (ss, item, delim)) {
+        result.push_back (item);
+    }
+    return result;
+}
+
+std::string getProgramName(std::string s)
+{
+    vector<string> strs = split(s,'/');
+    return split(strs[strs.size()-1],'.')[0];
 }
 
 void printUsageMessage() {
