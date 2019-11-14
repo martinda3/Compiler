@@ -11,6 +11,7 @@
 
 #include "blankLine.h"
 #include "end.h"
+#include "line.h"
 #include "limit.h"
 #include "method.h"
 #include "blankComment.h"
@@ -54,6 +55,7 @@ namespace toyc {
     tc->add(m);
     tc->add(new limit("stack",1));
     tc->add(new limit("locals",1));
+    tc->add(new line(1));
     tc->add(new ALOAD_0());
     tc->add(new INVOKESPECIAL(OBJECT_CONSTRUCTOR));
     tc->add(new RETURN());
