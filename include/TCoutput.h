@@ -9,7 +9,7 @@
 #define TCOUTPUT_H
 
 #include "TClexer.h"
-
+#include "CGtargetCode.h"
 #include "ASabstractSyntax.h"
 #include "TCsymTable.h"
 
@@ -29,7 +29,7 @@ namespace toyc {
     void dumpAST(ASabstractSyntax *ast);
 
     void dumpST(TCsymTable *st);
-    //void dumpCode((TargetCode type)* code);
+    void dumpCode(CGtargetCode* code);
 
     std::string pad(int);
 

@@ -4,6 +4,11 @@ SRCDIR := src
 INCDIR := include
 TESTDIR := test
 BUILDDIR := build
+JVMDIR := /JVM
+JVMINSTRUCTDIR := /JVM/instruction
+JVMLABELDIR := /JVM/label
+JVMMETADIR := /JVM/meta
+JVMDIRECTIVEDIR := /JVM/directive
 TARGET := bin/tc
 
 SRCEXT := cpp
@@ -11,7 +16,7 @@ SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
 CFLAGS := -g -Wall
 LIB := -L lib
-INC := -I include
+INC := -I include -I include$(JVMDIR) -I include$(JVMINSTRUCTDIR) -I include$(JVMLABELDIR) -I include$(JVMMETADIR) -I include$(JVMDIRECTIVEDIR)
 _DEPS := *.h
 DEPS := $(patsubst %,$(INCDIR)/%,$(_DEPS))
 TESTFILES := $(wildcard $(TESTDIR)/*.tc)
@@ -30,6 +35,10 @@ $(PARSER): $(OBJECTS)
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT) $(DEPS)
 	@mkdir -p $(BUILDDIR)
+	@mkdir -p $(BUILDDIR)$(JVMINSTRUCTDIR)
+	@mkdir -p $(BUILDDIR)$(JVMLABELDIR)
+	@mkdir -p $(BUILDDIR)$(JVMMETADIR)
+	@mkdir -p $(BUILDDIR)$(JVMDIRECTIVEDIR)
 	@echo " $(CC) $(CFLAGS) $(INC) -c -o $@ $<"; $(CC) $(CFLAGS) $(INC) -c -o $@ $<
 
 clean:

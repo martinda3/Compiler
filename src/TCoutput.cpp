@@ -9,6 +9,7 @@
 #include <iostream>
 #include <string>
 #include "TCoutput.h"
+#include "CGtargetCode.h"
 
 namespace toyc {
 
@@ -63,12 +64,11 @@ namespace toyc {
         std::cout << "symbol table:" << std::endl << st->toString() << std::endl;
     }
 
-    /*    public static void dumpCode(TargetCode code) {
-        std::cout << "abstract syntax tree:" << std::endl <<
-      ast.toString() << std::endl;
-          System.err.println("code:\n"+code);
-      }
-    */
+    void dumpCode(CGtargetCode *code) {
+        std::cout << "code:" << std::endl;
+        for(int i = 0; i < code->getSize(); i++)
+            std::cout << code->getLineOfCode(i)->toString() << std::endl;
+    }
 
     std::string pad(int n) {
         std::string s = "";
