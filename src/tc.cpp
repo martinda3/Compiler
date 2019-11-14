@@ -29,6 +29,7 @@ int main(int argc, char *argv[]) {
         TCparser *parser = new TCparser(scanner);
         ASabstractSyntax *ast = parser->parse();
         if (v_code_gen) dumpAST(ast);
+
     } catch (...) {
         std::cerr << "ERROR: scanning failed" << std::endl;
         exit(EXIT_FAILURE);
