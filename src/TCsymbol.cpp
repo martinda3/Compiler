@@ -9,12 +9,9 @@
 
 namespace toyc
 {
+    int _nextOffset = 1;
 
-	TCsymbol::TCsymbol()
-	{
-		id = "";
-		type = NO_TYPE;
-	}
+	TCsymbol::TCsymbol() { id = ""; type = NO_TYPE; offset = -1; }
 
 	TCsymbol::TCsymbol(std::string str, enum symType t)
 	{
@@ -30,6 +27,10 @@ namespace toyc
 
 	void TCsymbol::setType(enum symType t) { type = t; }
 
+    int TCsymbol::getOffset() { return offset; }
+
+    int TCsymbol::getNextOffset() { return _nextOffset++; }
+
 	std::string TCsymbol::toString()
 	{
 		std::string str;
@@ -38,11 +39,8 @@ namespace toyc
 			case VAR:
 				str = "var(" + getId() + ")";
 				break;
-			case LABEL:
-				str = "label(" + getId() + ")";
-				break;
-			case OFFSET:
-				str = "offset(" + getId() + ")";
+			case FUNC:
+				str = "Function(" + getId() + ")";
 				break;
 			case NO_TYPE:
 				str = "var(" + getId() + ")";//This is sort of terrible, but considering that

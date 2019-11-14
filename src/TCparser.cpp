@@ -104,6 +104,7 @@ namespace toyc
 	{
 		// Definition --> Type ID ( FunctionDefinition | SEMICOLON )
 		enteringDEBUG("Definition");
+        int loc; TCsymbol *sym;
 		AStype* operand2 = NULL;
 		ASdefinition* operand3[MAX_STATEMENTS];
 		int operand4 = 0;
@@ -111,15 +112,26 @@ namespace toyc
 		*num = 0;
 		ASstatement* operand5 = NULL;
 		operand2 = Type();
+        if (buff->getTokenType() == ID)
+        {
+            sym = symTable->getSym(buff);
+            loc = symTable->find(buff->getLexeme());
+            if (loc == -1) loc = symTable->add(new TCsymbol(buff->getLexeme(),NO_TYPE));
+
+        }
 		accept(ID);
 		if (buff->getTokenType() == SEMICOLON)
 		{
 			operand5 = new ASstatement();
+            symTable->getSym(loc)->setType(VAR);
+           // std::cout << symTable->getSym(loc)->toString() << std::endl << loc << std::endl;
 		}
 		else if (buff->getTokenType() == LPAREN)
 		{
 			operand5 = FunctionDefinition(operand3, num);
 			operand4 = *num;
+            symTable->getSym(loc)->setType(FUNC);
+            //std::cout << symTable->getSym(loc)->toString() << std::endl << loc << std::endl;
 		}
 		exitingDEBUG("Definition");
 		return new ASfuncDef(operand2, operand3, operand4, operand5);
@@ -208,8 +220,19 @@ namespace toyc
 	{
 		// FormalParamList --> Type ID { COMMA Type ID }
 		enteringDEBUG("Formal Param List");
+
+        int loc; TCsymbol *sym;
 		AStype* operand[1];
 		operand[0] = Type();
+        if (buff->getTokenType() == ID)
+        {
+            sym = symTable->getSym(buff);
+            loc = symTable->find(buff->getLexeme());
+            if (loc == -1) loc = symTable->add(new TCsymbol(buff->getLexeme(),NO_TYPE));
+            symTable->getSym(loc)->setType(VAR);
+            //std::cout << symTable->getSym(loc)->toString() << std::endl << loc << std::endl;
+
+        }
 		accept(ID);
 		int i = 0;
 		list[i] = new ASvarDef(operand, 1);
@@ -219,6 +242,14 @@ namespace toyc
 			enteringDEBUG("Formal Param List Additional");
 			accept(COMMA);
 			operand[0] = Type();
+            if (buff->getTokenType() == ID)
+            {
+                sym = symTable->getSym(buff);
+                loc = symTable->find(buff->getLexeme());
+                if (loc == -1) loc = symTable->add(new TCsymbol(buff->getLexeme(),NO_TYPE));
+                symTable->getSym(loc)->setType(VAR);
+                //std::cout << symTable->getSym(loc)->toString() << std::endl << loc << std::endl;
+            }
 			accept(ID);
 			int i = 0;
 			list[i] = new ASvarDef(operand, 1);
@@ -244,6 +275,8 @@ namespace toyc
 	{
 		// CompoundStatement --> LCURLY { Type ID SEMICOLON } { Statement } RCURLY
 		enteringDEBUG("Compound Statement");
+
+        int loc; TCsymbol *sym;
 		ASdefinition* operand[MAX_STATEMENTS];
 		ASstatement* operand2[MAX_STATEMENTS];
 		AStype* operand4[1];
@@ -253,6 +286,14 @@ namespace toyc
 		while (buff->getTokenType() == INT || buff->getTokenType() == CHAR) // { Type ID SEMICOLON }
 		{
 			operand4[0] = Type();
+            if (buff->getTokenType() == ID)
+            {
+                sym = symTable->getSym(buff);
+                loc = symTable->find(buff->getLexeme());
+                if (loc == -1) loc = symTable->add(new TCsymbol(buff->getLexeme(),NO_TYPE));
+                symTable->getSym(loc)->setType(VAR);
+                //std::cout << symTable->getSym(loc)->toString() << std::endl << loc << std::endl;
+            }
 			accept(ID);
 			operand[i1] = new ASvarDef(operand4, 1);
 			i1++;
