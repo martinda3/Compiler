@@ -104,7 +104,7 @@ namespace toyc
 	{
 		// Definition --> Type ID ( FunctionDefinition | SEMICOLON )
 		enteringDEBUG("Definition");
-        int loc; TCsymbol *sym;
+        int loc;
 		AStype* operand2 = NULL;
 		ASdefinition* operand3[MAX_STATEMENTS];
 		int operand4 = 0;
@@ -114,7 +114,6 @@ namespace toyc
 		operand2 = Type();
         if (buff->getTokenType() == ID)
         {
-            sym = symTable->getSym(buff);
             loc = symTable->find(buff->getLexeme());
             if (loc == -1) loc = symTable->add(new TCsymbol(buff->getLexeme(),NO_TYPE));
 
@@ -124,14 +123,12 @@ namespace toyc
 		{
 			operand5 = new ASstatement();
             symTable->getSym(loc)->setType(VAR);
-           // std::cout << symTable->getSym(loc)->toString() << std::endl << loc << std::endl;
 		}
 		else if (buff->getTokenType() == LPAREN)
 		{
 			operand5 = FunctionDefinition(operand3, num);
 			operand4 = *num;
             symTable->getSym(loc)->setType(FUNC);
-            //std::cout << symTable->getSym(loc)->toString() << std::endl << loc << std::endl;
 		}
 		exitingDEBUG("Definition");
 		return new ASfuncDef(operand2, operand3, operand4, operand5);
@@ -220,17 +217,14 @@ namespace toyc
 	{
 		// FormalParamList --> Type ID { COMMA Type ID }
 		enteringDEBUG("Formal Param List");
-
-        int loc; TCsymbol *sym;
+        int loc;
 		AStype* operand[1];
 		operand[0] = Type();
         if (buff->getTokenType() == ID)
         {
-            sym = symTable->getSym(buff);
             loc = symTable->find(buff->getLexeme());
             if (loc == -1) loc = symTable->add(new TCsymbol(buff->getLexeme(),NO_TYPE));
             symTable->getSym(loc)->setType(VAR);
-            //std::cout << symTable->getSym(loc)->toString() << std::endl << loc << std::endl;
 
         }
 		accept(ID);
@@ -244,11 +238,9 @@ namespace toyc
 			operand[0] = Type();
             if (buff->getTokenType() == ID)
             {
-                sym = symTable->getSym(buff);
                 loc = symTable->find(buff->getLexeme());
                 if (loc == -1) loc = symTable->add(new TCsymbol(buff->getLexeme(),NO_TYPE));
                 symTable->getSym(loc)->setType(VAR);
-                //std::cout << symTable->getSym(loc)->toString() << std::endl << loc << std::endl;
             }
 			accept(ID);
 			int i = 0;
@@ -275,8 +267,7 @@ namespace toyc
 	{
 		// CompoundStatement --> LCURLY { Type ID SEMICOLON } { Statement } RCURLY
 		enteringDEBUG("Compound Statement");
-
-        int loc; TCsymbol *sym;
+        int loc;
 		ASdefinition* operand[MAX_STATEMENTS];
 		ASstatement* operand2[MAX_STATEMENTS];
 		AStype* operand4[1];
@@ -288,11 +279,9 @@ namespace toyc
 			operand4[0] = Type();
             if (buff->getTokenType() == ID)
             {
-                sym = symTable->getSym(buff);
                 loc = symTable->find(buff->getLexeme());
                 if (loc == -1) loc = symTable->add(new TCsymbol(buff->getLexeme(),NO_TYPE));
                 symTable->getSym(loc)->setType(VAR);
-                //std::cout << symTable->getSym(loc)->toString() << std::endl << loc << std::endl;
             }
 			accept(ID);
 			operand[i1] = new ASvarDef(operand4, 1);
@@ -458,15 +447,34 @@ namespace toyc
 	{
 		// READ LPAREN ID { COMMA ID } RPAREN SEMICOLON
 		enteringDEBUG("Read Statement");
+        TCsymbol *sym; int loc;
 		ASexpression* operand[MAX_STATEMENTS];
 		accept(READ);
 		accept(LPAREN);
+        if (buff->getTokenType() == ID)
+        {
+            loc = symTable->find(buff->getLexeme());
+            if (loc == -1)
+            {
+                reportSEMANTIC_ERROR(scanner,"variable not declared");
+                exit(EXIT_FAILURE);
+            }
+        }
 		operand[0] = new ASsimpleExpr(accept(ID));
 		int i = 1;
 		while (buff->getTokenType() == COMMA)
 		{
 			enteringDEBUG("Read Statement Additional");
 			accept(COMMA);
+            if (buff->getTokenType() == ID)
+            {
+                loc = symTable->find(buff->getLexeme());
+                if (loc == -1)
+                {
+                    reportSEMANTIC_ERROR(scanner,"variable not declared");
+                    exit(EXIT_FAILURE);
+                }
+            }
 			operand[i] = new ASsimpleExpr(accept(ID));
 			i++;
 			exitingDEBUG("Read Statement Additional");
@@ -594,21 +602,28 @@ namespace toyc
 		enteringDEBUG("Primary");
 		ASexpression* operand = NULL;
 		TCtoken* t = buff;
-		//TCsymbol* sym;
+		TCsymbol* sym; int loc;
 		int tok = buff->getTokenType();
 		switch (tok)
 		{
 			case ID:
 				operand = new ASsimpleExpr(t);
+                if (buff->getTokenType() == ID)
+                {
+                    loc = symTable->find(buff->getLexeme());
+                    if (loc == -1)
+                    {
+                        reportSEMANTIC_ERROR(scanner,"variable not declared");
+                        exit(EXIT_FAILURE);
+                    }
+                }
 				accept(ID);
 				try
 				{
 					ASexpression* arr[] = { FunctionCall() };
 					operand = new ASfuncCall(operand, arr, 1);
 				}
-				catch (int t)
-				{
-				}
+				catch (int t) {}
 				break;
 
 			case NUMBER:
@@ -661,14 +676,8 @@ namespace toyc
 		enteringDEBUG("Function Call");
 		ASexpression* operand = NULL;
 		accept(LPAREN);
-		try
-		{
-			operand = ActualParameters();
-		}
-		catch (int t)
-		{
-			operand = new ASexpression();
-		}
+		try { operand = ActualParameters(); }
+		catch (int t) { operand = new ASexpression(); }
 		accept(RPAREN);
 		exitingDEBUG("Function Call");
 		return operand;
@@ -766,10 +775,7 @@ namespace toyc
 			buff = scanner->getToken();
 			return token;
 		}
-		else
-		{
-			throw t;
-		}
+		else { throw t; }
 	}
 
 }

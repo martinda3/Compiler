@@ -22,7 +22,7 @@ void printUsageMessage();
 
 int main(int argc, char *argv[]) {
     try {
-        int loc; TCsymbol *sym;
+        int loc;
         processCommandLine(argc, argv);
         TClexer *scanner = new TClexer(inputFileName);
     	//int tok;
@@ -31,9 +31,7 @@ int main(int argc, char *argv[]) {
         ASabstractSyntax *ast = parser->parse();
         if (v_code_gen) dumpAST(ast);
         loc = symTable->getSize();
-        for (int i = 0; i < loc; i++){
-            std::cout << symTable->getSym(i)->toString() << std::endl << i << std::endl;
-        }
+        for (int i = 0; i < loc; i++){ cout << symTable->getSym(i)->toString() << endl << i << endl; }
     } catch (...) {
         std::cerr << "ERROR: scanning failed" << std::endl;
         exit(EXIT_FAILURE);
@@ -60,23 +58,6 @@ void processCommandLine(int argc, char *argv[]) {
 			}	
 			break;
         default:
-            //if (argv[5][0] == '-' && argv[5][1] == 'o') 
-			//{
-			//	targetFileName = argv[6];
-            //} 
-			/*if (argv[1][0] == '-' && argv[1][1] == 'v') 
-			{
-                turnVerboseOn();
-				turnScannerOn();
-				turnCodeGenOn();
-				turnParserOn();
-				inputFileName = argv[2];
-            }
-			else
-			{
-                turnVerboseOff();
-				inputFileName = argv[2];
-			}*/	
 			if (argv[3][0] == '-' && argv[3][1] == 'd') 
 			{
                 if (argv[4] == std::to_string(0))
@@ -112,85 +93,7 @@ void processCommandLine(int argc, char *argv[]) {
 					turnCodeGenOn();
 				}
             }
-			else
-			{
-				
-			}
-			/*else if (argv[1][0] == '-' && argv[1][1] == 'v') 
-			{
-                turnVerboseOn();
-                inputFileName = argv[2];
-            }
-			else if (argv[1][0] == '-' && argv[1][1] == 'v') 
-			{
-                turnVerboseOn();
-                inputFileName = argv[2];
-            }
-			else if (argv[1][0] == '-' && argv[1][1] == 'v') 
-			{
-                turnVerboseOn();
-                inputFileName = argv[2];
-            }
-			else if (argv[1][0] == '-' && argv[1][1] == 'v') 
-			{
-                turnVerboseOn();
-                inputFileName = argv[2];
-            }
-			else if (argv[1][0] == '-' && argv[1][1] == 'v') 
-			{
-                turnVerboseOn();
-                inputFileName = argv[2];
-            }
-			else if (argv[1][0] == '-' && argv[1][1] == 'v') 
-			{
-                turnVerboseOn();
-                inputFileName = argv[2];
-            }
-			else if (argv[1][0] == '-' && argv[1][1] == 'v') 
-			{
-                turnVerboseOn();
-                inputFileName = argv[2];
-            }
-			else if (argv[1][0] == '-' && argv[1][1] == 'v') 
-			{
-                turnVerboseOn();
-                inputFileName = argv[2];
-            }
-			else if (argv[1][0] == '-' && argv[1][1] == 'v') 
-			{
-                turnVerboseOn();
-                inputFileName = argv[2];
-            }
-			else if (argv[1][0] == '-' && argv[1][1] == 'v') 
-			{
-                turnVerboseOn();
-                inputFileName = argv[2];
-            }
-			else if (argv[1][0] == '-' && argv[1][1] == 'v') 
-			{
-                turnVerboseOn();
-                inputFileName = argv[2];
-            }
-			else if (argv[1][0] == '-' && argv[1][1] == 'v') 
-			{
-                turnVerboseOn();
-                inputFileName = argv[2];
-            }
-			else if (argv[1][0] == '-' && argv[1][1] == 'v') 
-			{
-                turnVerboseOn();
-                inputFileName = argv[2];
-            }
-			else if (argv[1][0] == '-' && argv[1][1] == 'v') 
-			{
-                turnVerboseOn();
-                inputFileName = argv[2];
-            }
-			else
-			{
-				std::cout<< "else statme";
-                printUsageMessage();
-            }*/
+			else { }
             break;
     }
 }
