@@ -22,6 +22,7 @@ void printUsageMessage();
 
 int main(int argc, char *argv[]) {
     try {
+        int loc; TCsymbol *sym;
         processCommandLine(argc, argv);
         TClexer *scanner = new TClexer(inputFileName);
     	//int tok;
@@ -29,7 +30,10 @@ int main(int argc, char *argv[]) {
         TCparser *parser = new TCparser(scanner);
         ASabstractSyntax *ast = parser->parse();
         if (v_code_gen) dumpAST(ast);
-
+        loc = symTable->getSize();
+        for (int i = 0; i < loc; i++){
+            std::cout << symTable->getSym(i)->toString() << std::endl << i << std::endl;
+        }
     } catch (...) {
         std::cerr << "ERROR: scanning failed" << std::endl;
         exit(EXIT_FAILURE);
