@@ -38,9 +38,9 @@ int main(int argc, char *argv[]) {
         CGcodeGenerator *cg = new JVMcodeGenerator();
         CGtargetCode* tc = cg->generateCode(ast);
         tc->writeCode(tc,targetFileName);
-        if (verbose)
+        if (v_code_gen)
         {
-            dumpAST(ast);
+            //dumpAST(ast);
             dumpST(symTable);
             dumpCode(tc);
         }
@@ -53,6 +53,27 @@ int main(int argc, char *argv[]) {
 }
 
 void processCommandLine(int argc, char *argv[]) {
+    string outing, keeper; int chop, keep;
+    try
+    {
+        outing = argv[2];
+        chop = outing.length();
+        for (int i = 0; i < chop; i++)
+        {
+            if (outing[i] != '.')
+            {
+                keeper += outing[i];
+            }
+            else
+            {
+                keeper += outing[i];
+                break;
+            }
+        }
+        keeper += "j";
+
+    }
+    catch (...) {}
     switch (argc) {
         case 1:
             printUsageMessage();
@@ -65,10 +86,13 @@ void processCommandLine(int argc, char *argv[]) {
 				turnCodeGenOn();
 				turnParserOn();
 				inputFileName = argv[2];
+                targetFileName = keeper;
             }
 			else
 			{
 				inputFileName = argv[2];
+
+                targetFileName = keeper;
 			}	
 			break;
         default:
@@ -77,6 +101,8 @@ void processCommandLine(int argc, char *argv[]) {
                 if (argv[4] == std::to_string(0))
 				{
 					inputFileName = argv[2];
+                    targetFileName = keeper;
+
 					turnVerboseOn();
 					turnParserOff();
 					turnScannerOff();
@@ -86,6 +112,8 @@ void processCommandLine(int argc, char *argv[]) {
 				{
 					turnScannerOn();
 					inputFileName = argv[2];
+
+                    targetFileName = keeper;
 					turnCodeGenOff();
 					turnParserOff();
 					turnVerboseOff();
@@ -93,6 +121,7 @@ void processCommandLine(int argc, char *argv[]) {
                 else if (argv[4] == std::to_string(2))
 				{
 					inputFileName = argv[2];
+                    targetFileName = keeper;
 					turnParserOn();
 					turnVerboseOff();
 					turnCodeGenOff();
@@ -101,6 +130,7 @@ void processCommandLine(int argc, char *argv[]) {
                 else if (argv[4] == std::to_string(3))
 				{
 					inputFileName = argv[2];
+                    targetFileName = keeper;
 					turnVerboseOff();
 					turnParserOff();
 					turnScannerOff();

@@ -61,11 +61,11 @@ namespace toyc {
     }
 
     void dumpST(TCsymTable *st) {
-        std::cout << "symbol table:" << std::endl << st->toString() << std::endl;
+        std::cout << "\nSymbol Table:" << std::endl << st->toString() << std::endl;
     }
 
     void dumpCode(CGtargetCode *code) {
-        std::cout << "code:" << std::endl;
+        std::cout << "Code:" << std::endl;
         for(int i = 0; i < code->getSize(); i++)
             std::cout << code->getLineOfCode(i)->toString() << std::endl;
     }
