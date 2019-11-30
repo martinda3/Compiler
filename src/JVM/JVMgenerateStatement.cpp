@@ -1,6 +1,7 @@
 #include <iostream>
 #include "ASstatement.h"
 //#include "ASassignState.h"
+#include "ASdefinition.h"
 //#include "ASgotoState.h"
 #include "ASifState.h"
 //#include "ASlabelState.h"
@@ -26,7 +27,7 @@
 
 namespace toyc {
 
-  void JVMgenerateStatement::genStatement(ASstatement *ast,JVMtargetCode *tc) {
+  void JVMgenerateStatement::genStatement(ASdefinition *ast,JVMtargetCode *tc) {
     /*enum stateType stype = ast->getType();
     if (stype==ASSIGNstate){
       ASassignState *as = dynamic_cast<ASassignState*>(ast);

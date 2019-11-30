@@ -14,6 +14,7 @@
 #include "ASstatement.h"
 #include "ASdefinition.h"
 #include "ASprogram.h"
+#include "ASprog.h"
 #include "AStype.h"
 #include "ASexpr.h"
 

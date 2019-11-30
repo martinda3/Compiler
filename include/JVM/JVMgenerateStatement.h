@@ -42,7 +42,7 @@ namespace toyc {
 
 class JVMgenerateStatement {
   public:
-  static void genStatement(ASstatement*,JVMtargetCode*); 
+  static void genStatement(ASdefinition*,JVMtargetCode*);
 
     /*
     public static void genStatement(Statement ast, JVMtargetCode tc) {

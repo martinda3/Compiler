@@ -1,7 +1,7 @@
 ;
 ; Source file: test/p3_test.tc
 ; Target file: test/p3_test.j
-; Thu Nov 14 01:41:41 2019
+; Sat Nov 30 12:11:10 2019
 ;
 
 .source test/p3_test.tc
@@ -17,3 +17,8 @@
 	return
 .end method
 
+.method public static main([Ljava/lang/String;)V
+	.limit stack 10
+	.limit locals 10
+	return
+.end method

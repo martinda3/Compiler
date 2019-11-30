@@ -19,6 +19,7 @@
 #include "TCsymTable.h"
 
 #include "ASprogram.h"
+#include "ASprog.h"
 #include "ASdefinition.h"
 #include "ASstatement.h"
 #include "ASexpression.h"

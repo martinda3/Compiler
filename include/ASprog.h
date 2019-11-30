@@ -10,6 +10,7 @@
 
 #include "ASabstractSyntax.h"
 #include "ASprogram.h"
+#include "ASprog.h"
 #include "ASdefinition.h"
 #include "TCtoken.h"
 
@@ -25,6 +26,8 @@ namespace toyc
 		std::string toString();
 
 		ASdefinition* getDefinition(int);
+        ASdefinition **getDefinition();
+        std::string getName();
 		int getNumDefinitions();
 
 	private:

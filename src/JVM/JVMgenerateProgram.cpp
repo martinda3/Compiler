@@ -1,7 +1,8 @@
 #include <iostream>
 
-#include "ASprogram.h"
+#include "ASprog.h"
 #include "ASstatement.h"
+#include "ASdefinition.h"
 //#include "ASlabelState.h"
 #include "JVMtargetCode.h"
 #include "JVMgenerateProgram.h"
@@ -34,10 +35,10 @@
 
 namespace toyc {
 
-  void JVMgenerateProgram::genProgram(ASprogram *ast,JVMtargetCode *tc) {
+  void JVMgenerateProgram::genProgram(ASprog *ast,JVMtargetCode *tc) {
     genIntro(tc);
     genConstructor(tc);
-    //genMainMethod(ast->getStatementList(),ast->getNumStatements(),tc);
+    genMainMethod(ast->getDefinition(),ast->getNumDefinitions(),tc);
   }
 
   void JVMgenerateProgram::genIntro(JVMtargetCode *tc) {
@@ -63,7 +64,7 @@ namespace toyc {
     tc->add(new blankLine());
   }
 
-  void JVMgenerateProgram::genMainMethod(ASstatement** statements,int num,JVMtargetCode* tc) {
+  void JVMgenerateProgram::genMainMethod(ASdefinition** statements,int num,JVMtargetCode* tc) {
     gen_main_header(tc);
     gen_stack_limit_directive(tc);
     gen_locals_limit_directive(tc);
@@ -110,9 +111,9 @@ namespace toyc {
     tc->add(new throws_(IOEXCEPTION));
   }
 
-  bool JVMgenerateProgram::thereIsInput(ASstatement** s,int num) {
+  bool JVMgenerateProgram::thereIsInput(ASdefinition** s,int num) {
     for (int i=0; i < num; i++) {
-      ASstatement *stmnt = s[i];
+      ASdefinition *stmnt = s[i];
       if (stmnt->getType()==READstate) return true;
         /*else
          while (stmnt->getType()==LABELstate) {
@@ -124,9 +125,9 @@ namespace toyc {
      return false;
   }
   
-  bool JVMgenerateProgram::thereIsOutput(ASstatement** s,int num) {
+  bool JVMgenerateProgram::thereIsOutput(ASdefinition** s,int num) {
     for (int i=0; i < num; i++){
-      ASstatement *stmnt = s[i];
+      ASdefinition *stmnt = s[i];
       if (stmnt->getType()==WRITEstate) return true;
 //      else
 //        while (stmnt->getType()==LABELstate) {

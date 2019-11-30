@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include "ASprogram.h"
+#include "ASprog.h"
 #include "TCoutput.h"
 
 namespace toyc

@@ -24,6 +24,8 @@ namespace toyc
 		setType(PROGprog);
 	}
 
+    std::string ASprog::getName() { return name; } //  add this
+
 	std::string ASprog::toString()
 	{
 		if (numDefinitions == 0) return "program([])";
@@ -47,12 +49,7 @@ namespace toyc
 		return s;
 	}
 
-	ASdefinition* ASprog::getDefinition(int num)
-	{
-		return definitionList[num];
-	}
-	int ASprog::getNumDefinitions()
-	{
-		return numDefinitions;
-	}
+	ASdefinition* ASprog::getDefinition(int num) { return definitionList[num]; }
+    ASdefinition** ASprog::getDefinition() { return definitionList; } // add this
+	int ASprog::getNumDefinitions() { return numDefinitions; }
 }
