@@ -66,7 +66,7 @@ namespace toyc {
 
   void JVMgenerateProgram::genMainMethod(ASdefinition** statements,int num,JVMtargetCode* tc) {
     gen_main_header(tc);
-    gen_stack_limit_directive(tc);
+    gen_stack_limit_directive(tc, num);
     gen_locals_limit_directive(tc);
     if (thereIsInput(statements,num)) gen_input_stream_store(tc);
     if (thereIsOutput(statements,num)) gen_output_stream_store(tc);
@@ -152,8 +152,8 @@ namespace toyc {
       JVMgenUtils::gen_ASTORE(*symTable->getSym(symTable->find("System.in")),tc);
   }
 
-  void JVMgenerateProgram::gen_stack_limit_directive(JVMtargetCode *tc){
-      tc->add(new limit("stack",10)); // arbitrary, for now
+  void JVMgenerateProgram::gen_stack_limit_directive(JVMtargetCode *tc, int amount){
+      tc->add(new limit("stack",amount + 1)); // arbitrary, for now
   }
 
   void JVMgenerateProgram::gen_locals_limit_directive(JVMtargetCode *tc){

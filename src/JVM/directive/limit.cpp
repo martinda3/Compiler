@@ -4,7 +4,8 @@
 
 namespace toyc {
 
-  limit::limit(std::string t, int s) {
+
+limit::limit(std::string t, int s) {
     directive = ".limit";
     type = t; size = s;
   }
