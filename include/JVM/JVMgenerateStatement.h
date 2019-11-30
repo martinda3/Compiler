@@ -4,7 +4,7 @@
 #include "TCglobals.h"
 #include "TCsymTable.h"
 
-#include "ASstatement.h"
+#include "ASdefinition.h"
 #include "ASexpr.h"
 #include "JVMtargetCode.h"
 

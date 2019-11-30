@@ -6,6 +6,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <ctime>
 
 #include "TCtoken.h"
 #include "TClexer.h"
@@ -23,14 +24,27 @@
 using namespace toyc;
 using namespace std;
 
-void processCommandLine(int, char *[]);
+void processCommandLine(int, char *[], std::string);
+
 
 void printUsageMessage();
 
 int main(int argc, char *argv[]) {
+    time_t rawtime;
+    struct tm * timeinfo;
+    char buffer[80];
+
+    time (&rawtime);
+    timeinfo = localtime(&rawtime);
+
+    strftime(buffer,sizeof(buffer),"%H:%M:%S",timeinfo);
+    std::string ffile(buffer);
+
+    std::cout << ffile;
+
     try
     {
-        processCommandLine(argc,argv);
+        processCommandLine(argc,argv, ffile);
         TClexer *scanner = new TClexer(inputFileName);
         TCparser * parser = new TCparser(scanner);
         ASabstractSyntax *ast = parser->parse();
@@ -52,7 +66,7 @@ int main(int argc, char *argv[]) {
         }
 }
 
-void processCommandLine(int argc, char *argv[]) {
+void processCommandLine(int argc, char *argv[], std::string filename) {
     string outing, keeper; int chop;
     try
     {
@@ -86,13 +100,15 @@ void processCommandLine(int argc, char *argv[]) {
 				turnCodeGenOn();
 				turnParserOn();
 				inputFileName = argv[2];
-                targetFileName = keeper;
+                //targetFileName = keeper;
+                targetFileName = "test/test" + filename + ".j";
             }
 			else
 			{
 				inputFileName = argv[2];
 
-                targetFileName = keeper;
+                //targetFileName = keeper;
+                targetFileName = "test/test" + filename + ".j";;
 			}	
 			break;
         default:
@@ -101,7 +117,8 @@ void processCommandLine(int argc, char *argv[]) {
                 if (argv[4] == std::to_string(0))
 				{
 					inputFileName = argv[2];
-                    targetFileName = keeper;
+                    //targetFileName = keeper;
+                    targetFileName = "test/test" + filename + ".j";;
 
 					turnVerboseOn();
 					turnParserOff();
@@ -113,7 +130,8 @@ void processCommandLine(int argc, char *argv[]) {
 					turnScannerOn();
 					inputFileName = argv[2];
 
-                    targetFileName = keeper;
+                    //targetFileName = keeper;
+                    targetFileName = "test/test" + filename + ".j";;
 					turnCodeGenOff();
 					turnParserOff();
 					turnVerboseOff();
@@ -121,7 +139,8 @@ void processCommandLine(int argc, char *argv[]) {
                 else if (argv[4] == std::to_string(2))
 				{
 					inputFileName = argv[2];
-                    targetFileName = keeper;
+                    //targetFileName = keeper;
+                    targetFileName = "test/test" + filename + ".j";;
 					turnParserOn();
 					turnVerboseOff();
 					turnCodeGenOff();
@@ -130,7 +149,8 @@ void processCommandLine(int argc, char *argv[]) {
                 else if (argv[4] == std::to_string(3))
 				{
 					inputFileName = argv[2];
-                    targetFileName = keeper;
+                    //targetFileName = keeper;
+                    targetFileName = "test/test" + filename + ".j";;
 					turnVerboseOff();
 					turnParserOff();
 					turnScannerOff();

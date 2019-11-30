@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "ASprog.h"
-#include "ASstatement.h"
+#include "ASdefinition.h"
 #include "ASdefinition.h"
 //#include "ASlabelState.h"
 #include "JVMtargetCode.h"
