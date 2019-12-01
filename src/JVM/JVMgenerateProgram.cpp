@@ -3,7 +3,8 @@
 #include "ASprog.h"
 #include "ASdefinition.h"
 #include "ASdefinition.h"
-//#include "ASlabelState.h"
+#include "ASfuncDef.h"
+
 #include "JVMtargetCode.h"
 #include "JVMgenerateProgram.h"
 #include "JVMgenerateStatement.h"

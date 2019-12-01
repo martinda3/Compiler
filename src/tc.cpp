@@ -40,8 +40,6 @@ int main(int argc, char *argv[]) {
     strftime(buffer,sizeof(buffer),"%H:%M:%S",timeinfo);
     std::string ffile(buffer);
 
-    std::cout << ffile;
-
     try
     {
         processCommandLine(argc,argv, ffile);
@@ -95,10 +93,10 @@ void processCommandLine(int argc, char *argv[], std::string filename) {
         case 3:
 			if (argv[1][0] == '-' && argv[1][1] == 'v') 
 			{
-                turnVerboseOn();
-				turnScannerOn();
+                turnVerboseOff();
+				turnScannerOff();
 				turnCodeGenOn();
-				turnParserOn();
+				turnParserOff();
 				inputFileName = argv[2];
                 //targetFileName = keeper;
                 targetFileName = "test/test" + filename + ".j";

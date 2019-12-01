@@ -7,6 +7,7 @@
 
 #include <iostream>
 
+
 #ifndef TCSYMBOL_H
 #define TCSYMBOL_H
 
@@ -26,7 +27,9 @@ namespace toyc {
         void setId(std::string);
 
         enum symType getType();
+        std::string getValue();
 
+        void setValue(std::string setThis);
         void setType(enum symType);
 
         std::string toString();
@@ -36,6 +39,7 @@ namespace toyc {
 
     private:
         std::string id;
+        std::string value;
         int offset;
         enum symType type;
     };

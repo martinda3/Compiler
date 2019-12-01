@@ -535,6 +535,8 @@ namespace toyc
 	ASexpression* TCparser::Expression()  // WIP
 	{
 		// Expression --> RelopExpression { ASSIGNOP RelopExpression }
+        int loc;
+        std::string cleanup, idd;
 		enteringDEBUG("Expression");
 		ASexpression* operand = NULL;
 		ASexpression* operand2 = NULL;
@@ -545,7 +547,25 @@ namespace toyc
 			enteringDEBUG("Expression Additional");
 			operand3 = new ASoperator(accept(ASSIGNOP));
 			operand2 = RelopExpression();
+            if (operand3->getExpr()->getTokenType() == ASSIGNOP) {
+                cleanup = operand->toString();
+                idd = cleanup.substr(4, (cleanup.length() -1) - 4);
+                //std::cout <<"\n\n\n\n\n" << idd <<"\n\n\n\n\n";
+                loc = symTable->find(idd);
+                if (loc == -1) {
+                    reportSEMANTIC_ERROR(scanner,"variable not declared");
+                    exit(EXIT_FAILURE);
+                } else {
+                    cleanup = operand2->toString();
+                    idd = cleanup.substr(7, (cleanup.length() -1) - 7);
+                    if (idd.length() < 10) { // aubritrary
+                        symTable->getSym(loc)->setValue(idd);
+                        //std::cout <<"\n\n\n\n\n" << idd <<"\n\n\n\n\n";
+                    }
+                }
+            }
 			operand = new ASexpr(operand3, operand2, operand);
+
 			exitingDEBUG("Expression Additional");
 		}
 		exitingDEBUG("Expression");
