@@ -35,10 +35,12 @@ namespace toyc {
       ASfuncDef *test = dynamic_cast<ASfuncDef*>(ast);
       //std::cout << test->getStatement() << std::endl;
       ASblockState *test1 = dynamic_cast<ASblockState*>(test->getStatement());
+
       states = test1->getNumStatement();
       //std::cout << states << std::endl;
+      std::cout << std::endl << test->getIdentifier()->toString()  << std::endl;
       for(int i =0 ; i< states ; i++){
-          std::cout << test1->getStatement(i)->toTypeString() << std::endl;
+          std::cout << "  Statement " << i << ". " <<test1->getStatement(i)->toTypeString() << std::endl;
       }
       //ASstatement *test = dynamic_cast<ASstatement*>(ast);
     //enum stateType stype = test->getType();

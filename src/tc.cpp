@@ -39,6 +39,7 @@ int main(int argc, char *argv[]) {
 
     strftime(buffer,sizeof(buffer),"%H:%M:%S",timeinfo);
     std::string ffile(buffer);
+    std::cout << "\n\nWhat to do\n1. Extract Meta-data from these statements\n\n";
 
     try
     {
@@ -53,7 +54,7 @@ int main(int argc, char *argv[]) {
         if (v_code_gen)
         {
             //dumpAST(ast);
-            dumpST(symTable);
+            //dumpST(symTable);
             //dumpCode(tc);
         }
     }
