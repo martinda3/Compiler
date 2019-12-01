@@ -22,10 +22,10 @@ namespace toyc
 	}
 	enum exprType ASexpression::getType() { return type; }
 	void ASexpression::setType(enum exprType t) { type = t; }
-	std::string ASexpression::toTypeString(enum exprType t)
+	std::string ASexpression::toTypeString()
 	{
 		std::string s;
-		switch (t)
+		switch (type)
 		{
 			case FUNCCALLexpr:	s = "FUNCCALLexpr";	break;
 			case EXPRexpr:		s = "EXPRexpr";		break;

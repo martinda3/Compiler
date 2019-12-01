@@ -2,7 +2,7 @@
 #include "ASdefinition.h"
 //#include "ASassignState.h"
 #include "ASdefinition.h"
-//#include "ASgotoState.h"
+#include "ASexpr.h"
 #include "ASifState.h"
 #include "ASfuncDef.h"
 #include "ASwriteState.h"
@@ -31,32 +31,59 @@
 namespace toyc {
 
   void JVMgenerateStatement::genStatement(ASdefinition *ast,JVMtargetCode *tc) {
-      int states;
+      int states, embedded, dets;
       ASfuncDef *test = dynamic_cast<ASfuncDef*>(ast);
-      //std::cout << test->getStatement() << std::endl;
       ASblockState *test1 = dynamic_cast<ASblockState*>(test->getStatement());
-
       states = test1->getNumStatement();
-      //std::cout << states << std::endl;
       std::cout << std::endl << test->getIdentifier()->toString()  << std::endl;
-      for(int i =0 ; i< states ; i++){
-          std::cout << "  Statement " << i << ". " <<test1->getStatement(i)->toTypeString() << std::endl;
+      for(int i =0 ; i< states ; i++)
+      {
+          std::cout << "  " << test1->getStatement(i)->toTypeString() << std::endl;
+          if (test1->getStatement(i)->getType() == IFstate) {
+              ASifState *is = dynamic_cast<ASifState *>(test1->getStatement(i));
+              std::cout << "   1. getOp1 EXPRexpr" << std::endl;
+              ASexpr *getstuff = dynamic_cast<ASexpr *>(is->getOp1());
+              std::cout << "         a." << getstuff->getOp1()->toString() << std::endl;
+              std::cout << "         b." << getstuff->getOp2()->toString() << std::endl;
+              std::cout << "         c." << getstuff->getOper()->toString() << std::endl;
+
+              std::cout << "   2. getOp2 " << is->getOp2()->toTypeString()<<std::endl;
+              ASblockState *nest = dynamic_cast<ASblockState *>(is->getOp2());
+              embedded = nest->getNumStatement();
+              for (int j = 0; j < embedded; j++)
+              {
+                  std::cout << "      " << j << ". " << nest->getStatement(j)->toTypeString() << std::endl;
+                  if (nest->getStatement(j)->getType() == EXPRstate)
+                  {
+
+                  }
+              }
+
+              std::cout << "   3. getOp3 " << is->getOp3()->toTypeString() << std::endl;
+              ASblockState *nest1 = dynamic_cast<ASblockState *>(is->getOp3());
+              dets = nest1->getNumStatement();
+              for (int k = 0; k < dets; k++)
+              {
+                  std::cout << "      " << k << ". " << nest1->getStatement(k)->toTypeString() << std::endl;
+              }
+
+          } else if (test1->getStatement(i)->getType() == EXPRstate) {
+
+          }
       }
-      //ASstatement *test = dynamic_cast<ASstatement*>(ast);
-    //enum stateType stype = test->getType();
     /*if (stype==ASSIGNstate){
       ASassignState *as = dynamic_cast<ASassignState*>(ast);
       ASexpr *expr = as->getExpression();
       JVMgenerateExpression::genExpression(expr,tc);
       JVMgenUtils::gen_ISTORE(*symTable->getSym(as->getVar()),tc);
-    } else *///if (stype==WRITEstate) {
-      //ASwriteState *ws = dynamic_cast<ASwriteState*>(ast);
-      //ASsimpleExpr *sexpr = dynamic_cast<ASsimpleExpr*>(ws->getExpression(1));
-      //JVMgenUtils::gen_ALOAD(*symTable->getSym(symTable->find("System.out")),tc);
-      //JVMgenerateExpression::genExpression(sexpr,tc);
-      //tc->add(new INVOKEVIRTUAL(PRINT_INT_NEWLINE_METHOD_SPEC));
-   // } else if (stype==READstate) {
-      /*ASreadState *rs = dynamic_cast<ASreadState*>(ast);
+    } else if (stype==WRITEstate) {
+      ASwriteState *ws = dynamic_cast<ASwriteState*>(ast);
+      ASsimpleExpr *sexpr = dynamic_cast<ASsimpleExpr*>(ws->getExpression(1));
+      JVMgenUtils::gen_ALOAD(*symTable->getSym(symTable->find("System.out")),tc);
+      JVMgenerateExpression::genExpression(sexpr,tc);
+      tc->add(new INVOKEVIRTUAL(PRINT_INT_NEWLINE_METHOD_SPEC));
+      } else if (stype==READstate) {
+      ASreadState *rs = dynamic_cast<ASreadState*>(ast);
       // prompt first
       JVMgenUtils::gen_ALOAD(*symTable->getSym(symTable->find("System.out")),tc);
       tc->add(new LDC("input: "));
@@ -78,8 +105,8 @@ namespace toyc {
       JVMgenerateStatement::genStatement(ls->getStatement(),tc);
     } else if (stype==SKIPstate) {
       // do nothing
-    }
-    */
+    */}
+
   }
 
-}
+
