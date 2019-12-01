@@ -11,6 +11,11 @@
 #include "ASreadState.h"
 #include "ASstatement.h"
 #include "ASsimpleExpr.h"
+#include "ASfuncCall.h"
+
+#include "ASexprState.h"
+
+
 
 #include "JVMtargetCode.h"
 
@@ -46,13 +51,13 @@ namespace toyc {
   }
 
   void JVMgenerateStatement::BlockStatement(ASblockState *ThisBlock,JVMtargetCode *tc) {
-      std::cout << "  " << ThisBlock->toTypeString() << std::endl;
+      //std::cout << "  " << ThisBlock->toTypeString() << std::endl;
       int BlockVars = ThisBlock->getNumVarDef();
       for (int Var = 0 ; Var <  BlockVars; Var++)
       {
-          std::cout << " "<< ThisBlock->getVarDef(Var)->toString() << std::endl;
+          std::cout << "  "<< ThisBlock->getVarDef(Var)->toString() << std::endl;
       }
-      ASexpr *expr_set; ASifState *If_set;
+      ASexprState *expr_set; ASifState *If_set;
       ASwriteState *write_set; ASreturnState *return_set;
       int Blocks = ThisBlock->getNumStatement();
       for(int Block = 0 ; Block < Blocks ; Block++)
@@ -61,9 +66,9 @@ namespace toyc {
 
           switch (ThisStatement){
               case EXPRstate:
-                  expr_set = dynamic_cast<ASexpr*>(ThisBlock->getStatement(Block));
-                  std::cout << "   " << ThisBlock->getStatement(Block)->toTypeString() << std::endl;
-                  //JVMgenerateExpression::genExpression(expr_set, tc);
+                  std::cout << "  " << ThisBlock->getStatement(Block)->toTypeString() << std::endl;
+                  expr_set = dynamic_cast<ASexprState*>(ThisBlock->getStatement(Block));
+                  JVMgenerateStatement::ExprStatement(expr_set, tc);
                   break;
 //              case BREAKstate:
 //                  break;
@@ -77,7 +82,6 @@ namespace toyc {
 //                  break;
               case RETURNstate:
                   return_set = dynamic_cast<ASreturnState*>(ThisBlock->getStatement(Block));
-                  std::cout << "   " << ThisBlock->getStatement(Block)->toTypeString() << std::endl;
                   JVMgenerateStatement::ReturnStatement(return_set, tc);
                   break;
 //              case WHILEstate:
@@ -86,7 +90,7 @@ namespace toyc {
 //                  break;
               case WRITEstate:
                   write_set = dynamic_cast<ASwriteState*>(ThisBlock->getStatement(Block));
-                  std::cout << "   " << ThisBlock->getStatement(Block)->toTypeString() << std::endl;
+                  std::cout << "  " << ThisBlock->getStatement(Block)->toTypeString() << std::endl;
                   break;
 //              case NEWLINEstate:
 //                  break;
@@ -95,46 +99,53 @@ namespace toyc {
 //              default:
 //                  break;
           }
-          ASexpr *expr_set; ASifState *If_set;
+          expr_set; ASifState *If_set;
           ASwriteState *write_set;
       }
     }
 
     void JVMgenerateStatement::IfStatement(ASifState *ThisIf,JVMtargetCode *tc) {
         ASexpr *expr_set; ASstatement *statement_set; ASblockState *FunctionBlock;
-        std::cout << "   " << ThisIf->toTypeString() << std::endl;
-        if (ThisIf->isBinary()){
-            std::cout << "    Op1 " << ThisIf->getOp1()->toTypeString() << std::endl;
+        //std::cout << "  " << ThisIf->toTypeString() << std::endl;
+        if (!ThisIf->isBinary()){
+            //std::cout << "  " << ThisIf->getOp1()->toTypeString() << std::endl;
             expr_set = dynamic_cast<ASexpr*>(ThisIf->getOp1());
             JVMgenerateExpression::genExpression(expr_set, tc);
             statement_set = dynamic_cast<ASstatement*>(ThisIf->getOp2());
-            std::cout << "    Op2 " << statement_set->toTypeString() << std::endl;
+            //std::cout << "  " << statement_set->toTypeString() << std::endl;
             FunctionBlock = dynamic_cast<ASblockState*>(statement_set);
             JVMgenerateStatement::BlockStatement(FunctionBlock, tc);
         } else {
-            std::cout << "    " << ThisIf->getOp1()->toTypeString() << std::endl;
+            //std::cout << "  " << ThisIf->getOp1()->toTypeString() << std::endl;
             expr_set = dynamic_cast<ASexpr*>(ThisIf->getOp1());
             JVMgenerateExpression::genExpression(expr_set, tc);
             statement_set = dynamic_cast<ASstatement*>(ThisIf->getOp2());
-            std::cout << "    " << statement_set->toTypeString() << std::endl;
+            //std::cout << "  " << statement_set->toTypeString() << std::endl;
             FunctionBlock = dynamic_cast<ASblockState*>(statement_set);
             JVMgenerateStatement::BlockStatement(FunctionBlock, tc);
             statement_set = dynamic_cast<ASstatement*>(ThisIf->getOp3());
-            std::cout << "    " << statement_set->toTypeString() << std::endl;
+            //std::cout << "  " << statement_set->toTypeString() << std::endl;
             FunctionBlock = dynamic_cast<ASblockState*>(statement_set);
             JVMgenerateStatement::BlockStatement(FunctionBlock, tc);
         }
     }
     void JVMgenerateStatement::ReturnStatement(ASreturnState *ThisReturn,JVMtargetCode *tc) {
-        ASexpr *expr_set;
-        std::cout << "   " << ThisReturn->toTypeString() << std::endl;
+        ASexpr *expr_set; ASsimpleExpr *var;
+        //std::cout << "  " << ThisReturn->toTypeString();// << std::endl;
         if (ThisReturn->isSimple()){
-            std::cout << "    Op1 " << ThisReturn->getOp()->toTypeString() << std::endl;
-            expr_set = dynamic_cast<ASexpr*>(ThisReturn->getOp());
-            //JVMgenerateExpression::genExpression(expr_set, tc);
+            //std::cout << "  " << ThisReturn->getOp()->toTypeString();
+            var = dynamic_cast<ASsimpleExpr*>(ThisReturn->getOp());
+            //std::cout << " " << var->getExpr()->getLexeme()<< std::endl;
+            JVMgenerateExpression::genExpression(var, tc);
         } else {
-            std::cout << "   No " << ThisReturn->toTypeString() << std::endl;
+            //std::cout << "  " << ThisReturn->toTypeString() << std::endl;
         }
+    }
+    void JVMgenerateStatement::ExprStatement(ASexprState *ThisExpr,JVMtargetCode *tc) {
+        ASexpr *expr_set;
+        //std::cout << "  " << ThisExpr->getOp()->toTypeString() << std::endl;
+        expr_set = dynamic_cast<ASexpr*>(ThisExpr->getOp());
+        JVMgenerateExpression::genExpression(expr_set, tc);
     }
   }
 

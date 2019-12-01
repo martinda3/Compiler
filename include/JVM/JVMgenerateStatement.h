@@ -11,6 +11,7 @@
 #include "ASifState.h"
 
 #include "ASreturnState.h"
+#include "ASexprState.h"
 /*
 // D. Resler 4/2010
 
@@ -49,6 +50,7 @@ class JVMgenerateStatement {
   static void BlockStatement(ASblockState*,JVMtargetCode*);
   static void IfStatement(ASifState*,JVMtargetCode*);
   static void ReturnStatement(ASreturnState*,JVMtargetCode*);
+  static void ExprStatement(ASexprState*,JVMtargetCode*);
 
     /*
     public static void genStatement(Statement ast, JVMtargetCode tc) {

@@ -1,7 +1,7 @@
 int isEven(int n) {
 if (n > 4) {
 n = 5;
-return n;}
+return 0; }
 else {
 return n;
 }

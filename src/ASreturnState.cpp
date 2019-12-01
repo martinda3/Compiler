@@ -43,7 +43,7 @@ namespace toyc
 
 	ASexpression* ASreturnState::getOp()
 	{
-		return op;	// This might cause a crash if someone calls this
-	}				// function when op is not defined in the constructor, idk.
-					// Try to avoid doing that. 
+		return op;	// Fixed need to cast to ASfuncCall
+	}
+
 }
