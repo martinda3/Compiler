@@ -54,7 +54,7 @@ int main(int argc, char *argv[]) {
         {
             //dumpAST(ast);
             dumpST(symTable);
-            dumpCode(tc);
+            //dumpCode(tc);
         }
     }
     catch (...)

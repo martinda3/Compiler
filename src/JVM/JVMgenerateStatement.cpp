@@ -4,10 +4,10 @@
 #include "ASdefinition.h"
 //#include "ASgotoState.h"
 #include "ASifState.h"
-//#include "ASlabelState.h"
+#include "ASfuncDef.h"
 #include "ASwriteState.h"
 #include "ASreadState.h"
-//#include "ASskipState.h"
+#include "ASstatement.h"
 #include "ASsimpleExpr.h"
 
 #include "JVMtargetCode.h"
@@ -23,25 +23,38 @@
 #include "IFNE.h"
 #include "INVOKESPECIAL.h"
 #include "INVOKEVIRTUAL.h"
+
+#include "ASblockState.h"
+
 #include "LDC.h"
 
 namespace toyc {
 
   void JVMgenerateStatement::genStatement(ASdefinition *ast,JVMtargetCode *tc) {
-    /*enum stateType stype = ast->getType();
-    if (stype==ASSIGNstate){
+      int states;
+      ASfuncDef *test = dynamic_cast<ASfuncDef*>(ast);
+      //std::cout << test->getStatement() << std::endl;
+      ASblockState *test1 = dynamic_cast<ASblockState*>(test->getStatement());
+      states = test1->getNumStatement();
+      //std::cout << states << std::endl;
+      for(int i =0 ; i< states ; i++){
+          std::cout << test1->getStatement(i)->toTypeString() << std::endl;
+      }
+      //ASstatement *test = dynamic_cast<ASstatement*>(ast);
+    //enum stateType stype = test->getType();
+    /*if (stype==ASSIGNstate){
       ASassignState *as = dynamic_cast<ASassignState*>(ast);
       ASexpr *expr = as->getExpression();
       JVMgenerateExpression::genExpression(expr,tc);
       JVMgenUtils::gen_ISTORE(*symTable->getSym(as->getVar()),tc);
-    } else if (stype==WRITEstate) {
-      ASwriteState *ws = dynamic_cast<ASwriteState*>(ast);
-      ASsimpleExpr *sexpr = dynamic_cast<ASsimpleExpr*>(ws->getExpression());
-      JVMgenUtils::gen_ALOAD(*symTable->getSym(symTable->find("System.out")),tc);
-      JVMgenerateExpression::genExpression(sexpr,tc);
-      tc->add(new INVOKEVIRTUAL(PRINT_INT_NEWLINE_METHOD_SPEC));
-    } else if (stype==READstate) {
-      ASreadState *rs = dynamic_cast<ASreadState*>(ast);
+    } else *///if (stype==WRITEstate) {
+      //ASwriteState *ws = dynamic_cast<ASwriteState*>(ast);
+      //ASsimpleExpr *sexpr = dynamic_cast<ASsimpleExpr*>(ws->getExpression(1));
+      //JVMgenUtils::gen_ALOAD(*symTable->getSym(symTable->find("System.out")),tc);
+      //JVMgenerateExpression::genExpression(sexpr,tc);
+      //tc->add(new INVOKEVIRTUAL(PRINT_INT_NEWLINE_METHOD_SPEC));
+   // } else if (stype==READstate) {
+      /*ASreadState *rs = dynamic_cast<ASreadState*>(ast);
       // prompt first
       JVMgenUtils::gen_ALOAD(*symTable->getSym(symTable->find("System.out")),tc);
       tc->add(new LDC("input: "));

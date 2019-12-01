@@ -24,10 +24,10 @@ namespace toyc
 
 	void ASstatement::setType(enum stateType t) { type = t; }
 
-	std::string ASstatement::toTypeString(enum stateType t)
+	std::string ASstatement::toTypeString()
 	{
 		std::string s;
-		switch (t)
+		switch (type)
 		{
 			case EXPRstate:
 				s = "EXPRstate";
