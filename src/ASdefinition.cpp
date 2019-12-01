@@ -17,10 +17,10 @@ namespace toyc
 
 	void ASdefinition::setType(enum defType t) { type = t; }
 
-	std::string ASdefinition::toTypeString(enum defType t)
+	std::string ASdefinition::toTypeString()
 	{
 		std::string s;
-		switch (t)
+		switch (type)
 		{
 			case FUNCdef:
 				s = "FUNCdef";

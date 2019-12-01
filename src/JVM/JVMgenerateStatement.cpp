@@ -31,7 +31,7 @@
 namespace toyc {
 
   void JVMgenerateStatement::genStatement(ASdefinition *ast,JVMtargetCode *tc) {
-      int states, embedded, dets;
+      int states, embedded, dets, other_check;
       ASfuncDef *test = dynamic_cast<ASfuncDef*>(ast);
       ASblockState *test1 = dynamic_cast<ASblockState*>(test->getStatement());
       states = test1->getNumStatement();
@@ -55,7 +55,7 @@ namespace toyc {
                   std::cout << "      " << j << ". " << nest->getStatement(j)->toTypeString() << std::endl;
                   if (nest->getStatement(j)->getType() == EXPRstate)
                   {
-
+                      std::cout << "           This works121\n";
                   }
               }
 
@@ -67,9 +67,7 @@ namespace toyc {
                   std::cout << "      " << k << ". " << nest1->getStatement(k)->toTypeString() << std::endl;
               }
 
-          } else if (test1->getStatement(i)->getType() == EXPRstate) {
-
-          }
+          } else if (test1->getStatement(i)->getType() == EXPRstate) { std::cout << "    This works\n"; }
       }
     /*if (stype==ASSIGNstate){
       ASassignState *as = dynamic_cast<ASassignState*>(ast);
