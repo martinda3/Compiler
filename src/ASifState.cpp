@@ -53,7 +53,7 @@ namespace toyc
 			return s;
 		}
 	}
-
+    bool ASifState::isBinary(){  return hasop;  }
 	ASexpression* ASifState::getOp1() { return op1; }
 	ASstatement* ASifState::getOp2() { return op2; }
 	ASstatement* ASifState::getOp3() { return op3; }//Dont call this if the third argument is not defined.

@@ -23,7 +23,7 @@ namespace toyc
 	{
 		hasop = false;
 	}
-
+    bool ASreturnState::isSimple(){ return hasop; }
 	std::string ASreturnState::toString()
 	{
 		if (hasop)

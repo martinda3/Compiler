@@ -35,11 +35,7 @@ namespace toyc {
                 std::cerr << "Fatal internal error #1: JVMgenerateExpression" << std::endl;
                 exit(EXIT_FAILURE);
       }
-    } /*else if (etype==UNARYexpr) {
-      ASunaryExpr *ue = dynamic_cast<ASunaryExpr*>(ast);
-      genExpression(ue->getExpr(),tc);
-      tc->add(new INEG());
-    }*/ else if (etype==SIMPLEexpr) {
+    }  else if (etype==SIMPLEexpr) {
        ASsimpleExpr *se = dynamic_cast<ASsimpleExpr*>(ast);
       TCtoken *t = se->getExpr();
       std::string lexeme = t->getLexeme();
@@ -52,6 +48,14 @@ namespace toyc {
         std::cerr << "Fatal internal error #2: JVMgenerateExpression" << std::endl;
         exit(EXIT_FAILURE);
       }
+    } else if (etype == FUNCCALLexpr) {
+
+    }else if (etype == MINUSexpr) {
+
+    }else if (etype == NOTexpr) {
+
+    }else if (etype== EMPTYexpr) {
+
     }
   }
  

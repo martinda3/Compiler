@@ -10,7 +10,6 @@ return n;
 int main() {
 int x;
 int adder;
-
 x = 10;
 x = x +1;
 write(x);

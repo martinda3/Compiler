@@ -21,7 +21,7 @@ namespace toyc
 		ASreturnState(ASexpression*);
 		ASreturnState();
 		std::string toString();
-
+        bool isSimple();
 		ASexpression* getOp();
 
 	private:
