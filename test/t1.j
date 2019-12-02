@@ -1,7 +1,7 @@
 ;
 ; Source file: test/t1.tc
 ; Target file: test/t1.j
-; Mon Dec  2 14:06:05 2019
+; Mon Dec  2 16:20:23 2019
 ;
 
 .source test/t1.tc
@@ -18,12 +18,18 @@
 .end method
 
 .method public static main([Ljava/lang/String;)V
-	.limit stack 10
-	.limit locals 10
+	.limit stack 2
+	.limit locals 3
 .line 1
-	istore_1
 	iconst_5
-	iload_1
+	istore_2
 .line 2
+	iload_2
+.line 3
+	bipush 100
+	istore_1
+.line 4
+	iload_1
+.line 5
 	return
 .end method
