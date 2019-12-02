@@ -13,12 +13,7 @@ namespace toyc
 
 	TCsymbol::TCsymbol() { id = ""; type = NO_TYPE; offset = -1; }
 
-	TCsymbol::TCsymbol(std::string str, enum symType t)
-	{
-		id = str;
-		type = t;
-
-	}
+	TCsymbol::TCsymbol(std::string str, enum symType t) { id = str; type = t; }
 
 	std::string TCsymbol::getId() { return id; }
 
@@ -36,26 +31,20 @@ namespace toyc
 
     void TCsymbol::setOffset(int n) { offset = n; }
 
-    int TCsymbol::getNextOffset() { return _nextOffset++; }
+    //int TCsymbol::getNextOffset() { return _nextOffset++; }
+    void TCsymbol::getNextOffset() { _nextOffset++; }
 
 	std::string TCsymbol::toString()
 	{
 		std::string str;
 		switch (getType())
 		{
-			case VAR:
-				str = "var(" + getId() + ")";
-				break;
-			case FUNC:
-				str = "Function(" + getId() + ")";
-				break;
-			case NO_TYPE:
-				str = "NOTYPE(" + getId() + ")";//This is sort of terrible, but considering that
-				break;						//ToyC doesn't actually have labels or offsets
-			default:						//I think we can actually assume that every 
-				str = "error";				//Symbol is a variable, so probably this will 
-				break;						//actually never cause problems. Still, it is
-		}									//kinda hacky and we should change it later
-		return str;							//TODO:fix this properly
+			case VAR:       str = "var(" + getId() + ")";       str += std::to_string(offset);  break;
+			case FUNC:      str = "Function(" + getId() + ")";  break;
+            case OFFSET:    str = "OFFSET,";                    str += std::to_string(offset);  break;
+			case NO_TYPE:   str = "NOTYPE(" + getId() + ")";    break;
+			default:        str = "error";                      break;
+		}
+		return str;
 	}
 }

@@ -51,9 +51,10 @@ namespace toyc {
         for (int i = 0; i < size; i++) {
             if (i == 0) str += "\n";
             str += "  ";
-            if (symTable[i]->getType() == VAR) { str += "  ";}
+            if (symTable[i]->getType() == VAR || symTable[i]->getType() == OFFSET) { str += "  ";}
             str += (symTable[i]->getId() + ", ");
             str += (symTable[i]->getType() == VAR ? "VAR = " + symTable[i]->getValue():
+                    symTable[i]->getType() == OFFSET ? "OFFSET " :
                     symTable[i]->getType() == FUNC ? "FUNC" :
                     symTable[i]->getType() == NO_TYPE ? "NO_TYPE" : "ERROR");
             str += "\n";

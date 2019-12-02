@@ -1,7 +1,7 @@
 ;
 ; Source file: test/p3_test.tc
 ; Target file: test/p3_test.j
-; Sun Dec  1 20:13:36 2019
+; Mon Dec  2 12:38:34 2019
 ;
 
 .source test/p3_test.tc
@@ -18,11 +18,11 @@
 .end method
 
 .method public static main([Ljava/lang/String;)V
-	.limit stack 3
-	.limit locals 3
+	.limit stack 10
+	.limit locals 10
 .line 1
 	iconst_4
-	iload 1617659745
+	iload_1
 	if_icmple _label0
 	iconst_1
 	goto _label1
@@ -31,23 +31,23 @@ _label0:
 _label1:
 .line 2
 	iconst_5
-	iload 1617659745
+	iload_1
 .line 3
 	iconst_0
 .line 4
-	iload 1617659745
+	iload_1
 .line 5
 	bipush 10
-	iload 0
+	iload_2
 .line 6
 	iconst_1
-	iload 0
+	iload_2
 	iadd
-	iload 0
+	iload_2
 .line 7
 .line 8
 	bipush 100
-	iload 0
+	iload_3
 .line 9
 	return
 .end method

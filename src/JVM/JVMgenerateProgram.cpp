@@ -118,22 +118,22 @@ namespace toyc {
 
   bool JVMgenerateProgram::thereIsInput(ASdefinition** s,int num) {
     for (int i=0; i < num; i++) {
-      ASdefinition *stmnt = s[i];
-      if (stmnt->getType()==READstate) return true;
-        /*else
-         while (stmnt->getType()==LABELstate) {
-            ASlabelState *ls = dynamic_cast<ASlabelState*>(stmnt);
-            stmnt = ls->getStatement();
-            if(stmnt->getType()==READstate) return true;
-         }*/
+//      ASdefinition *stmnt = s[i];
+//      if (stmnt->getType()==READstate) return true;
+//        else
+//         while (stmnt->getType()==LABELstate) {
+//            ASlabelState *ls = dynamic_cast<ASlabelState*>(stmnt);
+//            stmnt = ls->getStatement();
+//            if(stmnt->getType()==READstate) return true;
+//         }
      }
      return false;
   }
   
   bool JVMgenerateProgram::thereIsOutput(ASdefinition** s,int num) {
     for (int i=0; i < num; i++){
-      ASdefinition *stmnt = s[i];
-      if (stmnt->getType()==WRITEstate) return true;
+//      ASdefinition *stmnt = s[i];
+//      if (stmnt->getType()==WRITEstate) return true;
 //      else
 //        while (stmnt->getType()==LABELstate) {
 //          ASlabelState *ls = dynamic_cast<ASlabelState*>(stmnt);
@@ -158,11 +158,11 @@ namespace toyc {
   }
 
   void JVMgenerateProgram::gen_stack_limit_directive(JVMtargetCode *tc, int amount){
-      tc->add(new limit("stack",amount + 1)); // arbitrary, for now
+      tc->add(new limit("stack",10)); // arbitrary, for now
   }
 
   void JVMgenerateProgram::gen_locals_limit_directive(JVMtargetCode *tc, int amount){
-      tc->add(new limit("locals",amount + 1)); // arbitrary, for now
+      tc->add(new limit("locals",10)); // arbitrary, for now
   }
 
 }
