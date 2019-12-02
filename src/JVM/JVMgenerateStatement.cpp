@@ -73,38 +73,36 @@ namespace toyc {
                   expr_set = dynamic_cast<ASexprState*>(ThisBlock->getStatement(Block));
                   JVMgenerateStatement::ExprStatement(expr_set, tc);
                   break;
-//              case BREAKstate:
-//                  break;
-//              case BLOCKstate:
-//                  break;
+              case BREAKstate:
+                  break;
+              case BLOCKstate:
+                  break;
               case IFstate:
                   If_set = dynamic_cast<ASifState*>(ThisBlock->getStatement(Block));
                   JVMgenerateStatement::IfStatement(If_set, tc);
                   break;
-//              case NULLstate:
-//                  break;
+              case NULLstate:
+                  break;
               case RETURNstate:
                   return_set = dynamic_cast<ASreturnState*>(ThisBlock->getStatement(Block));
                   JVMgenerateStatement::ReturnStatement(return_set, tc);
                   break;
-//              case WHILEstate:
-//                  break;
-//              case READstate:
-//                  break;
+              case WHILEstate:
+                  break;
+              case READstate:
+                  break;
               case WRITEstate:
                   write_set = dynamic_cast<ASwriteState*>(ThisBlock->getStatement(Block));
                   //std::cout << "  " << ThisBlock->getStatement(Block)->toTypeString() << std::endl;
                   JVMgenerateStatement::WriteStatement(write_set, tc);
                   break;
-//              case NEWLINEstate:
-//                  break;
-//              case EMPTYstate:
-//                  break;
-//              default:
-//                  break;
+              case NEWLINEstate:
+                  break;
+              case EMPTYstate:
+                  break;
+              default:
+                  break;
           }
-          expr_set; ASifState *If_set;
-          ASwriteState *write_set;
       }
     }
 
@@ -138,7 +136,7 @@ namespace toyc {
         }
     }
     void JVMgenerateStatement::ReturnStatement(ASreturnState *ThisReturn,JVMtargetCode *tc) {
-        ASexpr *expr_set; ASsimpleExpr *var;
+        ASsimpleExpr *var;
         //std::cout << "  " << ThisReturn->toTypeString();// << std::endl;
         if (ThisReturn->isSimple()){
             //std::cout << "  " << ThisReturn->getOp()->toTypeString();

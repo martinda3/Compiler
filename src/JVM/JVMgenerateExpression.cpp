@@ -25,7 +25,6 @@ namespace toyc {
     void JVMgenerateExpression::genExpression(ASexpression *ast, JVMtargetCode *tc) {
         enum exprType etype = ast->getType();
         if (etype == EXPRexpr) {
-            int loc;
             ASexpr *be = dynamic_cast<ASexpr *>(ast);
             genExpression(be->getOp1(), tc);
             genExpression(be->getOp2(), tc);

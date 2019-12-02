@@ -54,6 +54,7 @@ namespace toyc {
             if (symTable[i]->getType() == VAR) { str += "  ";}
             str += (symTable[i]->getId() + ", ");
             str += (symTable[i]->getType() == VAR ? "VAR = " + symTable[i]->getValue():
+                    symTable[i]->getType() == OFFSET ? "OFFSET " :
                     symTable[i]->getType() == FUNC ? "FUNC" :
                     symTable[i]->getType() == NO_TYPE ? "NO_TYPE" : "ERROR");
             str += "\n";

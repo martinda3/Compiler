@@ -55,6 +55,7 @@ namespace toyc
 	//static void checkIfAllLabelTargetsAreDefined(ASprogram*);
 
 	//static bool targetLabelExists(std::string, ASprogram*);
+    static void enter_special_id(TCsymTable*,tokens);
 
 	TCparser::TCparser(TClexer* s) { scanner = s; }
 
@@ -122,13 +123,17 @@ namespace toyc
                 reportSEMANTIC_ERROR(scanner,"Cannot redeclare a function");
                 exit(EXIT_FAILURE);
             }
-
         }
 		accept(ID);
 		if (buff->getTokenType() == SEMICOLON)
 		{
 			operand5 = new ASstatement();
+
             symTable->getSym(loc)->setType(VAR);
+            std::cout << symTable->getSym(loc)->getId() << std::endl;
+            symTable->getSym(loc)->setOffset(_nextOffset);
+            symTable->getSym(loc)->getNextOffset();
+            // symTable->getSym(loc)->setOffset(TCsymbol::getNextOffset());
 		}
 		else if (buff->getTokenType() == LPAREN)
 		{
@@ -232,10 +237,14 @@ namespace toyc
             if (loc == -1) loc = symTable->add(new TCsymbol(buff->getLexeme(),NO_TYPE));
             else if (loc > -1)
             {
-                reportSEMANTIC_ERROR(scanner,"Cannot redeclare a variable");
+                reportSEMANTIC_ERROR(scanner,"Cannot redeclare a variable formal");
                 exit(EXIT_FAILURE);
             }
             symTable->getSym(loc)->setType(VAR);
+            std::cout << symTable->getSym(loc)->getId() << std::endl;
+            symTable->getSym(loc)->setOffset(_nextOffset);
+            symTable->getSym(loc)->getNextOffset();
+            // symTable->getSym(loc)->setOffset(TCsymbol::getNextOffset());
 
         }
 		accept(ID);
@@ -253,10 +262,14 @@ namespace toyc
                 if (loc == -1) loc = symTable->add(new TCsymbol(buff->getLexeme(),NO_TYPE));
                 else if (loc > -1)
                 {
-                    reportSEMANTIC_ERROR(scanner,"Cannot redeclare a variable");
+                    reportSEMANTIC_ERROR(scanner,"Cannot redeclare a variable additional formal");
                     exit(EXIT_FAILURE);
                 }
                 symTable->getSym(loc)->setType(VAR);
+                std::cout << symTable->getSym(loc)->getId() << std::endl;
+                symTable->getSym(loc)->setOffset(_nextOffset);
+                symTable->getSym(loc)->getNextOffset();
+                // symTable->getSym(loc)->setOffset(TCsymbol::getNextOffset());
             }
 			accept(ID);
 			int i = 0;
@@ -299,10 +312,14 @@ namespace toyc
                 if (loc == -1) loc = symTable->add(new TCsymbol(buff->getLexeme(),NO_TYPE));
                 else if (loc > -1)
                 {
-                    reportSEMANTIC_ERROR(scanner,"Cannot redeclare a variable");
+                    reportSEMANTIC_ERROR(scanner,"Cannot redeclare a variable compound");
                     exit(EXIT_FAILURE);
                 }
                 symTable->getSym(loc)->setType(VAR);
+                std::cout << symTable->getSym(loc)->getId() << std::endl;
+                symTable->getSym(loc)->setOffset(_nextOffset);
+                symTable->getSym(loc)->getNextOffset();
+                // symTable->getSym(loc)->setOffset(TCsymbol::getNextOffset());
             }
 			accept(ID);
 			operand[i1] = new ASvarDef(operand4, 1);
@@ -471,13 +488,14 @@ namespace toyc
         int loc;
 		ASexpression* operand[MAX_STATEMENTS];
 		accept(READ);
+        //enter_special_id(symTable,READ);
 		accept(LPAREN);
         if (buff->getTokenType() == ID)
         {
             loc = symTable->find(buff->getLexeme());
             if (loc == -1)
             {
-                reportSEMANTIC_ERROR(scanner,"variable not declared");
+                reportSEMANTIC_ERROR(scanner,"variable not declared Read");
                 exit(EXIT_FAILURE);
             }
         }
@@ -492,7 +510,7 @@ namespace toyc
                 loc = symTable->find(buff->getLexeme());
                 if (loc == -1)
                 {
-                    reportSEMANTIC_ERROR(scanner,"variable not declared");
+                    reportSEMANTIC_ERROR(scanner,"variable not declared add read");
                     exit(EXIT_FAILURE);
                 }
             }
@@ -513,6 +531,7 @@ namespace toyc
 		ASexpression* operand = NULL;
 		ASexpression* operand2[MAX_STATEMENTS];
 		accept(WRITE);
+        //enter_special_id(symTable,WRITE);
 		accept(LPAREN);
 		operand = ActualParameters();
 		operand2[0] = operand;
@@ -549,23 +568,28 @@ namespace toyc
 			operand2 = RelopExpression();
             if (operand3->getExpr()->getTokenType() == ASSIGNOP) {
                 cleanup = operand->toString();
-                idd = cleanup.substr(4, (cleanup.length() -1) - 4);
-                //std::cout <<"\n\n\n\n\n" << idd <<"\n\n\n\n\n";
+                idd = cleanup.substr(cleanup.find('(') + 1, ((cleanup.find(')')) - (cleanup.find('(') + 1) ) );
+//                std::cout <<"\n\n\n\n\npre  " << cleanup << " len : "<< cleanup.length() << std::endl <<"post " << idd;
+//                std::cout<< std::endl<< "start: " << (cleanup.find('('));
+//                std::cout<< std::endl<< "end  : " << (cleanup.find(')'));
+//                std::cout<< std::endl<< "len  : " << ((cleanup.find(')')) - (cleanup.find('(') + 1) ) << "\n\n\n\n\n";
                 loc = symTable->find(idd);
                 if (loc == -1) {
-                    reportSEMANTIC_ERROR(scanner,"variable not declared");
+                    reportSEMANTIC_ERROR(scanner,"variable not declared add Expression");
                     exit(EXIT_FAILURE);
                 } else {
                     cleanup = operand2->toString();
                     idd = cleanup.substr(7, (cleanup.length() -1) - 7);
                     if (idd.length() < 10) { // aubritrary
                         symTable->getSym(loc)->setValue(idd);
-                        //std::cout <<"\n\n\n\n\n" << idd <<"\n\n\n\n\n";
+//                        std::cout <<"\n\n\n\n\npre  " << cleanup << " len : "<< cleanup.length() << std::endl <<"post " << idd;
+//                        std::cout<< std::endl<< "start: " << (cleanup.find('('));
+//                        std::cout<< std::endl<< "end  : " << (cleanup.find(')'));
+//                        std::cout<< std::endl<< "len  : " << ((cleanup.find(')')) - (cleanup.find('(') + 1) ) << "\n\n\n\n\n";
                     }
                 }
             }
 			operand = new ASexpr(operand3, operand2, operand);
-
 			exitingDEBUG("Expression Additional");
 		}
 		exitingDEBUG("Expression");
@@ -668,7 +692,7 @@ namespace toyc
                     loc = symTable->find(buff->getLexeme());
                     if (loc == -1)
                     {
-                        reportSEMANTIC_ERROR(scanner,"variable not declared");
+                        reportSEMANTIC_ERROR(scanner,"variable not declared Primanry");
                         exit(EXIT_FAILURE);
                     }
                 }
@@ -759,16 +783,17 @@ namespace toyc
 		return operand;
 	}
 
-	/*
-		   private static void enter_special_id(SymbolTable st, TCtoken.Tokens type) {
-			   TCsymbol sym=null;
-			   if (type == TCtoken.Tokens.READ)
-				   sym = (TCsymbol)st.add("System.in");
-			   else if (type == TCtoken.Tokens.WRITE)
-				   sym=(TCsymbol)st.add("System.out");
-			   sym.setAttribute(TCsymbol.Attributes.offset,new Integer(sym.getNextOffset()));
-		   }
-		 */
+
+    static void enter_special_id(TCsymTable *st,tokens type) {
+	    int offffset;
+        TCsymbol *sym = new TCsymbol();
+        sym->setType(OFFSET);
+        sym->setId((type==READ)?"System.in":"System.out");
+        //offffset = TCsymbol::getNextOffset();
+        sym->setOffset(offffset);
+        st->add(sym);
+    }
+
 
 		 /*static void checkIfAllLabelTargetsAreDefined(ASprogram* p)
 		 {

@@ -1,7 +1,7 @@
 ;
 ; Source file: test/ex_2.tc
 ; Target file: test/ex_2.j
-; Sun Dec  1 20:17:24 2019
+; Mon Dec  2 10:45:53 2019
 ;
 
 .source test/ex_2.tc
@@ -18,20 +18,20 @@
 .end method
 
 .method public static main([Ljava/lang/String;)V
-	.limit stack 2
-	.limit locals 2
+	.limit stack 10
+	.limit locals 10
 .line 1
 	iconst_5
-	iload 16908546
+	iload 1616574585
 .line 2
 	iconst_1
-	iload 808333614
+	iload 16908546
 .line 3
 	iconst_0
 	iload 0
 .line 4
+	iload 1616574585
 	iload 16908546
-	iload 808333614
 	if_icmpgt _label0
 	iconst_1
 	goto _label1
@@ -39,15 +39,15 @@ _label0:
 	iconst_0
 _label1:
 .line 5
-	iload 808333614
+	iload 16908546
 	iload 0
 	iadd
 	iload 0
 .line 6
 	iconst_1
-	iload 808333614
+	iload 16908546
 	iadd
-	iload 808333614
+	iload 16908546
 .line 7
 	return
 .end method
