@@ -34,23 +34,39 @@
 #include "INVOKESPECIAL.h"
 #include "INVOKEVIRTUAL.h"
 
+#include "RETURN.h"
+
 #include "ASblockState.h"
 
 #include "LDC.h"
+#include "ASvarDef.h"
+
+
+#include "AStype.h"
+#include "TCtoken.h"
+
 
 namespace toyc {
 
+    ASvarDef* JVMgenerateStatement::ASvarDefinition(ASvarDef *initlize, JVMtargetCode *tc){
+
+        return initlize;
+    }
+
   void JVMgenerateStatement::genStatement(ASdefinition *ast,JVMtargetCode *tc) {
       ASfuncDef *Functions = dynamic_cast<ASfuncDef*>(ast);
-      //std::cout << " " << Functions->getIdentifier()->toString() << std::endl;
+//      std::cout << " " << Functions->getIdentifier()->toString() << std::endl;
       int FunctionDeclarations = Functions->getNumVarDef();
       for (int Function = 0 ; Function <  FunctionDeclarations; Function++)
       {
-          //std::cout << "  "<< Functions->getVarDef(Function)->toString() << std::endl;
+          ASvarDef *VarInit = JVMgenerateStatement::ASvarDefinition(dynamic_cast<ASvarDef*>(Functions->getVarDef(Function)), tc);
+          AStype *step = dynamic_cast<AStype*>(VarInit->getIdentifier(Function));
+//          std::cout << "  "<< step->getExpr()->getLexeme() << std::endl;
+          JVMgenUtils::gen_ISTORE(*symTable->getSym(symTable->find(step->getExpr()->getLexeme())),tc);
       }
       ASblockState *FunctionBlock = dynamic_cast<ASblockState*>(Functions->getStatement());
       JVMgenerateStatement::BlockStatement(FunctionBlock, tc);
-      //std::cout << std::endl;
+//      std::cout << std::endl;
   }
 
   void JVMgenerateStatement::BlockStatement(ASblockState *ThisBlock,JVMtargetCode *tc) {
