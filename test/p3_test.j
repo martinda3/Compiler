@@ -1,11 +1,11 @@
 ;
 ; Source file: test/p3_test.tc
 ; Target file: test/p3_test.j
-; Sun Dec  1 20:01:39 2019
+; Sun Dec  1 20:13:36 2019
 ;
 
 .source test/p3_test.tc
-.class public 
+.class public p3_test
 .super java/lang/Object
 
 .method public <init>()V
@@ -22,7 +22,7 @@
 	.limit locals 3
 .line 1
 	iconst_4
-	iload 0
+	iload 1617659745
 	if_icmple _label0
 	iconst_1
 	goto _label1
@@ -31,11 +31,11 @@ _label0:
 _label1:
 .line 2
 	iconst_5
-	iload 0
+	iload 1617659745
 .line 3
 	iconst_0
 .line 4
-	iload 0
+	iload 1617659745
 .line 5
 	bipush 10
 	iload 0

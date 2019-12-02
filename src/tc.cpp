@@ -39,7 +39,6 @@ int main(int argc, char *argv[]) {
 
     strftime(buffer,sizeof(buffer),"%H:%M:%S",timeinfo);
     std::string ffile(buffer);
-    std::cout << "\n\nWhat to do\n1. Extract Meta-data from these statements\n\n";
 
     try
     {
@@ -66,7 +65,7 @@ int main(int argc, char *argv[]) {
 }
 
 void processCommandLine(int argc, char *argv[], std::string filename) {
-    string outing, keeper; int chop;
+    string outing, keeper, classs; int chop;
     try
     {
         outing = argv[2];
@@ -84,7 +83,8 @@ void processCommandLine(int argc, char *argv[], std::string filename) {
             }
         }
         keeper += "j";
-
+        classs = outing.substr(5, (outing.length() - 5)-3);
+        outputClassFileName = classs;
     }
     catch (...) {}
     switch (argc) {
