@@ -28,6 +28,7 @@ namespace toyc
 
 	std::string ASprog::toString()
 	{
+	    std::string tester;
 		if (numDefinitions == 0) return "program([])";
 		std::string s = "<< Abstract Syntax >>\nprogram(\n";
 		indent();

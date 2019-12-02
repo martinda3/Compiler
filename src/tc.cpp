@@ -39,8 +39,7 @@ int main(int argc, char *argv[]) {
 
     strftime(buffer,sizeof(buffer),"%H:%M:%S",timeinfo);
     std::string ffile(buffer);
-
-    std::cout << ffile;
+    std::cout << "\n\nWhat to do\n1. Extract Meta-data from these statements\n\n";
 
     try
     {
@@ -54,7 +53,7 @@ int main(int argc, char *argv[]) {
         tc->writeCode(tc,targetFileName);
         if (v_code_gen)
         {
-            //dumpAST(ast);
+            dumpAST(ast);
             dumpST(symTable);
             dumpCode(tc);
         }
@@ -100,15 +99,15 @@ void processCommandLine(int argc, char *argv[], std::string filename) {
 				turnCodeGenOn();
 				turnParserOn();
 				inputFileName = argv[2];
-                //targetFileName = keeper;
-                targetFileName = "test/test" + filename + ".j";
+                targetFileName = keeper;
+                //targetFileName = "test/test" + filename + ".j";
             }
 			else
 			{
 				inputFileName = argv[2];
 
-                //targetFileName = keeper;
-                targetFileName = "test/test" + filename + ".j";;
+                targetFileName = keeper;
+                //targetFileName = "test/test" + filename + ".j";;
 			}	
 			break;
         default:
@@ -117,8 +116,8 @@ void processCommandLine(int argc, char *argv[], std::string filename) {
                 if (argv[4] == std::to_string(0))
 				{
 					inputFileName = argv[2];
-                    //targetFileName = keeper;
-                    targetFileName = "test/test" + filename + ".j";;
+                    targetFileName = keeper;
+                    //targetFileName = "test/test" + filename + ".j";;
 
 					turnVerboseOn();
 					turnParserOff();
@@ -130,8 +129,8 @@ void processCommandLine(int argc, char *argv[], std::string filename) {
 					turnScannerOn();
 					inputFileName = argv[2];
 
-                    //targetFileName = keeper;
-                    targetFileName = "test/test" + filename + ".j";;
+                    targetFileName = keeper;
+                    //targetFileName = "test/test" + filename + ".j";;
 					turnCodeGenOff();
 					turnParserOff();
 					turnVerboseOff();
@@ -139,8 +138,8 @@ void processCommandLine(int argc, char *argv[], std::string filename) {
                 else if (argv[4] == std::to_string(2))
 				{
 					inputFileName = argv[2];
-                    //targetFileName = keeper;
-                    targetFileName = "test/test" + filename + ".j";;
+                    targetFileName = keeper;
+                    //targetFileName = "test/test" + filename + ".j";;
 					turnParserOn();
 					turnVerboseOff();
 					turnCodeGenOff();
@@ -149,8 +148,8 @@ void processCommandLine(int argc, char *argv[], std::string filename) {
                 else if (argv[4] == std::to_string(3))
 				{
 					inputFileName = argv[2];
-                    //targetFileName = keeper;
-                    targetFileName = "test/test" + filename + ".j";;
+                    targetFileName = keeper;
+                    //targetFileName = "test/test" + filename + ".j";;
 					turnVerboseOff();
 					turnParserOff();
 					turnScannerOff();

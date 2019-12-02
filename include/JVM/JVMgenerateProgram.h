@@ -33,7 +33,7 @@ class JVMgenerateProgram {
      static void gen_output_stream_store(JVMtargetCode*);
      static void gen_input_stream_store(JVMtargetCode*);
      static void gen_stack_limit_directive(JVMtargetCode*, int);
-     static void gen_locals_limit_directive(JVMtargetCode*);    
+     static void gen_locals_limit_directive(JVMtargetCode*, int);
     
 };
  

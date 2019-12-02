@@ -3,11 +3,16 @@
 
 #include "TCglobals.h"
 #include "TCsymTable.h"
+#include "ASblockState.h"
 
 #include "ASdefinition.h"
 #include "ASexpr.h"
 #include "JVMtargetCode.h"
+#include "ASifState.h"
+#include "ASwriteState.h"
 
+#include "ASreturnState.h"
+#include "ASexprState.h"
 /*
 // D. Resler 4/2010
 
@@ -43,6 +48,11 @@ namespace toyc {
 class JVMgenerateStatement {
   public:
   static void genStatement(ASdefinition*,JVMtargetCode*);
+  static void BlockStatement(ASblockState*,JVMtargetCode*);
+  static void IfStatement(ASifState*,JVMtargetCode*);
+  static void ReturnStatement(ASreturnState*,JVMtargetCode*);
+  static void ExprStatement(ASexprState*,JVMtargetCode*);
+  static void WriteStatement(ASwriteState*,JVMtargetCode*);
 
     /*
     public static void genStatement(Statement ast, JVMtargetCode tc) {

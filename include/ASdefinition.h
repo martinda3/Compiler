@@ -28,7 +28,7 @@ namespace toyc
 
 		void setType(enum defType);
 
-		std::string toTypeString(enum defType);
+		std::string toTypeString();
 
 	private:
 		enum defType type;

@@ -17,6 +17,7 @@ namespace toyc
 	{
 		id = str;
 		type = t;
+
 	}
 
 	std::string TCsymbol::getId() { return id; }
@@ -25,9 +26,13 @@ namespace toyc
 
 	enum symType TCsymbol::getType() { return type; }
 
-	void TCsymbol::setType(enum symType t) { type = t; }
+	void TCsymbol::setType(enum symType t) { type = t; if (type == VAR) {value = "NULL"; }}
 
     int TCsymbol::getOffset() { return offset; }
+
+    std::string TCsymbol::getValue() { return value; }
+
+    void TCsymbol::setValue(std::string setThis) { value = setThis; }
 
     void TCsymbol::setOffset(int n) { offset = n; }
 
@@ -45,7 +50,7 @@ namespace toyc
 				str = "Function(" + getId() + ")";
 				break;
 			case NO_TYPE:
-				str = "var(" + getId() + ")";//This is sort of terrible, but considering that
+				str = "NOTYPE(" + getId() + ")";//This is sort of terrible, but considering that
 				break;						//ToyC doesn't actually have labels or offsets
 			default:						//I think we can actually assume that every 
 				str = "error";				//Symbol is a variable, so probably this will 

@@ -1,7 +1,7 @@
 int isEven(int n) {
 if (n > 4) {
 n = 5;
-return n;}
+return 0; }
 else {
 return n;
 }
@@ -9,6 +9,9 @@ return n;
 
 int main() {
 int x;
+int adder;
+x = 10;
 x = x +1;
 write(x);
+adder = 100;
 }

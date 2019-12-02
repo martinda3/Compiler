@@ -25,7 +25,7 @@ namespace toyc
 		virtual std::string toString();
 		enum exprType getType();
 		void setType(enum exprType);
-		std::string toTypeString(enum exprType);
+		std::string toTypeString();
 	private:
 		enum exprType type;
 	};

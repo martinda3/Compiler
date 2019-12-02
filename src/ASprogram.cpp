@@ -18,10 +18,10 @@ namespace toyc
 
 	void ASprogram::setType(enum progType t) { type = t; }
 
-	std::string ASprogram::toTypeString(enum progType t)
+	std::string ASprogram::toTypeString()
 	{
 		std::string s;
-		switch (t)
+		switch (type)
 		{
 			case PROGprog:
 				s = "PROGprog";

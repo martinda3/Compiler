@@ -40,6 +40,7 @@ namespace toyc
 	}
 	std::string ASfuncDef::toString()
 	{
+	    std::string tecter;
 		if (numVarDef == 0)
 		{
 			std::string s;
@@ -64,5 +65,8 @@ namespace toyc
 		outdent();
 		str += spaces() + ")\n";
 		return str;
+	}
+    ASstatement* ASfuncDef::getStatement(){
+        return statement;
 	}
 }

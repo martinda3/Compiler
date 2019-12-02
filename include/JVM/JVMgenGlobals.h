@@ -1,6 +1,6 @@
 
 namespace toyc {
-
+    extern int LINE_COUNTER;
   extern std::string className;
   extern std::string LABELTAG;
 

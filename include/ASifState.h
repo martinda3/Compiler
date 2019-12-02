@@ -25,6 +25,7 @@ namespace toyc
 		ASexpression* getOp1();
 		ASstatement* getOp2();
 		ASstatement* getOp3();
+		bool isBinary();
 
 	private:
 		ASexpression* op1;

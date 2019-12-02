@@ -10,11 +10,17 @@
 
 #include "ASexpr.h"
 #include "TCoutput.h"
+#include "TCtoken.h"
+#include "TCtokens.h"
+#include "TCsymbol.h"
+#include "TCsymTable.h"
+
 
 namespace toyc
 {
 	ASexpr::ASexpr(ASoperator* opr, ASexpression* oper1, ASexpression* oper2)
 	{
+	    int loc;
 		oper = opr;
 		op1 = oper1;
 		op2 = oper2;

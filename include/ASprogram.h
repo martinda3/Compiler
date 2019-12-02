@@ -27,7 +27,7 @@ namespace toyc
 
 		void setType(enum progType);
 
-		std::string toTypeString(enum progType);
+		std::string toTypeString();
 
 	private:
 		enum progType type;

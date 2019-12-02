@@ -1,7 +1,7 @@
 #include <iostream>
 
 namespace toyc {
-
+    int LINE_COUNTER = 0;
   std::string className = "";
   std::string LABELTAG  = "_label";
 

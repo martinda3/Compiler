@@ -30,7 +30,7 @@ namespace toyc
 
 		void setType(enum stateType);
 
-		std::string toTypeString(enum stateType);
+		std::string toTypeString();
 
 	private:
 		enum stateType type;
