@@ -34,6 +34,8 @@
 #include "NEW.h"
 #include "RETURN.h"
 
+#include "TCglobals.h"
+
 namespace toyc {
 
   void JVMgenerateProgram::genProgram(ASprog *ast,JVMtargetCode *tc) {
@@ -69,14 +71,14 @@ namespace toyc {
   void JVMgenerateProgram::genMainMethod(ASdefinition** statements,int num,JVMtargetCode* tc) {
     gen_main_header(tc);
     gen_stack_limit_directive(tc, num);
-    gen_locals_limit_directive(tc, num);
-    tc->add(new line(LINE_COUNTER)); // Abirtaaaary value
-    LINE_COUNTER++;
-    if (thereIsInput(statements,num)) gen_input_stream_store(tc);
-    if (thereIsOutput(statements,num)) gen_output_stream_store(tc);
+    gen_locals_limit_directive(tc, THISISCHEATING);
+//    tc->add(new line(LINE_COUNTER)); // Abirtaaaary value
+//    LINE_COUNTER++;
+//    if (thereIsInput(statements,num)) gen_input_stream_store(tc);
+//    if (thereIsOutput(statements,num)) gen_output_stream_store(tc);
     for (int i=0; i < num; i++) {
-      JVMgenerateStatement::genStatement(statements[i],tc);
-      tc->add(new RETURN());
+        JVMgenerateStatement::genStatement(statements[i],tc);
+        tc->add(new RETURN());
     }
     tc->add(new end());
   }
@@ -157,11 +159,11 @@ namespace toyc {
   }
 
   void JVMgenerateProgram::gen_stack_limit_directive(JVMtargetCode *tc, int amount){
-      tc->add(new limit("stack",10)); // arbitrary, for now
+      tc->add(new limit("stack",amount + 1));
   }
 
   void JVMgenerateProgram::gen_locals_limit_directive(JVMtargetCode *tc, int amount){
-      tc->add(new limit("locals",10)); // arbitrary, for now
+      tc->add(new limit("locals",amount + 1));
   }
 
 }
