@@ -39,9 +39,9 @@ namespace toyc
 		std::string str;
 		switch (getType())
 		{
-			case VAR:       str = "var(" + getId() + ")";       break;
+			case VAR:       str = "var(" + getId() + ")";       str += std::to_string(offset);  break;
 			case FUNC:      str = "Function(" + getId() + ")";  break;
-            case OFFSET:    str = "OFFSET,";                   str += std::to_string(offset);  break;
+            case OFFSET:    str = "OFFSET,";                    str += std::to_string(offset);  break;
 			case NO_TYPE:   str = "NOTYPE(" + getId() + ")";    break;
 			default:        str = "error";                      break;
 		}
