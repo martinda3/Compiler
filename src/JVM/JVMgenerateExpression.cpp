@@ -58,34 +58,40 @@ namespace toyc {
 //                    JVMgenUtils::gen_ISTORE(*symTable->getSym(tok)->getId(),tc);
                     break;
                 default: // shouldn't happen
-                    //getvale = dynamic_cast<ASexprState *>(be->getOp1());
-                    //std::cout << be->getOp1()->toString() << std::endl;
-                    //std::cout << be->getOp2()->toString() << std::endl;
-                    //std::cout << op->getLexeme() << std::endl;
+//                    getvale = dynamic_cast<ASexprState *>(be->getOp1());
+//                    std::cout << be->getOp1()->toString() << std::endl;
+//                    std::cout << be->getOp2()->toString() << std::endl;
+//                    std::cout << op->getLexeme() << std::endl;
                     std::cerr << "Fatal internal error #1: JVMgenerateExpression" << std::endl;
                     exit(EXIT_FAILURE);
             }
-        } else if (etype == SIMPLEexpr) {
+        }
+        else if (etype == SIMPLEexpr) {
             ASsimpleExpr *se = dynamic_cast<ASsimpleExpr *>(ast);
             TCtoken *t = se->getExpr();
             std::string lexeme = t->getLexeme();
             if (t->getTokenType() == ID) {
                 TCsymbol *idsym = symTable->getSym(symTable->find(lexeme));
                 JVMgenUtils::gen_ILOAD(*idsym, tc);
-            } else if (t->getTokenType() == NUMBER) {
+            }
+            else if (t->getTokenType() == NUMBER) {
                 JVMgenUtils::gen_ICONST(stoi(lexeme), tc);
-            } else { // shouldn't happen
+            }
+            else { // shouldn't happen
                 std::cerr << "Fatal internal error #2: JVMgenerateExpression" << std::endl;
                 exit(EXIT_FAILURE);
             }
-        } else if (etype == FUNCCALLexpr) {
+        }
+        else if (etype == FUNCCALLexpr) {
 
+        }
+        else if (etype == MINUSexpr) {
 
-        } else if (etype == MINUSexpr) {
+        }
+        else if (etype == NOTexpr) {
 
-        } else if (etype == NOTexpr) {
-
-        } else if (etype == EMPTYexpr) {
+        }
+        else if (etype == EMPTYexpr) {
 
         }
     }

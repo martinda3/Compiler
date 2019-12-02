@@ -75,10 +75,9 @@ namespace toyc {
     if (thereIsInput(statements,num)) gen_input_stream_store(tc);
     if (thereIsOutput(statements,num)) gen_output_stream_store(tc);
     for (int i=0; i < num; i++) {
-
       JVMgenerateStatement::genStatement(statements[i],tc);
+      tc->add(new RETURN());
     }
-    tc->add(new RETURN());
     tc->add(new end());
   }
 
