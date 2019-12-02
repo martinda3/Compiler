@@ -12,7 +12,9 @@
 #include "ASstatement.h"
 #include "ASsimpleExpr.h"
 #include "ASfuncCall.h"
+#include "ASwriteState.h"
 
+#include "JVMgenerateProgram.h"
 #include "ASexprState.h"
 
 
@@ -26,6 +28,7 @@
 
 #include "codeLabel.h"
 
+#include "line.h"
 #include "GOTO.h"
 #include "IFNE.h"
 #include "INVOKESPECIAL.h"
@@ -39,15 +42,15 @@ namespace toyc {
 
   void JVMgenerateStatement::genStatement(ASdefinition *ast,JVMtargetCode *tc) {
       ASfuncDef *Functions = dynamic_cast<ASfuncDef*>(ast);
-      std::cout << " " << Functions->getIdentifier()->toString() << std::endl;
+      //std::cout << " " << Functions->getIdentifier()->toString() << std::endl;
       int FunctionDeclarations = Functions->getNumVarDef();
       for (int Function = 0 ; Function <  FunctionDeclarations; Function++)
       {
-          std::cout << "  "<< Functions->getVarDef(Function)->toString() << std::endl;
+          //std::cout << "  "<< Functions->getVarDef(Function)->toString() << std::endl;
       }
       ASblockState *FunctionBlock = dynamic_cast<ASblockState*>(Functions->getStatement());
       JVMgenerateStatement::BlockStatement(FunctionBlock, tc);
-      std::cout << std::endl;
+      //std::cout << std::endl;
   }
 
   void JVMgenerateStatement::BlockStatement(ASblockState *ThisBlock,JVMtargetCode *tc) {
@@ -55,7 +58,7 @@ namespace toyc {
       int BlockVars = ThisBlock->getNumVarDef();
       for (int Var = 0 ; Var <  BlockVars; Var++)
       {
-          std::cout << "  "<< ThisBlock->getVarDef(Var)->toString() << std::endl;
+          //std::cout << "  "<< ThisBlock->getVarDef(Var)->toString() << std::endl;
       }
       ASexprState *expr_set; ASifState *If_set;
       ASwriteState *write_set; ASreturnState *return_set;
@@ -66,7 +69,7 @@ namespace toyc {
 
           switch (ThisStatement){
               case EXPRstate:
-                  std::cout << "  " << ThisBlock->getStatement(Block)->toTypeString() << std::endl;
+                  //std::cout << "  " << ThisBlock->getStatement(Block)->toTypeString() << std::endl;
                   expr_set = dynamic_cast<ASexprState*>(ThisBlock->getStatement(Block));
                   JVMgenerateStatement::ExprStatement(expr_set, tc);
                   break;
@@ -90,7 +93,8 @@ namespace toyc {
 //                  break;
               case WRITEstate:
                   write_set = dynamic_cast<ASwriteState*>(ThisBlock->getStatement(Block));
-                  std::cout << "  " << ThisBlock->getStatement(Block)->toTypeString() << std::endl;
+                  //std::cout << "  " << ThisBlock->getStatement(Block)->toTypeString() << std::endl;
+                  JVMgenerateStatement::WriteStatement(write_set, tc);
                   break;
 //              case NEWLINEstate:
 //                  break;
@@ -111,6 +115,8 @@ namespace toyc {
             //std::cout << "  " << ThisIf->getOp1()->toTypeString() << std::endl;
             expr_set = dynamic_cast<ASexpr*>(ThisIf->getOp1());
             JVMgenerateExpression::genExpression(expr_set, tc);
+            // tc->add(new line(LINE_COUNTER));
+            LINE_COUNTER++;
             statement_set = dynamic_cast<ASstatement*>(ThisIf->getOp2());
             //std::cout << "  " << statement_set->toTypeString() << std::endl;
             FunctionBlock = dynamic_cast<ASblockState*>(statement_set);
@@ -119,6 +125,8 @@ namespace toyc {
             //std::cout << "  " << ThisIf->getOp1()->toTypeString() << std::endl;
             expr_set = dynamic_cast<ASexpr*>(ThisIf->getOp1());
             JVMgenerateExpression::genExpression(expr_set, tc);
+            // tc->add(new line(LINE_COUNTER));
+            LINE_COUNTER++;
             statement_set = dynamic_cast<ASstatement*>(ThisIf->getOp2());
             //std::cout << "  " << statement_set->toTypeString() << std::endl;
             FunctionBlock = dynamic_cast<ASblockState*>(statement_set);
@@ -137,6 +145,8 @@ namespace toyc {
             var = dynamic_cast<ASsimpleExpr*>(ThisReturn->getOp());
             //std::cout << " " << var->getExpr()->getLexeme()<< std::endl;
             JVMgenerateExpression::genExpression(var, tc);
+            // tc->add(new line(LINE_COUNTER));
+            LINE_COUNTER++;
         } else {
             //std::cout << "  " << ThisReturn->toTypeString() << std::endl;
         }
@@ -146,6 +156,13 @@ namespace toyc {
         //std::cout << "  " << ThisExpr->getOp()->toTypeString() << std::endl;
         expr_set = dynamic_cast<ASexpr*>(ThisExpr->getOp());
         JVMgenerateExpression::genExpression(expr_set, tc);
+        // tc->add(new line(LINE_COUNTER));
+        LINE_COUNTER++;
+    }
+    void JVMgenerateStatement::WriteStatement(ASwriteState *ThisWrite,JVMtargetCode *tc) {
+        // tc->add(new line(LINE_COUNTER));
+        LINE_COUNTER++;
+        // Not in scope
     }
   }
 

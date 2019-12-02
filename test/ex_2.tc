@@ -1,0 +1,12 @@
+int main(int args) {
+int n;
+int i;
+int sum;
+n = 5;
+i = 1;
+sum = 0;
+if (i <= n) {
+sum = sum + i;
+i = i + 1;
+}
+}

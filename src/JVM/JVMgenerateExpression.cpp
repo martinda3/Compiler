@@ -31,8 +31,8 @@ namespace toyc {
             genExpression(be->getOp2(), tc);
             ASoperator *temp = be->getOper(); // This is easier do this!!!!!!!!!!!!
             TCtoken *op = temp->getExpr();    // This is easier do this!!!!!!!!!!!!
-            std::string cleanup, idd;
-            TCsymbol *tok;
+            //std::string cleanup, idd;
+            //TCsymbol *tok;
             switch (op->getTokenType()) {
                 case ADDOP:
                     JVMgenUtils::gen_ADDOP(*op, tc);
@@ -80,6 +80,7 @@ namespace toyc {
                 exit(EXIT_FAILURE);
             }
         } else if (etype == FUNCCALLexpr) {
+
 
         } else if (etype == MINUSexpr) {
 

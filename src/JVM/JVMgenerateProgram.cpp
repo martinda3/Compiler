@@ -57,7 +57,8 @@ namespace toyc {
     tc->add(m);
     tc->add(new limit("stack",1));
     tc->add(new limit("locals",1));
-    tc->add(new line(1));
+    tc->add(new line(LINE_COUNTER)); // Abirtaaaary value
+    LINE_COUNTER++;
     tc->add(new ALOAD_0());
     tc->add(new INVOKESPECIAL(OBJECT_CONSTRUCTOR));
     tc->add(new RETURN());
@@ -68,7 +69,9 @@ namespace toyc {
   void JVMgenerateProgram::genMainMethod(ASdefinition** statements,int num,JVMtargetCode* tc) {
     gen_main_header(tc);
     gen_stack_limit_directive(tc, num);
-    gen_locals_limit_directive(tc);
+    gen_locals_limit_directive(tc, num);
+    tc->add(new line(LINE_COUNTER)); // Abirtaaaary value
+    LINE_COUNTER++;
     if (thereIsInput(statements,num)) gen_input_stream_store(tc);
     if (thereIsOutput(statements,num)) gen_output_stream_store(tc);
     for (int i=0; i < num; i++) {
@@ -158,8 +161,8 @@ namespace toyc {
       tc->add(new limit("stack",amount + 1)); // arbitrary, for now
   }
 
-  void JVMgenerateProgram::gen_locals_limit_directive(JVMtargetCode *tc){
-      tc->add(new limit("locals",10)); // arbitrary, for now
+  void JVMgenerateProgram::gen_locals_limit_directive(JVMtargetCode *tc, int amount){
+      tc->add(new limit("locals",amount + 1)); // arbitrary, for now
   }
 
 }

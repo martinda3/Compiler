@@ -9,6 +9,7 @@
 #include "ASexpr.h"
 #include "JVMtargetCode.h"
 #include "ASifState.h"
+#include "ASwriteState.h"
 
 #include "ASreturnState.h"
 #include "ASexprState.h"
@@ -51,6 +52,7 @@ class JVMgenerateStatement {
   static void IfStatement(ASifState*,JVMtargetCode*);
   static void ReturnStatement(ASreturnState*,JVMtargetCode*);
   static void ExprStatement(ASexprState*,JVMtargetCode*);
+  static void WriteStatement(ASwriteState*,JVMtargetCode*);
 
     /*
     public static void genStatement(Statement ast, JVMtargetCode tc) {
