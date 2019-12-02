@@ -29,6 +29,6 @@ namespace toyc
 
 	TCtoken* AStype::getExpr()
 	{
-		return expr;
+		return ident;
 	}
 }
