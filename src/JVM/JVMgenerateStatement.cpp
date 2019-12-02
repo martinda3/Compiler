@@ -115,7 +115,7 @@ namespace toyc {
             //std::cout << "  " << ThisIf->getOp1()->toTypeString() << std::endl;
             expr_set = dynamic_cast<ASexpr*>(ThisIf->getOp1());
             JVMgenerateExpression::genExpression(expr_set, tc);
-            // tc->add(new line(LINE_COUNTER));
+            tc->add(new line(LINE_COUNTER));
             LINE_COUNTER++;
             statement_set = dynamic_cast<ASstatement*>(ThisIf->getOp2());
             //std::cout << "  " << statement_set->toTypeString() << std::endl;
@@ -125,7 +125,7 @@ namespace toyc {
             //std::cout << "  " << ThisIf->getOp1()->toTypeString() << std::endl;
             expr_set = dynamic_cast<ASexpr*>(ThisIf->getOp1());
             JVMgenerateExpression::genExpression(expr_set, tc);
-            // tc->add(new line(LINE_COUNTER));
+            tc->add(new line(LINE_COUNTER));
             LINE_COUNTER++;
             statement_set = dynamic_cast<ASstatement*>(ThisIf->getOp2());
             //std::cout << "  " << statement_set->toTypeString() << std::endl;
@@ -145,7 +145,7 @@ namespace toyc {
             var = dynamic_cast<ASsimpleExpr*>(ThisReturn->getOp());
             //std::cout << " " << var->getExpr()->getLexeme()<< std::endl;
             JVMgenerateExpression::genExpression(var, tc);
-            // tc->add(new line(LINE_COUNTER));
+            tc->add(new line(LINE_COUNTER));
             LINE_COUNTER++;
         } else {
             //std::cout << "  " << ThisReturn->toTypeString() << std::endl;
@@ -156,11 +156,11 @@ namespace toyc {
         //std::cout << "  " << ThisExpr->getOp()->toTypeString() << std::endl;
         expr_set = dynamic_cast<ASexpr*>(ThisExpr->getOp());
         JVMgenerateExpression::genExpression(expr_set, tc);
-        // tc->add(new line(LINE_COUNTER));
+        tc->add(new line(LINE_COUNTER));
         LINE_COUNTER++;
     }
     void JVMgenerateStatement::WriteStatement(ASwriteState *ThisWrite,JVMtargetCode *tc) {
-        // tc->add(new line(LINE_COUNTER));
+        tc->add(new line(LINE_COUNTER));
         LINE_COUNTER++;
         // Not in scope
     }

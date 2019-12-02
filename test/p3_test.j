@@ -1,7 +1,7 @@
 ;
 ; Source file: test/p3_test.tc
 ; Target file: test/p3_test.j
-; Sat Nov 30 12:58:00 2019
+; Sun Dec  1 20:01:39 2019
 ;
 
 .source test/p3_test.tc
@@ -11,14 +11,43 @@
 .method public <init>()V
 	.limit stack 1
 	.limit locals 1
-.line 1
+.line 0
 	aload_0
 	invokespecial java/lang/Object/<init>()V
 	return
 .end method
 
 .method public static main([Ljava/lang/String;)V
-	.limit stack 10
-	.limit locals 10
+	.limit stack 3
+	.limit locals 3
+.line 1
+	iconst_4
+	iload 0
+	if_icmple _label0
+	iconst_1
+	goto _label1
+_label0:
+	iconst_0
+_label1:
+.line 2
+	iconst_5
+	iload 0
+.line 3
+	iconst_0
+.line 4
+	iload 0
+.line 5
+	bipush 10
+	iload 0
+.line 6
+	iconst_1
+	iload 0
+	iadd
+	iload 0
+.line 7
+.line 8
+	bipush 100
+	iload 0
+.line 9
 	return
 .end method
