@@ -28,8 +28,6 @@ class JVMgenerateProgram {
      static void gen_super_directive(std::string,JVMtargetCode*);
      static void gen_main_header(JVMtargetCode*);
      static void gen_throws_directive(JVMtargetCode*);
-     static bool thereIsInput(ASdefinition**,int);
-     static bool thereIsOutput(ASdefinition**,int);
      static void gen_output_stream_store(JVMtargetCode*);
      static void gen_input_stream_store(JVMtargetCode*);
      static void gen_stack_limit_directive(JVMtargetCode*, int);
