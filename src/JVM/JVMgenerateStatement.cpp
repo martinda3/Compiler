@@ -97,6 +97,8 @@ namespace toyc {
 //                  JVMgenerateProgram::gen_output_stream_store(tc);
 //                  tc->add(new line(LINE_COUNTER)); LINE_COUNTER++;    //  Bookmakr
                   break;
+              default: // Should not happen
+                  break;
           }
       }
       for (int Block = 0 ; Block < Blocks ; Block++)
