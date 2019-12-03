@@ -1,6 +1,10 @@
-int main(int test) {
-int args;
-args = 5;
-test = 100;
-read(args);
+int main() {
+int test;
+int test1;
+int test2;
+test = 3;
+test1 = 0;
+test2 = 2;
+test = 2;
+write(test);
 }
