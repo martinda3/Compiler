@@ -1,5 +1,7 @@
 #include <iostream>
 
+#include "TCglobals.h"
+
 #include "ASprog.h"
 #include "ASdefinition.h"
 #include "ASdefinition.h"
@@ -25,7 +27,6 @@
 #include "class_.h"
 #include "super_.h"
 #include "throws_.h"
-
 #include "ALOAD_0.h"
 #include "GETSTATIC.h"
 #include "INVOKESPECIAL.h"
@@ -33,6 +34,7 @@
 #include "DUP.h"
 #include "NEW.h"
 #include "RETURN.h"
+
 
 namespace toyc {
 
@@ -55,10 +57,9 @@ namespace toyc {
     method *m = new method("<init>", "V");
     m->addAccessSpec("public");
     tc->add(m);
-    tc->add(new limit("stack",1));
-    tc->add(new limit("locals",1));
-    tc->add(new line(LINE_COUNTER)); // Abirtaaaary value
-    LINE_COUNTER++;
+    tc->add(new limit("stack",1));  // ATM I think is irrelevent
+    tc->add(new limit("locals",1)); // ATM I think is irrelevent
+    tc->add(new line(LINE_COUNTER)); LINE_COUNTER++;    //  Bookmakr
     tc->add(new ALOAD_0());
     tc->add(new INVOKESPECIAL(OBJECT_CONSTRUCTOR));
     tc->add(new RETURN());
@@ -68,17 +69,11 @@ namespace toyc {
 
   void JVMgenerateProgram::genMainMethod(ASdefinition** statements,int num,JVMtargetCode* tc) {
     gen_main_header(tc);
-    gen_stack_limit_directive(tc, num);
-    gen_locals_limit_directive(tc, num);
-    tc->add(new line(LINE_COUNTER)); // Abirtaaaary value
-    LINE_COUNTER++;
-    if (thereIsInput(statements,num)) gen_input_stream_store(tc);
-    if (thereIsOutput(statements,num)) gen_output_stream_store(tc);
+//    tc->add(new line(LINE_COUNTER)); LINE_COUNTER++;    //  Bookmakr
     for (int i=0; i < num; i++) {
-
-      JVMgenerateStatement::genStatement(statements[i],tc);
+        JVMgenerateStatement::genStatement(statements[i],tc);
+        tc->add(new RETURN());
     }
-    tc->add(new RETURN());
     tc->add(new end());
   }
 
@@ -116,34 +111,6 @@ namespace toyc {
     tc->add(new throws_(IOEXCEPTION));
   }
 
-  bool JVMgenerateProgram::thereIsInput(ASdefinition** s,int num) {
-    for (int i=0; i < num; i++) {
-//      ASdefinition *stmnt = s[i];
-//      if (stmnt->getType()==READstate) return true;
-//        else
-//         while (stmnt->getType()==LABELstate) {
-//            ASlabelState *ls = dynamic_cast<ASlabelState*>(stmnt);
-//            stmnt = ls->getStatement();
-//            if(stmnt->getType()==READstate) return true;
-//         }
-     }
-     return false;
-  }
-  
-  bool JVMgenerateProgram::thereIsOutput(ASdefinition** s,int num) {
-    for (int i=0; i < num; i++){
-//      ASdefinition *stmnt = s[i];
-//      if (stmnt->getType()==WRITEstate) return true;
-//      else
-//        while (stmnt->getType()==LABELstate) {
-//          ASlabelState *ls = dynamic_cast<ASlabelState*>(stmnt);
-//          stmnt = ls->getStatement();
-//          if(stmnt->getType()==WRITEstate) return true;
-//        }
-    }
-    return false;
-  }
-
   void JVMgenerateProgram::gen_output_stream_store(JVMtargetCode *tc) {
       tc->add(new GETSTATIC(OUTPUT_FIELD_SPEC,OUTPUT_DESCRIPTOR));
       JVMgenUtils::gen_ASTORE(*symTable->getSym(symTable->find("System.out")),tc);
@@ -158,11 +125,11 @@ namespace toyc {
   }
 
   void JVMgenerateProgram::gen_stack_limit_directive(JVMtargetCode *tc, int amount){
-      tc->add(new limit("stack",10)); // arbitrary, for now
+      tc->add(new limit("stack",amount));
   }
 
   void JVMgenerateProgram::gen_locals_limit_directive(JVMtargetCode *tc, int amount){
-      tc->add(new limit("locals",10)); // arbitrary, for now
+      tc->add(new limit("locals",amount));
   }
 
 }

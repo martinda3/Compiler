@@ -130,11 +130,11 @@ namespace toyc
 			operand5 = new ASstatement();
 
             symTable->getSym(loc)->setType(VAR);
-            std::cout << "TCparser::Definition" << std::endl;
-            std::cout << symTable->getSym(loc)->getId() << std::endl;
-            std::cout << symTable->getSym(loc)->getOffset() << std::endl;
+//            std::cout << "TCparser::Definition" << std::endl;
+//            std::cout << symTable->getSym(loc)->getId() << std::endl;
+//            std::cout << symTable->getSym(loc)->getOffset() << std::endl;
             symTable->getSym(loc)->setOffset(_nextOffset);
-            std::cout << symTable->getSym(loc)->getOffset() << std::endl;
+//            std::cout << symTable->getSym(loc)->getOffset() << std::endl;
             symTable->getSym(loc)->getNextOffset();
 		}
 		else if (buff->getTokenType() == LPAREN)
@@ -243,11 +243,11 @@ namespace toyc
                 exit(EXIT_FAILURE);
             }
             symTable->getSym(loc)->setType(VAR);
-            std::cout << "TCparser::FormalParamList" << std::endl;
-            std::cout << symTable->getSym(loc)->getId() << std::endl;
-            std::cout << symTable->getSym(loc)->getOffset() << std::endl;
+//            std::cout << "TCparser::FormalParamList" << std::endl;
+//            std::cout << symTable->getSym(loc)->getId() << std::endl;
+//            std::cout << symTable->getSym(loc)->getOffset() << std::endl;
             symTable->getSym(loc)->setOffset(_nextOffset);
-            std::cout << symTable->getSym(loc)->getOffset() << std::endl;
+//            std::cout << symTable->getSym(loc)->getOffset() << std::endl;
             symTable->getSym(loc)->getNextOffset();
             // symTable->getSym(loc)->setOffset(TCsymbol::getNextOffset());
 
@@ -271,13 +271,13 @@ namespace toyc
                     exit(EXIT_FAILURE);
                 }
                 symTable->getSym(loc)->setType(VAR);
-                std::cout << "TCparser::FormalParamList[Additional]" << std::endl;
-                std::cout << symTable->getSym(loc)->getId() << std::endl;
-                std::cout << symTable->getSym(loc)->getOffset() << std::endl;
+//                std::cout << "TCparser::FormalParamList[Additional]" << std::endl;
+//                std::cout << symTable->getSym(loc)->getId() << std::endl;
+//                std::cout << symTable->getSym(loc)->getOffset() << std::endl;
                 symTable->getSym(loc)->setOffset(_nextOffset);
-                std::cout << symTable->getSym(loc)->getOffset() << std::endl;
+//                std::cout << symTable->getSym(loc)->getOffset() << std::endl;
                 symTable->getSym(loc)->getNextOffset();
-                // symTable->getSym(loc)->setOffset(TCsymbol::getNextOffset());
+//                symTable->getSym(loc)->setOffset(TCsymbol::getNextOffset());
             }
 			accept(ID);
 			int i = 0;
@@ -324,14 +324,12 @@ namespace toyc
                     exit(EXIT_FAILURE);
                 }
                 symTable->getSym(loc)->setType(VAR);
-
-                std::cout << "TCparser::CompoundStatement" << std::endl;
-                std::cout << symTable->getSym(loc)->getId() << std::endl;
-                std::cout << symTable->getSym(loc)->getOffset() << std::endl;
+//                std::cout << "TCparser::CompoundStatement" << std::endl;
+//                std::cout << symTable->getSym(loc)->getId() << std::endl;
+//                std::cout << symTable->getSym(loc)->getOffset() << std::endl;
                 symTable->getSym(loc)->setOffset(_nextOffset);
-                std::cout << symTable->getSym(loc)->getOffset() << std::endl;
+//                std::cout << symTable->getSym(loc)->getOffset() << std::endl;
                 symTable->getSym(loc)->getNextOffset();
-                // symTable->getSym(loc)->setOffset(TCsymbol::getNextOffset());
             }
 			accept(ID);
 			operand[i1] = new ASvarDef(operand4, 1);
