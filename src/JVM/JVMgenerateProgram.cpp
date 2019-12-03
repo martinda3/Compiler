@@ -59,8 +59,7 @@ namespace toyc {
     tc->add(m);
     tc->add(new limit("stack",1));  // ATM I think is irrelevent
     tc->add(new limit("locals",1)); // ATM I think is irrelevent
-    tc->add(new line(LINE_COUNTER));
-    LINE_COUNTER++;
+    tc->add(new line(LINE_COUNTER)); LINE_COUNTER++;    //  Bookmakr
     tc->add(new ALOAD_0());
     tc->add(new INVOKESPECIAL(OBJECT_CONSTRUCTOR));
     tc->add(new RETURN());
@@ -70,8 +69,7 @@ namespace toyc {
 
   void JVMgenerateProgram::genMainMethod(ASdefinition** statements,int num,JVMtargetCode* tc) {
     gen_main_header(tc);
-//    tc->add(new line(LINE_COUNTER));
-//    LINE_COUNTER++; // Debugging
+//    tc->add(new line(LINE_COUNTER)); LINE_COUNTER++;    //  Bookmakr
     for (int i=0; i < num; i++) {
         JVMgenerateStatement::genStatement(statements[i],tc);
         tc->add(new RETURN());

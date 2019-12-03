@@ -58,7 +58,7 @@ namespace toyc {
                     if (check1->getTokenType() == ID && check2->getTokenType() == NUMBER) {
                         JVMgenUtils::gen_ICONST(stoi(check2->getLexeme()), tc);
                         TCsymbol *idsym = symTable->getSym(symTable->find(check1->getLexeme()));
-                        std::cout << check1->getLexeme() << std::endl;
+//                        std::cout << check1->getLexeme() << std::endl;
                         JVMgenUtils::gen_ISTORE(*symTable->getSym(symTable->find(check1->getLexeme())), tc);
                         break;
                     } else if (check1->getTokenType() == ID) {
@@ -90,7 +90,7 @@ namespace toyc {
 //            std::cout << "  " << sexpr->getOp1()->toTypeString() << std::endl;
             ASsimpleExpr *se = dynamic_cast<ASsimpleExpr *>(sexpr->getOp1());
             TCtoken *t = se->getExpr();
-            std::cout << t->getLexeme() << std::endl;
+//            std::cout << t->getLexeme() << std::endl;
             TCsymbol *idsym = symTable->getSym(symTable->find(t->getLexeme()));
             tc->add(new GETSTATIC(OUTPUT_FIELD_SPEC, OUTPUT_DESCRIPTOR));
             JVMgenUtils::gen_ILOAD(*idsym, tc);
