@@ -15,6 +15,8 @@
 #include "ASexprState.h"
 
 #include "ASvarDef.h"
+#include "ASreadState.h"
+
 
 /*
 // D. Resler 4/2010
@@ -57,6 +59,7 @@ class JVMgenerateStatement {
   static void ExprStatement(ASexprState*,JVMtargetCode*);
   static void WriteStatement(ASwriteState*,JVMtargetCode*);
   static ASvarDef* ASvarDefinition(ASvarDef*, JVMtargetCode*);
+  static void ReadStatement(ASreadState* , JVMtargetCode*);
 
     /*
     public static void genStatement(Statement ast, JVMtargetCode tc) {
