@@ -9,7 +9,7 @@
 #include "TCsymTable.h"
 
 namespace toyc {
-    extern int THISISCHEATING;
+
     extern std::string inputFileName;
     extern std::string outputClassFileName;
     extern std::string targetFileName;

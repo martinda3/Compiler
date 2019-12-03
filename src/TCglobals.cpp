@@ -15,7 +15,6 @@
 
 namespace toyc {
 
-    int THISISCHEATING = 0;
     std::string inputFileName;
     std::string outputClassFileName;
     std::string targetFileName;

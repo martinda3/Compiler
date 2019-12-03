@@ -24,7 +24,6 @@ namespace toyc
 		}
 		numIdentifiers = num;
 		setType(VARdef);
-        THISISCHEATING += num;
 	}
 
 	AStype* ASvarDef::getIdentifier(int num)
