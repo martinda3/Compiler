@@ -53,7 +53,8 @@ namespace toyc {
             str += "  ";
             if (symTable[i]->getType() == VAR || symTable[i]->getType() == OFFSET) { str += "  ";}
             str += (symTable[i]->getId() + ", ");
-            str += (symTable[i]->getType() == VAR ? "VAR = " + symTable[i]->getValue():
+            str += (symTable[i]->getType() == VAR ? "VAR = " + symTable[i]->getValue() +
+                    " | offset: " + std::to_string(symTable[i]->getOffset()):
                     symTable[i]->getType() == OFFSET ? "OFFSET " :
                     symTable[i]->getType() == FUNC ? "FUNC" :
                     symTable[i]->getType() == NO_TYPE ? "NO_TYPE" : "ERROR");
