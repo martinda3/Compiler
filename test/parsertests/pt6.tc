@@ -1,0 +1,22 @@
+/* syntax error in while loop */
+int isEven(int n){
+ if ( (n % 2) == 0) 
+  return 1;
+ else
+  return 0;
+}
+
+int main() {
+ int i;
+
+ while (i <= 100) { 
+  write(i);
+  if ( isEven(i )
+   write(" is even");
+  else 
+   write(" is odd");
+  newline;
+  i = i + 1;
+ }  
+ return;
+}
