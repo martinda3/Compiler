@@ -23,9 +23,12 @@
 #include "JVMgenGlobals.h"
 #include "ASexprState.h"
 
+#include "INVOKESPECIAL.h"
+#include "INVOKEVIRTUAL.h"
 #include "GETSTATIC.h"
 #include "ASfuncCall.h"
 
+#include "LDC.h"
 #include "INEG.h"
 
 namespace toyc {
@@ -90,8 +93,7 @@ namespace toyc {
             ASfuncCall *sexpr = dynamic_cast<ASfuncCall *>(ast);
 //            std::cout << "  " << sexpr->getOp1()->toTypeString() << std::endl;
             ASsimpleExpr *se = dynamic_cast<ASsimpleExpr *>(sexpr->getOp1());
-            TCtoken *t = se->getExpr();
-            std::cout << "  I made it to the case statmente" << std::endl;
+            TCtoken *t = se->getExpr(); std::string choper;
             switch (t->getTokenType())
             {
 
@@ -99,21 +101,26 @@ namespace toyc {
                     std::cout << "  " << "number(" + t->getLexeme() + ")" << std::endl;
                     break;
                 case ID:
-                    std::cout << "  " << symTable->getSym(t)->toString() << std::endl;
+//                    std::cout << "  " << symTable->getSym(t)->toString() << std::endl;
                     idsym = symTable->getSym(symTable->find(t->getLexeme()));
                     tc->add(new GETSTATIC(OUTPUT_FIELD_SPEC, OUTPUT_DESCRIPTOR));
                     JVMgenUtils::gen_ILOAD(*idsym, tc);
+                    tc->add(new INVOKEVIRTUAL(PRINT_INT_NEWLINE_METHOD_SPEC));
                     break;
                 case CHARLITERAL:
                     std::cout << "  " << "charliteral(" + t->getLexeme() + ")" << std::endl;
                     break;
                 case STRING:
-                    std::cout << "  " << "string(" + t->getLexeme() + ")" << std::endl;
+                    std::cout << std::endl << "  " << "string(" + t->getLexeme() + ")" << std::endl;
+                    tc->add(new GETSTATIC(OUTPUT_FIELD_SPEC, OUTPUT_DESCRIPTOR));
+                    choper = t->getLexeme().substr(1, (t->getLexeme().length() - 2)); // removes extra ""THis is the sirng""
+                    tc->add(new LDC(choper));
+                    tc->add(new INVOKEVIRTUAL(PRINT_STRING_METHOD_SPEC));
                     break;
                 default:
                     break;
             }
-            std::cout << "End of case " <<t->getLexeme() << std::endl;
+//            std::cout << "End of case " <<t->getLexeme() << std::endl;
 //            TCsymbol *idsym = symTable->getSym(symTable->find(t->getLexeme()));
 //            tc->add(new GETSTATIC(OUTPUT_FIELD_SPEC, OUTPUT_DESCRIPTOR));
 //            JVMgenUtils::gen_ILOAD(*idsym, tc);
