@@ -59,7 +59,7 @@ namespace toyc {
     tc->add(m);
     tc->add(new limit("stack",1));  // ATM I think is irrelevent
     tc->add(new limit("locals",1)); // ATM I think is irrelevent
-    tc->add(new line(LINE_COUNTER)); LINE_COUNTER++;    //  Bookmakr
+//    tc->add(new line(LINE_COUNTER)); LINE_COUNTER++;    //  Bookmakr
     tc->add(new ALOAD_0());
     tc->add(new INVOKESPECIAL(OBJECT_CONSTRUCTOR));
     tc->add(new RETURN());
