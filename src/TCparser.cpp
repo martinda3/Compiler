@@ -707,12 +707,15 @@ namespace toyc
                     }
                 }
 				accept(ID);
-				try
-				{
-					ASexpression* arr[] = { FunctionCall() };
-					operand = new ASfuncCall(operand, arr, 1);
-				}
-				catch (int t) {}
+                if (buff->getTokenType() == LPAREN){
+                    try
+                    {
+                        ASexpression* arr[] = { FunctionCall() };
+                        operand = new ASfuncCall(operand, arr, 1);
+                    }
+                    catch (int t) {}
+                    break;
+                }
 				break;
 
 			case NUMBER:

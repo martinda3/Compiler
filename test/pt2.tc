@@ -1,0 +1,6 @@
+int main() {
+  int i;
+  int k;
+  i = 10;
+  write(i);
+}
