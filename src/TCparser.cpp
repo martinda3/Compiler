@@ -52,9 +52,6 @@
 namespace toyc
 {
 
-	//static void checkIfAllLabelTargetsAreDefined(ASprogram*);
-
-	//static bool targetLabelExists(std::string, ASprogram*);
     static void enter_special_id(TCsymTable*,tokens);
 
 	TCparser::TCparser(TClexer* s) { scanner = s; }
@@ -63,7 +60,6 @@ namespace toyc
 	{
 		buff = scanner->getToken();
 		ASabstractSyntax* p = program();
-		//checkIfAllLabelTargetsAreDefined((ASprogram*)p);
 		return p;
 	}
 
@@ -96,7 +92,6 @@ namespace toyc
 		else
 		{
 			num = n;
-
 		}
 		exitingDEBUG("Definition List");
 		return num;
@@ -128,7 +123,6 @@ namespace toyc
 		if (buff->getTokenType() == SEMICOLON)
 		{
 			operand5 = new ASstatement();
-
             symTable->getSym(loc)->setType(VAR);
 //            std::cout << "TCparser::Definition" << std::endl;
 //            std::cout << symTable->getSym(loc)->getId() << std::endl;
@@ -249,7 +243,7 @@ namespace toyc
             symTable->getSym(loc)->setOffset(_nextOffset);
 //            std::cout << symTable->getSym(loc)->getOffset() << std::endl;
             symTable->getSym(loc)->getNextOffset();
-            // symTable->getSym(loc)->setOffset(TCsymbol::getNextOffset());
+//            symTable->getSym(loc)->setOffset(TCsymbol::getNextOffset());
 
         }
 		accept(ID);
@@ -297,6 +291,7 @@ namespace toyc
 		operand = Expression();
 		exitingDEBUG("Expression Statement");
 		accept(SEMICOLON);
+		std::cout << "I get here" << std::endl;
 		return new ASexprState(operand);
 	}
 
@@ -636,6 +631,7 @@ namespace toyc
 		operand = Term();
 		while (buff->getTokenType() == ADDOP)
 		{
+		    std::cout << "Igethere";
 			enteringDEBUG("Simple Expression Additional");
 			operand3 = new ASoperator(accept(ADDOP));
 			operand2 = Term();
@@ -808,55 +804,6 @@ namespace toyc
         st->add(sym);
     }
 
-
-		 /*static void checkIfAllLabelTargetsAreDefined(ASprogram* p)
-		 {
-			 for (int i = 0; i < p->getNumStatements(); i++)
-			 {
-				 ASstatement* s = p->getStatement(i);
-				 int label =
-					 (s->getType() == GOTOstate) ? ((ASgotoState*)s)->getLabel() :
-					 (s->getType() == IFstate) ? ((ASifState*)s)->getLabel() : -1;
-				 if (label != -1)
-				 {
-					 std::string str = symTable->getSym(label)->getId();
-					 if (!targetLabelExists(str, p))
-					 {
-						 reportSYNTAX_ERROR("target label '" + str + "' not found");
-						 exit(EXIT_FAILURE);
-					 }
-				 }
-			 }
-		 }
-
-		 static bool targetLabelExists(std::string str, ASprogram* p)
-		 {
-			 for (int i = 0; i < p->getNumStatements(); i++)
-			 {
-				 ASstatement* s = p->getStatement(i);
-				 if (s->getType() == LABELstate)
-				 {
-					 ASlabelState* ls = (ASlabelState*)s;
-					 if (str == symTable->getSym(ls->getLabel())->getId())
-						 return true;
-				 }
-			 }
-			 return false;
-		 }
-		 */
-		 /*
-		   private static void setSymbolAttributes(Lexer s, TCsymbol sym, String expected) {
-			   String str;
-			   if (sym.getAttributes().containsValue(str=(expected.equals("variable")?"label":"variable")))
-				   TCoutput.reportSEMANTIC_ERROR(s,"'"+sym.getId()+"' is a "+str);
-			   else
-				   sym.setAttribute(TCsymbol.Attributes.type,expected);
-			   if (expected.equals("variable") &&
-				   !sym.getAttributes().containsKey(TCsymbol.Attributes.offset))
-				   sym.setAttribute(TCsymbol.Attributes.offset,new Integer(sym.getNextOffset()));
-		   }
-		   */
-
 	TCtoken* TCparser::accept(int t)
 	{
 		TCtoken *token; 
@@ -865,7 +812,7 @@ namespace toyc
 		{
 			token = buff;
 			name = token->getLexeme();
-			//if (v_parser) {tokenDEBUG(name);}
+//			if (v_parser) {tokenDEBUG(name);}
 			buff = scanner->getToken();
 			return token;
 		}

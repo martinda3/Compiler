@@ -97,12 +97,12 @@ namespace toyc {
 
                 case NUMBER:
                     std::cout << "  " << "number(" + t->getLexeme() + ")" << std::endl;
-                    idsym = symTable->getSym(symTable->find(t->getLexeme()));
-                    tc->add(new GETSTATIC(OUTPUT_FIELD_SPEC, OUTPUT_DESCRIPTOR));
-                    JVMgenUtils::gen_ILOAD(*idsym, tc);
                     break;
                 case ID:
                     std::cout << "  " << symTable->getSym(t)->toString() << std::endl;
+                    idsym = symTable->getSym(symTable->find(t->getLexeme()));
+                    tc->add(new GETSTATIC(OUTPUT_FIELD_SPEC, OUTPUT_DESCRIPTOR));
+                    JVMgenUtils::gen_ILOAD(*idsym, tc);
                     break;
                 case CHARLITERAL:
                     std::cout << "  " << "charliteral(" + t->getLexeme() + ")" << std::endl;
