@@ -1,10 +1,10 @@
 int main() {
-int test;
-int test1;
-int test2;
-test = 3;
-test1 = 0;
-test2 = 2;
-test = 2;
-write(test);
+    int i;
+    int k;
+    i = 2;
+    write(i);
+    i = 3;
+    k = 10;
+    write(i);
+    write(k);
 }

@@ -1,7 +1,7 @@
 ;
 ; Source file: test/t1.tc
 ; Target file: test/t1.j
-; Sun Dec 15 16:43:31 2019
+; Sun Dec 15 17:01:07 2019
 ;
 
 .source test/t1.tc
@@ -21,19 +21,28 @@
 	.limit stack 10
 	.limit locals 10
 .line 1
-	iconst_3
+	iconst_2
 	istore_1
 .line 2
-	iconst_0
-	istore_2
+	getstatic java/lang/System/out Ljava/io/PrintStream;
+	iload_1
 .line 3
-	iconst_2
-	istore_3
+	invokevirtual java/io/PrintStream/println(I)V
 .line 4
-	iconst_2
+	iconst_3
 	istore_1
 .line 5
+	bipush 10
+	istore_2
 .line 6
+	getstatic java/lang/System/out Ljava/io/PrintStream;
+	iload_1
+.line 7
+	invokevirtual java/io/PrintStream/println(I)V
+.line 8
+	getstatic java/lang/System/out Ljava/io/PrintStream;
+	iload_2
+.line 9
 	invokevirtual java/io/PrintStream/println(I)V
 	return
 .end method
