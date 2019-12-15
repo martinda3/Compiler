@@ -89,7 +89,7 @@ namespace toyc {
           switch (ThisStatement){
               case READstate:
                   JVMgenerateProgram::gen_input_stream_store(tc);
-                  tc->add(new line(LINE_COUNTER)); LINE_COUNTER++;    //  Bookmakr
+//                  tc->add(new line(LINE_COUNTER)); LINE_COUNTER++;    //  Bookmakr
                   break;
               case WRITEstate: // Untested
 //                  tc->add(new GETSTATIC(OUTPUT_FIELD_SPEC,OUTPUT_DESCRIPTOR));
@@ -157,7 +157,7 @@ namespace toyc {
 //                std::cout << "  " << ThisIf->getOp1()->toTypeString() << std::endl;    // Debuggung
             expr_set = dynamic_cast<ASexpr*>(ThisIf->getOp1());
             JVMgenerateExpression::genExpression(expr_set, tc);
-            tc->add(new line(LINE_COUNTER)); LINE_COUNTER++;    //  Bookmakr
+//            tc->add(new line(LINE_COUNTER)); LINE_COUNTER++;    //  Bookmakr
             statement_set = dynamic_cast<ASstatement*>(ThisIf->getOp2());
 //                std::cout << "  " << statement_set->toTypeString() << std::endl;    // Debuggung
             FunctionBlock = dynamic_cast<ASblockState*>(statement_set);
@@ -166,7 +166,7 @@ namespace toyc {
 //                std::cout << "  " << ThisIf->getOp1()->toTypeString() << std::endl;    // Debuggung
             expr_set = dynamic_cast<ASexpr*>(ThisIf->getOp1());
             JVMgenerateExpression::genExpression(expr_set, tc);
-            tc->add(new line(LINE_COUNTER)); LINE_COUNTER++;    //  Bookmakr
+//            tc->add(new line(LINE_COUNTER)); LINE_COUNTER++;    //  Bookmakr
             statement_set = dynamic_cast<ASstatement*>(ThisIf->getOp2());
 //                std::cout << "  " << statement_set->toTypeString() << std::endl;    // Debuggung
             FunctionBlock = dynamic_cast<ASblockState*>(statement_set);
@@ -180,7 +180,7 @@ namespace toyc {
 
     void JVMgenerateStatement::ReturnStatement(ASreturnState *ThisReturn,JVMtargetCode *tc) {
         ASsimpleExpr *var;
-        tc->add(new line(LINE_COUNTER)); LINE_COUNTER++;    //  Bookmakr
+//        tc->add(new line(LINE_COUNTER)); LINE_COUNTER++;    //  Bookmakr
 //            std::cout << "  " << ThisReturn->toTypeString();// << std::endl;    // Debuggung
         if (ThisReturn->isSimple()){
 //                std::cout << "  " << ThisReturn->getOp()->toTypeString();    // Debuggung
@@ -195,7 +195,7 @@ namespace toyc {
 
     void JVMgenerateStatement::ExprStatement(ASexprState *ThisExpr,JVMtargetCode *tc) {
         ASexpr *expr_set;
-        tc->add(new line(LINE_COUNTER)); LINE_COUNTER++;    //  Bookmakr
+//        tc->add(new line(LINE_COUNTER)); LINE_COUNTER++;    //  Bookmakr
 //            std::cout << "  " << ThisExpr->getOp()->toTypeString() << std::endl;     // Debuggung
         expr_set = dynamic_cast<ASexpr*>(ThisExpr->getOp());
         JVMgenerateExpression::genExpression(expr_set, tc);
@@ -204,12 +204,12 @@ namespace toyc {
 
     void JVMgenerateStatement::WriteStatement(ASwriteState *ThisWrite,JVMtargetCode *tc) {
 //        std::cout << "  " << ThisWrite->toTypeString() << std::endl;     // Debuggung
-        tc->add(new line(LINE_COUNTER)); LINE_COUNTER++;    //  Bookmakr
+//        tc->add(new line(LINE_COUNTER)); LINE_COUNTER++;    //  Bookmakr
 //        std::cout << "  " << ThisWrite->getExpression(0)->toTypeString() << std::endl;     // Debuggung
         ASfuncCall *sexpr = dynamic_cast<ASfuncCall*>(ThisWrite->getExpression(0));
         JVMgenerateExpression::genExpression(sexpr,tc);
-        tc->add(new line(LINE_COUNTER)); LINE_COUNTER++;    //  Bookmakr
-        tc->add(new INVOKEVIRTUAL(PRINT_INT_NEWLINE_METHOD_SPEC));
+//        tc->add(new line(LINE_COUNTER)); LINE_COUNTER++;    //  Bookmakr
+//        tc->add(new INVOKEVIRTUAL(PRINT_INT_NEWLINE_METHOD_SPEC)); removed becvose of differ types
     }
 }
 
