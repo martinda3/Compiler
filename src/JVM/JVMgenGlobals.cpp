@@ -51,7 +51,7 @@ namespace toyc {
   std::string PRINT_INT_NEWLINE_METHOD_SPEC = 
                    "java/io/PrintStream/println(I)V";
   std::string PRINT_STRING_METHOD_SPEC = 
-                   "java/io/PrintStream/print(Ljava/lang/String;)V";
+                   "java/io/PrintStream/println(Ljava/lang/String;)V"; // I added a newline
   std::string NEXT_TOKEN_METHOD_SPEC =
 		   "java/util/StringTokenizer/nextToken()Ljava/lang/String;";
 
