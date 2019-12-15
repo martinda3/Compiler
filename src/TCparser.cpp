@@ -291,7 +291,6 @@ namespace toyc
 		operand = Expression();
 		exitingDEBUG("Expression Statement");
 		accept(SEMICOLON);
-		std::cout << "I get here" << std::endl;
 		return new ASexprState(operand);
 	}
 

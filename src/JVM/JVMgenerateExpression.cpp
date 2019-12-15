@@ -98,7 +98,10 @@ namespace toyc {
             {
 
                 case NUMBER:
-                    std::cout << "  " << "number(" + t->getLexeme() + ")" << std::endl;
+//                    std::cout << "  " << "number(" + t->getLexeme() + ")" << std::endl;
+                    tc->add(new GETSTATIC(OUTPUT_FIELD_SPEC, OUTPUT_DESCRIPTOR));
+                    tc->add(new LDC(t->getLexeme()));
+                    tc->add(new INVOKEVIRTUAL(PRINT_STRING_METHOD_SPEC));
                     break;
                 case ID:
 //                    std::cout << "  " << symTable->getSym(t)->toString() << std::endl;
@@ -107,11 +110,8 @@ namespace toyc {
                     JVMgenUtils::gen_ILOAD(*idsym, tc);
                     tc->add(new INVOKEVIRTUAL(PRINT_INT_NEWLINE_METHOD_SPEC));
                     break;
-                case CHARLITERAL:
-                    std::cout << "  " << "charliteral(" + t->getLexeme() + ")" << std::endl;
-                    break;
                 case STRING:
-                    std::cout << std::endl << "  " << "string(" + t->getLexeme() + ")" << std::endl;
+//                    std::cout << std::endl << "  " << "string(" + t->getLexeme() + ")" << std::endl;
                     tc->add(new GETSTATIC(OUTPUT_FIELD_SPEC, OUTPUT_DESCRIPTOR));
                     choper = t->getLexeme().substr(1, (t->getLexeme().length() - 2)); // removes extra ""THis is the sirng""
                     tc->add(new LDC(choper));

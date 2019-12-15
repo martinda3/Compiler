@@ -7,4 +7,6 @@ int main() {
     k = 10;
     write(i);
     write(k);
+    write("THis is a string etest");
+    write(1000);
 }
