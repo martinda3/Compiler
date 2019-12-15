@@ -1,7 +1,7 @@
 ;
 ; Source file: test/t1.tc
 ; Target file: test/t1.j
-; Mon Dec  9 23:47:39 2019
+; Sun Dec 15 16:55:48 2019
 ;
 
 .source test/t1.tc
@@ -43,6 +43,9 @@
 	getstatic java/lang/System/out Ljava/io/PrintStream;
 	iload_2
 .line 9
+	invokevirtual java/io/PrintStream/println(I)V
+.line 10
+.line 11
 	invokevirtual java/io/PrintStream/println(I)V
 	return
 .end method

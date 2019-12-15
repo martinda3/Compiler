@@ -153,7 +153,7 @@ namespace toyc {
 						break;
 					case '%':
 						lexeme += charBuff;
-						t = new TCtoken(MODOP, lexeme);
+						t = new TCtoken(MULOP, lexeme);
 						tokenFound = true;
 						charBuff = getChar();
 						break;

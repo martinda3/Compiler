@@ -31,6 +31,7 @@
 namespace toyc {
     void JVMgenerateExpression::genExpression(ASexpression *ast, JVMtargetCode *tc) {
         enum exprType etype = ast->getType();
+//        std::cout << "  " << ast->toTypeString() << std::endl;    // Debuggung
         if (etype == EXPRexpr) {
             ASexpr *be = dynamic_cast<ASexpr *>(ast);
             genExpression(be->getOp1(), tc);
@@ -83,15 +84,39 @@ namespace toyc {
 //                std::cerr << "Fatal internal error #2: JVMgenerateExpression" << std::endl;
 //                exit(EXIT_FAILURE);
 //            }
-        } else if (etype == FUNCCALLexpr) { // Semi-testsed [Writestate]
+        }
+        else if (etype == FUNCCALLexpr) { // Semi-testsed [Writestate]
+            TCsymbol *idsym;
             ASfuncCall *sexpr = dynamic_cast<ASfuncCall *>(ast);
 //            std::cout << "  " << sexpr->getOp1()->toTypeString() << std::endl;
             ASsimpleExpr *se = dynamic_cast<ASsimpleExpr *>(sexpr->getOp1());
             TCtoken *t = se->getExpr();
-//            std::cout << t->getLexeme() << std::endl;
-            TCsymbol *idsym = symTable->getSym(symTable->find(t->getLexeme()));
-            tc->add(new GETSTATIC(OUTPUT_FIELD_SPEC, OUTPUT_DESCRIPTOR));
-            JVMgenUtils::gen_ILOAD(*idsym, tc);
+            std::cout << "  I made it to the case statmente" << std::endl;
+            switch (t->getTokenType())
+            {
+
+                case NUMBER:
+                    std::cout << "  " << "number(" + t->getLexeme() + ")" << std::endl;
+                    break;
+                case ID:
+                    std::cout << "  " << symTable->getSym(t)->toString() << std::endl;
+                    idsym = symTable->getSym(symTable->find(t->getLexeme()));
+                    tc->add(new GETSTATIC(OUTPUT_FIELD_SPEC, OUTPUT_DESCRIPTOR));
+                    JVMgenUtils::gen_ILOAD(*idsym, tc);
+                    break;
+                case CHARLITERAL:
+                    std::cout << "  " << "charliteral(" + t->getLexeme() + ")" << std::endl;
+                    break;
+                case STRING:
+                    std::cout << "  " << "string(" + t->getLexeme() + ")" << std::endl;
+                    break;
+                default:
+                    break;
+            }
+            std::cout << "End of case " <<t->getLexeme() << std::endl;
+//            TCsymbol *idsym = symTable->getSym(symTable->find(t->getLexeme()));
+//            tc->add(new GETSTATIC(OUTPUT_FIELD_SPEC, OUTPUT_DESCRIPTOR));
+//            JVMgenUtils::gen_ILOAD(*idsym, tc);
         }
 //        Untested
 //         else if (etype == MINUSexpr) {
