@@ -52,9 +52,6 @@
 namespace toyc
 {
 
-	//static void checkIfAllLabelTargetsAreDefined(ASprogram*);
-
-	//static bool targetLabelExists(std::string, ASprogram*);
     static void enter_special_id(TCsymTable*,tokens);
 
 	TCparser::TCparser(TClexer* s) { scanner = s; }
@@ -63,7 +60,6 @@ namespace toyc
 	{
 		buff = scanner->getToken();
 		ASabstractSyntax* p = program();
-		//checkIfAllLabelTargetsAreDefined((ASprogram*)p);
 		return p;
 	}
 
@@ -90,15 +86,16 @@ namespace toyc
 		enteringDEBUG("Definition List");
 		if (!(buff->getTokenType() == EOFILE))
 		{
+		    std::cout << std::to_string(n) << std::endl;
 			l[n] = Definition();
+
 			num = DefinitionList(l, n + 1);
 		}
 		else
 		{
 			num = n;
-
 		}
-		exitingDEBUG("Definition List");
+		exitingDEBUG("Definition List" + std::to_string(num));
 		return num;
 	}
 
@@ -128,11 +125,9 @@ namespace toyc
 		if (buff->getTokenType() == SEMICOLON)
 		{
 			operand5 = new ASstatement();
-
             symTable->getSym(loc)->setType(VAR);
 //            std::cout << "TCparser::Definition" << std::endl;
-//            std::cout << symTable->getSym(loc)->getId() << std::endl;
-//            std::cout << symTable->getSym(loc)->getOffset() << std::endl;
+//            std::cout << symTable->getSym(loc)->getId() << " ";
             symTable->getSym(loc)->setOffset(_nextOffset);
 //            std::cout << symTable->getSym(loc)->getOffset() << std::endl;
             symTable->getSym(loc)->getNextOffset();
@@ -244,12 +239,10 @@ namespace toyc
             }
             symTable->getSym(loc)->setType(VAR);
 //            std::cout << "TCparser::FormalParamList" << std::endl;
-//            std::cout << symTable->getSym(loc)->getId() << std::endl;
-//            std::cout << symTable->getSym(loc)->getOffset() << std::endl;
+//            std::cout << symTable->getSym(loc)->getId() << " ";
             symTable->getSym(loc)->setOffset(_nextOffset);
 //            std::cout << symTable->getSym(loc)->getOffset() << std::endl;
             symTable->getSym(loc)->getNextOffset();
-            // symTable->getSym(loc)->setOffset(TCsymbol::getNextOffset());
 
         }
 		accept(ID);
@@ -272,12 +265,10 @@ namespace toyc
                 }
                 symTable->getSym(loc)->setType(VAR);
 //                std::cout << "TCparser::FormalParamList[Additional]" << std::endl;
-//                std::cout << symTable->getSym(loc)->getId() << std::endl;
-//                std::cout << symTable->getSym(loc)->getOffset() << std::endl;
+//                std::cout << symTable->getSym(loc)->getId() << " ";
                 symTable->getSym(loc)->setOffset(_nextOffset);
 //                std::cout << symTable->getSym(loc)->getOffset() << std::endl;
                 symTable->getSym(loc)->getNextOffset();
-//                symTable->getSym(loc)->setOffset(TCsymbol::getNextOffset());
             }
 			accept(ID);
 			int i = 0;
@@ -297,13 +288,14 @@ namespace toyc
 		operand = Expression();
 		exitingDEBUG("Expression Statement");
 		accept(SEMICOLON);
+		std::cout << "I get here" << std::endl;
 		return new ASexprState(operand);
 	}
 
 	ASstatement* TCparser::CompoundStatement() // Need statment and error handling
 	{
 		// CompoundStatement --> LCURLY { Type ID SEMICOLON } { Statement } RCURLY
-		enteringDEBUG("Compound Statement");
+		enteringDEBUG("Compound Statement ----------------------->");
         int loc;
 		ASdefinition* operand[MAX_STATEMENTS];
 		ASstatement* operand2[MAX_STATEMENTS];
@@ -325,8 +317,7 @@ namespace toyc
                 }
                 symTable->getSym(loc)->setType(VAR);
 //                std::cout << "TCparser::CompoundStatement" << std::endl;
-//                std::cout << symTable->getSym(loc)->getId() << std::endl;
-//                std::cout << symTable->getSym(loc)->getOffset() << std::endl;
+//                std::cout << symTable->getSym(loc)->getId() << " ";
                 symTable->getSym(loc)->setOffset(_nextOffset);
 //                std::cout << symTable->getSym(loc)->getOffset() << std::endl;
                 symTable->getSym(loc)->getNextOffset();
@@ -348,7 +339,7 @@ namespace toyc
 		catch (int t) {}
 		accept(RCURLY);
 		exitingDEBUG("Statement");
-		exitingDEBUG("Compound Statement");
+		exitingDEBUG("Compound Statement <-----------------------");
 		return new ASblockState(operand, i1, operand2, i2);
 	}
 
@@ -636,6 +627,7 @@ namespace toyc
 		operand = Term();
 		while (buff->getTokenType() == ADDOP)
 		{
+		    std::cout << "Igethere";
 			enteringDEBUG("Simple Expression Additional");
 			operand3 = new ASoperator(accept(ADDOP));
 			operand2 = Term();
@@ -707,12 +699,15 @@ namespace toyc
                     }
                 }
 				accept(ID);
-				try
-				{
-					ASexpression* arr[] = { FunctionCall() };
-					operand = new ASfuncCall(operand, arr, 1);
-				}
-				catch (int t) {}
+                if (buff->getTokenType() == LPAREN){
+                    try
+                    {
+                        ASexpression* arr[] = { FunctionCall() };
+                        operand = new ASfuncCall(operand, arr, 1);
+                    }
+                    catch (int t) {}
+                    break;
+                }
 				break;
 
 			case NUMBER:
@@ -805,55 +800,6 @@ namespace toyc
         st->add(sym);
     }
 
-
-		 /*static void checkIfAllLabelTargetsAreDefined(ASprogram* p)
-		 {
-			 for (int i = 0; i < p->getNumStatements(); i++)
-			 {
-				 ASstatement* s = p->getStatement(i);
-				 int label =
-					 (s->getType() == GOTOstate) ? ((ASgotoState*)s)->getLabel() :
-					 (s->getType() == IFstate) ? ((ASifState*)s)->getLabel() : -1;
-				 if (label != -1)
-				 {
-					 std::string str = symTable->getSym(label)->getId();
-					 if (!targetLabelExists(str, p))
-					 {
-						 reportSYNTAX_ERROR("target label '" + str + "' not found");
-						 exit(EXIT_FAILURE);
-					 }
-				 }
-			 }
-		 }
-
-		 static bool targetLabelExists(std::string str, ASprogram* p)
-		 {
-			 for (int i = 0; i < p->getNumStatements(); i++)
-			 {
-				 ASstatement* s = p->getStatement(i);
-				 if (s->getType() == LABELstate)
-				 {
-					 ASlabelState* ls = (ASlabelState*)s;
-					 if (str == symTable->getSym(ls->getLabel())->getId())
-						 return true;
-				 }
-			 }
-			 return false;
-		 }
-		 */
-		 /*
-		   private static void setSymbolAttributes(Lexer s, TCsymbol sym, String expected) {
-			   String str;
-			   if (sym.getAttributes().containsValue(str=(expected.equals("variable")?"label":"variable")))
-				   TCoutput.reportSEMANTIC_ERROR(s,"'"+sym.getId()+"' is a "+str);
-			   else
-				   sym.setAttribute(TCsymbol.Attributes.type,expected);
-			   if (expected.equals("variable") &&
-				   !sym.getAttributes().containsKey(TCsymbol.Attributes.offset))
-				   sym.setAttribute(TCsymbol.Attributes.offset,new Integer(sym.getNextOffset()));
-		   }
-		   */
-
 	TCtoken* TCparser::accept(int t)
 	{
 		TCtoken *token; 
@@ -862,7 +808,7 @@ namespace toyc
 		{
 			token = buff;
 			name = token->getLexeme();
-			//if (v_parser) {tokenDEBUG(name);}
+//			if (v_parser) {tokenDEBUG(name);}
 			buff = scanner->getToken();
 			return token;
 		}

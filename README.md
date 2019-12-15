@@ -5,7 +5,7 @@ By Charles D. & Dajion M.
 wip
 
 # Part 2 Syntax Anaysis Complete
-wip
+else statement are broken
 
 # Part 3 Semantic Anaysis + Code Generation Currently wproking
-wip
+dont test eles statmesn

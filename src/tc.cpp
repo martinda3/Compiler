@@ -52,9 +52,9 @@ int main(int argc, char *argv[]) {
         tc->writeCode(tc,targetFileName);
         if (v_code_gen)
         {
-//            dumpAST(ast);
+            dumpAST(ast);
             dumpST(symTable);
-//            dumpCode(tc);
+            dumpCode(tc);
         }
     }
     catch (...)

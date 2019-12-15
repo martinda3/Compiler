@@ -51,8 +51,8 @@ namespace toyc {
 
       int FunctionDeclarations = Functions->getNumVarDef();
 
-      if (FunctionDeclarations < 2) { tc->add(new limit("stack",2 )); }
-      else { tc->add(new limit("stack",FunctionDeclarations )); }
+      if (FunctionDeclarations < 2) { tc->add(new limit("stack",10)); }
+      else { tc->add(new limit("stack",10 )); }
 
       for (int Function = 0 ; Function <  FunctionDeclarations; Function++) // Not sure if needed
       {
@@ -70,7 +70,7 @@ namespace toyc {
     void JVMgenerateStatement::BlockStatement(ASblockState *ThisBlock,JVMtargetCode *tc) {
 //      std::cout << "  " << ThisBlock->toTypeString() << std::endl;    // Debuggung
       int BlockVars = ThisBlock->getNumVarDef();
-      tc->add(new limit("locals",BlockVars +1));  // Scooping is hard
+      tc->add(new limit("locals",10));  // Scooping is hard
       for (int Var = 0 ; Var <  BlockVars; Var++) // not sure if needed
       {
 //          ASvarDef *VarInit = JVMgenerateStatement::ASvarDefinition(dynamic_cast<ASvarDef*>(ThisBlock->getVarDef(Var)), tc);

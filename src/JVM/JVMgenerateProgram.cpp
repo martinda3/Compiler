@@ -125,11 +125,11 @@ namespace toyc {
   }
 
   void JVMgenerateProgram::gen_stack_limit_directive(JVMtargetCode *tc, int amount){
-      tc->add(new limit("stack",amount));
+      tc->add(new limit("stack",10));
   }
 
   void JVMgenerateProgram::gen_locals_limit_directive(JVMtargetCode *tc, int amount){
-      tc->add(new limit("locals",amount));
+      tc->add(new limit("locals",10));
   }
 
 }
