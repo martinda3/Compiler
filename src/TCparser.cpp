@@ -540,7 +540,6 @@ namespace toyc
 	ASexpression* TCparser::Expression()  // WIP
 	{
 		// Expression --> RelopExpression { ASSIGNOP RelopExpression }
-        int loc;
         std::string cleanup, idd;
 		enteringDEBUG("Expression");
 		ASexpression* operand = NULL;
