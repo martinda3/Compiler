@@ -124,11 +124,7 @@ namespace toyc
 		{
 			operand5 = new ASstatement();
             symTable->getSym(loc)->setType(VAR);
-//            std::cout << "TCparser::Definition" << std::endl;
-//            std::cout << symTable->getSym(loc)->getId() << std::endl;
-//            std::cout << symTable->getSym(loc)->getOffset() << std::endl;
             symTable->getSym(loc)->setOffset(_nextOffset);
-//            std::cout << symTable->getSym(loc)->getOffset() << std::endl;
             symTable->getSym(loc)->getNextOffset();
 		}
 		else if (buff->getTokenType() == LPAREN)
@@ -237,13 +233,8 @@ namespace toyc
                 exit(EXIT_FAILURE);
             }
             symTable->getSym(loc)->setType(VAR);
-//            std::cout << "TCparser::FormalParamList" << std::endl;
-//            std::cout << symTable->getSym(loc)->getId() << std::endl;
-//            std::cout << symTable->getSym(loc)->getOffset() << std::endl;
             symTable->getSym(loc)->setOffset(_nextOffset);
-//            std::cout << symTable->getSym(loc)->getOffset() << std::endl;
             symTable->getSym(loc)->getNextOffset();
-//            symTable->getSym(loc)->setOffset(TCsymbol::getNextOffset());
 
         }
 		accept(ID);
@@ -265,13 +256,8 @@ namespace toyc
                     exit(EXIT_FAILURE);
                 }
                 symTable->getSym(loc)->setType(VAR);
-//                std::cout << "TCparser::FormalParamList[Additional]" << std::endl;
-//                std::cout << symTable->getSym(loc)->getId() << std::endl;
-//                std::cout << symTable->getSym(loc)->getOffset() << std::endl;
                 symTable->getSym(loc)->setOffset(_nextOffset);
-//                std::cout << symTable->getSym(loc)->getOffset() << std::endl;
                 symTable->getSym(loc)->getNextOffset();
-//                symTable->getSym(loc)->setOffset(TCsymbol::getNextOffset());
             }
 			accept(ID);
 			int i = 0;
@@ -318,11 +304,7 @@ namespace toyc
                     exit(EXIT_FAILURE);
                 }
                 symTable->getSym(loc)->setType(VAR);
-//                std::cout << "TCparser::CompoundStatement" << std::endl;
-//                std::cout << symTable->getSym(loc)->getId() << std::endl;
-//                std::cout << symTable->getSym(loc)->getOffset() << std::endl;
                 symTable->getSym(loc)->setOffset(_nextOffset);
-//                std::cout << symTable->getSym(loc)->getOffset() << std::endl;
                 symTable->getSym(loc)->getNextOffset();
             }
 			accept(ID);
@@ -565,35 +547,11 @@ namespace toyc
 		ASexpression* operand2 = NULL;
 		ASoperator* operand3 = NULL;
 		operand = RelopExpression();
-//        while (buff->getTokenType() == ASSIGNOP)
 		if (buff->getTokenType() == ASSIGNOP)
 		{
 			enteringDEBUG("Expression Additional");
 			operand3 = new ASoperator(accept(ASSIGNOP));
 			operand2 = RelopExpression();
-//            if (operand3->getExpr()->getTokenType() == ASSIGNOP) {
-//                cleanup = operand->toString();
-//                idd = cleanup.substr(cleanup.find('(') + 1, ((cleanup.find(')')) - (cleanup.find('(') + 1) ) );
-//                std::cout <<"\n\n\n\n\npre  " << cleanup << " len : "<< cleanup.length() << std::endl <<"post " << idd;
-//                std::cout<< std::endl<< "start: " << (cleanup.find('('));
-//                std::cout<< std::endl<< "end  : " << (cleanup.find(')'));
-//                std::cout<< std::endl<< "len  : " << ((cleanup.find(')')) - (cleanup.find('(') + 1) ) << "\n\n\n\n\n";
-//                loc = symTable->find(idd);
-//                if (loc == -1) {
-//                    reportSEMANTIC_ERROR(scanner,"variable not declared add Expression");
-//                    exit(EXIT_FAILURE);
-//                } else {
-//                    cleanup = operand2->toString();
-//                    idd = cleanup.substr(cleanup.find('(') + 1, ((cleanup.find(')')) - (cleanup.find('(') + 1) ) );
-//                    if (idd.length() < 10) { // aubritrary
-//                        symTable->getSym(loc)->setValue(idd);
-//                        std::cout <<"\n\n\n\n\npre  " << cleanup << " len : "<< cleanup.length() << std::endl <<"post " << idd;
-//                        std::cout<< std::endl<< "start: " << (cleanup.find('('));
-//                        std::cout<< std::endl<< "end  : " << (cleanup.find(')'));
-//                        std::cout<< std::endl<< "len  : " << ((cleanup.find(')')) - (cleanup.find('(') + 1) ) << "\n\n\n\n\n";
-//                    }
-//                }
-//            }
 			operand = new ASexpr(operand3, operand2, operand);
 			exitingDEBUG("Expression Additional");
 		}

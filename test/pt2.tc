@@ -1,8 +1,27 @@
 int main() {
   int i;
   int k;
+  k = 12;
   i = 10 + 1;
   write(i);
-  i = i + 1;
+  if (i < k) {
+  write("i is bigger");
+  return 0;
+  }
+  else {
+  write("k is bigger");
+  return 1;
+  }
+  i = i * 1;
   write(i);
+  ;
+  newline;
+  write("k is ");
+  write(k);
+  k = 10 / 2;
+  write("k is  after 10 / 2");
+  write(k);
+  k = k / 2;
+  write("k is  after k / 2");
+  write(k);
 }

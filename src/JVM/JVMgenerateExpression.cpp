@@ -37,27 +37,29 @@ namespace toyc {
         std::string cleanup, idd;
         ASsimpleExpr *se;
         enum exprType etype = ast->getType();
-        std::cout << std::endl <<  " " << ast->toTypeString() << std::endl;   // Debuggung
-        std::cout << " " << ast->toString() << std::endl;       // Debuggung
-//        std::cout << "  " << ast->toTypeString() << std::endl;    // Debuggung
         if (etype == EXPRexpr) {
             ASexpr *be = dynamic_cast<ASexpr *>(ast);
-            genExpression(be->getOp1(), tc);
 
             ASoperator *temp = be->getOper();
             TCtoken *op = temp->getExpr();
+
+            if (op->getTokenType() == DIVOP) {
+                genExpression(be->getOp2(), tc);
+                genExpression(be->getOp1(), tc);
+            } else { genExpression(be->getOp1(), tc); }
+
             if (op->getTokenType() == ASSIGNOP) {
                 se = dynamic_cast<ASsimpleExpr *>(be->getOp2());
                 check1 = dynamic_cast<TCtoken *>(se->getExpr());
-                std::cout << check1->toString() << std::endl;
                 JVMgenUtils::gen_ISTORE(*symTable->getSym(symTable->find(check1->getLexeme())), tc);
             }
             else {
-                genExpression(be->getOp2(), tc);
+                if (op->getTokenType() != DIVOP) { genExpression(be->getOp2(), tc); }
                 switch (op->getTokenType()) {
                     case ADDOP:     JVMgenUtils::gen_ADDOP(*op, tc);    break;  // Untested
                     case MULOP:  /*JVMgenUtils::gen_MULOP(*op, tc);*/   break;  // Modulous
                     case MULTI:     JVMgenUtils::gen_MULOP(*op, tc);    break;  // multi
+                    case DIVOP:     JVMgenUtils::gen_MULOP(*op, tc);    break;  // multi
                     case RELOP:     JVMgenUtils::gen_RELOP(*op, tc);    break;  // Untested
                     case OR:        JVMgenUtils::gen_OR(*op, tc);       break;  // Untested
                     case AND:       JVMgenUtils::gen_AND(*op, tc);      break;  // Untested
@@ -76,11 +78,9 @@ namespace toyc {
             TCtoken *t = se->getExpr();
             std::string lexeme = t->getLexeme();
             if (t->getTokenType() == ID) {
-                std::cout << "ID" << std::endl;
                 idsym = symTable->getSym(symTable->find(t->getLexeme()));
                 JVMgenUtils::gen_ILOAD(*idsym, tc);
             } else if (t->getTokenType() == NUMBER) {
-                std::cout << "NUMBER" << std::endl;
                 JVMgenUtils::gen_ICONST(stoi(lexeme), tc);
             } else // shouldn't happen
             {
@@ -91,27 +91,22 @@ namespace toyc {
         else if (etype == FUNCCALLexpr) { // Semi-testsed [Writestate]
             TCsymbol *idsym;
             ASfuncCall *sexpr = dynamic_cast<ASfuncCall *>(ast);
-//            std::cout << "  " << sexpr->getOp1()->toTypeString() << std::endl;
             ASsimpleExpr *se = dynamic_cast<ASsimpleExpr *>(sexpr->getOp1());
             TCtoken *t = se->getExpr(); std::string choper;
             switch (t->getTokenType())
             {
-
                 case NUMBER:
-//                    std::cout << "  " << "number(" + t->getLexeme() + ")" << std::endl;
                     tc->add(new GETSTATIC(OUTPUT_FIELD_SPEC, OUTPUT_DESCRIPTOR));
                     tc->add(new LDC(t->getLexeme()));
                     tc->add(new INVOKEVIRTUAL(PRINT_STRING_METHOD_SPEC));
                     break;
                 case ID:
-//                    std::cout << "  " << symTable->getSym(t)->toString() << std::endl;
                     idsym = symTable->getSym(symTable->find(t->getLexeme()));
                     tc->add(new GETSTATIC(OUTPUT_FIELD_SPEC, OUTPUT_DESCRIPTOR));
                     JVMgenUtils::gen_ILOAD(*idsym, tc);
                     tc->add(new INVOKEVIRTUAL(PRINT_INT_NEWLINE_METHOD_SPEC));
                     break;
                 case STRING:
-//                    std::cout << std::endl << "  " << "string(" + t->getLexeme() + ")" << std::endl;
                     tc->add(new GETSTATIC(OUTPUT_FIELD_SPEC, OUTPUT_DESCRIPTOR));
                     choper = t->getLexeme().substr(1, (t->getLexeme().length() - 2)); // removes extra ""THis is the sirng""
                     tc->add(new LDC(choper));
@@ -120,12 +115,8 @@ namespace toyc {
                 default:
                     break;
             }
-//            std::cout << "End of case " <<t->getLexeme() << std::endl;
-//            TCsymbol *idsym = symTable->getSym(symTable->find(t->getLexeme()));
-//            tc->add(new GETSTATIC(OUTPUT_FIELD_SPEC, OUTPUT_DESCRIPTOR));
-//            JVMgenUtils::gen_ILOAD(*idsym, tc);
         }
-//        Untested
+//        Unimplemented
 //         else if (etype == MINUSexpr) {
 //
 //        } else if (etype == NOTexpr) {

@@ -191,19 +191,11 @@ std::string getProgramName(std::string s)
 
 void printUsageMessage() {
     std::cout << "\nUsage: tc [-v] <input_file> [-d] <level>" << std::endl;
-    //std::cout << "Where options include: Note: XX == WIP" << std::endl;
-	//std::cout << "XX   -help              -h       display this usage message" << std::endl;
-	//std::cout << "XX   -output <file>     -o <f>   specifies target file name" << std::endl;
-	//std::cout << "XX   -class <file>      -c <l>   specifies class file name" << std::endl;
 	std::cout << "     -debug <level>     -d <l>   display messages that aid in tracing the" << std::endl;
 	std::cout << "                                 compilation process. If level is:" << std::endl;
 	std::cout << "                                    0 - all messages" << std::endl;
 	std::cout << "                                    1 - scanner messages only" << std::endl;
 	std::cout << "                                    2 - parser messages onlys" << std::endl;
-	//std::cout << "XX   -abstract          -a        dump the abstract syntax tree" << std::endl;
-	//std::cout << "XX   -symbol            -s        dump the symbol table(s)" << std::endl;
-	//std::cout << "XX   -code              -cc       dump the generated program" << std::endl;
 	std::cout << "     -verbose           -v        display all information" << std::endl;
-	//std::cout << "XX   -version           -vv       display the program version" << std::endl;
 }
 
