@@ -44,8 +44,8 @@ namespace toyc {
 
     void JVMgenerateStatement::genStatement(ASdefinition *ast,JVMtargetCode *tc) {
       ASfuncDef *Functions = dynamic_cast<ASfuncDef*>(ast);
-
-//      std::cout << " " << Functions->getIdentifier()->toString() << std::endl;    // Debuggung
+//      std::cout << " " << Functions->toTypeString() << std::endl;   // Debuggung
+//      std::cout << " " << Functions->toString() << std::endl;       // Debuggung
 
 //      tc->add(new line(LINE_COUNTER)); LINE_COUNTER++;    //  Bookmakr
 
@@ -68,7 +68,8 @@ namespace toyc {
   }
 
     void JVMgenerateStatement::BlockStatement(ASblockState *ThisBlock,JVMtargetCode *tc) {
-//      std::cout << "  " << ThisBlock->toTypeString() << std::endl;    // Debuggung
+//        std::cout << " " << ThisBlock->toTypeString() << std::endl;   // Debuggung
+//        std::cout << " " << ThisBlock->toString() << std::endl;       // Debuggung
       int BlockVars = ThisBlock->getNumVarDef();
       tc->add(new limit("locals",10));  // Scooping is hard
       for (int Var = 0 ; Var <  BlockVars; Var++) // not sure if needed
@@ -195,9 +196,13 @@ namespace toyc {
 
     void JVMgenerateStatement::ExprStatement(ASexprState *ThisExpr,JVMtargetCode *tc) {
         ASexpr *expr_set;
+//        std::cout << " " << ThisExpr->toTypeString() << std::endl;   // Debuggung
+//        std::cout << " " << ThisExpr->toString() << std::endl;       // Debuggung
 //        tc->add(new line(LINE_COUNTER)); LINE_COUNTER++;    //  Bookmakr
 //            std::cout << "  " << ThisExpr->getOp()->toTypeString() << std::endl;     // Debuggung
         expr_set = dynamic_cast<ASexpr*>(ThisExpr->getOp());
+//        std::cout << " " << expr_set->toTypeString() << std::endl;   // Debuggung
+//        std::cout << " " << expr_set->toString() << std::endl;       // Debuggung
         JVMgenerateExpression::genExpression(expr_set, tc);
 
     }

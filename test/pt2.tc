@@ -1,6 +1,8 @@
 int main() {
   int i;
   int k;
-  i = 10;
+  i = 10 + 1;
+  write(i);
+  i = i + 1;
   write(i);
 }

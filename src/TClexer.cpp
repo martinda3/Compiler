@@ -198,7 +198,7 @@ namespace toyc {
 						else
 						{
 							lexeme += charBuff;
-							t = new TCtoken(MULOP, lexeme);
+							t = new TCtoken(MULTI, lexeme);
 							tokenFound = true;
 							charBuff = getChar();
 							break;

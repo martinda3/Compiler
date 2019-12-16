@@ -60,7 +60,7 @@ namespace toyc
 			case NEWLINE:     str += " NEWLINE "     + lexeme; break;
 			case NUMBER:      str += " NUMBER "      + lexeme; break;
 			case ADDOP:       str += " ADDOP "       + lexeme; break;
-//			case MODOP:       str += " MODOP "       + lexeme; break; // used zero times
+			case MULTI:       str += " MULTI "       + lexeme; break; // used zero times
 			case MINUS:       str += " MINUS "       + lexeme; break;
 			case MULOP:       str += " MULOP "       + lexeme; break; // used wtice
 			case RELOP:       str += " RELOP "       + lexeme; break;

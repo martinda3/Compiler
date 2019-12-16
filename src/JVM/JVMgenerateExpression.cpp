@@ -33,60 +33,60 @@
 
 namespace toyc {
     void JVMgenerateExpression::genExpression(ASexpression *ast, JVMtargetCode *tc) {
+        TCtoken *check1, *check2;
+        std::string cleanup, idd;
+        ASsimpleExpr *se;
         enum exprType etype = ast->getType();
+        std::cout << std::endl <<  " " << ast->toTypeString() << std::endl;   // Debuggung
+        std::cout << " " << ast->toString() << std::endl;       // Debuggung
 //        std::cout << "  " << ast->toTypeString() << std::endl;    // Debuggung
         if (etype == EXPRexpr) {
             ASexpr *be = dynamic_cast<ASexpr *>(ast);
             genExpression(be->getOp1(), tc);
-            genExpression(be->getOp2(), tc);
+
             ASoperator *temp = be->getOper();
-            TCtoken *check1, *check2;
             TCtoken *op = temp->getExpr();
-            std::string cleanup, idd;
-            ASsimpleExpr *se;
-            switch (op->getTokenType()) {
-                case ADDOP:     JVMgenUtils::gen_ADDOP(*op, tc);    break;  // Untested
-                case MULOP:     JVMgenUtils::gen_MULOP(*op, tc);    break;  // Untested
-                case RELOP:     JVMgenUtils::gen_RELOP(*op, tc);    break;  // Untested
-                case OR:        JVMgenUtils::gen_OR(*op, tc);       break;  // Untested
-                case AND:       JVMgenUtils::gen_AND(*op, tc);      break;  // Untested
-                case ASSIGNOP:                                              // Semi-testsed
-                    se = dynamic_cast<ASsimpleExpr *>(be->getOp2());
-                    check1 = dynamic_cast<TCtoken *>(se->getExpr());
-//                    std::cout << check1->toString() << std::endl;
-
-                    se = dynamic_cast<ASsimpleExpr *>(be->getOp1());
-                    check2 = dynamic_cast<TCtoken *>(se->getExpr());
-//                    std::cout << check2->toString() << std::endl;
-
-                    if (check1->getTokenType() == ID && check2->getTokenType() == NUMBER) {
-                        JVMgenUtils::gen_ICONST(stoi(check2->getLexeme()), tc);
-//                        std::cout << check1->getLexeme() << std::endl;
-                        JVMgenUtils::gen_ISTORE(*symTable->getSym(symTable->find(check1->getLexeme())), tc);
-                        break;
-                    } else if (check1->getTokenType() == ID) {
-                        JVMgenUtils::gen_ISTORE(*symTable->getSym(symTable->find(check1->getLexeme())), tc);
-                        break;
-                    }
-                    break;
-                default: // shouldn't happen
-                    std::cerr << "Fatal internal error #1: JVMgenerateExpression" << std::endl;
-                    exit(EXIT_FAILURE);
+            if (op->getTokenType() == ASSIGNOP) {
+                se = dynamic_cast<ASsimpleExpr *>(be->getOp2());
+                check1 = dynamic_cast<TCtoken *>(se->getExpr());
+                std::cout << check1->toString() << std::endl;
+                JVMgenUtils::gen_ISTORE(*symTable->getSym(symTable->find(check1->getLexeme())), tc);
             }
-//        Dose note do anything
-//        } else if (etype == SIMPLEexpr) {
-//            ASsimpleExpr *se = dynamic_cast<ASsimpleExpr *>(ast);
-//            TCtoken *t = se->getExpr();
-//            std::string lexeme = t->getLexeme();
-//            if (t->getTokenType() == ID) {
-//
-//            } else if (t->getTokenType() == NUMBER) {
-//
-//            } else // shouldn't happen
-//            {
-//                std::cerr << "Fatal internal error #2: JVMgenerateExpression" << std::endl;
-//                exit(EXIT_FAILURE);
-//            }
+            else {
+                genExpression(be->getOp2(), tc);
+                switch (op->getTokenType()) {
+                    case ADDOP:     JVMgenUtils::gen_ADDOP(*op, tc);    break;  // Untested
+                    case MULOP:  /*JVMgenUtils::gen_MULOP(*op, tc);*/   break;  // Modulous
+                    case MULTI:     JVMgenUtils::gen_MULOP(*op, tc);    break;  // multi
+                    case RELOP:     JVMgenUtils::gen_RELOP(*op, tc);    break;  // Untested
+                    case OR:        JVMgenUtils::gen_OR(*op, tc);       break;  // Untested
+                    case AND:       JVMgenUtils::gen_AND(*op, tc);      break;  // Untested
+                    case ASSIGNOP:                                      break;  // Redudnat
+                    default: // shouldn't happen
+//                    std::cerr << "Fatal internal error #1: JVMgenerateExpression" << std::endl;
+//                    exit(EXIT_FAILURE);
+                        break;
+                }
+            }
+
+
+        } else if (etype == SIMPLEexpr) {
+            TCsymbol *idsym;
+            ASsimpleExpr *se = dynamic_cast<ASsimpleExpr *>(ast);
+            TCtoken *t = se->getExpr();
+            std::string lexeme = t->getLexeme();
+            if (t->getTokenType() == ID) {
+                std::cout << "ID" << std::endl;
+                idsym = symTable->getSym(symTable->find(t->getLexeme()));
+                JVMgenUtils::gen_ILOAD(*idsym, tc);
+            } else if (t->getTokenType() == NUMBER) {
+                std::cout << "NUMBER" << std::endl;
+                JVMgenUtils::gen_ICONST(stoi(lexeme), tc);
+            } else // shouldn't happen
+            {
+                std::cerr << "Fatal internal error #2: JVMgenerateExpression" << std::endl;
+                exit(EXIT_FAILURE);
+            }
         }
         else if (etype == FUNCCALLexpr) { // Semi-testsed [Writestate]
             TCsymbol *idsym;
