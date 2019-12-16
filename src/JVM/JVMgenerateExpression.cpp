@@ -33,7 +33,7 @@
 
 namespace toyc {
     void JVMgenerateExpression::genExpression(ASexpression *ast, JVMtargetCode *tc) {
-        TCtoken *check1;
+        TCtoken *check1, *check2;
         std::string cleanup, idd;
         ASsimpleExpr *se;
         enum exprType etype = ast->getType();
