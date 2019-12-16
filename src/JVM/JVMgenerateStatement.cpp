@@ -75,6 +75,7 @@ namespace toyc {
       ASreadState *read_set;
       ASexprState *expr_set; ASifState *If_set;
       ASwriteState *write_set; ASreturnState *return_set;
+      ASblockState *FunctionBlock;
       int Blocks = ThisBlock->getNumStatement();
       for(int Block = 0 ; Block < Blocks ; Block++)
       {
@@ -106,6 +107,8 @@ namespace toyc {
               case BREAKstate: // not done
                   break;
               case BLOCKstate:
+                  FunctionBlock = dynamic_cast<ASblockState*>(ThisBlock->getStatement(Block));
+                  JVMgenerateStatement::BlockStatement(FunctionBlock, tc);
                   break;
               case IFstate:
                   If_set = dynamic_cast<ASifState*>(ThisBlock->getStatement(Block));
@@ -128,6 +131,9 @@ namespace toyc {
                   JVMgenerateStatement::WriteStatement(write_set, tc);
                   break;
               case NEWLINEstate:
+                  tc->add(new GETSTATIC(OUTPUT_FIELD_SPEC, OUTPUT_DESCRIPTOR));
+                  tc->add(new LDC(" "));
+                  tc->add(new INVOKEVIRTUAL(PRINT_STRING_METHOD_SPEC));
                   break;
               case EMPTYstate:
                   break;
@@ -146,20 +152,15 @@ namespace toyc {
             expr_set = dynamic_cast<ASexpr*>(ThisIf->getOp1());
             JVMgenerateExpression::genExpression(expr_set, tc);
             statement_set = dynamic_cast<ASstatement*>(ThisIf->getOp2());
-//                std::cout << "  " << statement_set->toTypeString() << std::endl;    // Debuggung
             FunctionBlock = dynamic_cast<ASblockState*>(statement_set);
             JVMgenerateStatement::BlockStatement(FunctionBlock, tc);
         } else {
-//                std::cout << "  " << ThisIf->getOp1()->toTypeString() << std::endl;    // Debuggung
             expr_set = dynamic_cast<ASexpr*>(ThisIf->getOp1());
             JVMgenerateExpression::genExpression(expr_set, tc);
-//            tc->add(new line(LINE_COUNTER)); LINE_COUNTER++;    //  Bookmakr
             statement_set = dynamic_cast<ASstatement*>(ThisIf->getOp2());
-//                std::cout << "  " << statement_set->toTypeString() << std::endl;    // Debuggung
             FunctionBlock = dynamic_cast<ASblockState*>(statement_set);
             JVMgenerateStatement::BlockStatement(FunctionBlock, tc);
             statement_set = dynamic_cast<ASstatement*>(ThisIf->getOp3());
-//                std::cout << "  " << statement_set->toTypeString() << std::endl;    // Debuggung
             FunctionBlock = dynamic_cast<ASblockState*>(statement_set);
             JVMgenerateStatement::BlockStatement(FunctionBlock, tc);
         }
@@ -169,15 +170,12 @@ namespace toyc {
         ASsimpleExpr *var;
         if (ThisReturn->isSimple()){
             var = dynamic_cast<ASsimpleExpr*>(ThisReturn->getOp());
-//                std::cout << " " << var->getExpr()->getLexeme()<< std::endl;    // Debuggung
             JVMgenerateExpression::genExpression(var, tc);
         } else { }
     }
 
     void JVMgenerateStatement::ExprStatement(ASexprState *ThisExpr,JVMtargetCode *tc) {
         ASexpr *expr_set;
-//        tc->add(new line(LINE_COUNTER)); LINE_COUNTER++;    //  Bookmakr
-//            std::cout << "  " << ThisExpr->getOp()->toTypeString() << std::endl;     // Debuggung
         expr_set = dynamic_cast<ASexpr*>(ThisExpr->getOp());
         JVMgenerateExpression::genExpression(expr_set, tc);
 

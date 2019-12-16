@@ -43,13 +43,6 @@ namespace toyc {
                   pad(lnstr.length()) <<
                   pad(l->getPos() + sep.length() - (l->getLexeme().length()) - 1) <<
                   "^ %error: " << message << std::endl;
-        /*
-        std::cout << "line number len = " << lnstr.length() << std::endl;
-        std::cout << "sep  len = " << sep.length() << std::endl;
-        std::cout << "getPos = " << l->getPos() << std::endl;
-        std::cout << "lexeme = " << l->getLexeme() << std::endl;
-        std::cout << "lexeme length = " << l->getLexeme().length() << std::endl;
-        */
     }
 
     void reportSYNTAX_ERROR(std::string message) {

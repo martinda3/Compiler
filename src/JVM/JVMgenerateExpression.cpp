@@ -33,14 +33,16 @@
 
 namespace toyc {
     void JVMgenerateExpression::genExpression(ASexpression *ast, JVMtargetCode *tc) {
-        TCtoken *check1;
+        TCtoken *check1, *check2;
         std::string cleanup, idd;
         ASsimpleExpr *se;
         enum exprType etype = ast->getType();
         if (etype == EXPRexpr) {
             ASexpr *be = dynamic_cast<ASexpr *>(ast);
+
             ASoperator *temp = be->getOper();
             TCtoken *op = temp->getExpr();
+
             if (op->getTokenType() == DIVOP) {
                 genExpression(be->getOp2(), tc);
                 genExpression(be->getOp1(), tc);

@@ -40,28 +40,39 @@ int main(int argc, char *argv[]) {
     strftime(buffer,sizeof(buffer),"%H:%M:%S",timeinfo);
     std::string ffile(buffer);
 
-    try
-    {
-        processCommandLine(argc,argv, ffile);
-        TClexer *scanner = new TClexer(inputFileName);
-        TCparser * parser = new TCparser(scanner);
-        ASabstractSyntax *ast = parser->parse();
+    TClexer *scanner;
+    TCparser * parser;
+    ASabstractSyntax *ast;
+    CGcodeGenerator *cg;
+    CGtargetCode* tc;
+    // Better for error checking (UNGLY)
+    try { processCommandLine(argc, argv, ffile); }
+    catch (...) { std::cerr << "ERROR: processCommandLine" << std::endl; exit(EXIT_FAILURE); }
 
-        CGcodeGenerator *cg = new JVMcodeGenerator();
-        CGtargetCode* tc = cg->generateCode(ast);
-        tc->writeCode(tc,targetFileName);
-        if (v_code_gen)
-        {
-//            dumpAST(ast);
-            dumpST(symTable);
-//            dumpCode(tc);
-        }
+    try { scanner = new TClexer(inputFileName); }
+    catch (...) { std::cerr << "ERROR: TClexer" << std::endl; exit(EXIT_FAILURE); }
+
+    try { parser = new TCparser(scanner); }
+    catch (...) { std::cerr << "ERROR: TCparser" << std::endl; exit(EXIT_FAILURE); }
+
+    try { ast = parser->parse(); }
+    catch (...) { std::cerr << "ERROR: ASabstractSyntax" << std::endl; exit(EXIT_FAILURE); }
+
+    try { cg = new JVMcodeGenerator(); }
+    catch (...) { std::cerr << "ERROR: CGcodeGenerator" << std::endl; exit(EXIT_FAILURE); }
+
+    try { tc = cg->generateCode(ast); }
+    catch (...) { std::cerr << "ERROR: CGtargetCode" << std::endl; exit(EXIT_FAILURE); }
+
+    try { tc->writeCode(tc,targetFileName); }
+    catch (...) { std::cerr << "ERROR: writeCode" << std::endl; exit(EXIT_FAILURE); }
+
+    if (v_code_gen)
+    {
+        dumpAST(ast);
+        dumpST(symTable);
+        dumpCode(tc);
     }
-    catch (...)
-        {
-        std::cerr << "ERROR: scanning failed" << std::endl;
-        exit(EXIT_FAILURE);
-        }
 }
 
 void processCommandLine(int argc, char *argv[], std::string filename) {
@@ -180,19 +191,11 @@ std::string getProgramName(std::string s)
 
 void printUsageMessage() {
     std::cout << "\nUsage: tc [-v] <input_file> [-d] <level>" << std::endl;
-    //std::cout << "Where options include: Note: XX == WIP" << std::endl;
-	//std::cout << "XX   -help              -h       display this usage message" << std::endl;
-	//std::cout << "XX   -output <file>     -o <f>   specifies target file name" << std::endl;
-	//std::cout << "XX   -class <file>      -c <l>   specifies class file name" << std::endl;
 	std::cout << "     -debug <level>     -d <l>   display messages that aid in tracing the" << std::endl;
 	std::cout << "                                 compilation process. If level is:" << std::endl;
 	std::cout << "                                    0 - all messages" << std::endl;
 	std::cout << "                                    1 - scanner messages only" << std::endl;
 	std::cout << "                                    2 - parser messages onlys" << std::endl;
-	//std::cout << "XX   -abstract          -a        dump the abstract syntax tree" << std::endl;
-	//std::cout << "XX   -symbol            -s        dump the symbol table(s)" << std::endl;
-	//std::cout << "XX   -code              -cc       dump the generated program" << std::endl;
 	std::cout << "     -verbose           -v        display all information" << std::endl;
-	//std::cout << "XX   -version           -vv       display the program version" << std::endl;
 }
 
