@@ -2,7 +2,7 @@ CC := g++ # This is the main compiler
 
 SRCDIR := src
 INCDIR := include
-TESTDIR := test
+TESTDIR := new_tests
 BUILDDIR := build
 JVMDIR := /JVM
 JVMINSTRUCTDIR := /JVM/instruction
@@ -37,10 +37,28 @@ clean:
 	@echo " Cleaning..."; 
 	@echo " $(RM) -r $(BUILDDIR) $(TARGET) "; $(RM) -r $(BUILDDIR) $(TARGET)
 
+test1:
+	$(MAKE) $(TARGET)
+	@echo "	Testing Part 1";
+	@echo "[Test 1]  "; $(TARGET) - $(TESTDIR)/test1.tc -d 1
+	@echo "	46 tokens";
+	@echo "	Part 1 Passed";
+
+scan:
+	$(MAKE) $(TARGET)
+	@echo "	Testing Part 1";
+	@echo "[Test 1]  "; $(TARGET) -v $(TESTDIR)/test1.tc
+	@echo "                   31 tokens";
+	@echo "[Test 2]  "; $(TARGET) -v $(TESTDIR)/test2.tc
+	@echo "                   FAILED";
+	@echo "[Test 3]  "; $(TARGET) -v $(TESTDIR)/test3.tc
+	@echo "[Test 4]  "; $(TARGET) -v $(TESTDIR)/test4.tc
+	@echo "                   FAILED";
+
 part1:
 	$(MAKE) $(TARGET)
 	@echo "	Testing Part 1";
-	@echo "[Test 1]  "; $(TARGET) - $(TESTDIR)/p1_test.tc -d 1
+	@echo "[Test 1]  "; $(TARGET) - $(TESTDIR)/pt2.tc -d 1
 	@echo "	46 tokens";
 	@echo "	Part 1 Passed";
 
