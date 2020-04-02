@@ -489,7 +489,7 @@ namespace toyc {
 		}
 		if (v_scanner) { reportDEBUG("  ", "SCANNER", t->toString()); }
 		if (!IGNOR){ return t; }
-
+        return t;
 		}
 
 	std::string TClexer::getLine() { return line; }
