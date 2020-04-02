@@ -200,6 +200,7 @@ void printUsageMessage() {
 */
 /* Testing the Scanner */
 #include <iostream>
+#include <fstream>
 #include "TCtoken.h"
 #include "TClexer.h"
 #include "TCglobals.h"
@@ -209,8 +210,11 @@ void printUsageMessage() {
 using namespace toyc;
 using namespace std;
 
+int FileHandler(string nameoffile);
 void processCommandLine(int, char* []);
 void printUsageMessage();
+
+static std::ifstream inputfile;
 
 int main(int argc, char* argv[])
 {
@@ -218,7 +222,8 @@ int main(int argc, char* argv[])
     {
         processCommandLine(argc, argv);
         turnVerboseOff();
-        turnScannerOn();
+        turnScannerOff();
+        cout << FileHandler(inputFileName);
         TClexer* scanner = new TClexer(inputFileName);
         int tok;
         while ((tok = scanner->getToken()->getTokenType()) != EOFILE);
@@ -265,3 +270,18 @@ void printUsageMessage()
     cout << "Where -v means verbose output" << endl;
 }
 
+int FileHandler(string nameoffile){
+    string line;
+    int count = 0;
+    inputfile.open(nameoffile);
+    if (inputfile.fail()) {
+        std::cerr << "ERROR: input file not found" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+    while(!inputfile.eof()){
+        getline(inputfile,line);
+        count++;
+    }
+    inputfile.close();
+    return count;
+}
