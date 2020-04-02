@@ -16,7 +16,7 @@ int main() {
   i = i * 1;
   write(i);
   ;
-  newline;*/
+  newline; */
   write("k is ");
   write(k);
   k = 10 / 2;
