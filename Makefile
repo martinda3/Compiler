@@ -37,17 +37,20 @@ clean:
 	@echo " Cleaning..."; 
 	@echo " $(RM) -r $(BUILDDIR) $(TARGET) "; $(RM) -r $(BUILDDIR) $(TARGET)
 
-test1:
-	$(MAKE) $(TARGET)
-	@echo "	Testing Part 1";
-	@echo "[Test 1]  "; $(TARGET) - $(TESTDIR)/test1.tc -d 1
-	@echo "	46 tokens";
-	@echo "	Part 1 Passed";
-
 full:
 	$(MAKE) $(TARGET)
 	@echo "	Testing Part 1";
 	@echo "[Test 1]  "; $(TARGET) -c $(TESTDIR)/full.tc
+
+syn:
+	$(MAKE) $(TARGET)
+	@echo "	Testing Part 1";
+	@echo "[Test 1]  "; $(TARGET) -a $(TESTDIR)/full.tc
+
+pars:
+	$(MAKE) $(TARGET)
+	@echo "	Testing Part 1";
+	@echo "[Test 1]  "; $(TARGET) -p $(TESTDIR)/test1.tc
 
 scan:
 	$(MAKE) $(TARGET)
@@ -59,24 +62,5 @@ scan:
 	@echo "[Test 3]  "; $(TARGET) -s $(TESTDIR)/test3.tc
 	@echo "[Test 4]  "; $(TARGET) -s $(TESTDIR)/test4.tc
 	@echo "                   FAILED";
-
-part1:
-	$(MAKE) $(TARGET)
-	@echo "	Testing Part 1";
-	@echo "[Test 1]  "; $(TARGET) - $(TESTDIR)/pt2.tc -d 1
-	@echo "	46 tokens";
-	@echo "	Part 1 Passed";
-
-part2:
-	$(MAKE) $(TARGET)
-	@echo "	Testing Part 2";
-	@echo "[Test 1]  "; $(TARGET) -v $(TESTDIR)/p2_test.tc
-	@echo "	Part 2 Passed";
-
-part2a:
-	$(MAKE) $(TARGET)
-	@echo "	Testing Abstract Syntax";
-	@echo "[Test 1]  "; $(TARGET) - $(TESTDIR)/p2_test.tc -d 3
-	@echo "	Abstract Syntax Passed";
 
 .PHONY: clean

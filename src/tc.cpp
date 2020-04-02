@@ -44,39 +44,8 @@ int main(int argc, char *argv[]) {
     strftime(buffer,sizeof(buffer),"%H:%M:%S",timeinfo);
     string ffile(buffer);
 
-//    TClexer *scanner;
-//    TCparser * parser;
-//    ASabstractSyntax *ast;
-//    CGcodeGenerator *cg;
-//    CGtargetCode* tc;
-    // Better for error checking (UNGLY)
     try { processCommandLine(argc, argv, ffile); }
     catch (...) { cerr << "ERROR: processCommandLine" << endl; exit(EXIT_FAILURE); }
-
-//    try { scanner = new TClexer(inputFileName); }
-//    catch (...) { cerr << "ERROR: TClexer" << endl; exit(EXIT_FAILURE); }
-//
-//    try { parser = new TCparser(scanner); }
-//    catch (...) { cerr << "ERROR: TCparser" << endl; exit(EXIT_FAILURE); }
-//
-//    try { ast = parser->parse(); }
-//    catch (...) { cerr << "ERROR: ASabstractSyntax" << endl; exit(EXIT_FAILURE); }
-//
-//    try { cg = new JVMcodeGenerator(); }
-//    catch (...) { cerr << "ERROR: CGcodeGenerator" << endl; exit(EXIT_FAILURE); }
-//
-//    try { tc = cg->generateCode(ast); }
-//    catch (...) { cerr << "ERROR: CGtargetCode" << endl; exit(EXIT_FAILURE); }
-//
-//    try { tc->writeCode(tc,targetFileName); }
-//    catch (...) { cerr << "ERROR: writeCode" << endl; exit(EXIT_FAILURE); }
-//
-//    if (v_code_gen)
-//    {
-//        dumpAST(ast);
-//        dumpST(symTable);
-//        dumpCode(tc);
-//    }
 }
 
 void processCommandLine(int argc, char *argv[], string filename) {
@@ -156,14 +125,49 @@ void processCommandLine(int argc, char *argv[], string filename) {
                     dumpST(symTable);
                     dumpCode(tc);
                 }
-                //targetFileName = "test/test" + filename + ".j";;
+            }
+            else if (argv[1][0] == '-' && argv[1][1] == 'p')
+            {
+                turnVerboseOn();
+                turnParserOn();
+                turnScannerOn();
+
+                inputFileName = argv[2];
+                TClexer *scanner;
+                try { scanner = new TClexer(inputFileName); }
+                catch (...) { cerr << "ERROR: TClexer" << endl; exit(EXIT_FAILURE); }
+                int tok;
+                while ((tok = scanner->getToken()->getTokenType()) != EOFILE);
+            }
+            else if (argv[1][0] == '-' && argv[1][1] == 'a')
+            {
+                turnVerboseOn();
+                turnParserOn();
+                turnScannerOn();
+                turnCodeGenOn();
+                TClexer *scanner;
+                TCparser * parser;
+                ASabstractSyntax *ast;
+                inputFileName = argv[2];
+                try { scanner = new TClexer(inputFileName); }
+                catch (...) { cerr << "ERROR: TClexer" << endl; exit(EXIT_FAILURE); }
+
+                try { parser = new TCparser(scanner); }
+                catch (...) { cerr << "ERROR: TCparser" << endl; exit(EXIT_FAILURE); }
+
+                try { ast = parser->parse(); }
+                catch (...) { cerr << "ERROR: ASabstractSyntax" << endl; exit(EXIT_FAILURE); }
+
+                if (v_code_gen)
+                {
+                    dumpAST(ast);
+                    dumpST(symTable);
+                }
             }
 			else
 			{
 				inputFileName = argv[2];
-
                 targetFileName = keeper;
-                //targetFileName = "test/test" + filename + ".j";;
 			}
 			break;
         default:
