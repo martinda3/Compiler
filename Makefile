@@ -50,7 +50,7 @@ syn:
 pars:
 	$(MAKE) $(TARGET)
 	@echo "	Testing Part 1";
-	@echo "[Test 1]  "; $(TARGET) -p $(TESTDIR)/test1.tc
+	@echo "[Test 1]  "; $(TARGET) -p $(TESTDIR)/full.tc
 
 scan0:
 	$(MAKE) $(TARGET)
@@ -60,9 +60,9 @@ scan0:
 #	@echo "                   31 tokens";
 	@echo "\n[Test 2]  "; $(TARGET) -s0 $(TESTDIR)/test2.tc
 	@echo "            RESULT 1 token";
-	#@echo "\n[Test 3]  "; $(TARGET) -s0 $(TESTDIR)/test3.tc
-	#@echo "\n[Test 4]  "; $(TARGET) -s0 $(TESTDIR)/test4.tc
-	#@echo "                   7 tokens";
+#	@echo "\n[Test 3]  "; $(TARGET) -s0 $(TESTDIR)/test3.tc
+#	@echo "\n[Test 4]  "; $(TARGET) -s0 $(TESTDIR)/test4.tc
+#	@echo "                   7 tokens";
 
 scan:
 	$(MAKE) $(TARGET)

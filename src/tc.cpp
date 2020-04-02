@@ -74,11 +74,11 @@ void processCommandLine(int argc, char *argv[], string filename) {
             // add the argv[2]
 			if (argv[1][0] == '-' && argv[1][1] == 's')
 			{
-//                turnVerboseOn(); will turn back on
+                turnVerboseOn();
 				turnScannerOn();
 				if (argv[1][2] == '0') // add more robust debugging
 				{
-                    turnVerboseOff();
+                    //turnVerboseOff();
                     turnScannerOff();
                     turnScannerOff();
                     turnCodeGenOff();
@@ -142,7 +142,7 @@ void processCommandLine(int argc, char *argv[], string filename) {
             {
                 turnVerboseOn();
                 turnParserOn();
-                turnScannerOn();
+                //turnScannerOn();
                 if (argv[1][2] == '0')
                 {
                     turnVerboseOff();
