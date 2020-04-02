@@ -55,7 +55,7 @@ namespace toyc {
 		TCtoken *t;
 		while (!tokenFound) {
 			/// Stops endless loops
-			if (t_tokens > 100) { reportWARNING("  ", " System: More than 1000 tokens."); exit(EXIT_FAILURE); }
+			if (t_tokens > 1000) { reportWARNING("  ", " System: More than 1000 tokens."); exit(EXIT_FAILURE); }
 			/// Ignores white space
 			while (isspace(charBuff) && (charBuff != EOFCHAR)) { charBuff = getChar(); }
 			if (charBuff == EOFCHAR) {

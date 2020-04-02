@@ -44,15 +44,20 @@ test1:
 	@echo "	46 tokens";
 	@echo "	Part 1 Passed";
 
+full:
+	$(MAKE) $(TARGET)
+	@echo "	Testing Part 1";
+	@echo "[Test 1]  "; $(TARGET) -c $(TESTDIR)/full.tc
+
 scan:
 	$(MAKE) $(TARGET)
 	@echo "	Testing Part 1";
-	@echo "[Test 1]  "; $(TARGET) -v $(TESTDIR)/test1.tc
+	@echo "[Test 1]  "; $(TARGET) -s $(TESTDIR)/test1.tc
 	@echo "                   31 tokens";
-	@echo "[Test 2]  "; $(TARGET) -v $(TESTDIR)/test2.tc
+	@echo "[Test 2]  "; $(TARGET) -s $(TESTDIR)/test2.tc
 	@echo "                   FAILED";
-	@echo "[Test 3]  "; $(TARGET) -v $(TESTDIR)/test3.tc
-	@echo "[Test 4]  "; $(TARGET) -v $(TESTDIR)/test4.tc
+	@echo "[Test 3]  "; $(TARGET) -s $(TESTDIR)/test3.tc
+	@echo "[Test 4]  "; $(TARGET) -s $(TESTDIR)/test4.tc
 	@echo "                   FAILED";
 
 part1:
