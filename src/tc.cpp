@@ -7,14 +7,17 @@
 #include <sstream>
 #include <fstream>
 #include <vector>
-#include <ctime>
 
+#include "TCfileData.h"
 #include "TCtoken.h"
 #include "TClexer.h"
 #include "TCparser.h"
 #include "TCglobals.h"
 #include "TCtokens.h"
 #include "TCoutput.h"
+
+#include "TCfileData.h"
+
 #include "ASabstractSyntax.h"
 #include "CGcodeGenerator.h"
 #include "CGtargetCode.h"
@@ -25,7 +28,7 @@
 using namespace toyc;
 using namespace std;
 
-int FileHandler(string nameoffile);
+int inputFileHandler(string nameoffile);
 
 void processCommandLine(int, char *[], string);
 
@@ -34,16 +37,8 @@ void printUsageMessage();
 static std::ifstream inputfile;
 
 int main(int argc, char *argv[]) {
-    time_t rawtime;
-    struct tm * timeinfo;
     char buffer[80];
-
-    time (&rawtime);
-    timeinfo = localtime(&rawtime);
-
-    strftime(buffer,sizeof(buffer),"%H:%M:%S",timeinfo);
     string ffile(buffer);
-
     try { processCommandLine(argc, argv, ffile); }
     catch (...) { cerr << "ERROR: processCommandLine" << endl; exit(EXIT_FAILURE); }
 }
@@ -76,13 +71,22 @@ void processCommandLine(int argc, char *argv[], string filename) {
             printUsageMessage();
             break;
         case 3:
+            // add the argv[2]
 			if (argv[1][0] == '-' && argv[1][1] == 's')
 			{
-                turnVerboseOn();
+//                turnVerboseOn(); will turn back on
 				turnScannerOn();
+				if (argv[1][2] == '0') // add more robust debugging
+				{
+                    turnVerboseOff();
+                    turnScannerOff();
+                    turnScannerOff();
+                    turnCodeGenOff();
+				}
 				inputFileName = argv[2];
                 targetFileName = keeper;
-                cout << FileHandler(inputFileName);
+                TCfile *test1 = new TCfile(inputFileName, targetFileName, inputFileHandler(inputFileName));
+                cout << test1->getFileInfo();
                 TClexer* scanner = new TClexer(inputFileName);
                 int tok;
                 while ((tok = scanner->getToken()->getTokenType()) != EOFILE);
@@ -93,6 +97,13 @@ void processCommandLine(int argc, char *argv[], string filename) {
                 turnParserOn();
                 turnScannerOn();
                 turnCodeGenOn();
+                if (argv[1][2] == '0')
+                {
+                    turnVerboseOff();
+                    turnScannerOff();
+                    turnScannerOff();
+                    turnCodeGenOff();
+                }
                 TClexer *scanner;
                 TCparser * parser;
                 ASabstractSyntax *ast;
@@ -101,6 +112,7 @@ void processCommandLine(int argc, char *argv[], string filename) {
                 inputFileName = argv[2];
 
                 targetFileName = keeper;
+                cout << inputFileHandler(inputFileName);
                 try { scanner = new TClexer(inputFileName); }
                 catch (...) { cerr << "ERROR: TClexer" << endl; exit(EXIT_FAILURE); }
 
@@ -131,7 +143,13 @@ void processCommandLine(int argc, char *argv[], string filename) {
                 turnVerboseOn();
                 turnParserOn();
                 turnScannerOn();
-
+                if (argv[1][2] == '0')
+                {
+                    turnVerboseOff();
+                    turnScannerOff();
+                    turnScannerOff();
+                    turnCodeGenOff();
+                }
                 inputFileName = argv[2];
                 TClexer *scanner;
                 try { scanner = new TClexer(inputFileName); }
@@ -145,6 +163,13 @@ void processCommandLine(int argc, char *argv[], string filename) {
                 turnParserOn();
                 turnScannerOn();
                 turnCodeGenOn();
+                if (argv[1][2] == '0')
+                {
+                    turnVerboseOff();
+                    turnScannerOff();
+                    turnScannerOff();
+                    turnCodeGenOff();
+                }
                 TClexer *scanner;
                 TCparser * parser;
                 ASabstractSyntax *ast;
@@ -168,6 +193,7 @@ void processCommandLine(int argc, char *argv[], string filename) {
 			{
 				inputFileName = argv[2];
                 targetFileName = keeper;
+                cout << inputFileHandler(inputFileName);
 			}
 			break;
         default:
@@ -202,7 +228,7 @@ void printUsageMessage() {
 }
 
 
-int FileHandler(string nameoffile){
+int inputFileHandler(string nameoffile){
     string line;
     int count = 0;
     inputfile.open(nameoffile);

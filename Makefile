@@ -52,15 +52,28 @@ pars:
 	@echo "	Testing Part 1";
 	@echo "[Test 1]  "; $(TARGET) -p $(TESTDIR)/test1.tc
 
+scan0:
+	$(MAKE) $(TARGET)
+	$ clear
+	@echo "	Testing Scanner";
+#	@echo "\n[Test 1]  "; $(TARGET) -s0 $(TESTDIR)/test1.tc
+#	@echo "                   31 tokens";
+	@echo "\n[Test 2]  "; $(TARGET) -s0 $(TESTDIR)/test2.tc
+	@echo "            RESULT 1 token";
+	#@echo "\n[Test 3]  "; $(TARGET) -s0 $(TESTDIR)/test3.tc
+	#@echo "\n[Test 4]  "; $(TARGET) -s0 $(TESTDIR)/test4.tc
+	#@echo "                   7 tokens";
+
 scan:
 	$(MAKE) $(TARGET)
-	@echo "	Testing Part 1";
-	@echo "[Test 1]  "; $(TARGET) -s $(TESTDIR)/test1.tc
-	@echo "                   31 tokens";
-	@echo "[Test 2]  "; $(TARGET) -s $(TESTDIR)/test2.tc
-	@echo "                   FAILED";
-	@echo "[Test 3]  "; $(TARGET) -s $(TESTDIR)/test3.tc
-	@echo "[Test 4]  "; $(TARGET) -s $(TESTDIR)/test4.tc
-	@echo "                   FAILED";
+	$ clear
+	@echo "	Testing Scanner";
+#	@echo "\n[Test 1]  "; $(TARGET) -s $(TESTDIR)/test1.tc
+#	@echo "                   31 tokens";
+	@echo "\n[Test 2]  "; $(TARGET) -s $(TESTDIR)/test2.tc
+	@echo "            RESULT 1 token";
+#	@echo "\n[Test 3]  "; $(TARGET) -s $(TESTDIR)/test3.tc
+#	@echo "\n[Test 4]  "; $(TARGET) -s $(TESTDIR)/test4.tc
+#	@echo "                   7 tokens";
 
 .PHONY: clean
