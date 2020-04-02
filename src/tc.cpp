@@ -196,6 +196,8 @@ string getProgramName(string s)
 void printUsageMessage() {
     cout << "\nUsage: tc [Function] <input_file> " << endl;
 	cout << "            -Function      -s        display all Scanner information" << endl;
+    cout << "            -Function      -p        display all Parser information" << endl;
+    cout << "            -Function      -a        display all abstract information" << endl;
     cout << "            -Function      -c        display all Completed information" << endl;
 }
 
