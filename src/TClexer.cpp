@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <string>
 
 #include "TCtoken.h"
 #include "TClexer.h"
@@ -19,8 +20,7 @@ namespace toyc {
 
 	static char charBuff;
 	static char EOFCHAR = '\0';
-
-	static unsigned int pos;
+    static unsigned int pos;
 	static int lineNum = 0;
 	static int t_tokens = 0;
 	int lineTemp;
@@ -49,12 +49,13 @@ namespace toyc {
 	/// While no new token, Scanner will look for a legal token
 	TCtoken *TClexer::getToken() {
 		bool tokenFound = false;
+        bool IGNOR = false;
 		t_tokens++;
 		lexeme = "";
 		TCtoken *t;
 		while (!tokenFound) {
 			/// Stops endless loops
-			if (t_tokens > 1000) { reportWARNING("  ", " System: More than 1000 tokens."); exit(EXIT_FAILURE); }
+			if (t_tokens > 100) { reportWARNING("  ", " System: More than 1000 tokens."); exit(EXIT_FAILURE); }
 			/// Ignores white space
 			while (isspace(charBuff) && (charBuff != EOFCHAR)) { charBuff = getChar(); }
 			if (charBuff == EOFCHAR) {
@@ -187,7 +188,7 @@ namespace toyc {
 						tokenFound = true;
 						charBuff = getChar();
 						break;
-					case '*':
+					case '*': // This is where it braks
 						char hold;
 						hold = getChar();
 						if (hold == '/')
@@ -422,13 +423,15 @@ namespace toyc {
 								lexeme = "";
 								bool quit = true;
 								int blocks = 0;
+                                IGNOR = true;
 								blocks++;
-								while (blocks != 0)
+								while (blocks != 0) //// can only counbt 2 blocks in sead of if need a do while
 								{
 									while (quit)
 									{
+                                        //reportDEBUG("  ", "BLOCKS", std::to_string(blocks));
 										charBuff = commenter();
-
+										// if instad
 										if (charBuff == '/')
 										{
 											charBuff = commenter();
@@ -446,22 +449,27 @@ namespace toyc {
 											{
 												blocks--;
 												lexeme = "";
-												quit = false;
+												if (blocks == 0) {quit = false; IGNOR = false; break;}
 											}
 										}
 									}
-									if (blocks != 0)
+									if (blocks > -1)
 									{
 										quit = true;
 										lexeme = "";
+                                        IGNOR = false;
+										break;
 									}
 									else
 									{
+                                        quit = false;
 										lexeme = "";
+                                        IGNOR = false;
 										break;
 									}
 								}
 								lexeme = "";
+                                //IGNOR = false;
 								break;
 						}
 						if (lexeme == "/")
@@ -473,12 +481,15 @@ namespace toyc {
 						charBuff = getChar();
 						break;
 					default:
-						lexeme += charBuff; t = new TCtoken(NONE, lexeme); tokenFound = true; break;
+					    lexeme = "";
+                        charBuff = getChar();
+                        break;
 				}
 			}
 		}
 		if (v_scanner) { reportDEBUG("  ", "SCANNER", t->toString()); }
-		return t;
+		if (!IGNOR){ return t; }
+
 		}
 
 	std::string TClexer::getLine() { return line; }
@@ -492,22 +503,40 @@ namespace toyc {
     /// Loads the lookahead buffer
 	char getChar() {
 		std::string holder;
-		do {
-			if (infile.eof()) { return EOFCHAR; }
-			if (line.empty() || pos > line.length()) { line = getNextLine(); }
-			char ch = line[pos]; holder = ch;
-			if ((ch == '.')) {
-				if (isspace(line[pos + 1])) {
-					reportWARNING("  ", " Scanner: '.' Illegal Character. Ignoring"); pos++;
-				}
-			}
-			if (ch == '\0') { line = getNextLine(); ch = line[pos]; }
-			if (isInAlphabet(ch) || isspace(ch))  { break; }
-			reportWARNING("  ", " Scanner: \'" + holder + "\' Illegal Character. Ignoring"); pos++;
-			break;
-		} while (true);
-		return line[pos++];
+//		do {
+//			//if (infile.eof()) { return EOFCHAR; }
+//			if (line.empty() || pos > line.length()) { line = getNextLine(); }
+//			char ch = line[pos]; holder = ch;
+//			if ((ch == '.')) {
+//				if (isspace(line[pos + 1])) {
+//					reportWARNING("  ", " Scanner: '.' Illegal Character. Ignoring"); pos++;
+//				}
+//			}
+//			if (ch == '\0') { line = getNextLine(); ch = line[pos]; }
+//			if (isInAlphabet(ch) || isspace(ch))  { break; }
+//			reportWARNING("  ", " Scanner: \'" + holder + "\' Illegal Character. Ignoring"); pos++;
+//			break;
+//		} while(true);
+/// try 2
+		while (!infile.eof())
+		{
+            if (line.empty() || pos > line.length()) { line = getNextLine(); pos = 0; }
+            char ch = line[pos]; holder = ch;
+            if ((ch == '.')) {
+                if (isspace(line[pos + 1])) {
+                    reportWARNING("  ", " Scanner: '.' Illegal Character. Ignoring"); pos++;
+                }
+            }
+            if (ch == '\0') { line = getNextLine(); ch = line[pos]; }
+            if (isInAlphabet(ch) || isspace(ch))  { break; }
+            else {
+                reportWARNING("  ", " Scanner: \'" + holder + "\' Illegal Character. Ignoring");
+            }
+            //return EOFCHAR;
+            //break;
 		}
+        return line[pos++];
+	}
 
 	///	Used for comments, does not return an illegal character warning
 	char commenter() {
