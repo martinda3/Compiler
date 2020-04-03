@@ -1,7 +1,7 @@
 ;
 ; Source file: new_tests/full.tc
 ; Target file: new_tests/full.j
-; Thu Apr  2 17:19:01 2020
+; Fri Apr  3 12:37:13 2020
 ;
 
 .source new_tests/full.tc

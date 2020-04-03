@@ -74,7 +74,7 @@ void processCommandLine(int argc, char *argv[], string filename) {
             targetFileName = keeper;
             if (argv[1][0] == '-' && argv[1][1] == 's') {
                 turnVerboseOn();
-                //turnScannerOn();
+                turnScannerOn();
                 if (argv[1][2] == '0') // add more robust debugging
                 {
                     turnVerboseOff();
