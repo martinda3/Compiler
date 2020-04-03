@@ -73,7 +73,7 @@ scan:
 	@echo "\n[Test 2]  "; $(TARGET) -s $(TESTDIR)/full.tc
 	@echo "            RESULT 1 token";
 	@echo "\n[Test 2]  "; $(TARGET) -s $(TESTDIR)/test2.tc
-	@echo "            RESULT 1 token";
+	@echo "            RESULT 7 token";
 #	@echo "\n[Test 4]  "; $(TARGET) -s $(TESTDIR)/full.tc
 #	@echo "            RESULT 1 token";
 #	@echo "\n[Test 3]  "; $(TARGET) -s $(TESTDIR)/test3.tc

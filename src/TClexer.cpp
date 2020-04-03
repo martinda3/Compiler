@@ -440,6 +440,7 @@ namespace toyc {
 //                                reportDEBUG("  ", "Comments", "Begging Clearing Lexeme");
                                 IGNOR = true;
                                 commentDepth++;
+
                                 //lexeme += charBuff;
                                 break;
 						}
@@ -537,7 +538,7 @@ namespace toyc {
 		else if (lineNum < 99) {num = " ";}
 		else if (lineNum < 999) {num = "";}
 		num += std::to_string(lineNum);
-		if (verbose) reportDEBUG(" ", "INPUT", " " + num + ": " + line + comment + "  " + std::to_string(commentDepth));
+		if (verbose) reportDEBUG(" ", "INPUT", " " + num + ": " + line + comment + "  " + std::to_string(commentDepth) + "lexi= " + lexeme);
 		return line;
 	}
 
