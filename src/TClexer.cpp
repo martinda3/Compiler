@@ -26,7 +26,7 @@ namespace toyc {
 	int lineTemp;
 	int commentDepth = 0;
 
-    extern bool IGNOR = false;
+	bool IGNOR = false;
 	static std::string line;
 	static std::string lexeme = "";
 
@@ -49,6 +49,7 @@ namespace toyc {
 	/// When a token is found, the tokenFound flag will change.
 	/// While no new token, Scanner will look for a legal token
 	TCtoken *TClexer::getToken() {
+	    string comment;
 		bool tokenFound = false;
 		t_tokens++;
 		lexeme = "";
@@ -189,39 +190,32 @@ namespace toyc {
 						charBuff = getChar();
 						break;
 					case '*': /////////////////////////////////////
-					if (IGNOR) {
-                        char hold;
-                        hold = getChar();
-                        if (hold == '/') {
-//                            reportDEBUG("  ", "Comments", "End Clearing Lexeme" + lexeme);
-                            commentDepth--;
-
-                            lexeme = "";
-                            charBuff = getChar();
-//                            break;
-                        } //else {
-//                            reportDEBUG("  ", "Comments", "Begging Clearing Lexeme");
-//                            commentDepth++;
-//                            lexeme = "";
-//                            break;
-//                            }
-					}
-					else {
-                        //reportDEBUG("  ", "lexi", lexeme);
-                        lexeme += charBuff;
-
-                        reportDEBUG("  ", "lexi", lexeme);
-                        t = new TCtoken(MULTI, lexeme);
-                        if (!IGNOR)
-                        {
-                            tokenFound = true;
-                            charBuff = getChar();
+					    if (IGNOR)
+					    {
+                            char hold;
+                            hold = getChar();
+                            if (hold == '/')
+                            {
+                                lexeme = "";
+                                commentDepth--;
+                                reportDEBUG("  ", "SUBTR", " " + std::to_string(commentDepth));
+                                charBuff = getChar();
+                                break;
+                            }
+					    } else {
+                            //reportDEBUG("  ", "lexi", lexeme);
+                            lexeme += charBuff;
+                            t = new TCtoken(MULTI, lexeme);
+                            if (!IGNOR)
+                            {
+                                tokenFound = true;
+                                charBuff = getChar();
+                                break;
+                            }
                             break;
 					    }
-                        break;
-						}
-                        if (commentDepth == 0) {IGNOR = false; break;}
-						break;
+                            if (commentDepth == 0) {IGNOR = false; break;}
+                            break;
 					case '(':
 						lexeme += charBuff;
 						t = new TCtoken(LPAREN, lexeme);
@@ -269,7 +263,6 @@ namespace toyc {
 							break;
 						}
 						break;
-
 					case '|':
 						lexeme += charBuff;
 						charBuff = getChar();
@@ -288,7 +281,6 @@ namespace toyc {
 							break;
 						}
 						break;
-
 					case '&':
 						lexeme += charBuff;
 						charBuff = getChar();
@@ -307,7 +299,6 @@ namespace toyc {
 							break;
 						}
 						break;
-
 					case '>':
 						lexeme += charBuff;
 						charBuff = getChar();
@@ -394,7 +385,6 @@ namespace toyc {
 							break;
 						}
 						break;
-
 					case '\'':
 						lexeme += charBuff;
 						charBuff = getChar();
@@ -426,28 +416,26 @@ namespace toyc {
 						break;
 						/// Block Comments
 					case '/':
-						int temp;
 						lexeme = charBuff;
 						charBuff = getChar();
-						switch (charBuff) {
-							case '/':
-								lexeme = "";
-								temp = lineNum;
-								while (temp == lineNum) {charBuff = commenter();}
-								charBuff = getChar();
-								break;
-							case '*':
-//                                reportDEBUG("  ", "Comments", "Begging Clearing Lexeme");
+						switch (charBuff)
+						{
+                            case '*':
+                                lexeme += charBuff;
                                 IGNOR = true;
                                 commentDepth++;
-
-                                //lexeme += charBuff;
+                                reportDEBUG("  ", "ADDIN", " " + std::to_string(commentDepth));
                                 break;
+							case '/':
+                                charBuff = commenter();
+								//while (temp == lineNum) {charBuff = commenter();}
+								//lexeme = getChar();
+								break;
 						}
-						if (lexeme == "/")
+						if (lexeme == "/" && charBuff != '*')
 						{
 							t = new TCtoken(DIVOP, lexeme);
-							if (!IGNOR) {tokenFound = true;}
+							if (!IGNOR ) {tokenFound = true;}
 							break;
 						}
 						charBuff = getChar();
@@ -462,6 +450,8 @@ namespace toyc {
 			}
 		}
 		if (v_scanner) { reportDEBUG("  ", "SCANNER", t->toString()); }
+        if (commentDepth!=0) { reportDEBUG("  ", "Comment", std::to_string(commentDepth)); }
+        //if (v_scanner) { reportDEBUG("  ", "Lexeme",  lexeme); }
         return t;
 		}
 
@@ -496,7 +486,8 @@ namespace toyc {
             if (line.empty() || pos > line.length()) { line = getNextLine(); pos = 0; }
             char ch = line[pos]; holder = ch;
             if ((ch == '.')) {
-                if (isspace(line[pos + 1])) {
+                if (isspace(line[pos + 1]))
+                {
                     reportWARNING("  ", " Scanner: '.' Illegal Character. Ignoring"); pos++;
                 }
             }
@@ -512,9 +503,11 @@ namespace toyc {
 	}
 
 	///	Used for comments, does not return an illegal character warning
-	char commenter() {
+	char commenter()
+	{
 		do {
 			if (infile.eof()) { return EOFCHAR; }
+            pos = line.length() + 1;
 			if (line.empty() || pos > line.length())  { line = getNextLine(); }
 			char ch = line[pos];
 			if (isInAlphabet(ch) || isspace(ch)) { break; }
@@ -526,26 +519,25 @@ namespace toyc {
 	/// Called by getChar, reads inputFile one line at a time.
 	/// Returns a string, and resets the position.
 	/// Also used to for debugging by printing string to terminal. if (Verbose)
-	std::string getNextLine() {
-		std::string line, num, comment;
+	std::string getNextLine()
+	{
+		std::string line, num;
 		std::getline(infile, line);
 		line = line + " ";
 		pos = 0;
 		lineNum++;
-		if (IGNOR) {comment = " Blcok!";}
-		else {comment = "not";}
 		if (lineNum < 10) {num = "  ";}
 		else if (lineNum < 99) {num = " ";}
 		else if (lineNum < 999) {num = "";}
 		num += std::to_string(lineNum);
-		if (verbose) reportDEBUG(" ", "INPUT", " " + num + ": " + line + comment + "  " + std::to_string(commentDepth) + "lexi= " + lexeme);
+		if (verbose) reportDEBUG(" ", "INPUT", " " + num + ": " + line);
 		return line;
 	}
 
 	/// Is called by getChar to determain if character is legal.
 	/// TODO: Make an issymble(char) fuction
-	bool isInAlphabet(char ch) {
-
+	bool isInAlphabet(char ch)
+	{
 		return (isalpha(ch) || isdigit(ch) || (ch == '%') || (ch == '+') || (ch == '-') || (ch == '*') || (ch == '/') ||
 		        (ch == '<') || (ch == '>') || (ch == '(') || (ch == ')') || (ch == '=') || (ch == ';') || (ch == ':') ||
 		        (ch == '!') || (ch == '[') || (ch == ']') || (ch == '{') || (ch == '}') || (ch == ',') || (ch == '|') ||
@@ -554,15 +546,16 @@ namespace toyc {
 
 	/// Is called by tokenChecker. Compares individual characters.
 	/// Takes the characters case into account
-	bool compareChar(char &c1, char &c2) {
-
+	bool compareChar(char &c1, char &c2)
+	{
 		if (isupper(c1)) { return false; }
 		else if (c1 == tolower(c2)) { return true; }
 		return false;
-		}
+	}
 
 	///  Compares contents of the lexeme to the given token
-	bool tokenChecker(std::string str1, std::string str2) {
+	bool tokenChecker(std::string str1, std::string str2)
+	{
 		return ((str1.size() == str2.size()) && std::equal(str1.begin(), str1.end(), str2.begin(), &compareChar));
 	}
 
