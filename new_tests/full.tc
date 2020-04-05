@@ -17,7 +17,8 @@ int main() {
   write(i);
   ;
   newline; */
-  write("k is ");
+  // This is a comment int test;
+  write("k is "); // This is after good code;#
   write(k);
   k = 10 / 2;
   write("k is  after 10 / 2");

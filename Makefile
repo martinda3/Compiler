@@ -71,7 +71,7 @@ scan:
 #	@echo "\n[Test 1]  "; $(TARGET) -s $(TESTDIR)/test1.tc
 #	@echo "                   31 tokens";
 	@echo "\n[Test 2]  "; $(TARGET) -s $(TESTDIR)/full.tc
-	@echo "            RESULT 1 token";
+	@echo "            RESULT 59 token";
 	@echo "\n[Test 2]  "; $(TARGET) -s $(TESTDIR)/test2.tc
 	@echo "            RESULT 7 token";
 #	@echo "\n[Test 4]  "; $(TARGET) -s $(TESTDIR)/full.tc

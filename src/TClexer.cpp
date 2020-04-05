@@ -26,7 +26,7 @@ namespace toyc {
 	int lineTemp;
 	int commentDepth = 0;
 
-    extern bool IGNOR = false;
+	bool IGNOR = false;
 	static std::string line;
 	static std::string lexeme = "";
 
@@ -49,6 +49,7 @@ namespace toyc {
 	/// When a token is found, the tokenFound flag will change.
 	/// While no new token, Scanner will look for a legal token
 	TCtoken *TClexer::getToken() {
+	    string comment;
 		bool tokenFound = false;
 		t_tokens++;
 		lexeme = "";
@@ -119,55 +120,55 @@ namespace toyc {
 					lexeme += charBuff; charBuff = getChar();
 				} while (isalpha(charBuff) || isdigit(charBuff));
 
-				if (tokenChecker(lexeme, "WRITE"))         { t = new TCtoken(WRITE, lexeme);    if (!IGNOR) {if (!IGNOR) {tokenFound = true;}} }
-				else if (tokenChecker(lexeme, "READ"))     { t = new TCtoken(READ, lexeme);     if (!IGNOR) {if (!IGNOR) {tokenFound = true;}} }
-				else if (tokenChecker(lexeme, "IF"))       { t = new TCtoken(IF, lexeme);       if (!IGNOR) {if (!IGNOR) {tokenFound = true;}} }
-				else if (tokenChecker(lexeme, "THEN"))     { t = new TCtoken(THEN, lexeme);     if (!IGNOR) {if (!IGNOR) {tokenFound = true;}} }
-				else if (tokenChecker(lexeme, "GOTO"))     { t = new TCtoken(GOTO, lexeme);     if (!IGNOR) {if (!IGNOR) {tokenFound = true;}} }
-				else if (tokenChecker(lexeme, "SKIP"))     { t = new TCtoken(SKIP, lexeme);     if (!IGNOR) {if (!IGNOR) {tokenFound = true;}} }
-				else if (tokenChecker(lexeme, "AND"))      { t = new TCtoken(AND, lexeme);      if (!IGNOR) {if (!IGNOR) {tokenFound = true;}} }
-				else if (tokenChecker(lexeme, "OR"))       { t = new TCtoken(OR, lexeme);       if (!IGNOR) {if (!IGNOR) {tokenFound = true;}} }
-				else if (tokenChecker(lexeme, "DO"))       { t = new TCtoken(DO, lexeme);       if (!IGNOR) {if (!IGNOR) {tokenFound = true;}} }
-				else if (tokenChecker(lexeme, "FOR"))      { t = new TCtoken(FOR, lexeme);      if (!IGNOR) {if (!IGNOR) {tokenFound = true;}} }
-				else if (tokenChecker(lexeme, "INT"))      { t = new TCtoken(INT, lexeme);      if (!IGNOR) {if (!IGNOR) {tokenFound = true;}} }
-				else if (tokenChecker(lexeme, "NEWLINE"))  { t = new TCtoken(NEWLINE, lexeme);  if (!IGNOR) {if (!IGNOR) {tokenFound = true;}} }
-				else if (tokenChecker(lexeme, "ELSE"))     { t = new TCtoken(ELSE, lexeme);     if (!IGNOR) {if (!IGNOR) {tokenFound = true;}} }
-				else if (tokenChecker(lexeme, "CHAR"))     { t = new TCtoken(CHAR, lexeme);     if (!IGNOR) {if (!IGNOR) {tokenFound = true;}} }
-				else if (tokenChecker(lexeme, "CASE"))     { t = new TCtoken(CASE, lexeme);     if (!IGNOR) {if (!IGNOR) {tokenFound = true;}} }
-				else if (tokenChecker(lexeme, "WHILE"))    { t = new TCtoken(WHILE, lexeme);    if (!IGNOR) {if (!IGNOR) {tokenFound = true;}} }
-				else if (tokenChecker(lexeme, "SWITCH"))   { t = new TCtoken(SWITCH, lexeme);   if (!IGNOR) {if (!IGNOR) {tokenFound = true;}} }
-				else if (tokenChecker(lexeme, "RETURN"))   { t = new TCtoken(RETURN, lexeme);   if (!IGNOR) {if (!IGNOR) {tokenFound = true;}} }
-				else if (tokenChecker(lexeme, "BREAK"))    { t = new TCtoken(BREAK, lexeme);    if (!IGNOR) {if (!IGNOR) {tokenFound = true;}} }
-				else if (tokenChecker(lexeme, "DEFAULT"))  { t = new TCtoken(DEFAULT, lexeme);  if (!IGNOR) {if (!IGNOR) {tokenFound = true;}} }
-				else if (tokenChecker(lexeme, "CONTINUE")) { t = new TCtoken(CONTINUE, lexeme); if (!IGNOR) {if (!IGNOR) {tokenFound = true;}} }
-				else if (tokenChecker(lexeme, "STRING"))   { t = new TCtoken(STRING, lexeme);   if (!IGNOR) {if (!IGNOR) {tokenFound = true;}} }
-				else if (tokenChecker(lexeme, "NONE"))     { t = new TCtoken(NONE, lexeme);     if (!IGNOR) {if (!IGNOR) {tokenFound = true;}} }
-				else                                       { t = new TCtoken(ID, lexeme);       if (!IGNOR) {if (!IGNOR) {tokenFound = true;}} }
+				if (tokenChecker(lexeme, "WRITE"))         { t = new TCtoken(WRITE, lexeme);    if (!IGNOR) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "READ"))     { t = new TCtoken(READ, lexeme);     if (!IGNOR) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "IF"))       { t = new TCtoken(IF, lexeme);       if (!IGNOR) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "THEN"))     { t = new TCtoken(THEN, lexeme);     if (!IGNOR) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "GOTO"))     { t = new TCtoken(GOTO, lexeme);     if (!IGNOR) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "SKIP"))     { t = new TCtoken(SKIP, lexeme);     if (!IGNOR) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "AND"))      { t = new TCtoken(AND, lexeme);      if (!IGNOR) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "OR"))       { t = new TCtoken(OR, lexeme);       if (!IGNOR) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "DO"))       { t = new TCtoken(DO, lexeme);       if (!IGNOR) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "FOR"))      { t = new TCtoken(FOR, lexeme);      if (!IGNOR) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "INT"))      { t = new TCtoken(INT, lexeme);      if (!IGNOR) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "NEWLINE"))  { t = new TCtoken(NEWLINE, lexeme);  if (!IGNOR) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "ELSE"))     { t = new TCtoken(ELSE, lexeme);     if (!IGNOR) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "CHAR"))     { t = new TCtoken(CHAR, lexeme);     if (!IGNOR) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "CASE"))     { t = new TCtoken(CASE, lexeme);     if (!IGNOR) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "WHILE"))    { t = new TCtoken(WHILE, lexeme);    if (!IGNOR) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "SWITCH"))   { t = new TCtoken(SWITCH, lexeme);   if (!IGNOR) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "RETURN"))   { t = new TCtoken(RETURN, lexeme);   if (!IGNOR) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "BREAK"))    { t = new TCtoken(BREAK, lexeme);    if (!IGNOR) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "DEFAULT"))  { t = new TCtoken(DEFAULT, lexeme);  if (!IGNOR) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "CONTINUE")) { t = new TCtoken(CONTINUE, lexeme); if (!IGNOR) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "STRING"))   { t = new TCtoken(STRING, lexeme);   if (!IGNOR) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "NONE"))     { t = new TCtoken(NONE, lexeme);     if (!IGNOR) {tokenFound = true;} }
+				else                                       { t = new TCtoken(ID, lexeme);       if (!IGNOR) {tokenFound = true;} }
 			}
 			else {
 				switch (charBuff) {
 					case '+':
 						lexeme += charBuff;
 						t = new TCtoken(ADDOP, lexeme);
-						if (!IGNOR) {if (!IGNOR) {tokenFound = true;}}
+						if (!IGNOR) {tokenFound = true;}
 						charBuff = getChar();
 						break;
 					case '%':
 						lexeme += charBuff;
 						t = new TCtoken(MULOP, lexeme);
-						if (!IGNOR) {if (!IGNOR) {tokenFound = true;}}
+						if (!IGNOR) {tokenFound = true;}
 						charBuff = getChar();
 						break;
 					case '[':
 						lexeme += charBuff;
 						t = new TCtoken(LBRACKET, lexeme);
-						if (!IGNOR) {if (!IGNOR) {tokenFound = true;}}
+						if (!IGNOR) {tokenFound = true;}
 						charBuff = getChar();
 						break;
 					case ']':
 						lexeme += charBuff;
 						t = new TCtoken(RBRACKET, lexeme);
-						if (!IGNOR) {if (!IGNOR) {tokenFound = true;}}
+						if (!IGNOR) {tokenFound = true;}
 						charBuff = getChar();
 						break;
 					case '{':
@@ -189,39 +190,32 @@ namespace toyc {
 						charBuff = getChar();
 						break;
 					case '*': /////////////////////////////////////
-					if (IGNOR) {
-                        char hold;
-                        hold = getChar();
-                        if (hold == '/') {
-//                            reportDEBUG("  ", "Comments", "End Clearing Lexeme" + lexeme);
-                            commentDepth--;
-
-                            lexeme = "";
-                            charBuff = getChar();
-//                            break;
-                        } else {
-//                            reportDEBUG("  ", "Comments", "Begging Clearing Lexeme");
-                            commentDepth++;
-                            lexeme = "";
-                            break;
+					    if (IGNOR)
+					    {
+                            char hold;
+                            hold = getChar();
+                            if (hold == '/')
+                            {
+                                lexeme = "";
+                                commentDepth--;
+                                reportDEBUG("  ", "SUBTR", " " + std::to_string(commentDepth));
+                                charBuff = getChar();
+                                break;
                             }
-					}
-					else {
-                        //reportDEBUG("  ", "lexi", lexeme);
-                        lexeme += charBuff;
-
-                        reportDEBUG("  ", "lexi", lexeme);
-                        t = new TCtoken(MULTI, lexeme);
-                        if (!IGNOR)
-                        {
-                            tokenFound = true;
-                            charBuff = getChar();
+					    } else {
+                            //reportDEBUG("  ", "lexi", lexeme);
+                            lexeme += charBuff;
+                            t = new TCtoken(MULTI, lexeme);
+                            if (!IGNOR)
+                            {
+                                tokenFound = true;
+                                charBuff = getChar();
+                                break;
+                            }
                             break;
 					    }
-                        break;
-						}
-                        if (commentDepth == 0) {IGNOR = false; break;}
-						break;
+                            if (commentDepth == 0) {IGNOR = false; break;}
+                            break;
 					case '(':
 						lexeme += charBuff;
 						t = new TCtoken(LPAREN, lexeme);
@@ -269,7 +263,6 @@ namespace toyc {
 							break;
 						}
 						break;
-
 					case '|':
 						lexeme += charBuff;
 						charBuff = getChar();
@@ -288,7 +281,6 @@ namespace toyc {
 							break;
 						}
 						break;
-
 					case '&':
 						lexeme += charBuff;
 						charBuff = getChar();
@@ -307,7 +299,6 @@ namespace toyc {
 							break;
 						}
 						break;
-
 					case '>':
 						lexeme += charBuff;
 						charBuff = getChar();
@@ -394,7 +385,6 @@ namespace toyc {
 							break;
 						}
 						break;
-
 					case '\'':
 						lexeme += charBuff;
 						charBuff = getChar();
@@ -426,28 +416,25 @@ namespace toyc {
 						break;
 						/// Block Comments
 					case '/':
-						int temp;
 						lexeme = charBuff;
 						charBuff = getChar();
-						switch (charBuff) {
-							case '/':
-								lexeme = "";
-								temp = lineNum;
-								while (temp == lineNum) {charBuff = commenter();}
-								charBuff = getChar();
-								break;
-							case '*':
-//                                reportDEBUG("  ", "Comments", "Begging Clearing Lexeme");
+						switch (charBuff)
+						{
+                            case '*':
+                                lexeme += charBuff;
                                 IGNOR = true;
                                 commentDepth++;
-
-                                //lexeme += charBuff;
+                                reportDEBUG("  ", "ADDIN", " " + std::to_string(commentDepth));
                                 break;
+							case '/':
+                                line = getNextLine();
+                                lexeme = "";
+								break;
 						}
-						if (lexeme == "/")
+						if (lexeme == "/" && charBuff != '*')
 						{
 							t = new TCtoken(DIVOP, lexeme);
-							if (!IGNOR) {tokenFound = true;}
+							if (!IGNOR ) {tokenFound = true;}
 							break;
 						}
 						charBuff = getChar();
@@ -462,6 +449,8 @@ namespace toyc {
 			}
 		}
 		if (v_scanner) { reportDEBUG("  ", "SCANNER", t->toString()); }
+        if (commentDepth!=0) { reportDEBUG("  ", "Comment", std::to_string(commentDepth)); }
+        //if (v_scanner) { reportDEBUG("  ", "Lexeme",  lexeme); }
         return t;
 		}
 
@@ -496,7 +485,8 @@ namespace toyc {
             if (line.empty() || pos > line.length()) { line = getNextLine(); pos = 0; }
             char ch = line[pos]; holder = ch;
             if ((ch == '.')) {
-                if (isspace(line[pos + 1])) {
+                if (isspace(line[pos + 1]))
+                {
                     reportWARNING("  ", " Scanner: '.' Illegal Character. Ignoring"); pos++;
                 }
             }
@@ -511,41 +501,28 @@ namespace toyc {
         return line[pos++];
 	}
 
-	///	Used for comments, does not return an illegal character warning
-	char commenter() {
-		do {
-			if (infile.eof()) { return EOFCHAR; }
-			if (line.empty() || pos > line.length())  { line = getNextLine(); }
-			char ch = line[pos];
-			if (isInAlphabet(ch) || isspace(ch)) { break; }
-			pos++;
-		} while (true);
-		return line[pos++];
-	}
-
 	/// Called by getChar, reads inputFile one line at a time.
 	/// Returns a string, and resets the position.
 	/// Also used to for debugging by printing string to terminal. if (Verbose)
-	std::string getNextLine() {
-		std::string line, num, comment;
+	std::string getNextLine()
+	{
+		std::string line, num;
 		std::getline(infile, line);
 		line = line + " ";
 		pos = 0;
 		lineNum++;
-		if (IGNOR) {comment = " Blcok!";}
-		else {comment = "not";}
 		if (lineNum < 10) {num = "  ";}
 		else if (lineNum < 99) {num = " ";}
 		else if (lineNum < 999) {num = "";}
 		num += std::to_string(lineNum);
-		if (verbose) reportDEBUG(" ", "INPUT", " " + num + ": " + line + comment + "  " + std::to_string(commentDepth) + "lexi= " + lexeme);
+		if (verbose) reportDEBUG(" ", "INPUT", " " + num + ": " + line);
 		return line;
 	}
 
 	/// Is called by getChar to determain if character is legal.
 	/// TODO: Make an issymble(char) fuction
-	bool isInAlphabet(char ch) {
-
+	bool isInAlphabet(char ch)
+	{
 		return (isalpha(ch) || isdigit(ch) || (ch == '%') || (ch == '+') || (ch == '-') || (ch == '*') || (ch == '/') ||
 		        (ch == '<') || (ch == '>') || (ch == '(') || (ch == ')') || (ch == '=') || (ch == ';') || (ch == ':') ||
 		        (ch == '!') || (ch == '[') || (ch == ']') || (ch == '{') || (ch == '}') || (ch == ',') || (ch == '|') ||
@@ -554,15 +531,16 @@ namespace toyc {
 
 	/// Is called by tokenChecker. Compares individual characters.
 	/// Takes the characters case into account
-	bool compareChar(char &c1, char &c2) {
-
+	bool compareChar(char &c1, char &c2)
+	{
 		if (isupper(c1)) { return false; }
 		else if (c1 == tolower(c2)) { return true; }
 		return false;
-		}
+	}
 
 	///  Compares contents of the lexeme to the given token
-	bool tokenChecker(std::string str1, std::string str2) {
+	bool tokenChecker(std::string str1, std::string str2)
+	{
 		return ((str1.size() == str2.size()) && std::equal(str1.begin(), str1.end(), str2.begin(), &compareChar));
 	}
 
