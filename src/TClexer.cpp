@@ -427,9 +427,8 @@ namespace toyc {
                                 reportDEBUG("  ", "ADDIN", " " + std::to_string(commentDepth));
                                 break;
 							case '/':
-                                charBuff = commenter();
-								//while (temp == lineNum) {charBuff = commenter();}
-								//lexeme = getChar();
+                                line = getNextLine();
+                                lexeme = "";
 								break;
 						}
 						if (lexeme == "/" && charBuff != '*')
@@ -500,20 +499,6 @@ namespace toyc {
             //break;
 		}
         return line[pos++];
-	}
-
-	///	Used for comments, does not return an illegal character warning
-	char commenter()
-	{
-		do {
-			if (infile.eof()) { return EOFCHAR; }
-            pos = line.length() + 1;
-			if (line.empty() || pos > line.length())  { line = getNextLine(); }
-			char ch = line[pos];
-			if (isInAlphabet(ch) || isspace(ch)) { break; }
-			pos++;
-		} while (true);
-		return line[pos++];
 	}
 
 	/// Called by getChar, reads inputFile one line at a time.
