@@ -8,7 +8,7 @@
 #define TCLEXER_H
 
 #include "TCtoken.h"
-using std::string;
+using namespace std;
 
 namespace toyc {
 
@@ -34,6 +34,10 @@ namespace toyc {
 	bool isInAlphabet(char);
 
 	bool tokenChecker(string, string);
+
+	void tokenOverflow(int);
+
+    void ignoreWhiteSpaces();
 
 }
 #endif

@@ -25,6 +25,7 @@ namespace toyc {
 
     void reportSYNTAX_ERROR(std::string);
 
+    void reportSCANNER(std::string prefix, std::string message);
 
     void dumpAST(ASabstractSyntax *ast);
 

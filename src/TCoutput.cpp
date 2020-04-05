@@ -9,12 +9,20 @@
 #include <iostream>
 #include <string>
 #include "TCoutput.h"
+#include "TCglobals.h"
 #include "CGtargetCode.h"
 
 namespace toyc {
 
     void reportDEBUG(std::string prefix, std::string type, std::string message) {
         std::cerr << prefix + "[" + type + "]" + message << std::endl;
+    }
+
+    void reportSCANNER(std::string prefix, std::string message) {
+        if (v_scanner)
+        {
+            std::cerr << prefix + "[SCANNER]" + message << std::endl;
+        }
     }
 
     void reportWARNING(std::string prefix, std::string message) {
