@@ -54,7 +54,6 @@ pars:
 
 scan0:
 	$(MAKE) $(TARGET)
-	$ clear
 	@echo "	Testing Scanner";
 #	@echo "\n[Test 1]  "; $(TARGET) -s0 $(TESTDIR)/test1.tc
 #	@echo "                   31 tokens";
@@ -66,18 +65,17 @@ scan0:
 
 scan:
 	$(MAKE) $(TARGET)
-	$ clear
 	@echo "	Testing Scanner";
-#	@echo "\n[Test 1]  "; $(TARGET) -s $(TESTDIR)/test1.tc
-#	@echo "                   31 tokens";
+	@echo "\n[Test 1]  "; $(TARGET) -s $(TESTDIR)/test1.tc
+	@echo "                   31 tokens";
 	@echo "\n[Test 2]  "; $(TARGET) -s $(TESTDIR)/full.tc
 	@echo "            RESULT 59 token";
 	@echo "\n[Test 2]  "; $(TARGET) -s $(TESTDIR)/test2.tc
 	@echo "            RESULT 7 token";
-#	@echo "\n[Test 4]  "; $(TARGET) -s $(TESTDIR)/full.tc
-#	@echo "            RESULT 1 token";
-#	@echo "\n[Test 3]  "; $(TARGET) -s $(TESTDIR)/test3.tc
-#	@echo "\n[Test 4]  "; $(TARGET) -s $(TESTDIR)/test4.tc
-#	@echo "                   7 tokens";
+	@echo "\n[Test 4]  "; $(TARGET) -s $(TESTDIR)/full.tc
+	@echo "            RESULT 1 token";
+	@echo "\n[Test 3]  "; $(TARGET) -s $(TESTDIR)/test3.tc
+	@echo "\n[Test 4]  "; $(TARGET) -s $(TESTDIR)/test4.tc
+	@echo "                   7 tokens";
 
 .PHONY: clean

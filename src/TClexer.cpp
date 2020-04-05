@@ -26,13 +26,13 @@ namespace toyc {
 	int lineTemp;
 	int commentDepth = 0;
 
-	bool IGNOR = false;
+	bool Block_Comment_Flag = false;
 	static std::string line;
 	static std::string lexeme = "";
 
 	static std::ifstream infile;
 
-	/// Opens file exits if file DNE
+
 	TClexer::TClexer(std::string fname) {
 		inputFileName = fname;
 		line = ""; pos = 0;
@@ -61,7 +61,7 @@ namespace toyc {
 			while (isspace(charBuff) && (charBuff != EOFCHAR)) { charBuff = getChar(); }
 			if (charBuff == EOFCHAR) {
 				t = new TCtoken(EOFILE);
-				if (!IGNOR) {tokenFound = true;}
+				if (!Block_Comment_Flag) {tokenFound = true;}
 				if (v_scanner) reportDEBUG("  ", "SCANNER", t->toString()  + " " + std::to_string(t_tokens) + " tokens");
 				return t;
 			} /// NUMBER Tokens
@@ -79,7 +79,7 @@ namespace toyc {
 								FLAG++;                                         // Triggers Error: token is complete DM
 								reportWARNING("  ", " Semantic: cannot have two .");
 								t = new TCtoken(NUMBER, lexeme);                // New token
-								if (!IGNOR) {tokenFound = true;}
+								if (!Block_Comment_Flag) {tokenFound = true;}
 							}
 							else {                                              // First '.' in current token
 								DECIMALS++; lexeme += charBuff;                 // Update counter & load lookahead
@@ -95,7 +95,7 @@ namespace toyc {
 								FLAG++;
 								reportWARNING("  ", " Semantic: A number cannot have two E's");
 								t = new TCtoken(NUMBER, lexeme);
-								if (!IGNOR) {tokenFound = true;}
+								if (!Block_Comment_Flag) {tokenFound = true;}
 							}
 							else {
 								EXPONENTS++; lexeme += charBuff;
@@ -113,84 +113,84 @@ namespace toyc {
 					}
 				} while (FLAG != 1 && isdigit(charBuff));                         // TODO Fix this: functional but ugly
 				t = new TCtoken(NUMBER, lexeme);
-				if (!IGNOR) {tokenFound = true;}
+				if (!Block_Comment_Flag) {tokenFound = true;}
 			}
 			else if (isalpha(charBuff)) {
 				do {
 					lexeme += charBuff; charBuff = getChar();
 				} while (isalpha(charBuff) || isdigit(charBuff));
 
-				if (tokenChecker(lexeme, "WRITE"))         { t = new TCtoken(WRITE, lexeme);    if (!IGNOR) {tokenFound = true;} }
-				else if (tokenChecker(lexeme, "READ"))     { t = new TCtoken(READ, lexeme);     if (!IGNOR) {tokenFound = true;} }
-				else if (tokenChecker(lexeme, "IF"))       { t = new TCtoken(IF, lexeme);       if (!IGNOR) {tokenFound = true;} }
-				else if (tokenChecker(lexeme, "THEN"))     { t = new TCtoken(THEN, lexeme);     if (!IGNOR) {tokenFound = true;} }
-				else if (tokenChecker(lexeme, "GOTO"))     { t = new TCtoken(GOTO, lexeme);     if (!IGNOR) {tokenFound = true;} }
-				else if (tokenChecker(lexeme, "SKIP"))     { t = new TCtoken(SKIP, lexeme);     if (!IGNOR) {tokenFound = true;} }
-				else if (tokenChecker(lexeme, "AND"))      { t = new TCtoken(AND, lexeme);      if (!IGNOR) {tokenFound = true;} }
-				else if (tokenChecker(lexeme, "OR"))       { t = new TCtoken(OR, lexeme);       if (!IGNOR) {tokenFound = true;} }
-				else if (tokenChecker(lexeme, "DO"))       { t = new TCtoken(DO, lexeme);       if (!IGNOR) {tokenFound = true;} }
-				else if (tokenChecker(lexeme, "FOR"))      { t = new TCtoken(FOR, lexeme);      if (!IGNOR) {tokenFound = true;} }
-				else if (tokenChecker(lexeme, "INT"))      { t = new TCtoken(INT, lexeme);      if (!IGNOR) {tokenFound = true;} }
-				else if (tokenChecker(lexeme, "NEWLINE"))  { t = new TCtoken(NEWLINE, lexeme);  if (!IGNOR) {tokenFound = true;} }
-				else if (tokenChecker(lexeme, "ELSE"))     { t = new TCtoken(ELSE, lexeme);     if (!IGNOR) {tokenFound = true;} }
-				else if (tokenChecker(lexeme, "CHAR"))     { t = new TCtoken(CHAR, lexeme);     if (!IGNOR) {tokenFound = true;} }
-				else if (tokenChecker(lexeme, "CASE"))     { t = new TCtoken(CASE, lexeme);     if (!IGNOR) {tokenFound = true;} }
-				else if (tokenChecker(lexeme, "WHILE"))    { t = new TCtoken(WHILE, lexeme);    if (!IGNOR) {tokenFound = true;} }
-				else if (tokenChecker(lexeme, "SWITCH"))   { t = new TCtoken(SWITCH, lexeme);   if (!IGNOR) {tokenFound = true;} }
-				else if (tokenChecker(lexeme, "RETURN"))   { t = new TCtoken(RETURN, lexeme);   if (!IGNOR) {tokenFound = true;} }
-				else if (tokenChecker(lexeme, "BREAK"))    { t = new TCtoken(BREAK, lexeme);    if (!IGNOR) {tokenFound = true;} }
-				else if (tokenChecker(lexeme, "DEFAULT"))  { t = new TCtoken(DEFAULT, lexeme);  if (!IGNOR) {tokenFound = true;} }
-				else if (tokenChecker(lexeme, "CONTINUE")) { t = new TCtoken(CONTINUE, lexeme); if (!IGNOR) {tokenFound = true;} }
-				else if (tokenChecker(lexeme, "STRING"))   { t = new TCtoken(STRING, lexeme);   if (!IGNOR) {tokenFound = true;} }
-				else if (tokenChecker(lexeme, "NONE"))     { t = new TCtoken(NONE, lexeme);     if (!IGNOR) {tokenFound = true;} }
-				else                                       { t = new TCtoken(ID, lexeme);       if (!IGNOR) {tokenFound = true;} }
+				if (tokenChecker(lexeme, "WRITE"))         { t = new TCtoken(WRITE, lexeme);    if (!Block_Comment_Flag) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "READ"))     { t = new TCtoken(READ, lexeme);     if (!Block_Comment_Flag) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "IF"))       { t = new TCtoken(IF, lexeme);       if (!Block_Comment_Flag) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "THEN"))     { t = new TCtoken(THEN, lexeme);     if (!Block_Comment_Flag) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "GOTO"))     { t = new TCtoken(GOTO, lexeme);     if (!Block_Comment_Flag) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "SKIP"))     { t = new TCtoken(SKIP, lexeme);     if (!Block_Comment_Flag) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "AND"))      { t = new TCtoken(AND, lexeme);      if (!Block_Comment_Flag) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "OR"))       { t = new TCtoken(OR, lexeme);       if (!Block_Comment_Flag) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "DO"))       { t = new TCtoken(DO, lexeme);       if (!Block_Comment_Flag) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "FOR"))      { t = new TCtoken(FOR, lexeme);      if (!Block_Comment_Flag) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "INT"))      { t = new TCtoken(INT, lexeme);      if (!Block_Comment_Flag) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "NEWLINE"))  { t = new TCtoken(NEWLINE, lexeme);  if (!Block_Comment_Flag) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "ELSE"))     { t = new TCtoken(ELSE, lexeme);     if (!Block_Comment_Flag) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "CHAR"))     { t = new TCtoken(CHAR, lexeme);     if (!Block_Comment_Flag) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "CASE"))     { t = new TCtoken(CASE, lexeme);     if (!Block_Comment_Flag) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "WHILE"))    { t = new TCtoken(WHILE, lexeme);    if (!Block_Comment_Flag) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "SWITCH"))   { t = new TCtoken(SWITCH, lexeme);   if (!Block_Comment_Flag) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "RETURN"))   { t = new TCtoken(RETURN, lexeme);   if (!Block_Comment_Flag) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "BREAK"))    { t = new TCtoken(BREAK, lexeme);    if (!Block_Comment_Flag) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "DEFAULT"))  { t = new TCtoken(DEFAULT, lexeme);  if (!Block_Comment_Flag) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "CONTINUE")) { t = new TCtoken(CONTINUE, lexeme); if (!Block_Comment_Flag) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "STRING"))   { t = new TCtoken(STRING, lexeme);   if (!Block_Comment_Flag) {tokenFound = true;} }
+				else if (tokenChecker(lexeme, "NONE"))     { t = new TCtoken(NONE, lexeme);     if (!Block_Comment_Flag) {tokenFound = true;} }
+				else                                       { t = new TCtoken(ID, lexeme);       if (!Block_Comment_Flag) {tokenFound = true;} }
 			}
 			else {
 				switch (charBuff) {
 					case '+':
 						lexeme += charBuff;
 						t = new TCtoken(ADDOP, lexeme);
-						if (!IGNOR) {tokenFound = true;}
+						if (!Block_Comment_Flag) {tokenFound = true;}
 						charBuff = getChar();
 						break;
 					case '%':
 						lexeme += charBuff;
 						t = new TCtoken(MULOP, lexeme);
-						if (!IGNOR) {tokenFound = true;}
+						if (!Block_Comment_Flag) {tokenFound = true;}
 						charBuff = getChar();
 						break;
 					case '[':
 						lexeme += charBuff;
 						t = new TCtoken(LBRACKET, lexeme);
-						if (!IGNOR) {tokenFound = true;}
+						if (!Block_Comment_Flag) {tokenFound = true;}
 						charBuff = getChar();
 						break;
 					case ']':
 						lexeme += charBuff;
 						t = new TCtoken(RBRACKET, lexeme);
-						if (!IGNOR) {tokenFound = true;}
+						if (!Block_Comment_Flag) {tokenFound = true;}
 						charBuff = getChar();
 						break;
 					case '{':
 						lexeme += charBuff;
 						t = new TCtoken(LCURLY, lexeme);
-						if (!IGNOR) {tokenFound = true;}
+						if (!Block_Comment_Flag) {tokenFound = true;}
 						charBuff = getChar();
 						break;
 					case '}':
 						lexeme += charBuff;
 						t = new TCtoken(RCURLY, lexeme);
-						if (!IGNOR) {tokenFound = true;}
+						if (!Block_Comment_Flag) {tokenFound = true;}
 						charBuff = getChar();
 						break;
 					case '-':
 						lexeme += charBuff;
 						t = new TCtoken(MINUS, lexeme);
-						if (!IGNOR) {tokenFound = true;}
+						if (!Block_Comment_Flag) {tokenFound = true;}
 						charBuff = getChar();
 						break;
 					case '*': /////////////////////////////////////
-					    if (IGNOR)
+					    if (Block_Comment_Flag)
 					    {
                             char hold;
                             hold = getChar();
@@ -206,7 +206,7 @@ namespace toyc {
                             //reportDEBUG("  ", "lexi", lexeme);
                             lexeme += charBuff;
                             t = new TCtoken(MULTI, lexeme);
-                            if (!IGNOR)
+                            if (!Block_Comment_Flag)
                             {
                                 tokenFound = true;
                                 charBuff = getChar();
@@ -214,36 +214,36 @@ namespace toyc {
                             }
                             break;
 					    }
-                            if (commentDepth == 0) {IGNOR = false; break;}
+                            if (commentDepth == 0) {Block_Comment_Flag = false; break;}
                             break;
 					case '(':
 						lexeme += charBuff;
 						t = new TCtoken(LPAREN, lexeme);
-						if (!IGNOR) {tokenFound = true;}
+						if (!Block_Comment_Flag) {tokenFound = true;}
 						charBuff = getChar();
 						break;
 					case ')':
 						lexeme += charBuff;
 						t = new TCtoken(RPAREN, lexeme);
-						if (!IGNOR) {tokenFound = true;}
+						if (!Block_Comment_Flag) {tokenFound = true;}
 						charBuff = getChar();
 						break;
 					case ';':
 						lexeme += charBuff;
 						t = new TCtoken(SEMICOLON, lexeme);
-						if (!IGNOR) {tokenFound = true;}
+						if (!Block_Comment_Flag) {tokenFound = true;}
 						charBuff = getChar();
 						break;
 					case ':':
 						lexeme += charBuff;
 						t = new TCtoken(COLON, lexeme);
-						if (!IGNOR) {tokenFound = true;}
+						if (!Block_Comment_Flag) {tokenFound = true;}
 						charBuff = getChar();
 						break;
 					case ',':
 						lexeme += charBuff;
 						t = new TCtoken(COMMA, lexeme);
-						if (!IGNOR) {tokenFound = true;}
+						if (!Block_Comment_Flag) {tokenFound = true;}
 						charBuff = getChar();
 						break;
 					case '<':
@@ -253,16 +253,15 @@ namespace toyc {
 						{
 							lexeme += charBuff;
 							t = new TCtoken(RELOP, lexeme);
-							if (!IGNOR) {tokenFound = true;}
+							if (!Block_Comment_Flag) {tokenFound = true;}
 							charBuff = getChar();
 							break;
 						}
 						else {
 							t = new TCtoken(RELOP, lexeme);
-							if (!IGNOR) {tokenFound = true;}
+							if (!Block_Comment_Flag) {tokenFound = true;}
 							break;
 						}
-						break;
 					case '|':
 						lexeme += charBuff;
 						charBuff = getChar();
@@ -270,7 +269,7 @@ namespace toyc {
 						{
 							lexeme += charBuff;
 							t = new TCtoken(OR, lexeme);
-							if (!IGNOR) {tokenFound = true;}
+							if (!Block_Comment_Flag) {tokenFound = true;}
 							charBuff = getChar();
 							break;
 						} else
@@ -280,7 +279,6 @@ namespace toyc {
 							charBuff = getChar();
 							break;
 						}
-						break;
 					case '&':
 						lexeme += charBuff;
 						charBuff = getChar();
@@ -288,7 +286,7 @@ namespace toyc {
 						{
 							lexeme += charBuff;
 							t = new TCtoken(AND, lexeme);
-							if (!IGNOR) {tokenFound = true;}
+							if (!Block_Comment_Flag) {tokenFound = true;}
 							charBuff = getChar();
 							lexeme = "";
 							break;
@@ -298,7 +296,6 @@ namespace toyc {
 							charBuff = getChar();
 							break;
 						}
-						break;
 					case '>':
 						lexeme += charBuff;
 						charBuff = getChar();
@@ -306,17 +303,16 @@ namespace toyc {
 						{
 							lexeme += charBuff;
 							t = new TCtoken(RELOP, lexeme);
-							if (!IGNOR) {tokenFound = true;}
+							if (!Block_Comment_Flag) {tokenFound = true;}
 							charBuff = getChar();
 							break;
 						}
 						else {
 							t = new TCtoken(RELOP, lexeme);
-							if (!IGNOR) {tokenFound = true;}
+							if (!Block_Comment_Flag) {tokenFound = true;}
 							charBuff = getChar();
 							break;
 						}
-						break;
 
 					case '!':
 						lexeme += charBuff;
@@ -325,16 +321,15 @@ namespace toyc {
 						{
 							lexeme += charBuff;
 							t = new TCtoken(NOTEQUAL, lexeme);
-							if (!IGNOR) {tokenFound = true;}
+							if (!Block_Comment_Flag) {tokenFound = true;}
 							charBuff = getChar();
 							break;
 						}
 						else {
 							t = new TCtoken(NOT, lexeme);
-							if (!IGNOR) {tokenFound = true;}
+							if (!Block_Comment_Flag) {tokenFound = true;}
 							break;
 						}
-						break;
 
 					case '=':
 						lexeme += charBuff;
@@ -343,16 +338,15 @@ namespace toyc {
 						{
 							lexeme += charBuff;
 							t = new TCtoken(RELOP, lexeme);
-							if (!IGNOR) {tokenFound = true;}
+							if (!Block_Comment_Flag) {tokenFound = true;}
 							charBuff = getChar();
 							break;
 						}
 						else {
 							t = new TCtoken(ASSIGNOP, lexeme);
-							if (!IGNOR) {tokenFound = true;}
+							if (!Block_Comment_Flag) {tokenFound = true;}
 							break;
 						}
-						break;
 
 					case '\"':
 						lexeme += charBuff;
@@ -362,7 +356,7 @@ namespace toyc {
 						{
 							lexeme = "\"\"";
 							t = new TCtoken(STRING, lexeme);
-							if (!IGNOR) {tokenFound = true;}
+							if (!Block_Comment_Flag) {tokenFound = true;}
 							charBuff = getChar();
 							break;
 						}
@@ -380,11 +374,10 @@ namespace toyc {
 							}
 							lexeme += charBuff;
 							t = new TCtoken(STRING, lexeme);
-							if (!IGNOR) {tokenFound = true;}
+							if (!Block_Comment_Flag) {tokenFound = true;}
 							charBuff = getChar();
 							break;
 						}
-						break;
 					case '\'':
 						lexeme += charBuff;
 						charBuff = getChar();
@@ -392,7 +385,7 @@ namespace toyc {
 						{
 							lexeme = "\'\'";
 							t = new TCtoken(CHARLITERAL, lexeme);
-							if (!IGNOR) {tokenFound = true;}
+							if (!Block_Comment_Flag) {tokenFound = true;}
 							charBuff = getChar();
 							break;
 						} else
@@ -408,12 +401,11 @@ namespace toyc {
 							{
 								lexeme += charBuff;
 								t = new TCtoken(CHARLITERAL, lexeme);
-								if (!IGNOR) {tokenFound = true;}
+								if (!Block_Comment_Flag) {tokenFound = true;}
 								charBuff = getChar();
 								break;
 							}
 						}
-						break;
 						/// Block Comments
 					case '/':
 						lexeme = charBuff;
@@ -422,7 +414,7 @@ namespace toyc {
 						{
                             case '*':
                                 lexeme += charBuff;
-                                IGNOR = true;
+                                Block_Comment_Flag = true;
                                 commentDepth++;
                                 reportDEBUG("  ", "ADDIN", " " + std::to_string(commentDepth));
                                 break;
@@ -434,7 +426,7 @@ namespace toyc {
 						if (lexeme == "/" && charBuff != '*')
 						{
 							t = new TCtoken(DIVOP, lexeme);
-							if (!IGNOR ) {tokenFound = true;}
+							if (!Block_Comment_Flag ) {tokenFound = true;}
 							break;
 						}
 						charBuff = getChar();
@@ -444,8 +436,8 @@ namespace toyc {
                         charBuff = getChar();
                         break;
 				}
-				if (commentDepth == 0) {IGNOR = false;}
-				else { IGNOR = true; }
+				if (commentDepth == 0) {Block_Comment_Flag = false;}
+				else { Block_Comment_Flag = true; }
 			}
 		}
 		if (v_scanner) { reportDEBUG("  ", "SCANNER", t->toString()); }
@@ -465,21 +457,6 @@ namespace toyc {
     /// Loads the lookahead buffer
 	char getChar() {
 		std::string holder;
-//		do {
-//			//if (infile.eof()) { return EOFCHAR; }
-//			if (line.empty() || pos > line.length()) { line = getNextLine(); }
-//			char ch = line[pos]; holder = ch;
-//			if ((ch == '.')) {
-//				if (isspace(line[pos + 1])) {
-//					reportWARNING("  ", " Scanner: '.' Illegal Character. Ignoring"); pos++;
-//				}
-//			}
-//			if (ch == '\0') { line = getNextLine(); ch = line[pos]; }
-//			if (isInAlphabet(ch) || isspace(ch))  { break; }
-//			reportWARNING("  ", " Scanner: \'" + holder + "\' Illegal Character. Ignoring"); pos++;
-//			break;
-//		} while(true);
-/// try 2
 		while (!infile.eof())
 		{
             if (line.empty() || pos > line.length()) { line = getNextLine(); pos = 0; }

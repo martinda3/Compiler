@@ -17,6 +17,7 @@ namespace toyc {
         TClexer(string);
 
         TCtoken *getToken();
+
         string getLine();
 
         string getLexeme();
@@ -30,12 +31,9 @@ namespace toyc {
 
 	char getChar();
 
-	char commenter();
-
 	bool isInAlphabet(char);
 
 	bool tokenChecker(string, string);
 
-	void BlockComments();
 }
 #endif
