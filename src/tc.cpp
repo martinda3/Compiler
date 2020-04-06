@@ -83,7 +83,9 @@ void processCommandLine(int argc, char *argv[], string filename) {
                     turnCodeGenOff();
                 }
                 TCfile *test1;
-                test1 = new TCfile(inputFileName, targetFileName, inputFileHandler(inputFileName));
+                test1 = new TCfile(inputFileName,
+                                   targetFileName,
+                                   inputFileHandler(inputFileName));
                 cout << test1->getFileInfo();
                 TClexer *scanner = new TClexer(inputFileName);
                 int tok;
@@ -105,7 +107,9 @@ void processCommandLine(int argc, char *argv[], string filename) {
                 CGcodeGenerator *cg;
                 CGtargetCode *tc;
                 TCfile *test1;
-                test1 = new TCfile(inputFileName, targetFileName, inputFileHandler(inputFileName));
+                test1 = new TCfile(inputFileName,
+                                   targetFileName,
+                                   inputFileHandler(inputFileName));
                 cout << test1->getFileInfo();
                 try { scanner = new TClexer(inputFileName); }
                 catch (...) {
@@ -159,7 +163,9 @@ void processCommandLine(int argc, char *argv[], string filename) {
                     turnCodeGenOff();
                 }
                 TCfile *test1;
-                test1 = new TCfile(inputFileName, targetFileName, inputFileHandler(inputFileName));
+                test1 = new TCfile(inputFileName,
+                                   targetFileName,
+                                   inputFileHandler(inputFileName));
                 cout << test1->getFileInfo();
                 TClexer *scanner;
                 try { scanner = new TClexer(inputFileName); }
@@ -171,7 +177,7 @@ void processCommandLine(int argc, char *argv[], string filename) {
                 while ((tok = scanner->getToken()->getTokenType()) != EOFILE);
             } else if (argv[1][0] == '-' && argv[1][1] == 'a') {
                 turnVerboseOn();
-               // turnParserOn();
+                // turnParserOn();
                 //turnScannerOn();
                 turnCodeGenOn();
                 if (argv[1][2] == '0') {
@@ -181,7 +187,9 @@ void processCommandLine(int argc, char *argv[], string filename) {
                     turnCodeGenOff();
                 }
                 TCfile *test1;
-                test1 = new TCfile(inputFileName, targetFileName, inputFileHandler(inputFileName));
+                test1 = new TCfile(inputFileName,
+                                   targetFileName,
+                                   inputFileHandler(inputFileName));
                 cout << test1->getFileInfo();
                 TClexer *scanner;
                 TCparser *parser;
@@ -235,10 +243,15 @@ string getProgramName(string s) {
 
 void printUsageMessage() {
     cout << "\nUsage: tc [Function] <input_file> " << endl;
-    cout << "            -Function      -s        display all Scanner information" << endl;
-    cout << "            -Function      -p        display all Parser information" << endl;
-    cout << "            -Function      -a        display all abstract information" << endl;
-    cout << "            -Function      -c        display all Completed information" << endl;
+    cout
+            << "            -Function      -s        display all Scanner information"
+            << endl
+            << "            -Function      -p        display all Parser information"
+            << endl
+            << "            -Function      -a        display all abstract information"
+            << endl
+            << "            -Function      -c        display all Completed information"
+            << endl;
 }
 
 int inputFileHandler(string nameoffile) {
