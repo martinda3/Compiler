@@ -9,73 +9,80 @@
 #include <iostream>
 #include <string>
 #include "TCoutput.h"
+#include "TCglobals.h"
 #include "CGtargetCode.h"
 
+using namespace std;
 namespace toyc {
 
-    void reportDEBUG(std::string prefix, std::string type, std::string message) {
-        std::cerr << prefix + "[" + type + "]" + message << std::endl;
+void reportDEBUG(string prefix, string type, string message) {
+    cerr << prefix + "[" + type + "]" + message << endl;
+}
+
+void reportSCANNER(string prefix, string message) {
+    if (v_scanner) {
+        cerr << prefix + "[SCANNER]" + message << endl;
     }
+}
 
-    void reportWARNING(std::string prefix, std::string message) {
-        std::cerr << prefix + "[WARNING]" + message << std::endl;
-    }
+void reportWARNING(string prefix, string message) {
+    cerr << prefix + "[WARNING]" + message << endl;
+}
 
-    void reportSEMANTIC_ERROR(TClexer *l, std::string message) {
-        int ln;
-        std::string lnstr;
-        std::string sep = ": ";
-        std::cerr << (ln = l->getLineNum()) << sep << l->getLine() << std::endl;
-        lnstr += ln;
-        std::cerr <<
-                  pad(lnstr.length()) <<
-                  pad(l->getPos() + sep.length() - (l->getLexeme().length()) + 1) <<
-                  "^ %error: " << message << std::endl;
-    }
+void reportSEMANTIC_ERROR(TClexer *l, string message) {
+    int ln;
+    string instruction;
+    string sep = ": ";
+    cerr << (ln = l->getLineNum()) << sep << l->getLine() << endl;
+    instruction += ln;
+    cerr <<
+         pad(instruction.length()) <<
+         pad(l->getPos() + sep.length() - (l->getLexeme().length()) + 1) <<
+         "^ %error: " << message << endl;
+}
 
-    void reportSYNTAX_ERROR(TClexer *l, std::string message) {
-        int ln;
-        std::string lnstr;
-        std::string sep = ": ";
-        std::cerr << (ln = l->getLineNum()) << sep << l->getLine() << std::endl;
-        lnstr += ln;
-        std::cerr <<
-                  pad(lnstr.length()) <<
-                  pad(l->getPos() + sep.length() - (l->getLexeme().length()) - 1) <<
-                  "^ %error: " << message << std::endl;
-    }
+void reportSYNTAX_ERROR(TClexer *l, string message) {
+    int ln;
+    string instruction;
+    string sep = ": ";
+    cerr << (ln = l->getLineNum()) << sep << l->getLine() << endl;
+    instruction += ln;
+    cerr <<
+         pad(instruction.length()) <<
+         pad(l->getPos() + sep.length() - (l->getLexeme().length()) - 1) <<
+         "^ %error: " << message << endl;
+}
 
-    void reportSYNTAX_ERROR(std::string message) {
-        std::cerr << ("%error: " + message) << std::endl;
-    }
+void reportSYNTAX_ERROR(string message) {
+    cerr << ("%error: " + message) << endl;
+}
 
-    void dumpAST(ASabstractSyntax *ast) {
-        std::cout << std::endl << ast->toString() << std::endl;
-    }
+void dumpAST(ASabstractSyntax *ast) {
+    cout << endl << ast->toString() << endl;
+}
 
-    void dumpST(TCsymTable *st) {
-        std::cout << "\nSymbol Table:" << std::endl << st->toString() << std::endl;
-    }
+void dumpST(TCsymTable *st) {
+    cout << "\nSymbol Table:" << endl << st->toString() << endl;
+}
 
-    void dumpCode(CGtargetCode *code) {
-        std::cout << "Code:" << std::endl;
-        for(int i = 0; i < code->getSize(); i++)
-            std::cout << code->getLineOfCode(i)->toString() << std::endl;
-    }
+void dumpCode(CGtargetCode *code) {
+    cout << "Code:" << endl;
+    for (int i = 0; i < code->getSize(); i++)
+        cout << code->getLineOfCode(i)->toString() << endl;
+}
 
-    std::string pad(int n) {
-        std::string s = "";
-	    for (int i = 1; i <= n; i++) s += " ";
-        // for (int i = 1; i <= n; i++) s += ".";   // For easy visiol debugging
-        return s;
-    }
+string pad(int n) {
+    string s = "";
+    for (int i = 1; i <= n; i++) s += " ";
+    return s;
+}
 
-    int _pos = 0;
-    int _INDENTSIZE = 1;
+int _pos = 0;
+int _INDENTSIZE = 1;
 
-    std::string spaces() { return pad(_pos); }
+string spaces() { return pad(_pos); }
 
-    void indent() { _pos += _INDENTSIZE; }
+void indent() { _pos += _INDENTSIZE; }
 
-    void outdent() { _pos -= _INDENTSIZE; }
+void outdent() { _pos -= _INDENTSIZE; }
 }

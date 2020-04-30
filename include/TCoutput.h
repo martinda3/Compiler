@@ -8,36 +8,41 @@
 #ifndef TCOUTPUT_H
 #define TCOUTPUT_H
 
+#include <string>
+
 #include "TClexer.h"
 #include "CGtargetCode.h"
 #include "ASabstractSyntax.h"
 #include "TCsymTable.h"
 
+using namespace std;
 namespace toyc {
 
-    void reportDEBUG(std::string prefix, std::string type, std::string message);
+void reportDEBUG(string prefix, string type, string message);
 
-    void reportWARNING(std::string prefix, std::string message);
+void reportWARNING(string prefix, string message);
 
-    void reportSEMANTIC_ERROR(TClexer *, std::string);
+void reportSEMANTIC_ERROR(TClexer *, string);
 
-    void reportSYNTAX_ERROR(TClexer *, std::string);
+void reportSYNTAX_ERROR(TClexer *, string);
 
-    void reportSYNTAX_ERROR(std::string);
+void reportSYNTAX_ERROR(string);
 
+void reportSCANNER(string prefix, string message);
 
-    void dumpAST(ASabstractSyntax *ast);
+void dumpAST(ASabstractSyntax *ast);
 
-    void dumpST(TCsymTable *st);
-    void dumpCode(CGtargetCode* code);
+void dumpST(TCsymTable *st);
 
-    std::string pad(int);
+void dumpCode(CGtargetCode *code);
 
-    std::string spaces();
+string pad(int);
 
-    void indent();
+string spaces();
 
-    void outdent();
+void indent();
+
+void outdent();
 }
 
 #endif

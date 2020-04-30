@@ -8,33 +8,36 @@
 #define TCLEXER_H
 
 #include "TCtoken.h"
+using namespace std;
 
 namespace toyc {
 
-    class TClexer {
-    public:
-        TClexer(std::string);
+class TClexer {
+ public:
+  TClexer(string);
 
-        TCtoken *getToken();
-        std::string getLine();
+  TCtoken *getToken();
 
-        std::string getLexeme();
+  string getLine();
 
-        int getLineNum();
+  string getLexeme();
 
-        int getPos();
-    };
+  int getLineNum();
 
-	std::string getNextLine();
+  int getPos();
+};
 
-	char getChar();
+string getNextLine();
 
-	char commenter();
+char getChar();
 
-	bool isInAlphabet(char);
+bool isInAlphabet(char);
 
-	bool tokenChecker(std::string, std::string);
+bool tokenChecker(string, string);
 
-	void BlockComments();
+void tokenOverflow(int);
+
+void ignoreWhiteSpaces();
+
 }
 #endif

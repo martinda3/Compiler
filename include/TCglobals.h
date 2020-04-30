@@ -11,6 +11,10 @@
 namespace toyc {
 
     extern std::string inputFileName;
+    extern int MAX_LINES;
+
+
+
     extern std::string outputClassFileName;
     extern std::string targetFileName;
     extern std::string ASM_FILE_EXTENSION;

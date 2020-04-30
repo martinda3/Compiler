@@ -1,11 +1,11 @@
 ;
-; Source file: test/pt2.tc
-; Target file: test/pt2.j
-; Tue Mar 31 16:26:37 2020
+; Source file: new_tests/full.tc
+; Target file: new_tests/full.j
+; Sun Apr  5 03:09:09 2020
 ;
 
-.source test/pt2.tc
-.class public pt2
+.source new_tests/full.tc
+.class public ests/full
 .super java/lang/Object
 
 .method public <init>()V
@@ -21,41 +21,6 @@
 	.limit locals 10
 	bipush 12
 	istore_2
-	iconst_1
-	bipush 10
-	iadd
-	istore_1
-	getstatic java/lang/System/out Ljava/io/PrintStream;
-	iload_1
-	invokevirtual java/io/PrintStream/println(I)V
-	iload_2
-	iload_1
-	if_icmpge _label0
-	iconst_1
-	goto _label1
-_label0:
-	iconst_0
-_label1:
-	.limit locals 10
-	getstatic java/lang/System/out Ljava/io/PrintStream;
-	ldc "i is bigger"
-	invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
-	iconst_0
-	.limit locals 10
-	getstatic java/lang/System/out Ljava/io/PrintStream;
-	ldc "k is bigger"
-	invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
-	iconst_1
-	iconst_1
-	iload_1
-	imul
-	istore_1
-	getstatic java/lang/System/out Ljava/io/PrintStream;
-	iload_1
-	invokevirtual java/io/PrintStream/println(I)V
-	getstatic java/lang/System/out Ljava/io/PrintStream;
-	ldc " "
-	invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
 	getstatic java/lang/System/out Ljava/io/PrintStream;
 	ldc "k is "
 	invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V

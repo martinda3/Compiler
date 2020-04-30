@@ -47,8 +47,9 @@ namespace toyc {
 
       int FunctionDeclarations = Functions->getNumVarDef();
 
-      if (FunctionDeclarations < 2) { tc->add(new limit("stack",10)); }
-      else { tc->add(new limit("stack",10 )); }
+//      if (FunctionDeclarations < 2) { tc->add(new limit("stack",10)); }
+//      else { tc->add(new limit("stack",10 )); }
+        tc->add(new limit("stack",10 ));
 
       for (int Function = 0 ; Function <  FunctionDeclarations; Function++) // Not sure if needed
       {

@@ -2,7 +2,7 @@ CC := g++ # This is the main compiler
 
 SRCDIR := src
 INCDIR := include
-TESTDIR := test
+TESTDIR := new_tests
 BUILDDIR := build
 JVMDIR := /JVM
 JVMINSTRUCTDIR := /JVM/instruction
@@ -37,23 +37,45 @@ clean:
 	@echo " Cleaning..."; 
 	@echo " $(RM) -r $(BUILDDIR) $(TARGET) "; $(RM) -r $(BUILDDIR) $(TARGET)
 
-part1:
+full:
 	$(MAKE) $(TARGET)
 	@echo "	Testing Part 1";
-	@echo "[Test 1]  "; $(TARGET) - $(TESTDIR)/p1_test.tc -d 1
-	@echo "	46 tokens";
-	@echo "	Part 1 Passed";
+	@echo "[Test 1]  "; $(TARGET) -c $(TESTDIR)/full.tc
 
-part2:
+syn:
 	$(MAKE) $(TARGET)
-	@echo "	Testing Part 2";
-	@echo "[Test 1]  "; $(TARGET) -v $(TESTDIR)/p2_test.tc
-	@echo "	Part 2 Passed";
+	@echo "	Testing Part 1";
+	@echo "[Test 1]  "; $(TARGET) -a $(TESTDIR)/full.tc
 
-part2a:
+pars:
 	$(MAKE) $(TARGET)
-	@echo "	Testing Abstract Syntax";
-	@echo "[Test 1]  "; $(TARGET) - $(TESTDIR)/p2_test.tc -d 3
-	@echo "	Abstract Syntax Passed";
+	@echo "	Testing Part 1";
+	@echo "[Test 1]  "; $(TARGET) -p $(TESTDIR)/full.tc
+
+scan0:
+	$(MAKE) $(TARGET)
+	@echo "	Testing Scanner";
+#	@echo "\n[Test 1]  "; $(TARGET) -s0 $(TESTDIR)/test1.tc
+#	@echo "                   31 tokens";
+	@echo "\n[Test 2]  "; $(TARGET) -s0 $(TESTDIR)/test2.tc
+	@echo "            RESULT 1 token";
+#	@echo "\n[Test 3]  "; $(TARGET) -s0 $(TESTDIR)/test3.tc
+#	@echo "\n[Test 4]  "; $(TARGET) -s0 $(TESTDIR)/test4.tc
+#	@echo "                   7 tokens";
+
+scan:
+	$(MAKE) $(TARGET)
+	@echo "	Testing Scanner";
+	@echo "\n[Test 1]  "; $(TARGET) -s $(TESTDIR)/test1.tc
+	@echo "                   31 tokens";
+	@echo "\n[Test 2]  "; $(TARGET) -s $(TESTDIR)/full.tc
+	@echo "            RESULT 59 token";
+	@echo "\n[Test 2]  "; $(TARGET) -s $(TESTDIR)/test2.tc
+	@echo "            RESULT 7 token";
+	@echo "\n[Test 4]  "; $(TARGET) -s $(TESTDIR)/full.tc
+	@echo "            RESULT 1 token";
+	@echo "\n[Test 3]  "; $(TARGET) -s $(TESTDIR)/test3.tc
+	@echo "\n[Test 4]  "; $(TARGET) -s $(TESTDIR)/test4.tc
+	@echo "                   7 tokens";
 
 .PHONY: clean

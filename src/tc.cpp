@@ -1,19 +1,23 @@
 /*
    EGRE 591 Compiler Construction
-   Created By: Charles Dieztel & Dajion Martin 
+   Created By: Charles Dieztel & Dajion Martin
  */
 
 #include <iostream>
 #include <sstream>
+#include <fstream>
 #include <vector>
-#include <ctime>
 
+#include "TCfileData.h"
 #include "TCtoken.h"
 #include "TClexer.h"
 #include "TCparser.h"
 #include "TCglobals.h"
 #include "TCtokens.h"
 #include "TCoutput.h"
+
+#include "TCfileData.h"
+
 #include "ASabstractSyntax.h"
 #include "CGcodeGenerator.h"
 #include "CGtargetCode.h"
@@ -24,77 +28,40 @@
 using namespace toyc;
 using namespace std;
 
-void processCommandLine(int, char *[], std::string);
+int inputFileHandler(string nameoffile);
 
+void processCommandLine(int, char *[], string);
 
 void printUsageMessage();
 
+static std::ifstream inputfile;
+
 int main(int argc, char *argv[]) {
-    time_t rawtime;
-    struct tm * timeinfo;
     char buffer[80];
-
-    time (&rawtime);
-    timeinfo = localtime(&rawtime);
-
-    strftime(buffer,sizeof(buffer),"%H:%M:%S",timeinfo);
-    std::string ffile(buffer);
-
-    TClexer *scanner;
-    TCparser * parser;
-    ASabstractSyntax *ast;
-    CGcodeGenerator *cg;
-    CGtargetCode* tc;
-    // Better for error checking (UNGLY)
+    string ffile(buffer);
     try { processCommandLine(argc, argv, ffile); }
-    catch (...) { std::cerr << "ERROR: processCommandLine" << std::endl; exit(EXIT_FAILURE); }
-
-    try { scanner = new TClexer(inputFileName); }
-    catch (...) { std::cerr << "ERROR: TClexer" << std::endl; exit(EXIT_FAILURE); }
-
-    try { parser = new TCparser(scanner); }
-    catch (...) { std::cerr << "ERROR: TCparser" << std::endl; exit(EXIT_FAILURE); }
-
-    try { ast = parser->parse(); }
-    catch (...) { std::cerr << "ERROR: ASabstractSyntax" << std::endl; exit(EXIT_FAILURE); }
-
-    try { cg = new JVMcodeGenerator(); }
-    catch (...) { std::cerr << "ERROR: CGcodeGenerator" << std::endl; exit(EXIT_FAILURE); }
-
-    try { tc = cg->generateCode(ast); }
-    catch (...) { std::cerr << "ERROR: CGtargetCode" << std::endl; exit(EXIT_FAILURE); }
-
-    try { tc->writeCode(tc,targetFileName); }
-    catch (...) { std::cerr << "ERROR: writeCode" << std::endl; exit(EXIT_FAILURE); }
-
-    if (v_code_gen)
-    {
-        dumpAST(ast);
-        dumpST(symTable);
-        dumpCode(tc);
+    catch (...) {
+        cerr << "ERROR: processCommandLine" << endl;
+        exit(EXIT_FAILURE);
     }
 }
 
-void processCommandLine(int argc, char *argv[], std::string filename) {
-    string outing, keeper, classs; int chop;
-    try
-    {
+void processCommandLine(int argc, char *argv[], string filename) {
+    string outing, keeper, classs;
+    int chop;
+    try {
         outing = argv[2];
         chop = outing.length();
-        for (int i = 0; i < chop; i++)
-        {
-            if (outing[i] != '.')
-            {
+        for (int i = 0; i < chop; i++) {
+            if (outing[i] != '.') {
                 keeper += outing[i];
-            }
-            else
-            {
+            } else {
                 keeper += outing[i];
                 break;
             }
         }
         keeper += "j";
-        classs = outing.substr(5, (outing.length() - 5)-3);
+        classs = outing.substr(5, (outing.length() - 5) - 3);
         outputClassFileName = classs;
     }
     catch (...) {}
@@ -103,99 +70,202 @@ void processCommandLine(int argc, char *argv[], std::string filename) {
             printUsageMessage();
             break;
         case 3:
-			if (argv[1][0] == '-' && argv[1][1] == 'v') 
-			{
+            inputFileName = argv[2];
+            targetFileName = keeper;
+            if (argv[1][0] == '-' && argv[1][1] == 's') {
                 turnVerboseOn();
-				turnScannerOn();
-				turnCodeGenOn();
-				turnParserOn();
-				inputFileName = argv[2];
-                targetFileName = keeper;
-                //targetFileName = "test/test" + filename + ".j";
-            }
-			else
-			{
-				inputFileName = argv[2];
+                turnScannerOn();
+                if (argv[1][2] == '0') // add more robust debugging
+                {
+                    turnVerboseOff();
+                    turnScannerOff();
+                    turnScannerOff();
+                    turnCodeGenOff();
+                }
+                TCfile *test1;
+                test1 = new TCfile(inputFileName,
+                                   targetFileName,
+                                   inputFileHandler(inputFileName));
+                cout << test1->getFileInfo();
+                TClexer *scanner = new TClexer(inputFileName);
+                int tok;
+                while ((tok = scanner->getToken()->getTokenType()) != EOFILE);
+            } else if (argv[1][0] == '-' && argv[1][1] == 'c') {
+                turnVerboseOn();
+                turnParserOn();
+                turnScannerOn();
+                turnCodeGenOn();
+                if (argv[1][2] == '0') {
+                    turnVerboseOff();
+                    turnScannerOff();
+                    turnScannerOff();
+                    turnCodeGenOff();
+                }
+                TClexer *scanner;
+                TCparser *parser;
+                ASabstractSyntax *ast;
+                CGcodeGenerator *cg;
+                CGtargetCode *tc;
+                TCfile *test1;
+                test1 = new TCfile(inputFileName,
+                                   targetFileName,
+                                   inputFileHandler(inputFileName));
+                cout << test1->getFileInfo();
+                try { scanner = new TClexer(inputFileName); }
+                catch (...) {
+                    cerr << "ERROR: TClexer" << endl;
+                    exit(EXIT_FAILURE);
+                }
 
-                targetFileName = keeper;
-                //targetFileName = "test/test" + filename + ".j";;
-			}	
-			break;
+                try { parser = new TCparser(scanner); }
+                catch (...) {
+                    cerr << "ERROR: TCparser" << endl;
+                    exit(EXIT_FAILURE);
+                }
+
+                try { ast = parser->parse(); }
+                catch (...) {
+                    cerr << "ERROR: ASabstractSyntax" << endl;
+                    exit(EXIT_FAILURE);
+                }
+
+                try { cg = new JVMcodeGenerator(); }
+                catch (...) {
+                    cerr << "ERROR: CGcodeGenerator" << endl;
+                    exit(EXIT_FAILURE);
+                }
+
+                try { tc = cg->generateCode(ast); }
+                catch (...) {
+                    cerr << "ERROR: CGtargetCode" << endl;
+                    exit(EXIT_FAILURE);
+                }
+
+                try { tc->writeCode(tc, targetFileName); }
+                catch (...) {
+                    cerr << "ERROR: writeCode" << endl;
+                    exit(EXIT_FAILURE);
+                }
+
+                if (v_code_gen) {
+                    dumpAST(ast);
+                    dumpST(symTable);
+                    dumpCode(tc);
+                }
+            } else if (argv[1][0] == '-' && argv[1][1] == 'p') {
+                turnVerboseOn();
+                turnParserOn();
+                turnScannerOn();
+                if (argv[1][2] == '0') {
+                    turnVerboseOff();
+                    turnScannerOff();
+                    turnScannerOff();
+                    turnCodeGenOff();
+                }
+                TCfile *test1;
+                test1 = new TCfile(inputFileName,
+                                   targetFileName,
+                                   inputFileHandler(inputFileName));
+                cout << test1->getFileInfo();
+                TClexer *scanner;
+                try { scanner = new TClexer(inputFileName); }
+                catch (...) {
+                    cerr << "ERROR: TClexer" << endl;
+                    exit(EXIT_FAILURE);
+                }
+                int tok;
+                while ((tok = scanner->getToken()->getTokenType()) != EOFILE);
+            } else if (argv[1][0] == '-' && argv[1][1] == 'a') {
+                turnVerboseOn();
+                // turnParserOn();
+                //turnScannerOn();
+                turnCodeGenOn();
+                if (argv[1][2] == '0') {
+                    turnVerboseOff();
+                    turnScannerOff();
+                    turnScannerOff();
+                    turnCodeGenOff();
+                }
+                TCfile *test1;
+                test1 = new TCfile(inputFileName,
+                                   targetFileName,
+                                   inputFileHandler(inputFileName));
+                cout << test1->getFileInfo();
+                TClexer *scanner;
+                TCparser *parser;
+                ASabstractSyntax *ast;
+                try { scanner = new TClexer(inputFileName); }
+                catch (...) {
+                    cerr << "ERROR: TClexer" << endl;
+                    exit(EXIT_FAILURE);
+                }
+
+                try { parser = new TCparser(scanner); }
+                catch (...) {
+                    cerr << "ERROR: TCparser" << endl;
+                    exit(EXIT_FAILURE);
+                }
+
+                try { ast = parser->parse(); }
+                catch (...) {
+                    cerr << "ERROR: ASabstractSyntax" << endl;
+                    exit(EXIT_FAILURE);
+                }
+
+                if (v_code_gen) {
+                    dumpAST(ast);
+                    dumpST(symTable);
+                }
+            } else {
+                cout << inputFileHandler(inputFileName);
+            }
+            break;
         default:
-			if (argv[3][0] == '-' && argv[3][1] == 'd') 
-			{
-                if (argv[4] == std::to_string(0))
-				{
-					inputFileName = argv[2];
-                    targetFileName = keeper;
-                    //targetFileName = "test/test" + filename + ".j";;
-
-					turnVerboseOn();
-					turnParserOff();
-					turnScannerOff();
-					turnCodeGenOff();
-				}
-                else if (argv[4] == std::to_string(1))
-				{
-					turnScannerOn();
-					inputFileName = argv[2];
-
-                    targetFileName = keeper;
-                    //targetFileName = "test/test" + filename + ".j";;
-					turnCodeGenOff();
-					turnParserOff();
-					turnVerboseOff();
-				}
-                else if (argv[4] == std::to_string(2))
-				{
-					inputFileName = argv[2];
-                    targetFileName = keeper;
-                    //targetFileName = "test/test" + filename + ".j";;
-					turnParserOn();
-					turnVerboseOff();
-					turnCodeGenOff();
-					turnScannerOff();
-				}
-                else if (argv[4] == std::to_string(3))
-				{
-					inputFileName = argv[2];
-                    targetFileName = keeper;
-                    //targetFileName = "test/test" + filename + ".j";;
-					turnVerboseOff();
-					turnParserOff();
-					turnScannerOff();
-					turnCodeGenOn();
-				}
-            }
-			else { }
+            printUsageMessage();
             break;
     }
 }
 
-vector<string> split (const string &s, char delim)
-{
-    vector<string> result;
-    stringstream ss (s);
+vector <string> split(const string &s, char delim) {
+    vector <string> result;
+    stringstream ss(s);
     string item;
-    while (getline (ss, item, delim)) {
-        result.push_back (item);
+    while (getline(ss, item, delim)) {
+        result.push_back(item);
     }
     return result;
 }
 
-std::string getProgramName(std::string s)
-{
-    vector<string> strs = split(s,'/');
-    return split(strs[strs.size()-1],'.')[0];
+string getProgramName(string s) {
+    vector <string> strs = split(s, '/');
+    return split(strs[strs.size() - 1], '.')[0];
 }
 
 void printUsageMessage() {
-    std::cout << "\nUsage: tc [-v] <input_file> [-d] <level>" << std::endl;
-	std::cout << "     -debug <level>     -d <l>   display messages that aid in tracing the" << std::endl;
-	std::cout << "                                 compilation process. If level is:" << std::endl;
-	std::cout << "                                    0 - all messages" << std::endl;
-	std::cout << "                                    1 - scanner messages only" << std::endl;
-	std::cout << "                                    2 - parser messages onlys" << std::endl;
-	std::cout << "     -verbose           -v        display all information" << std::endl;
+    cout << "\nUsage: tc [Function] <input_file> " << endl;
+    cout
+            << "            -Function      -s        display all Scanner information"
+            << endl
+            << "            -Function      -p        display all Parser information"
+            << endl
+            << "            -Function      -a        display all abstract information"
+            << endl
+            << "            -Function      -c        display all Completed information"
+            << endl;
 }
 
+int inputFileHandler(string nameoffile) {
+    string line;
+    int count = 0;
+    inputfile.open(nameoffile);
+    if (inputfile.fail()) {
+        std::cerr << "ERROR: input file not found" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+    while (!inputfile.eof()) {
+        getline(inputfile, line);
+        count++;
+    }
+    inputfile.close();
+    return count;
+}
