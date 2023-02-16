@@ -1,10 +1,10 @@
 ;
-; Source file: new_tests/full.tc
-; Target file: new_tests/full.j
-; Thu Feb 16 10:52:38 2023
+; Source file: ./new_tests/full.tc
+; Target file: ./new_tests/full.j
+; Thu Feb 16 10:22:43 2023
 ;
 
-.source new_tests/full.tc
+.source ./new_tests/full.tc
 .class public full
 .super java/lang/Object
 
