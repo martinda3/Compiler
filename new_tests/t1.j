@@ -1,11 +1,11 @@
 ;
-; Source file: new_tests/full.tc
-; Target file: new_tests/full.j
-; Thu Feb 16 10:52:38 2023
+; Source file: new_tests/t1.tc
+; Target file: new_tests/t1.j
+; Thu Feb 16 10:46:11 2023
 ;
 
-.source new_tests/full.tc
-.class public full
+.source new_tests/t1.tc
+.class public t1
 .super java/lang/Object
 
 .method public <init>()V
@@ -19,33 +19,26 @@
 .method public static main([Ljava/lang/String;)V
 	.limit stack 10
 	.limit locals 10
-	bipush 12
-	istore_2
+	iconst_2
+	istore_1
 	getstatic java/lang/System/out Ljava/io/PrintStream;
-	ldc "k is "
-	invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
-	getstatic java/lang/System/out Ljava/io/PrintStream;
-	iload_2
+	iload_1
 	invokevirtual java/io/PrintStream/println(I)V
+	iconst_3
+	istore_1
 	bipush 10
-	iconst_2
-	idiv
 	istore_2
 	getstatic java/lang/System/out Ljava/io/PrintStream;
-	ldc "k is  after 10 / 2"
-	invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
+	iload_1
+	invokevirtual java/io/PrintStream/println(I)V
 	getstatic java/lang/System/out Ljava/io/PrintStream;
 	iload_2
 	invokevirtual java/io/PrintStream/println(I)V
-	iload_2
-	iconst_2
-	idiv
-	istore_2
 	getstatic java/lang/System/out Ljava/io/PrintStream;
-	ldc "k is  after k / 2"
+	ldc "THis is a string etest"
 	invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
 	getstatic java/lang/System/out Ljava/io/PrintStream;
-	iload_2
-	invokevirtual java/io/PrintStream/println(I)V
+	ldc "1000"
+	invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
 	return
 .end method
