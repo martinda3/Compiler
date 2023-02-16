@@ -480,20 +480,26 @@ namespace toyc {
 //			break;
 //		} while(true);
 /// try 2
-		while (!infile.eof())
-		{
-            if (line.empty() || pos > line.length()) { line = getNextLine(); pos = 0; }
+		while (!infile.eof()) {
+            if (line.empty() || pos > line.length()) {
+                line = getNextLine(); pos = 0;
+            }
             char ch = line[pos]; holder = ch;
             if ((ch == '.')) {
-                if (isspace(line[pos + 1]))
-                {
-                    reportWARNING("  ", " Scanner: '.' Illegal Character. Ignoring"); pos++;
+                if (isspace(line[pos + 1])) {
+                    reportWARNING("  ", " Scanner: '.' Illegal Character. Ignoring");
+                    pos++;
                 }
             }
-            if (ch == '\0') { line = getNextLine(); ch = line[pos]; }
-            if (isInAlphabet(ch) || isspace(ch))  { break; }
-            else {
-                reportWARNING("  ", " Scanner: \'" + holder + "\' Illegal Character. Ignoring");
+            if (ch == '\0') {
+                line = getNextLine(); ch = line[pos];
+            }
+            if (isInAlphabet(ch) || isspace(ch)) {
+                break;
+            } else {
+                reportWARNING("  ", std::string(" Scanner: ") + ch + std::string(" Illegal Character. Ignoring"));
+                pos++;
+                break;
             }
             //return EOFCHAR;
             //break;
