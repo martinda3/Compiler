@@ -47,22 +47,35 @@ int main(int argc, char *argv[]) {
 }
 
 void processCommandLine(int argc, char *argv[], string filename) {
-    string outing, keeper, classs;
-    int chop;
+    string toycFile, outputFileName, javaClass;
+
     try {
-        outing = argv[2];
-        chop = outing.length();
-        for (int i = 0; i < chop; i++) {
-            if (outing[i] != '.') {
-                keeper += outing[i];
-            } else {
-                keeper += outing[i];
-                break;
-            }
+        toycFile = argv[2];
+
+        /* Verify we are using the correct file type*/
+        std::size_t found = toycFile.find(".tc");
+        if (found == std::string::npos) {
+            cerr << "ERROR: Invalid File Type: filename\"" << toycFile
+                      << "\""<< endl;
+            exit(EXIT_FAILURE);
         }
-        keeper += "j";
-        classs = outing.substr(5, (outing.length() - 5) - 3);
-        outputClassFileName = classs;
+
+        /* Generate Output path + file */
+        outputFileName = toycFile.substr(0, found + 1) + "j";
+
+        /* Generate Class file */
+        /* Check if file is local */
+        found = toycFile.find_last_of("/");
+        if (found != std::string::npos) {
+            /* Path + File */
+            javaClass = toycFile.substr(found + 1, (toycFile.find(".tc") - found) - 1);
+        } else {
+            /* Local File */
+            javaClass = toycFile.substr(0, toycFile.find(".tc"));
+        }
+        cout << "Class: " << javaClass << endl;
+
+        outputClassFileName = javaClass;
     }
     catch (...) {}
     switch (argc) {
@@ -71,7 +84,7 @@ void processCommandLine(int argc, char *argv[], string filename) {
             break;
         case 3:
             inputFileName = argv[2];
-            targetFileName = keeper;
+            targetFileName = outputFileName;
             if (argv[1][0] == '-' && argv[1][1] == 's') {
                 turnVerboseOn();
                 turnScannerOn();
