@@ -270,6 +270,10 @@ _Pvt_Extensions
 # FAKE - F# Make
 .fake/
 
-# VS Code stuff 
+# VS Code stuff
 .vscode/
+
+*.j
+*.class
+
 
