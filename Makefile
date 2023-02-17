@@ -10,6 +10,7 @@ JVMLABELDIR := /JVM/label
 JVMMETADIR := /JVM/meta
 JVMDIRECTIVEDIR := /JVM/directive
 TARGET := bin/tc
+BUILDJAZ := java -jar tools/jasmin.jar
 
 SRCEXT := cpp
 SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
@@ -34,13 +35,31 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT) $(DEPS)
 	@echo " $(CC) $<"; $(CC) $(CFLAGS) $(INC) -c -o $@ $<
 
 clean:
-	@echo " Cleaning..."; 
+	@echo " Cleaning...";
 	@echo " $(RM) -r $(BUILDDIR) $(TARGET) "; $(RM) -r $(BUILDDIR) $(TARGET)
 
 full:
 	$(MAKE) $(TARGET)
-	@echo "	Testing Part 1";
+	@echo "	Building full.tc";
+	@echo "[Test 1]  "; $(TARGET) -s $(TESTDIR)/full.tc
+	@echo "[Test 1]  "; $(TARGET) -p $(TESTDIR)/full.tc
+	@echo "[Test 1]  "; $(TARGET) -a $(TESTDIR)/full.tc
 	@echo "[Test 1]  "; $(TARGET) -c $(TESTDIR)/full.tc
+	@echo "	Building full.j";
+	@echo $(shell $(BUILDJAZ) $(TESTDIR)/full.j -d $(TESTDIR)/)
+	@echo $(shell cd $(TESTDIR)/; java full; cd ..; )
+
+function:
+	$(MAKE) $(TARGET)
+	@echo "	Building function.tc";
+	@echo "[Test 1]  "; $(TARGET) -s $(TESTDIR)/function.tc
+	@echo "[Test 1]  "; $(TARGET) -p $(TESTDIR)/function.tc
+	@echo "[Test 1]  "; $(TARGET) -a $(TESTDIR)/function.tc
+	@echo "[Test 1]  "; $(TARGET) -c $(TESTDIR)/function.tc
+	@echo "	Building full.j";
+	@echo $(shell $(BUILDJAZ) $(TESTDIR)/function.j -d $(TESTDIR)/)
+	@echo $(shell cd $(TESTDIR)/; java function; cd ..; )
+
 
 syn:
 	$(MAKE) $(TARGET)
